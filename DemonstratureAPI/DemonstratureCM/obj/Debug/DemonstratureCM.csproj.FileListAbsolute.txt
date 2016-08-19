@@ -1,0 +1,5 @@
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureCM\bin\Debug\DemonstratureCM.dll
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureCM\bin\Debug\DemonstratureCM.pdb
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureCM\obj\Debug\DemonstratureCM.csprojResolveAssemblyReference.cache
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureCM\obj\Debug\DemonstratureCM.dll
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureCM\obj\Debug\DemonstratureCM.pdb

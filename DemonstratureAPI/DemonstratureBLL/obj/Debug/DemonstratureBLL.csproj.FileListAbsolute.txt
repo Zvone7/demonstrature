@@ -1,0 +1,9 @@
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\DemonstratureBLL.dll
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\DemonstratureBLL.pdb
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\DemonstratureCM.dll
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\DemonstratureDB.dll
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\DemonstratureCM.pdb
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\DemonstratureDB.pdb
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\obj\Debug\DemonstratureBLL.csprojResolveAssemblyReference.cache
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\obj\Debug\DemonstratureBLL.dll
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\obj\Debug\DemonstratureBLL.pdb
