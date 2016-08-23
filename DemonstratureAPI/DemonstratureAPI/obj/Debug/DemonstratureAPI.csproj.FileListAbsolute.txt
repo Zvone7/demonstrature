@@ -63,3 +63,5 @@ E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\Antlr3.Ru
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureAPI\obj\Debug\DemonstratureAPI.csprojResolveAssemblyReference.cache
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureAPI\obj\Debug\DemonstratureAPI.dll
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureAPI\obj\Debug\DemonstratureAPI.pdb
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureCM.dll
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureCM.pdb
