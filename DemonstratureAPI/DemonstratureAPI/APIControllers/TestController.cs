@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DemonstratureBLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,6 +14,8 @@ namespace DemonstratureAPI.APIControllers
         [Route("api/test")]
         public IHttpActionResult TestValues([FromUri]string x)
         {
+            var instance = new UserLogic();
+            instance.Test();
             if (x != "")
             {
                 return Ok(x);

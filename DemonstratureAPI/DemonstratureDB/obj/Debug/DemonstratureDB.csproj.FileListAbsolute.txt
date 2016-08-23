@@ -5,3 +5,8 @@ E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureDB\bin\Debug\Demo
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureDB\obj\Debug\DemonstratureDB.csprojResolveAssemblyReference.cache
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureDB\obj\Debug\DemonstratureDB.dll
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureDB\obj\Debug\DemonstratureDB.pdb
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureDB\bin\Debug\DemonstratureDB.dll.config
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureDB\bin\Debug\EntityFramework.dll
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureDB\bin\Debug\EntityFramework.SqlServer.dll
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureDB\bin\Debug\EntityFramework.xml
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureDB\bin\Debug\EntityFramework.SqlServer.xml

@@ -65,3 +65,5 @@ E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureAPI\obj\Debug\Dem
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureAPI\obj\Debug\DemonstratureAPI.pdb
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureCM.dll
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureCM.pdb
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureDB.dll
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureDB.pdb

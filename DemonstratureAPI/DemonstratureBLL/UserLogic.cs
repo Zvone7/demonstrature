@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DemonstratureDB;
 
 namespace DemonstratureBLL
 {   public class UserLogic
@@ -26,6 +27,11 @@ namespace DemonstratureBLL
         public List<MyUserDTO> GetAllUsersBLL()
         {           
             return allUsers;
+        }
+        
+        public void Test()
+        {
+            var result=new test().test1();
         }
     }
 }

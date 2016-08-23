@@ -7,3 +7,5 @@ E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\Dem
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\obj\Debug\DemonstratureBLL.csprojResolveAssemblyReference.cache
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\obj\Debug\DemonstratureBLL.dll
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\obj\Debug\DemonstratureBLL.pdb
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\EntityFramework.dll
+E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\EntityFramework.xml
