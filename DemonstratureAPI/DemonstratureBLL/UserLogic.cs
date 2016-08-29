@@ -1,13 +1,10 @@
 ﻿using DemonstratureCM.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DemonstratureDB;
+using System.Collections.Generic;
 
 namespace DemonstratureBLL
-{   public class UserLogic
+{
+    public class UserLogic
     {
         List<MyUserDTO> allUsers = new List<MyUserDTO>();
         int _userCount = 10;
@@ -24,7 +21,7 @@ namespace DemonstratureBLL
                 allUsers.Add(newUser);
             }
         }
-        public List<MyUserDTO> GetAllUsersBLL()
+        public List<MyUserDTO> GetAllUsers()
         {           
             return allUsers;
         }

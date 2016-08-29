@@ -3,3 +3,12 @@ E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureCM\bin\Debug\Demo
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureCM\obj\Debug\DemonstratureCM.csprojResolveAssemblyReference.cache
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureCM\obj\Debug\DemonstratureCM.dll
 E:\BEKAP\Data\Faks\Demonstrature\DemonstratureAPI\DemonstratureCM\obj\Debug\DemonstratureCM.pdb
+C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureCM\bin\Debug\DemonstratureCM.dll
+C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureCM\bin\Debug\DemonstratureCM.pdb
+C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureCM\bin\Debug\AutoMapper.dll
+C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureCM\bin\Debug\Newtonsoft.Json.dll
+C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureCM\bin\Debug\AutoMapper.xml
+C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureCM\bin\Debug\Newtonsoft.Json.xml
+C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureCM\obj\Debug\DemonstratureCM.csprojResolveAssemblyReference.cache
+C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureCM\obj\Debug\DemonstratureCM.dll
+C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureCM\obj\Debug\DemonstratureCM.pdb
