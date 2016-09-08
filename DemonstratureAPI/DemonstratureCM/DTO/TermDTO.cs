@@ -9,5 +9,6 @@ namespace DemonstratureCM.DTO
         public int IdUser { get; set; }
         public DateTime Date { get; set; }
         public bool IsAvailable { get; set; }
+        public string UserFullName { get; set; }
     }
 }

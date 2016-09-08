@@ -1,0 +1,215 @@
+//------------------------------------------------------------------------------------------------------------------//
+//-------------------------------------------------background colors------------------------------------------------//
+$myBackgroundColor: #333333;
+$headerColor: #004E99;
+$myHeaderColor: #003D78;
+$myFirstColumnColor: #004E99;
+$myCellColor: #cce5ff;
+$searchColor: #e6eeff;
+$buttonTakeColor: green;
+$buttonSkipColor: gray;
+//--------------------------------------------------text colors-----------------------------------------------------//
+$myHeaderTextColor: #e6e6ff;
+$myFirstColumnTextColor: #e6e6ff;
+$placeholderColor: #000;
+//--------------------------------------------------border colors---------------------------------------------------//
+$myBorderColor: #333333;
+$myHeadBorderColor:#737373;
+$myHeaderBorderColor: #333333;
+$myFirstColumnBorderColor: #333333;
+$arrowBorderColor: #0d0d0d;
+$searchBorder: #333333;
+//------------------------------------------------------body--------------------------------------------------------//
+
+body {
+   font-family: 'Lato', sans-serif;
+   font-size: 15px;
+   background-color: $myBackgroundColor;
+   margin: 70px 0 0 0px;
+   padding: 0 0 0 0;
+}
+//-----------------------------------------------------navbar-------------------------------------------------------//
+
+.myNavbar{
+   background-color: $headerColor;
+   width: 100%;
+   height: 80px;
+   margin: -69px 0 0 0;
+}
+.myUl{
+   list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.myLi{  
+    float: left;
+    &.logoLi{
+       
+    }
+    &.tableLi{
+       padding: 20px 0 0px 20px;
+       color: white;
+       font-size: 25px;
+    }
+    &.settingLi{
+       float:right;
+    }
+}
+.logoDemosi{
+   //background-color: $myBackgroundColor;
+   height: 70px; width:120px;
+   padding: 5px 10px 10px 10px;
+}
+.logoSettings{
+   //background-color:$myBackgroundColor;
+   height: 70px; width:120px;
+   padding: 10px;
+
+}
+//------------------------------------------------------table-------------------------------------------------------//
+.rTable {
+   display: table;
+   margin: 50px 0 0 0;
+   padding: 20px;
+}
+.rTableRow {
+   display: table-row;
+}
+.rTableCell {
+   background-color: $myCellColor;
+   border: 1px solid $myBorderColor;
+   display: table-cell;
+   padding: 35px 25px;
+   text-align: center;
+}
+.firstColumn {
+   @extend .rTableCell;
+   padding: 15px 0;
+   background-color: $myFirstColumnColor;
+   border: 1px solid $myFirstColumnBorderColor;
+   border-right:none;
+   border-left:none;
+   color: $myFirstColumnTextColor;
+   vertical-align: middle;
+}
+.rTableHeading {
+   @extend .rTableCell;
+   background-color: $myHeaderColor;
+   border: 1px solid $myHeaderBorderColor;
+   border-top:none;
+   border-bottom:none;
+   font-weight: bold;
+   color: $myHeaderTextColor;
+   vertical-align: middle;
+}
+.firstCell{
+   @extend .rTableHeading;
+   //border: 1px solid $myHeadBorderColor;
+   border:none;
+}
+.upperNavigation {
+   text-align: center;
+   padding: 20px 11px;
+   display: table-cell;
+   background-color: $myBackgroundColor;
+   border: none;
+}
+.leftNavigation {
+   @extend .rTableCell;
+   background-color: $myBackgroundColor;
+   border: none;
+}
+//------------------------------------------------------navigation buttons------------------------------------------//
+.arrow{
+   background-color: $myCellColor;
+   border: 2px solid $arrowBorderColor;
+   border-radius: 10px;
+   font-size: 20px;
+   padding: 10px;
+   position: absolute;
+   vertical-align: middle;
+   transition: all .3s ease;
+   &:hover{
+      transform:scale(1.15);
+   }
+}
+.arrowLeft{
+   @extend .arrow;
+   position: absolute;
+   margin: -35px 35px 0 37px;
+   .fa-arrow-left{      
+   }
+}
+.arrowRight{
+   @extend .arrow;
+   position: absolute;
+   margin: -35px 45px 0 64px;   
+   .fa-arrow-right{         
+   }
+}
+.arrowUp{
+   @extend .arrow;
+   margin: 10px 0 0 -55px;
+   .fa-arrow-up{     
+   }
+}
+.arrowDown{
+   @extend .arrow;
+   margin: 35px 0 0 -55px;
+   .fa-arrow-down{  
+      padding: 0 0 0 0;
+      margin: 0 0 0 0;
+   }
+}
+//--------------------------------------------------------search----------------------------------------------------//
+
+.search-student {
+   background-color: $searchColor;
+   border:1px solid $searchBorder;
+   border-radius: 3px;
+   width: 138px;
+   margin: 0 0;
+   outline: none;
+}
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: $placeholderColor;
+}
+//--------------------------------------------------------labels----------------------------------------------------//
+.demoName{
+   padding: 1px 22px;
+   margin: 0 15px;
+   background-color: $searchColor;
+   border: 1px solid $searchBorder;
+   border-radius: 3px;
+}
+label {
+   //border: 1px solid #bbb;
+   padding: 1px 6px;
+   margin: 5px 15px;
+//--------------------------------------------------------buttons---------------------------------------------------//
+}
+.tableButton{
+    border: 1px solid $myBorderColor;
+    border-radius: 4px;
+    color: black;
+    font-family: 'Lato', sans-serif;
+    margin: 20px 5px;
+    transition: all .1s ease;
+    outline:none;
+    &.takeTerm{
+        background-color: $buttonTakeColor;
+        &:hover{
+            background-color: darken($buttonTakeColor,5%);
+            cursor: pointer;
+        }
+    }
+    &.skipTerm{
+        background-color: $buttonSkipColor;       
+        &:hover{
+            background-color: darken($buttonSkipColor,5%);
+            cursor: pointer;
+        }
+    }
+} 
+    

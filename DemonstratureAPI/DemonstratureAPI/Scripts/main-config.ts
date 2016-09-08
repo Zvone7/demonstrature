@@ -17,6 +17,7 @@ require.config({
     shim: {
         "datatables": { "deps": ["jquery"] },
         "bootstrap": { "deps": ["jquery"] },
+        "knockout": {"deps":["require.js"]},
         "koMapping": { "deps": ["knockout"] },
         "toastr": { "deps": ["jquery"] },
         "jqueryUI": { "deps": ["jquery"] }

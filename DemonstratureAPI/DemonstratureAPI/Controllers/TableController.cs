@@ -24,5 +24,14 @@ namespace DemonstratureAPI.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
         }
+
+        [HttpGet]
+        public ActionResult AllTerms()
+        {
+            var instance = new UserLogic();
+            var result = instance.GetAllTerms();
+            return Json(result, JsonRequestBehavior.AllowGet);
+            //return null;
+        }
     }
 }
