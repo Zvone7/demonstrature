@@ -5,7 +5,8 @@ $headerColor: #004E99;
 $myHeaderColor: #003D78;
 $myFirstColumnColor: #004E99;
 $myCellColor: #cce5ff;
-$searchColor: #e6eeff;
+$demoNameColor: #e6eeff;
+$searchColor: #cce5ff;
 $buttonTakeColor: green;
 $buttonSkipColor: gray;
 //--------------------------------------------------text colors-----------------------------------------------------//
@@ -38,36 +39,37 @@ body {
 }
 .myUl{
    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
 }
-.myLi{  
-    float: left;
-    &.logoLi{
-       
-    }
-    &.tableLi{
-       padding: 20px 0 0px 20px;
-       color: white;
-       font-size: 25px;
-    }
-    &.settingLi{
-       float:right;
-    }
+.tableLi{
+    float:left;
+    font-size: 25px;
 }
-.logoDemosi{
-   //background-color: $myBackgroundColor;
-   height: 70px; width:120px;
-   padding: 5px 10px 10px 10px;
+.settingLi{
+    font-size: 20px;
+    float:right;
 }
-.logoSettings{
-   //background-color:$myBackgroundColor;
-   height: 70px; width:120px;
-   padding: 10px;
-
+.settingsDiv{
+    color:$myHeaderTextColor;
+    //padding: 25px calc(100%-20px) 0 0;
+    padding-top: 25px;
+    padding-right: 70px;
+    padding-left: 0px;
+    padding-bottom:0;
+}
+.tableDiv{
+    color:$myHeaderTextColor;
+    margin:20px 0 0 100px;
 }
 //------------------------------------------------------table-------------------------------------------------------//
+.container{
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: 0;
+    margin-left: 100px;
+}
 .rTable {
    display: table;
    margin: 50px 0 0 0;
@@ -80,7 +82,7 @@ body {
    background-color: $myCellColor;
    border: 1px solid $myBorderColor;
    display: table-cell;
-   padding: 35px 25px;
+   padding: 35px 35px 35px 35px;
    text-align: center;
 }
 .firstColumn {
@@ -88,7 +90,7 @@ body {
    padding: 15px 0;
    background-color: $myFirstColumnColor;
    border: 1px solid $myFirstColumnBorderColor;
-   border-right:none;
+   border-right:1px solid $myBorderColor;
    border-left:none;
    color: $myFirstColumnTextColor;
    vertical-align: middle;
@@ -98,19 +100,20 @@ body {
    background-color: $myHeaderColor;
    border: 1px solid $myHeaderBorderColor;
    border-top:none;
-   border-bottom:none;
+   border-bottom:1px solid $myBorderColor;
    font-weight: bold;
    color: $myHeaderTextColor;
    vertical-align: middle;
 }
 .firstCell{
    @extend .rTableHeading;
-   //border: 1px solid $myHeadBorderColor;
-   border:none;
+   border-right: 1px solid $myBorderColor;
+   border-bottom:1px solid $myBorderColor;
+   border-left:1px solid $myHeaderColor;
 }
 .upperNavigation {
    text-align: center;
-   padding: 20px 11px;
+   //padding: 20px 11px;
    display: table-cell;
    background-color: $myBackgroundColor;
    border: none;
@@ -119,6 +122,24 @@ body {
    @extend .rTableCell;
    background-color: $myBackgroundColor;
    border: none;
+}
+.selecter{
+    margin: 10px 0;
+    background: $myHeaderColor;
+    color: $myHeaderTextColor;
+    border:1px solid $myCellColor;
+    outline:none;
+    width: 135px;
+    option {
+        background: $myHeaderColor;
+        color:$myHeaderTextColor;
+    }
+    &.univStudies{
+
+    }
+    &.univCourse{
+
+    }
 }
 //------------------------------------------------------navigation buttons------------------------------------------//
 .arrow{
@@ -137,14 +158,14 @@ body {
 .arrowLeft{
    @extend .arrow;
    position: absolute;
-   margin: -35px 35px 0 37px;
+   margin: -10px 45px 0 77px;
    .fa-arrow-left{      
    }
 }
 .arrowRight{
    @extend .arrow;
    position: absolute;
-   margin: -35px 45px 0 64px;   
+   margin: -10px 15px 0 95px;   
    .fa-arrow-right{         
    }
 }
@@ -165,12 +186,13 @@ body {
 //--------------------------------------------------------search----------------------------------------------------//
 
 .search-student {
-   background-color: $searchColor;
+   background-color: lighten($searchColor,7%);
    border:1px solid $searchBorder;
    border-radius: 3px;
-   width: 138px;
+   width: 130px;
    margin: 0 0;
    outline: none;
+   padding: 2px;
 }
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color: $placeholderColor;
@@ -179,9 +201,11 @@ body {
 .demoName{
    padding: 1px 22px;
    margin: 0 15px;
-   background-color: $searchColor;
-   border: 1px solid $searchBorder;
+   font-weight: bolder;
+   background-color: $demoNameColor;
+   border: 2px solid $searchBorder;
    border-radius: 3px;
+   width: 130px;
 }
 label {
    //border: 1px solid #bbb;
@@ -194,7 +218,7 @@ label {
     border-radius: 4px;
     color: black;
     font-family: 'Lato', sans-serif;
-    margin: 20px 5px;
+    margin: 20px 3px 20px 3px;
     transition: all .1s ease;
     outline:none;
     &.takeTerm{

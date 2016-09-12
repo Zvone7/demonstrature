@@ -12,7 +12,7 @@ namespace DemonstratureBLL
             for (int i = 0; i < n; i++)
             {
                 var term = new TermDTO();
-                term.Date = new DateTime().Date;
+                term.TermDate = new DateTime().Date;
                 term.Id = i;
                 term.IdCollegeCourse = 1;
                 term.IdUser = 2;

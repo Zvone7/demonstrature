@@ -17,24 +17,30 @@
   padding: 0;
   overflow: hidden; }
 
-.myLi {
-  float: left; }
-  .myLi.tableLi {
-    padding: 20px 0 0px 20px;
-    color: white;
-    font-size: 25px; }
-  .myLi.settingLi {
-    float: right; }
+.tableLi {
+  float: left;
+  font-size: 25px; }
 
-.logoDemosi {
-  height: 70px;
-  width: 120px;
-  padding: 5px 10px 10px 10px; }
+.settingLi {
+  font-size: 20px;
+  float: right; }
 
-.logoSettings {
-  height: 70px;
-  width: 120px;
-  padding: 10px; }
+.settingsDiv {
+  color: #e6e6ff;
+  padding-top: 25px;
+  padding-right: 70px;
+  padding-left: 0px;
+  padding-bottom: 0; }
+
+.tableDiv {
+  color: #e6e6ff;
+  margin: 20px 0 0 100px; }
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: 0;
+  margin-left: 100px; }
 
 .rTable {
   display: table;
@@ -48,14 +54,14 @@
   background-color: #cce5ff;
   border: 1px solid #333333;
   display: table-cell;
-  padding: 35px 25px;
+  padding: 35px 35px 35px 35px;
   text-align: center; }
 
 .firstColumn {
   padding: 15px 0;
   background-color: #004E99;
   border: 1px solid #333333;
-  border-right: none;
+  border-right: 1px solid #333333;
   border-left: none;
   color: #e6e6ff;
   vertical-align: middle; }
@@ -64,17 +70,18 @@
   background-color: #003D78;
   border: 1px solid #333333;
   border-top: none;
-  border-bottom: none;
+  border-bottom: 1px solid #333333;
   font-weight: bold;
   color: #e6e6ff;
   vertical-align: middle; }
 
 .firstCell {
-  border: none; }
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #003D78; }
 
 .upperNavigation {
   text-align: center;
-  padding: 20px 11px;
   display: table-cell;
   background-color: #333333;
   border: none; }
@@ -82,6 +89,17 @@
 .leftNavigation {
   background-color: #333333;
   border: none; }
+
+.selecter {
+  margin: 10px 0;
+  background: #003D78;
+  color: #e6e6ff;
+  border: 1px solid #cce5ff;
+  outline: none;
+  width: 135px; }
+  .selecter option {
+    background: #003D78;
+    color: #e6e6ff; }
 
 .arrow, .arrowLeft, .arrowRight, .arrowUp, .arrowDown {
   background-color: #cce5ff;
@@ -97,11 +115,11 @@
 
 .arrowLeft {
   position: absolute;
-  margin: -35px 35px 0 37px; }
+  margin: -10px 45px 0 77px; }
 
 .arrowRight {
   position: absolute;
-  margin: -35px 45px 0 64px; }
+  margin: -10px 15px 0 95px; }
 
 .arrowUp {
   margin: 10px 0 0 -55px; }
@@ -113,12 +131,13 @@
     margin: 0 0 0 0; }
 
 .search-student {
-  background-color: #e6eeff;
+  background-color: #f0f7ff;
   border: 1px solid #333333;
   border-radius: 3px;
-  width: 138px;
+  width: 130px;
   margin: 0 0;
-  outline: none; }
+  outline: none;
+  padding: 2px; }
 
 ::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
@@ -127,9 +146,11 @@
 .demoName {
   padding: 1px 22px;
   margin: 0 15px;
+  font-weight: bolder;
   background-color: #e6eeff;
-  border: 1px solid #333333;
-  border-radius: 3px; }
+  border: 2px solid #333333;
+  border-radius: 3px;
+  width: 130px; }
 
 label {
   padding: 1px 6px;
@@ -140,7 +161,7 @@ label {
   border-radius: 4px;
   color: black;
   font-family: 'Lato', sans-serif;
-  margin: 20px 5px;
+  margin: 20px 3px 20px 3px;
   transition: all .1s ease;
   outline: none; }
   .tableButton.takeTerm {

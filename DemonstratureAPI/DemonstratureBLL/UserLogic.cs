@@ -35,7 +35,7 @@ namespace DemonstratureBLL
                 for (int i = 0; i < 10; i++)
                 {
                     var term = new TermDTO();
-                    term.Date = fieldOfDates[j];
+                    term.TermDate = fieldOfDates[j];
                     term.Id = 1;
                     term.IdCollegeCourse = 1;
                     term.IdUser = i+1;

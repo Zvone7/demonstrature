@@ -7,7 +7,7 @@ namespace DemonstratureCM.DTO
         public int Id { get; set; }
         public int IdCollegeCourse { get; set; }
         public int IdUser { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime TermDate { get; set; }
         public bool IsAvailable { get; set; }
         public string UserFullName { get; set; }
     }
