@@ -1,0 +1,155 @@
+﻿//-------------------------------------------------background colors------------------------------------------------//
+$myBackgroundColor: #333333;
+$headerColor: #004E99;
+$myHeaderColor: #003D78;
+$myFirstColumnColor: #004E99;
+$myCellColor: #cce5ff;
+$demoNameColor: #e6eeff;
+$searchColor: #cce5ff;
+$buttonTakeColor: green;
+$buttonSkipColor: gray;
+//--------------------------------------------------text colors-----------------------------------------------------//
+$myHeaderTextColor: #e6e6ff;
+$myFirstColumnTextColor: #e6e6ff;
+$placeholderColor: #000;
+//--------------------------------------------------border colors---------------------------------------------------//
+$myBorderColor: #333333;
+$myHeadBorderColor:#737373;
+$myHeaderBorderColor: #333333;
+$myFirstColumnBorderColor: #333333;
+$arrowBorderColor: #0d0d0d;
+$searchBorder: #333333;
+
+//------------------------------------------------------body--------------------------------------------------------//
+body {
+   font-family: 'Lato', sans-serif;
+   font-size: 15px;
+    color: white;
+   background-color: $myBackgroundColor;
+   margin: 70px 0 0 0px;
+   padding: 0 0 0 0;
+}
+.row{
+   display: table-row;  
+}
+.cell{  
+  display: table-cell;     
+  padding:20px;
+}
+//-----------------------------------------------------navbar-------------------------------------------------------//
+.myNavbar{
+   background-color: $headerColor;
+   width: 100%;
+   height: 80px;
+   margin: -69px 0 0 0;
+}
+.myUl{
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
+}
+.tableLi{
+    float:left;
+    font-size: 25px;
+}
+.settingLi{
+    font-size: 20px;
+    float:right;
+}
+.settingsDiv{
+    color:$myHeaderTextColor;
+    //padding: 25px calc(100%-20px) 0 0;
+    padding-top: 25px;
+    padding-right: 70px;
+    padding-left: 0px;
+    padding-bottom:0;
+}
+.tableDiv{
+    color:$myHeaderTextColor;
+    margin:20px 0 0 100px;
+}
+//-----------------------------------------------------settings-------------------------------------------------------//
+.allSettings{
+  margin: 10px 50px;
+  padding: 15px;
+  width:263px;
+  border-radius: 5px;
+  .passwordSetting{
+    padding:10px;
+    margin: 10px 20px;
+    border: 1px solid white; 
+    border-radius: 5px;     
+  }
+  .adminSettings{
+    margin-top:50px;
+    // margin-left:20px;
+    .courseSettings{
+      padding:10px;
+      border: 1px solid white; 
+      border-radius: 5px; 
+    }
+    .userSettings{
+      padding:10px;
+      border: 1px solid white; 
+      border-radius: 5px;   
+    }
+  }
+}
+.saveSetting{
+  border: none;
+  background: $buttonTakeColor;  
+  font-weight: 700;
+  padding: 7px 21px;
+  width: 199px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 2px;
+  font-size: 14px;
+  font-family: 'Lato', sans-serif;
+  outline:none;
+  &:hover{
+    background-color: darken($buttonTakeColor,5%);
+    cursor: pointer;
+  }
+}
+.saveSetting2{
+  @extend .saveSetting;
+  width:117px;
+}
+.deleteSetting{
+  @extend .saveSetting;
+  background: #990000;
+  width:80px;
+  &:hover{
+    background-color: darken(#900,10%);    
+  }
+}
+input{
+  margin: 5px 0 2px 0;
+  width: 199px;
+  border: 1px solid $myCellColor;
+  background: $myCellColor;
+  border-radius:2px;
+  font-weight: 700;
+  outline:none;
+  &:hover{
+    background-color: darken($myCellColor,10%);    
+  }
+}
+.change-settings-label{
+  font-size:23px;
+  font-weight:bolder;
+  padding-left:20px;
+  padding-bottom:20px;
+}
+.identifier{
+  font-size:14px;
+}
+.identifier-big{
+  font-size:19px;
+  font-weight:bold;
+  padding-bottom:5px;
+  float:left;
+  width:200px;
+}

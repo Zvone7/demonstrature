@@ -39,7 +39,7 @@ namespace DemonstratureBLL
                     term.Id = 1;
                     term.IdCollegeCourse = 1;
                     term.IdUser = i+1;
-                    term.UserFullName = listOfTermOwners[i];
+                    term.UserFullName = listOfTermOwners[i]+j.ToString()+i.ToString();
                     term.IsAvailable = getRandom();
                     listOfTerms[i]=term;
                 }
@@ -65,7 +65,6 @@ namespace DemonstratureBLL
 
         public void Test()
         {
-            var result=new test().test1();
         }
     }
 }

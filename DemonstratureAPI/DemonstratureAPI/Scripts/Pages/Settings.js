@@ -1,4 +1,3 @@
-$(document).ready(function () {
-    console.log("loaded settings.");
-});
-//# sourceMappingURL=Settings.js.map
+//$(document).ready(() => {
+//    console.log("loaded settings.");
+//}); 

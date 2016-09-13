@@ -6,4 +6,94 @@
     ViewBag.Title = "Settings";
 }
 <script src="~/Scripts/Pages/Settings.js"></script>
-<h2>Settings</h2>
+<link href="~/Content/css/settings.css" rel="stylesheet" />
+
+<div class="allSettings">
+    <div class="change-settings-label">
+        <label>Promijeni postavke:</label>
+    </div>
+    <div class="passwordSetting">
+        <div>
+            <label class="identifier">Stara lozinka:</label><br>
+            <input type="text" /><br /><hr />
+        </div>
+        <div>
+            <label class="identifier">Nova lozinka:</label><br>
+            <input type="text" />
+        </div>
+        <div>
+            <label class="identifier">Nova lozinka opet:</label><br>
+            <input type="text" />
+        </div><br>
+        <button class="saveSetting">Pohrani promjene</button>
+    </div>
+    <div class="adminSettings">
+        <div class="change-settings-label">
+            <label for="">Postavke administratora:</label>
+        </div>
+        <div class="row">
+            <div class="cell">
+                <div class="courseSettings">
+                    <div class="identifier-big">
+                        <label>Dodaj kolegij</label><br />
+                    </div>
+                    <label class="identifier">Smjer:</label><br />
+                    <select name="" id=""></select><br />
+                    <label class="identifier">Naziv:</label><br />
+                    <input type="text" /><br />
+                    <label class="identifier">Voditelj:</label><br />
+                    <input type="text" /><br />
+                    <label class="identifier">Asistent:</label><br />
+                    <input type="text" /><br /><br />
+                    <button class="saveSetting">Dodaj</button>
+                </div>
+            </div>
+            <div class="cell">
+                <div class="courseSettings">
+                    <div class="identifier-big">
+                        <label>Uredi kolegij</label><br />
+                    </div>
+                    <label class="identifier">Odaberi kolegij:</label><br />
+                    <select name="" id=""></select><br />
+                    <label class="identifier">Naziv:</label><br />
+                    <input type="text" /><br />
+                    <label class="identifier">Voditelj:</label><br />
+                    <input type="text" /><br />
+                    <label class="identifier">Asistent:</label><br />
+                    <input type="text" /><br /><br />
+                    <button class="saveSetting2">Spremi</button>
+                    <button class="deleteSetting">Obrisi</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cell">
+                <div class="userSettings">
+                    <label class="identifier-big">Dodaj demonstratora</label>
+                    <label class="identifier">Puno ime i prezime:</label><br />
+                    <input type="text" /><br />
+                    <label class="identifier">Lozinka:</label><br />
+                    <input type="text" /><br />
+                    <label class="identifier">Lozinka opet:</label><br />
+                    <input type="text" /><br />
+                    <label class="identifier">Kolegiji:</label><br />
+                    <select name="" id=""></select><br /><br />
+                    <button class="saveSetting">Dodaj</button>
+                </div>
+            </div>
+            <div class="cell">
+                <div class="userSettings">
+                    <label class="identifier-big">Uredi demonstratora</label><br />
+                    <label class="identifier">Odaberi demonstratora:</label><br />
+                    <select name="" id=""></select><br />
+                    <label class="identifier">Puno ime:</label><br />
+                    <input type="text" /><br />
+                    <label class="identifier">Kolegiji:</label><br />
+                    <select name="" id=""></select><br /><br />
+                    <button class="saveSetting2">Spremi</button>
+                    <button class="deleteSetting">Obrisi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

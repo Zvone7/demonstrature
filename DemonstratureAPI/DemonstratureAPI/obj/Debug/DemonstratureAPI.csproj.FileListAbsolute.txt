@@ -110,7 +110,6 @@ C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\Demons
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\bin\System.Web.WebPages.dll
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\bin\System.Web.WebPages.Razor.dll
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\bin\WebGrease.dll
-C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureDB.dll
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureBLL.pdb
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureCM.pdb
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\bin\AutoMapper.xml
@@ -134,7 +133,6 @@ C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\Demons
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\bin\System.Web.WebPages.Deployment.xml
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\bin\System.Web.WebPages.Razor.xml
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\bin\Antlr3.Runtime.pdb
-C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureDB.pdb
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\obj\Debug\DemonstratureAPI.csprojResolveAssemblyReference.cache
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\obj\Debug\DemonstratureAPI.dll
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureAPI\obj\Debug\DemonstratureAPI.pdb
