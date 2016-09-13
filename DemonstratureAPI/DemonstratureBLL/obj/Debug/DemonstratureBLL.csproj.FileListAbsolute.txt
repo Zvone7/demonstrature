@@ -24,3 +24,18 @@ C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\Demons
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureBLL\obj\Debug\DemonstratureBLL.csprojResolveAssemblyReference.cache
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureBLL\obj\Debug\DemonstratureBLL.dll
 C:\Users\zgrubisic\Desktop\GIT_repositorys\demonstrature\DemonstratureAPI\DemonstratureBLL\obj\Debug\DemonstratureBLL.pdb
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\DemonstratureBLL.dll
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\DemonstratureBLL.pdb
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\AutoMapper.dll
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\DemonstratureCM.dll
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\DemonstratureDB.dll
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\Newtonsoft.Json.dll
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\EntityFramework.dll
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\DemonstratureCM.pdb
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\DemonstratureDB.pdb
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\AutoMapper.xml
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\Newtonsoft.Json.xml
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\bin\Debug\EntityFramework.xml
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\obj\Debug\DemonstratureBLL.csprojResolveAssemblyReference.cache
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\obj\Debug\DemonstratureBLL.dll
+E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureBLL\obj\Debug\DemonstratureBLL.pdb
