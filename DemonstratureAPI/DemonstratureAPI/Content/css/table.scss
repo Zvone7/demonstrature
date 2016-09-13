@@ -126,7 +126,13 @@ body {
    position: absolute;
    margin: -10px 45px 0 77px;
    .fa-arrow-left{      
+    }
    }
+.arrowLeftDisabled{
+   @extend .arrow;
+   position: absolute;
+   margin: -20px 45px 0 77px;
+   //background:red;
 }
 .arrowRight{
    @extend .arrow;

@@ -14,7 +14,7 @@
     <div class="rTableRow">
         <div class="leftNavigation"></div>
         <div class="upperNavigation">
-            <div class="arrowLeft" id="arrowLeft" data-bind="click: leftClicked">
+            <div class="arrowLeft" id="arrowLeft" data-bind="click: leftClicked, css:{'arrowLeftDisabled': disableLeft(), 'arrowLeft':!disableLeft()} ">
                 <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
             </div>
         </div>

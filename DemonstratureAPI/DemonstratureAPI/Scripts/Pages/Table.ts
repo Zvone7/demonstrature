@@ -14,6 +14,7 @@ class TableVM{
     public Terms3 = ko.observableArray<TermCell>();
     public allTerms = ko.observableArray<TermCell[][]>();
     public Users = ko.observableArray<MyUserDTO>();
+    public disableLeft = ko.observable<boolean>(false);
     //--------------------------------------primitive----------------------------------//
     public moveX: number = 0;
     public moveY: number = 0;
@@ -177,7 +178,9 @@ class TableVM{
         else {
             this.handleWrongMove();
             this.moveY--;
+            this.disableLeft(true);
         }
+        console.log(this.disableLeft());
     }
     public rightClicked = () => {
         this.moveY--;

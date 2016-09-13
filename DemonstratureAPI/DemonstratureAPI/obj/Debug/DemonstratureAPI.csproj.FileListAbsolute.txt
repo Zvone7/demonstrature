@@ -179,7 +179,6 @@ E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\Sys
 E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\System.Web.WebPages.dll
 E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\System.Web.WebPages.Razor.dll
 E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\WebGrease.dll
-E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureDB.dll
 E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureBLL.pdb
 E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureCM.pdb
 E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\AutoMapper.xml
@@ -203,7 +202,6 @@ E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\Sys
 E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\System.Web.WebPages.Deployment.xml
 E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\System.Web.WebPages.Razor.xml
 E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\Antlr3.Runtime.pdb
-E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\bin\DemonstratureDB.pdb
 E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\obj\Debug\DemonstratureAPI.csprojResolveAssemblyReference.cache
 E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\obj\Debug\DemonstratureAPI.dll
 E:\programiranje\C# apps\Demonstrature\DemonstratureAPI\DemonstratureAPI\obj\Debug\DemonstratureAPI.pdb

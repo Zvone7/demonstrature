@@ -14,6 +14,7 @@ var TableVM = (function () {
         this.Terms3 = ko.observableArray();
         this.allTerms = ko.observableArray();
         this.Users = ko.observableArray();
+        this.disableLeft = ko.observable(false);
         //--------------------------------------primitive----------------------------------//
         this.moveX = 0;
         this.moveY = 0;
@@ -178,7 +179,9 @@ var TableVM = (function () {
             else {
                 _this.handleWrongMove();
                 _this.moveY--;
+                _this.disableLeft(true);
             }
+            console.log(_this.disableLeft());
         };
         this.rightClicked = function () {
             _this.moveY--;
