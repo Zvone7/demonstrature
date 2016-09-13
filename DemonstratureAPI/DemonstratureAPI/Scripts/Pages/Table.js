@@ -151,28 +151,28 @@ var TableVM = (function () {
         this.leftClicked = function () {
             _this.moveY++;
             if (_this.moveX >= 0 && _this.moveX < _this.allTerms.length &&
-                _this.moveY >= 0 && _this.moveY < _this.allTerms[0].length) {
+                _this.moveY >= 0) {
                 _this.updateTermArrays(_this.moveX, _this.moveY);
             }
         };
         this.rightClicked = function () {
             _this.moveY--;
             if (_this.moveX >= 0 && _this.moveX < _this.allTerms.length &&
-                _this.moveY >= 0 && _this.moveY < _this.allTerms[0].length) {
+                _this.moveY >= 0) {
                 _this.updateTermArrays(_this.moveX, _this.moveY);
             }
         };
         this.upClicked = function () {
             _this.moveX++;
             if (_this.moveX >= 0 && _this.moveX < _this.allTerms.length &&
-                _this.moveY >= 0 && _this.moveY < _this.allTerms[0].length) {
+                _this.moveY >= 0) {
                 _this.updateTermArrays(_this.moveX, _this.moveY);
             }
         };
         this.downClicked = function () {
             _this.moveX--;
             if (_this.moveX >= 0 && _this.moveX < _this.allTerms.length &&
-                _this.moveY >= 0 && _this.moveY < _this.allTerms[0].length) {
+                _this.moveY >= 0) {
                 _this.updateTermArrays(_this.moveX, _this.moveY);
             }
         };

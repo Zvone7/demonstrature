@@ -151,28 +151,28 @@ class TableVM{
     public leftClicked = () => {
         this.moveY++;
         if (this.moveX >= 0 && this.moveX < this.allTerms.length &&
-            this.moveY >= 0 && this.moveY < this.allTerms[0].length) {
+            this.moveY >= 0) {
             this.updateTermArrays(this.moveX, this.moveY);
         }
     }
     public rightClicked = () => {
         this.moveY--;
         if (this.moveX >= 0 && this.moveX < this.allTerms.length &&
-            this.moveY >= 0 && this.moveY < this.allTerms[0].length) {
+            this.moveY >= 0) {
             this.updateTermArrays(this.moveX, this.moveY);
         }
     }
     public upClicked = () => {
         this.moveX++;
         if (this.moveX >= 0 && this.moveX < this.allTerms.length &&
-            this.moveY >= 0 && this.moveY < this.allTerms[0].length) {
+            this.moveY >= 0) {
             this.updateTermArrays(this.moveX, this.moveY);
         }
     }
     public downClicked = () => {
         this.moveX--;
         if (this.moveX >= 0 && this.moveX < this.allTerms.length &&
-            this.moveY >= 0 && this.moveY < this.allTerms[0].length) {
+            this.moveY >= 0) {
             this.updateTermArrays(this.moveX, this.moveY);
         }
     }
