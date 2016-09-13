@@ -12,10 +12,12 @@ namespace DemonstratureDB.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Table_1
+    public partial class sysdiagrams
     {
-        public int id { get; set; }
         public string name { get; set; }
-        public string somevalue { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
