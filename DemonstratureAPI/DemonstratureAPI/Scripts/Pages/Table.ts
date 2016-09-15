@@ -15,6 +15,9 @@ class TableVM{
     public allTerms = ko.observableArray<TermCell[][]>();
     public Users = ko.observableArray<MyUserDTO>();
     public disableLeft = ko.observable<boolean>(false);
+    public disableRight = ko.observable<boolean>(true);
+    public disableUp = ko.observable<boolean>(false);
+    public disableDown = ko.observable<boolean>(true);
     //--------------------------------------primitive----------------------------------//
     public moveX: number = 0;
     public moveY: number = 0;
@@ -173,6 +176,7 @@ class TableVM{
         if (this.moveX >= 0 && this.moveX + 4 <= this.numberOfTerms
             && this.moveY >= 0 && this.moveY + 5 <= this.numberOfGroups
         ) {
+            this.disableRight(false);
             this.updateTermArrays(this.moveX, this.moveY);
         }
         else {
@@ -188,10 +192,12 @@ class TableVM{
             && this.moveY >= 0 && this.moveY + 5 <= this.numberOfGroups
         ) {
             this.updateTermArrays(this.moveX, this.moveY);
+            this.disableLeft(false);
         }
         else {
             this.handleWrongMove();
             this.moveY++;
+            this.disableRight(true);
         }
     }
     public upClicked = () => {
@@ -200,22 +206,26 @@ class TableVM{
             && this.moveY >= 0 && this.moveY+5 <= this.numberOfGroups
         ) {
             this.updateTermArrays(this.moveX, this.moveY);
+            this.disableDown(false);
         }
         else {
             this.handleWrongMove();
             this.moveX--;
+            this.disableUp(true);
         }        
     }
     public downClicked = () => {
         this.moveX--;
-        if (this.moveX >= 0 && this.moveX+4 <= this.numberOfTerms
-            && this.moveY >= 0 && this.moveY+5 <= this.numberOfGroups
+        if (this.moveX >= 0 && this.moveX + 4 <= this.numberOfTerms
+            && this.moveY >= 0 && this.moveY + 5 <= this.numberOfGroups
         ) {
             this.updateTermArrays(this.moveX, this.moveY);
+            this.disableUp(false);
         }
         else {
             this.handleWrongMove();
             this.moveX++;
+            this.disableDown(true);
         }
     }
     public handleWrongMove = () => {

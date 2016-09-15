@@ -15,6 +15,9 @@ var TableVM = (function () {
         this.allTerms = ko.observableArray();
         this.Users = ko.observableArray();
         this.disableLeft = ko.observable(false);
+        this.disableRight = ko.observable(true);
+        this.disableUp = ko.observable(false);
+        this.disableDown = ko.observable(true);
         //--------------------------------------primitive----------------------------------//
         this.moveX = 0;
         this.moveY = 0;
@@ -174,6 +177,7 @@ var TableVM = (function () {
             _this.moveY++;
             if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
                 && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
+                _this.disableRight(false);
                 _this.updateTermArrays(_this.moveX, _this.moveY);
             }
             else {
@@ -188,10 +192,12 @@ var TableVM = (function () {
             if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
                 && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
                 _this.updateTermArrays(_this.moveX, _this.moveY);
+                _this.disableLeft(false);
             }
             else {
                 _this.handleWrongMove();
                 _this.moveY++;
+                _this.disableRight(true);
             }
         };
         this.upClicked = function () {
@@ -199,10 +205,12 @@ var TableVM = (function () {
             if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
                 && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
                 _this.updateTermArrays(_this.moveX, _this.moveY);
+                _this.disableDown(false);
             }
             else {
                 _this.handleWrongMove();
                 _this.moveX--;
+                _this.disableUp(true);
             }
         };
         this.downClicked = function () {
@@ -210,10 +218,12 @@ var TableVM = (function () {
             if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
                 && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
                 _this.updateTermArrays(_this.moveX, _this.moveY);
+                _this.disableUp(false);
             }
             else {
                 _this.handleWrongMove();
                 _this.moveX++;
+                _this.disableDown(true);
             }
         };
         this.handleWrongMove = function () {

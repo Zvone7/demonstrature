@@ -9,7 +9,6 @@
 <script src="~/Scripts/knockout-3.4.0.js"></script>
 @*<script data-main="~/../Scripts/main-config" src="~/Scripts/require.js"></script>*@
 <script src="~/Scripts/Pages/Table.js"></script>
-<link href="~/Content/css/table.css" rel="stylesheet" />
 <div class="rTable">
     <div class="rTableRow">
         <div class="leftNavigation"></div>
@@ -23,14 +22,14 @@
         <div class="upperNavigation"></div>
         <div class="upperNavigation"></div>
         <div class="upperNavigation">
-            <div class="arrowRight" id="arrowRight" data-bind="click: rightClicked">
+            <div class="arrowRight" id="arrowRight" data-bind="click: rightClicked, css:{'arrowRightDisabled': disableRight(), 'arrowRight':!disableRight()} ">
                 <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
             </div>
         </div>
     </div>
     <div class="rTableRow">
         <div class="leftNavigation">
-            <div class="arrowUp" id="arrowUp" data-bind="click: upClicked">
+            <div class="arrowUp" id="arrowUp" data-bind="click: upClicked, css:{'arrowUpDisabled': disableUp(), 'arrowUp':!disableUp()} ">
                 <i class="fa fa-arrow-up fa-lg" aria-hidden="true"></i>
             </div>
         </div>
@@ -164,7 +163,7 @@
     <div class="rTableRow">
         <div class="leftNavigation">
             <div>
-                <div class="arrowDown" data-bind="click: downClicked">
+                <div class="arrowDown" data-bind="click: downClicked, css:{'arrowDownDisabled': disableDown(), 'arrowDown':!disableDown()} ">
                     <i class="fa fa-arrow-down fa-lg" aria-hidden="true"></i>
                 </div>
             </div>
