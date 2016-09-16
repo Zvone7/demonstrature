@@ -1,3 +1,0 @@
-ALTER TABLE dbo.TermT
-  ADD CONSTRAINT FK_TermT_Usert
-    FOREIGN KEY(UserId) REFERENCES dbo.UserT(Id)
