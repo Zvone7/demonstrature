@@ -1,13 +1,11 @@
 $(document).ready(function () {
     var _tableVM = new TableVM();
-    _tableVM.getAllTerms();
-    //ko.applyBindings(_tableVM);
-    //console.log("loaded table.");
+    _tableVM.getAllCourses();
 });
 var TableVM = (function () {
     function TableVM() {
         var _this = this;
-        //--------------------------------------observables--------------------------------//
+        //------------------------------------observables----------------------------------//
         this.Terms0 = ko.observableArray();
         this.Terms1 = ko.observableArray();
         this.Terms2 = ko.observableArray();
@@ -45,9 +43,9 @@ var TableVM = (function () {
             }
         };
         //-------------------------------USERS END--------------------------------------------------//
-        //-------------------------------COURSE START------------------------------------------------//
+        //-------------------------------COURSE START-----------------------------------------------//
         this.getAllCourses = function () {
-            console.log("gettingAllCourses");
+            //console.log("gettingAllCourses");
             var self = _this;
             var serviceURL = '/Table/AllCollegeCourses';
             $.ajax({
@@ -59,34 +57,71 @@ var TableVM = (function () {
                 error: errorFunc
             });
             function successFunc(data, status) {
-                console.log(data);
-                this.courses = data;
+                self.Courses = data;
+                //console.log(self.Courses);
+                self.populateSelectStudy();
             }
             function errorFunc() {
                 alert('error');
             }
         };
-        //-------------------------------COURSE END--------------------------------------------------//
+        this.populateSelectStudy = function () {
+            var studies = [];
+            var output = [];
+            for (var i = 0; i < _this.Courses.length; i++) {
+                var x = _this.Courses[i].Study;
+                var alreadyExists = false;
+                if (studies.length > 0) {
+                    for (var j = 0; j < studies.length; j++) {
+                        if (studies[j] == x) {
+                            alreadyExists = true;
+                        }
+                    }
+                }
+                if (!alreadyExists) {
+                    studies.push(x);
+                }
+            }
+            $('#selectStudy').find('option').remove().end();
+            for (var i = 0; i < studies.length; i++) {
+                output.push('<option value="' + studies[i] + '">' + studies[i] + '</option>');
+            }
+            $('#selectStudy').html(output.join(''));
+            var selectStudyValue = $('#selectStudy').val();
+            _this.populateSelectCourseName(selectStudyValue);
+            _this.updateValuesAfterSelect();
+        };
+        this.populateSelectCourseName = function (studyName) {
+            var output = [];
+            var names = [];
+            for (var i = 0; i < _this.Courses.length; i++) {
+                var study = _this.Courses[i].Study;
+                var course = _this.Courses[i].Name;
+                if (study != studyName) {
+                    continue;
+                }
+                var alreadyExists = false;
+                if (names.length > 0) {
+                    for (var j = 0; j < names.length; j++) {
+                        if (names[j] == course) {
+                            alreadyExists = true;
+                        }
+                    }
+                }
+                if (!alreadyExists) {
+                    names.push(course);
+                }
+            }
+            $('#selectCourse').find('option').remove().end();
+            for (var i = 0; i < names.length; i++) {
+                if (_this.Courses[i].Name != "" && _this.Courses[i].Name != null) {
+                    output.push('<option value="' + names[i] + '">' + names[i] + '</option>');
+                }
+            }
+            $('#selectCourse').html(output.join(''));
+        };
+        //-------------------------------COURSE END-------------------------------------------------//
         //-------------------------------TERMS START------------------------------------------------//
-        this.getAllTerms = function () {
-            //console.log("gettingAllTerms");
-            var self = _this;
-            var serviceURL = '/Table/AllTerms';
-            $.ajax({
-                type: "GET",
-                url: serviceURL,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: successFunc,
-                error: errorFunc
-            });
-            function successFunc(data, status) {
-                self.fillAllTerms(data);
-            }
-            function errorFunc() {
-                alert('error');
-            }
-        };
         this.fillAllTerms = function (data) {
             var stringResult = "";
             _this.numberOfTerms = data.length;
@@ -97,20 +132,21 @@ var TableVM = (function () {
                     var cell = ko.observable(new TermCell());
                     cell().x = i;
                     cell().y = j;
-                    cell().owner(data[i][j].UserFullName);
-                    cell().takeState(data[i][j].IsAvailable);
-                    cell().skipState(data[i][j].IsAvailable);
+                    cell().Owner(data[i][j].UserFullName);
+                    cell().TakeState(data[i][j].IsAvailable);
+                    cell().SkipState(data[i][j].IsAvailable);
                     var jsonDate = data[i][j].TermDate.toString();
                     var date = new Date(parseInt(jsonDate.substr(6)));
-                    cell().termDate(date.getDate().toString() + "." +
+                    cell().TermDate(date.getDate().toString() + "." +
                         (date.getMonth()).toString() + "." +
                         date.getFullYear().toString());
+                    cell().Group(data[i][j].Group);
                     _this.allTerms[i][j] = cell;
                     //console.log(i,",",j,": ",this.allTerms[i][j]());
                     if (j == 0) {
-                        stringResult += "\nrow" + i.toString() + "|" + cell().termDate() + "\n";
+                        stringResult += "\nrow" + i.toString() + "|" + cell().TermDate() + "\n";
                     }
-                    stringResult += cell().owner() + ",";
+                    stringResult += cell().Owner() + ",";
                 }
             }
             //console.log("allTerms:\n", this.allTerms());
@@ -124,14 +160,15 @@ var TableVM = (function () {
                     var cell = new TermCell();
                     cell.x = i;
                     cell.y = j;
-                    cell.owner(data[i][j].UserFullName);
-                    cell.takeState(data[i][j].IsAvailable);
-                    cell.skipState(data[i][j].IsAvailable);
+                    cell.Owner(data[i][j].UserFullName);
+                    cell.TakeState(data[i][j].IsAvailable);
+                    cell.SkipState(data[i][j].IsAvailable);
                     var jsonDate = data[i][j].TermDate.toString();
                     var date = new Date(parseInt(jsonDate.substr(6)));
-                    cell.termDate(date.getDate() + "." +
+                    cell.TermDate(date.getDate() + "." +
                         (date.getMonth()).toString() + "." +
                         date.getFullYear().toString());
+                    cell.Group(data[i][j].Group);
                     if (i == 0)
                         _this.Terms0.push(cell);
                     else if (i == 1)
@@ -148,6 +185,38 @@ var TableVM = (function () {
             //this.showTerms2();
             //this.showTerms3();
         };
+        this.updateTermTable = function (data) {
+            //console.log("data:\n",data);
+            for (var i = 0; i < data.length; i++) {
+                for (var j = 0; j < data[0].length; j++) {
+                    var cell = new TermCell();
+                    cell.x = i;
+                    cell.y = j;
+                    cell.Owner(data[i][j].UserFullName);
+                    cell.TakeState(data[i][j].IsAvailable);
+                    cell.SkipState(data[i][j].IsAvailable);
+                    var jsonDate = data[i][j].TermDate.toString();
+                    var date = new Date(parseInt(jsonDate.substr(6)));
+                    cell.TermDate(date.getDate() + "." +
+                        (date.getMonth()).toString() + "." +
+                        date.getFullYear().toString());
+                    cell.Group(data[i][j].Group);
+                    if (i == 0)
+                        _this.Terms0.push(cell);
+                    else if (i == 1)
+                        _this.Terms1.push(cell);
+                    else if (i == 2)
+                        _this.Terms2.push(cell);
+                    else if (i == 3)
+                        _this.Terms3.push(cell);
+                }
+            }
+            //ko.applyBindings(this);
+            //this.showTerms0();
+            //this.showTerms1();
+            //this.showTerms2();
+            //this.showTerms3();
+        };
         this.updateTermArrays = function (i_, j_) {
             //console.log("clicked stuff:", i_, "|", j_);
             //i_ = 0; j_ = 0;
@@ -158,46 +227,67 @@ var TableVM = (function () {
                     cell().x = i;
                     cell().y = j;
                     if (i == 0) {
-                        _this.Terms0()[j].owner(cell().owner());
-                        _this.Terms0()[j].skipState(cell().skipState());
-                        _this.Terms0()[j].takeState(cell().skipState());
-                        _this.Terms0()[j].termDate(cell().termDate());
+                        _this.Terms0()[j].Owner(cell().Owner());
+                        _this.Terms0()[j].SkipState(cell().SkipState());
+                        _this.Terms0()[j].TakeState(cell().SkipState());
+                        _this.Terms0()[j].TermDate(cell().TermDate());
                         _this.Terms0()[j].x = cell().x;
                         _this.Terms0()[j].y = cell().y;
+                        _this.Terms0()[j].Group(cell().Group());
                     }
                     else if (i == 1) {
-                        _this.Terms1()[j].owner(cell().owner());
-                        _this.Terms1()[j].skipState(cell().skipState());
-                        _this.Terms1()[j].takeState(cell().skipState());
-                        _this.Terms1()[j].termDate(cell().termDate());
+                        _this.Terms1()[j].Owner(cell().Owner());
+                        _this.Terms1()[j].SkipState(cell().SkipState());
+                        _this.Terms1()[j].TakeState(cell().SkipState());
+                        _this.Terms1()[j].TermDate(cell().TermDate());
                         _this.Terms1()[j].x = cell().x;
                         _this.Terms1()[j].y = cell().y;
+                        _this.Terms1()[j].Group(cell().Group());
                     }
                     else if (i == 2) {
-                        _this.Terms2()[j].owner(cell().owner());
-                        _this.Terms2()[j].skipState(cell().skipState());
-                        _this.Terms2()[j].takeState(cell().skipState());
-                        _this.Terms2()[j].termDate(cell().termDate());
+                        _this.Terms2()[j].Owner(cell().Owner());
+                        _this.Terms2()[j].SkipState(cell().SkipState());
+                        _this.Terms2()[j].TakeState(cell().SkipState());
+                        _this.Terms2()[j].TermDate(cell().TermDate());
                         _this.Terms2()[j].x = cell().x;
                         _this.Terms2()[j].y = cell().y;
+                        _this.Terms2()[j].Group(cell().Group());
                     }
                     else if (i == 3) {
-                        _this.Terms3()[j].owner(cell().owner());
-                        _this.Terms3()[j].skipState(cell().skipState());
-                        _this.Terms3()[j].takeState(cell().skipState());
-                        _this.Terms3()[j].termDate(cell().termDate());
+                        _this.Terms3()[j].Owner(cell().Owner());
+                        _this.Terms3()[j].SkipState(cell().SkipState());
+                        _this.Terms3()[j].TakeState(cell().SkipState());
+                        _this.Terms3()[j].TermDate(cell().TermDate());
                         _this.Terms3()[j].x = cell().x;
                         _this.Terms3()[j].y = cell().y;
+                        _this.Terms3()[j].Group(cell().Group());
                     }
                 }
+            }
+        };
+        this.updateValuesAfterSelect = function () {
+            var selectStudy = $('#selectStudy').val();
+            var selectCourse = $('#selectCourse').val();
+            var self = _this;
+            var course = new CourseDTO();
+            for (var i = 0; i < self.Courses.length; i++) {
+                var y = self.Courses[i];
+                if (y.Study == selectStudy && y.Name == selectCourse) {
+                    course = y;
+                }
+            }
+            if (self.Terms0().length > 0) {
+                self.updateTermTable(course.TermT);
+            }
+            else {
+                self.fillAllTerms(course.TermT);
             }
         };
         //-------------------------------TERMS END--------------------------------------------------//
         //-------------------------------NAVIGATION START-------------------------------------------//
         this.leftClicked = function () {
             _this.moveY++;
-            if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
-                && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
+            if (_this.checkValidMovement(_this.moveX, _this.moveY)) {
                 _this.disableRight(false);
                 _this.updateTermArrays(_this.moveX, _this.moveY);
             }
@@ -206,12 +296,10 @@ var TableVM = (function () {
                 _this.moveY--;
                 _this.disableLeft(true);
             }
-            console.log(_this.disableLeft());
         };
         this.rightClicked = function () {
             _this.moveY--;
-            if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
-                && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
+            if (_this.checkValidMovement(_this.moveX, _this.moveY)) {
                 _this.updateTermArrays(_this.moveX, _this.moveY);
                 _this.disableLeft(false);
             }
@@ -223,8 +311,7 @@ var TableVM = (function () {
         };
         this.upClicked = function () {
             _this.moveX++;
-            if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
-                && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
+            if (_this.checkValidMovement(_this.moveX, _this.moveY)) {
                 _this.updateTermArrays(_this.moveX, _this.moveY);
                 _this.disableDown(false);
             }
@@ -236,8 +323,7 @@ var TableVM = (function () {
         };
         this.downClicked = function () {
             _this.moveX--;
-            if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
-                && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
+            if (_this.checkValidMovement(_this.moveX, _this.moveY)) {
                 _this.updateTermArrays(_this.moveX, _this.moveY);
                 _this.disableUp(false);
             }
@@ -248,43 +334,28 @@ var TableVM = (function () {
             }
         };
         this.handleWrongMove = function () {
-            console.log("Wrong move!");
+            //console.log("Wrong move!");
         };
-        //-------------------------------NAVIGATION END---------------------------------------------//
-        this.change = function () {
-            console.log(_this.Terms0()[0].owner);
-        };
-        this.showTerms0 = function () {
-            console.log("Terms0|", _this.Terms0()[0].termDate());
-            var result = "";
-            for (var i = 0; i < _this.Terms0().length; i++) {
-                result += _this.Terms0()[i].owner() + ",";
+        this.checkValidMovement = function (moveX, moveY) {
+            //console.log(this.moveX, this.moveY);
+            if (moveX >= 0 && moveX + 4 <= _this.numberOfTerms
+                && moveY >= 0 && moveY + 5 <= _this.numberOfGroups) {
+                return true;
             }
-            console.log(result);
-        };
-        this.showTerms1 = function () {
-            console.log("Terms1|", _this.Terms1()[0].termDate());
-            var result = "";
-            for (var i = 0; i < _this.Terms1().length; i++) {
-                result += _this.Terms1()[i].owner() + ",";
+            else {
+                return false;
             }
-            console.log(result);
         };
-        this.showTerms2 = function () {
-            var result = "";
-            for (var i = 0; i < _this.Terms2().length; i++) {
-                result += _this.Terms2()[i].owner() + ",";
-            }
-            console.log(result);
-        };
-        this.showTerms3 = function () {
-            console.log("Terms3|", _this.Terms3()[0].termDate());
-            var result = "";
-            for (var i = 0; i < _this.Terms3().length; i++) {
-                result += _this.Terms3()[i].owner() + ",";
-            }
-            console.log(result);
-        };
+        var self = this;
+        $(document).ready(function () {
+            $('#selectStudy').on("change", function () {
+                var value = $(this).val();
+                self.populateSelectCourseName(value);
+            });
+            $('#selectCourse').on("change", function () {
+                self.updateValuesAfterSelect();
+            });
+        });
     }
     return TableVM;
 }());
@@ -312,16 +383,18 @@ var TermDTO = (function () {
             this.UserFullName = myTerm.UserFullName;
             this.TermDate = myTerm.TermDate;
             this.IsAvailable = myTerm.IsAvailable;
+            this.Group = myTerm.Group;
         }
     }
     return TermDTO;
 }());
 var TermCell = (function () {
     function TermCell() {
-        this.owner = ko.observable("");
-        this.takeState = ko.observable(false);
-        this.skipState = ko.observable(true);
-        this.termDate = ko.observable();
+        this.Owner = ko.observable("");
+        this.TakeState = ko.observable(false);
+        this.SkipState = ko.observable(true);
+        this.TermDate = ko.observable();
+        this.Group = ko.observable();
     }
     return TermCell;
 }());
@@ -329,4 +402,9 @@ var CourseDTO = (function () {
     function CourseDTO() {
     }
     return CourseDTO;
+}());
+var GroupDTO = (function () {
+    function GroupDTO() {
+    }
+    return GroupDTO;
 }());

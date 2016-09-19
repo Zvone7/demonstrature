@@ -9,7 +9,7 @@ $demoNameColor: #e6eeff;
 $searchColor: #cce5ff;
 $buttonTakeColor: green;
 $buttonSkipColor: gray;
-$disableColor: dimgray;
+$disableColor: #595959;
 //--------------------------------------------------text colors-----------------------------------------------------//
 $myHeaderTextColor: #e6e6ff;
 $myFirstColumnTextColor: #e6e6ff;
@@ -178,6 +178,9 @@ body {
    position: absolute;
    margin: -10px 45px 0 77px;
    background-color:$disableColor;
+   &:hover{
+      transform:scale(1);
+   }
 }
 .arrowRight{
    @extend .arrow;
@@ -191,6 +194,9 @@ body {
    position: absolute;
    margin: -10px 15px 0 95px; 
    background-color:$disableColor;
+   &:hover{
+      transform:scale(1);
+   }
 }
 .arrowUp{
    @extend .arrow;
@@ -203,6 +209,9 @@ body {
    position: absolute;
    margin: 10px 0 0 -55px;
    background-color:$disableColor;
+   &:hover{
+      transform:scale(1);
+   }
 }
 .arrowDown{
    @extend .arrow;
@@ -217,6 +226,9 @@ body {
    position: absolute;
    margin: 35px 0 0 -55px;
    background-color:$disableColor;
+   &:hover{
+      transform:scale(1);
+   }
 }
 //--------------------------------------------------------search----------------------------------------------------//
 
@@ -297,6 +309,14 @@ body {
         background-color: $buttonTakeColor;
         &:hover{
             background-color: darken($buttonTakeColor,5%);
+            cursor: pointer;
+        }
+    }
+    
+    &.takeTerm_disabled{
+        background-color: $disableColor;
+        &:hover{
+            background-color: darken($disableColor,5%);
             cursor: pointer;
         }
     }

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\CourseDTO.cs" />
+    <Compile Include="DTO\GroupDTO.cs" />
     <Compile Include="DTO\MyUserDTO.cs" />
     <Compile Include="DTO\TermDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

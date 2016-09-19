@@ -28,7 +28,7 @@ namespace DemonstratureAPI.Controllers
         [HttpGet]
         public ActionResult AllTerms()
         {
-            var instance = new UserLogic();
+            var instance = new TermLogic();
             var result = instance.GetAllTerms();
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
