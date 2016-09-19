@@ -408,3 +408,4 @@ var GroupDTO = (function () {
     }
     return GroupDTO;
 }());
+//# sourceMappingURL=Table.js.map
