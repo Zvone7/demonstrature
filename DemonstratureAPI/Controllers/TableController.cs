@@ -29,7 +29,7 @@ namespace DemonstratureAPI.Controllers
         public ActionResult AllTerms()
         {
             var instance = new TermLogic();
-            var result = instance.GetAllTerms();
+            var result = instance.GetAllTerms(5,5);
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
         }

@@ -129,12 +129,10 @@ var TableVM = (function () {
             for (var i = 0; i < data.length; i++) {
                 _this.allTerms[i] = new Array();
                 for (var j = 0; j < data[0].length; j++) {
-                    var cell = ko.observable(new TermCell());
+                    var cell = ko.observable(new CellM());
                     cell().x = i;
                     cell().y = j;
-                    cell().Owner(data[i][j].UserFullName);
-                    cell().TakeState(data[i][j].IsAvailable);
-                    cell().SkipState(data[i][j].IsAvailable);
+                    cell().UserPerson(data[i][j].UserPerson);
                     var jsonDate = data[i][j].TermDate.toString();
                     var date = new Date(parseInt(jsonDate.substr(6)));
                     cell().TermDate(date.getDate().toString() + "." +
@@ -142,27 +140,17 @@ var TableVM = (function () {
                         date.getFullYear().toString());
                     cell().Group(data[i][j].Group);
                     _this.allTerms[i][j] = cell;
-                    //console.log(i,",",j,": ",this.allTerms[i][j]());
-                    if (j == 0) {
-                        stringResult += "\nrow" + i.toString() + "|" + cell().TermDate() + "\n";
-                    }
-                    stringResult += cell().Owner() + ",";
                 }
             }
-            //console.log("allTerms:\n", this.allTerms());
-            //console.log(stringResult);
             _this.createTermTable(data);
         };
         this.createTermTable = function (data) {
-            //console.log("data:\n",data);
             for (var i = 0; i < data.length; i++) {
                 for (var j = 0; j < data[0].length; j++) {
-                    var cell = new TermCell();
+                    var cell = new CellM();
                     cell.x = i;
                     cell.y = j;
-                    cell.Owner(data[i][j].UserFullName);
-                    cell.TakeState(data[i][j].IsAvailable);
-                    cell.SkipState(data[i][j].IsAvailable);
+                    cell.UserPerson(new MyUserM(data[i][j].UserPerson));
                     var jsonDate = data[i][j].TermDate.toString();
                     var date = new Date(parseInt(jsonDate.substr(6)));
                     cell.TermDate(date.getDate() + "." +
@@ -180,21 +168,14 @@ var TableVM = (function () {
                 }
             }
             ko.applyBindings(_this);
-            //this.showTerms0();
-            //this.showTerms1();
-            //this.showTerms2();
-            //this.showTerms3();
         };
         this.updateTermTable = function (data) {
-            //console.log("data:\n",data);
             for (var i = 0; i < data.length; i++) {
                 for (var j = 0; j < data[0].length; j++) {
-                    var cell = new TermCell();
+                    var cell = new CellM();
                     cell.x = i;
                     cell.y = j;
-                    cell.Owner(data[i][j].UserFullName);
-                    cell.TakeState(data[i][j].IsAvailable);
-                    cell.SkipState(data[i][j].IsAvailable);
+                    cell.UserPerson(data[i][j].UserPerson);
                     var jsonDate = data[i][j].TermDate.toString();
                     var date = new Date(parseInt(jsonDate.substr(6)));
                     cell.TermDate(date.getDate() + "." +
@@ -211,11 +192,6 @@ var TableVM = (function () {
                         _this.Terms3.push(cell);
                 }
             }
-            //ko.applyBindings(this);
-            //this.showTerms0();
-            //this.showTerms1();
-            //this.showTerms2();
-            //this.showTerms3();
         };
         this.updateTermArrays = function (i_, j_) {
             //console.log("clicked stuff:", i_, "|", j_);
@@ -227,7 +203,7 @@ var TableVM = (function () {
                     cell().x = i;
                     cell().y = j;
                     if (i == 0) {
-                        _this.Terms0()[j].Owner(cell().Owner());
+                        _this.Terms0()[j].UserPerson(cell().UserPerson());
                         _this.Terms0()[j].SkipState(cell().SkipState());
                         _this.Terms0()[j].TakeState(cell().SkipState());
                         _this.Terms0()[j].TermDate(cell().TermDate());
@@ -236,7 +212,7 @@ var TableVM = (function () {
                         _this.Terms0()[j].Group(cell().Group());
                     }
                     else if (i == 1) {
-                        _this.Terms1()[j].Owner(cell().Owner());
+                        _this.Terms1()[j].UserPerson(cell().UserPerson());
                         _this.Terms1()[j].SkipState(cell().SkipState());
                         _this.Terms1()[j].TakeState(cell().SkipState());
                         _this.Terms1()[j].TermDate(cell().TermDate());
@@ -245,7 +221,7 @@ var TableVM = (function () {
                         _this.Terms1()[j].Group(cell().Group());
                     }
                     else if (i == 2) {
-                        _this.Terms2()[j].Owner(cell().Owner());
+                        _this.Terms2()[j].UserPerson(cell().UserPerson());
                         _this.Terms2()[j].SkipState(cell().SkipState());
                         _this.Terms2()[j].TakeState(cell().SkipState());
                         _this.Terms2()[j].TermDate(cell().TermDate());
@@ -254,7 +230,7 @@ var TableVM = (function () {
                         _this.Terms2()[j].Group(cell().Group());
                     }
                     else if (i == 3) {
-                        _this.Terms3()[j].Owner(cell().Owner());
+                        _this.Terms3()[j].UserPerson(cell().UserPerson());
                         _this.Terms3()[j].SkipState(cell().SkipState());
                         _this.Terms3()[j].TakeState(cell().SkipState());
                         _this.Terms3()[j].TermDate(cell().TermDate());
@@ -264,6 +240,7 @@ var TableVM = (function () {
                     }
                 }
             }
+            console.log(_this.Terms0()[0].UserPerson());
         };
         this.updateValuesAfterSelect = function () {
             var selectStudy = $('#selectStudy').val();
@@ -346,6 +323,14 @@ var TableVM = (function () {
                 return false;
             }
         };
+        //-------------------------------NAVIGATION END---------------------------------------------//
+        this.test = function () {
+            _this.Terms0()[0].UserPerson().Username("lalala");
+        };
+        this.test2 = function () {
+            console.log(_this.Terms0()[0].UserPerson().Username());
+            console.log(_this.Terms0()[0].Group().UserPerson); //.Username());
+        };
         var self = this;
         $(document).ready(function () {
             $('#selectStudy').on("change", function () {
@@ -359,53 +344,82 @@ var TableVM = (function () {
     }
     return TableVM;
 }());
-var MyUserDTO = (function () {
-    function MyUserDTO(myUser) {
+var MyUserM = (function () {
+    function MyUserM(myUser) {
         this.Id = ko.observable(0);
-        this.UserName = ko.observable("");
+        this.Username = ko.observable("");
         this.FullName = ko.observable("");
         this.Role = ko.observable("");
         if (myUser) {
-            this.Id(myUser.Id());
-            this.UserName(myUser.UserName());
-            this.FullName(myUser.FullName());
-            this.Role(myUser.Role());
+            this.Id(myUser.Id);
+            this.Username(myUser.Username);
+            this.FullName(myUser.FullName);
+            this.Role(myUser.Role);
         }
+    }
+    return MyUserM;
+}());
+var MyUserDTO = (function () {
+    function MyUserDTO() {
     }
     return MyUserDTO;
 }());
-var TermDTO = (function () {
-    function TermDTO(myTerm) {
+var TermM = (function () {
+    function TermM(myTerm) {
         if (myTerm) {
             this.Id = myTerm.Id;
             this.IdCollegeCourse = myTerm.IdCollegeCourse;
             this.IdUser = myTerm.IdUser;
-            this.UserFullName = myTerm.UserFullName;
+            this.UserPerson = myTerm.UserPerson;
             this.TermDate = myTerm.TermDate;
-            this.IsAvailable = myTerm.IsAvailable;
             this.Group = myTerm.Group;
         }
     }
-    return TermDTO;
+    return TermM;
 }());
-var TermCell = (function () {
-    function TermCell() {
-        this.Owner = ko.observable("");
+var CellM = (function () {
+    function CellM(c) {
         this.TakeState = ko.observable(false);
         this.SkipState = ko.observable(true);
         this.TermDate = ko.observable();
         this.Group = ko.observable();
+        this.UserPerson = ko.observable();
+        if (c) {
+            this.x = c.x;
+            this.y = c.y;
+            this.TakeState(c.TakeState());
+            this.SkipState(c.SkipState());
+            this.TermDate(c.TermDate());
+            this.Group(c.Group());
+            this.UserPerson(c.UserPerson());
+        }
+        else {
+            this.UserPerson(new MyUserM());
+        }
     }
-    return TermCell;
+    return CellM;
 }());
 var CourseDTO = (function () {
     function CourseDTO() {
     }
     return CourseDTO;
 }());
-var GroupDTO = (function () {
-    function GroupDTO() {
+var CourseM = (function () {
+    function CourseM() {
+        this.Id = ko.observable();
+        this.Name = ko.observable();
+        this.Study = ko.observable();
+        this.Leader = ko.observable();
+        this.Asistant = ko.observable();
+        this.TermT = ko.observable();
     }
-    return GroupDTO;
+    return CourseM;
 }());
-//# sourceMappingURL=Table.js.map
+var GroupM = (function () {
+    function GroupM() {
+        this.Id = ko.observable();
+        this.Name = ko.observable();
+        this.UserPerson = ko.observable();
+    }
+    return GroupM;
+}());

@@ -9,7 +9,7 @@ namespace DemonstratureBLL
 {
     public class GroupLogic
     {
-        public GroupDTO CreateGroup(string name, string owner)
+        public GroupDTO CreateGroup(string name, MyUserDTO owner)
         {
             var g = new GroupDTO();
             g.Id = 0;

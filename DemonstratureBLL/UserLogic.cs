@@ -14,24 +14,26 @@ namespace DemonstratureBLL
             for (int i = 0; i < _userCount; i++)
             {
                 var newUser = new MyUserDTO();
-                newUser.UserName = "iprezime" + (i + 1).ToString();
+                newUser.Username = "iprezime" + (i + 1).ToString();
                 newUser.FullName = "ime" + (i + 1).ToString() + " prezime";
-                newUser.ID = i;
+                newUser.Id = i;
                 if (i % 5 == 0) { newUser.Role = "Assistant"; }
                 else { newUser.Role = "Student"; }
                 allUsers.Add(newUser);
             }            
         }
         public List<MyUserDTO> GetAllUsers()
-        {
-            
+        {            
             return allUsers;
         }
-
-        
-
-        public void Test()
+        public MyUserDTO CreateNewUser(string name, string lastName, string role)
         {
+            var newUser = new MyUserDTO();
+            newUser.Username = name.ToLower()[0]+lastName.ToLower();
+            newUser.FullName = name + " " + lastName;
+            newUser.Id = 0;
+            newUser.Role = role;
+            return newUser;
         }
     }
 }
