@@ -1,3 +1,4 @@
+//import {CellM, CourseDTO, MyUserDTO, MyUserM, TermM} from "../../content/utilities";
 $(document).ready(function () {
     var _tableVM = new TableVM();
     _tableVM.getAllCourses();

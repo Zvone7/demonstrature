@@ -368,6 +368,7 @@
     <Content Include="Scripts\jquery-2.2.3.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Content\Utilities.ts" />
     <TypeScriptCompile Include="Scripts\main-config.ts" />
     <TypeScriptCompile Include="Scripts\Pages\Login.ts" />
     <TypeScriptCompile Include="Scripts\Pages\Settings.ts" />
