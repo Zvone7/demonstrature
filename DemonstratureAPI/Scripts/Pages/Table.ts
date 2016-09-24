@@ -1,4 +1,5 @@
-﻿
+﻿//import {CellM, CourseDTO, MyUserDTO, MyUserM, TermM} from "../../content/utilities";
+
 $(document).ready(() => {
     var _tableVM = new TableVM();
     _tableVM.getAllCourses();
@@ -6,12 +7,12 @@ $(document).ready(() => {
 
 class TableVM{
     //------------------------------------observables----------------------------------//
-    public Terms0 = ko.observableArray<TermCell>();
-    public Terms1 = ko.observableArray<TermCell>();
-    public Terms2 = ko.observableArray<TermCell>();
-    public Terms3 = ko.observableArray<TermCell>();
-    public allTerms = ko.observableArray<TermCell[][]>();
-    public Users = ko.observableArray<MyUserDTO>();
+    public Terms0 = ko.observableArray<CellM>();
+    public Terms1 = ko.observableArray<CellM>();
+    public Terms2 = ko.observableArray<CellM>();
+    public Terms3 = ko.observableArray<CellM>();
+    public allTerms = ko.observableArray<CellM[][]>();
+    public Users = ko.observableArray<MyUserM>();
     public disableLeft = ko.observable<boolean>(false);
     public disableRight = ko.observable<boolean>(true);
     public disableUp = ko.observable<boolean>(false);
@@ -46,7 +47,7 @@ class TableVM{
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: Array<MyUserDTO>, status) {
+        function successFunc(data: Array<MyUserM>, status) {
             //alert(data);
             self.Users(data);
             console.log(self.Users());
@@ -137,19 +138,17 @@ class TableVM{
     }
     //-------------------------------COURSE END-------------------------------------------------//
     //-------------------------------TERMS START------------------------------------------------//
-    public fillAllTerms = (data: TermDTO[][]) => {
+    public fillAllTerms = (data: TermM[][]) => {
         var stringResult = "";
         this.numberOfTerms = data.length;
         this.numberOfGroups = data[0].length;
         for (var i = 0; i < data.length; i++) {
-            this.allTerms[i] = new Array<TermCell>();
+            this.allTerms[i] = new Array<CellM>();
             for (var j = 0; j < data[0].length; j++) {
-                var cell = ko.observable<TermCell>(new TermCell());
+                var cell = ko.observable<CellM>(new CellM());
                 cell().x = i;
                 cell().y = j;
-                cell().Owner(data[i][j].UserFullName);
-                cell().TakeState(data[i][j].IsAvailable);
-                cell().SkipState(data[i][j].IsAvailable);
+                cell().UserPerson(data[i][j].UserPerson);
                 var jsonDate = data[i][j].TermDate.toString();
                 var date = new Date(parseInt(jsonDate.substr(6)));
                 cell().TermDate(date.getDate().toString() + "." +
@@ -157,26 +156,17 @@ class TableVM{
                     date.getFullYear().toString());
                 cell().Group(data[i][j].Group);
                 this.allTerms[i][j] = cell;
-                //console.log(i,",",j,": ",this.allTerms[i][j]());
-                if (j == 0) { stringResult += "\nrow" + i.toString() + "|" + cell().TermDate() + "\n"; }
-                stringResult += cell().Owner() + ",";
             }
         }
-        //console.log("allTerms:\n", this.allTerms());
-        //console.log(stringResult);
-
         this.createTermTable(data);
     }
-    public createTermTable = (data: TermDTO[][]) => {
-        //console.log("data:\n",data);
+    public createTermTable = (data: TermM[][]) => {
         for (var i = 0; i < data.length; i++) {
             for (var j = 0; j < data[0].length; j++) {
-                var cell = new TermCell();
+                var cell = new CellM();
                 cell.x = i;
                 cell.y = j;
-                cell.Owner(data[i][j].UserFullName);
-                cell.TakeState(data[i][j].IsAvailable);
-                cell.SkipState(data[i][j].IsAvailable);
+                cell.UserPerson(new MyUserM(data[i][j].UserPerson));
                 var jsonDate = data[i][j].TermDate.toString();
                 var date = new Date(parseInt(jsonDate.substr(6)));
                 cell.TermDate(date.getDate() + "." +
@@ -190,21 +180,14 @@ class TableVM{
             }
         }
         ko.applyBindings(this);
-        //this.showTerms0();
-        //this.showTerms1();
-        //this.showTerms2();
-        //this.showTerms3();
     }
-    public updateTermTable = (data: TermDTO[][]) => {
-        //console.log("data:\n",data);
+    public updateTermTable = (data: TermM[][]) => {
         for (var i = 0; i < data.length; i++) {
             for (var j = 0; j < data[0].length; j++) {
-                var cell = new TermCell();
+                var cell = new CellM();
                 cell.x = i;
                 cell.y = j;
-                cell.Owner(data[i][j].UserFullName);
-                cell.TakeState(data[i][j].IsAvailable);
-                cell.SkipState(data[i][j].IsAvailable);
+                cell.UserPerson(data[i][j].UserPerson);
                 var jsonDate = data[i][j].TermDate.toString();
                 var date = new Date(parseInt(jsonDate.substr(6)));
                 cell.TermDate(date.getDate() + "." +
@@ -217,11 +200,6 @@ class TableVM{
                 else if (i == 3) this.Terms3.push(cell);
             }
         }
-        //ko.applyBindings(this);
-        //this.showTerms0();
-        //this.showTerms1();
-        //this.showTerms2();
-        //this.showTerms3();
     }
     public updateTermArrays = (i_: number, j_: number) => {
         //console.log("clicked stuff:", i_, "|", j_);
@@ -233,7 +211,7 @@ class TableVM{
                 cell().x = i;
                 cell().y = j;
                 if (i == 0) {
-                    this.Terms0()[j].Owner(cell().Owner());
+                    this.Terms0()[j].UserPerson(cell().UserPerson());
                     this.Terms0()[j].SkipState(cell().SkipState());
                     this.Terms0()[j].TakeState(cell().SkipState());
                     this.Terms0()[j].TermDate(cell().TermDate());
@@ -242,7 +220,7 @@ class TableVM{
                     this.Terms0()[j].Group(cell().Group());
                 }
                 else if (i == 1) {
-                    this.Terms1()[j].Owner(cell().Owner());
+                    this.Terms1()[j].UserPerson(cell().UserPerson());
                     this.Terms1()[j].SkipState(cell().SkipState());
                     this.Terms1()[j].TakeState(cell().SkipState());
                     this.Terms1()[j].TermDate(cell().TermDate());
@@ -251,7 +229,7 @@ class TableVM{
                     this.Terms1()[j].Group(cell().Group());
                 }
                 else if (i == 2) {
-                    this.Terms2()[j].Owner(cell().Owner());
+                    this.Terms2()[j].UserPerson(cell().UserPerson());
                     this.Terms2()[j].SkipState(cell().SkipState());
                     this.Terms2()[j].TakeState(cell().SkipState());
                     this.Terms2()[j].TermDate(cell().TermDate());
@@ -260,7 +238,7 @@ class TableVM{
                     this.Terms2()[j].Group(cell().Group());
                 }
                 else if (i == 3) {
-                    this.Terms3()[j].Owner(cell().Owner());
+                    this.Terms3()[j].UserPerson(cell().UserPerson());
                     this.Terms3()[j].SkipState(cell().SkipState());
                     this.Terms3()[j].TakeState(cell().SkipState());
                     this.Terms3()[j].TermDate(cell().TermDate());
@@ -270,6 +248,7 @@ class TableVM{
                 }
             }
         }
+        console.log(this.Terms0()[0].UserPerson());
     }
     public updateValuesAfterSelect = () => {
         var selectStudy = $('#selectStudy').val();
@@ -355,50 +334,76 @@ class TableVM{
         }
     }
     //-------------------------------NAVIGATION END---------------------------------------------//
+    public test = () => {
+        this.Terms0()[0].UserPerson().Username("lalala");
+    }
+    public test2 = () => {
+        console.log(this.Terms0()[0].UserPerson().Username());
+        console.log(this.Terms0()[0].Group().UserPerson);//.Username());
+    }
 }
-
-class MyUserDTO {
+class MyUserM {
     public Id = ko.observable<number>(0);
-    public UserName = ko.observable<string>("");
+    public Username = ko.observable<string>("");
     public FullName = ko.observable<string>("");
     public Role = ko.observable<string>("");
-    constructor(myUser?: MyUserDTO) {
+    constructor(myUser?: any) {
         if (myUser) {
-            this.Id(myUser.Id());
-            this.UserName(myUser.UserName());
-            this.FullName(myUser.FullName());
-            this.Role(myUser.Role());
+            this.Id(myUser.Id);
+            this.Username(myUser.Username);
+            this.FullName(myUser.FullName);
+            this.Role(myUser.Role);
         }
     }
 }
-class TermDTO {
+class MyUserDTO {
+    public Id: number;
+    public Username: string;
+    public FullName: string;
+    public Role: string;
+}
+class TermM {
     public Id:number;
-    public IdCollegeCourse :number;
-    public IdUser:number;
-    public UserFullName :string;
+    public IdCollegeCourse: number;
+    public Course: CourseM;
+    public IdUser: number;
+    public UserPerson: MyUserM;
+    public IdGroup: number;
+    public Group: GroupM;    
     public TermDate: Date;
-    public IsAvailable: boolean;
-    public Group: GroupDTO;
-    constructor(myTerm?: TermDTO) {
+    constructor(myTerm?: TermM) {
         if (myTerm) {
             this.Id=myTerm.Id;
             this.IdCollegeCourse=myTerm.IdCollegeCourse;
             this.IdUser=myTerm.IdUser;
-            this.UserFullName=myTerm.UserFullName;
+            this.UserPerson = myTerm.UserPerson;
             this.TermDate = myTerm.TermDate;
-            this.IsAvailable = myTerm.IsAvailable;
             this.Group = myTerm.Group;
         }
     }
 }
-class TermCell {
+class CellM {
     public x :number;
     public y :number;
-    public Owner = ko.observable<string>("");
     public TakeState = ko.observable<boolean>(false);
     public SkipState = ko.observable<boolean>(true);
     public TermDate = ko.observable<string>();
-    public Group = ko.observable<GroupDTO>();
+    public Group = ko.observable<GroupM>();
+    public UserPerson = ko.observable<MyUserM>();
+    constructor(c?: CellM) {
+        if (c) {
+            this.x = c.x;
+            this.y = c.y;
+            this.TakeState(c.TakeState());
+            this.SkipState(c.SkipState());
+            this.TermDate(c.TermDate());
+            this.Group(c.Group());
+            this.UserPerson(c.UserPerson());
+        }
+        else {
+            this.UserPerson(new MyUserM());
+        }
+    }
 }
 class CourseDTO {
     public Id: number;
@@ -406,11 +411,19 @@ class CourseDTO {
     public Study: string;
     public Leader: string;
     public Asistant: string;
-    public TermT: TermDTO[][];    
+    public TermT: TermM[][];    
 }
-class GroupDTO {
-    public Id: number;
-    public Name: string;
-    public Owner: string;
+class CourseM {
+    public Id = ko.observable<number>();
+    public Name = ko.observable<string>();
+    public Study = ko.observable<string>();
+    public Leader = ko.observable<string>();
+    public Asistant = ko.observable<string>();
+    public TermT = ko.observable<TermM[][]>(); 
+}
+class GroupM {
+    public Id = ko.observable<number>();
+    public Name = ko.observable<string>();
+    public UserPerson = ko.observable<MyUserM>();
 }
 

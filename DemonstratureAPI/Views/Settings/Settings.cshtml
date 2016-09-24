@@ -5,40 +5,57 @@
 @{
     ViewBag.Title = "Settings";
 }
+<script src="~/Scripts/jquery-2.2.3.js"></script>
+<script src="~/Scripts/knockout-3.4.0.js"></script>
+<script src="~/Scripts/knockout.mapping-latest.js"></script>
 <script src="~/Scripts/Pages/Settings.js"></script>
 
 <div class="allSettings">
     <div class="change-settings-label">
         <label>Promijeni postavke:</label>
     </div>    
+    @*ADMIN*@
     <div class="adminSettings">
         <div class="change-settings-label">
             <label for="">Postavke administratora:</label>
         </div>
         <div class="row_s">
             <div class="cell_s">
-                <div class="courseSettings">
-                    <div class="identifier-big">
-                        <label>Dodaj kolegij</label><br />
-                    </div>
-                    <label class="identifier">Smjer:</label><br />
-                    <select name="" id=""></select><br />
-                    <label class="identifier">Naziv:</label><br />
+                <div class="userSettings">
+                    <label class="identifier-big">Dodaj / uredi korisnika</label>
+                    <label class="identifier">Odaberi demonstratora:</label><br />
+                    <select class="selecter_s" id="user_user_select"></select><br />
+                    <label class="identifier">Puno ime i prezime:</label><br />
                     <input class="input_s" type="text" /><br />
-                    <label class="identifier">Voditelj:</label><br />
+                    <label class="identifier">Korisničko ime:</label><br />
                     <input class="input_s" type="text" /><br />
-                    <label class="identifier">Asistent:</label><br />
-                    <input class="input_s" type="text" /><br /><br />
-                    <button class="saveSetting">Dodaj</button>
+                    <label class="identifier">Razina pristupa:</label><br />
+                    <select class="selecter_s" id="user_access_select">
+                        <option value="Demonstrator">Demonstrator</option>
+                        <option value="Demonstrator-moderator">Demonstrator/moderator</option>
+                        <option value="Asistent">Asistent</option>
+                    </select><br />
+                    <label class="identifier">Kolegiji:</label><br />
+                    <select class="selecter_s" id="user_courses_select2"></select><br /><br />
+                    <hr />
+                    <label class="identifier-big">Izmjena lozinke korisnika</label>
+                    <label class="identifier">Lozinka:</label><br />
+                    <input class="input_s" type="text" /><br />
+                    <label class="identifier">Lozinka opet:</label><br />
+                    <input class="input_s" type="text" /><br />
+                    <button class="saveSetting2">Spremi</button>
+                    <button class="deleteSetting">Obrisi</button>
                 </div>
             </div>
             <div class="cell_s">
                 <div class="courseSettings">
                     <div class="identifier-big">
-                        <label>Uredi kolegij</label><br />
+                        <label>Dodaj / uredi kolegij</label><br />
                     </div>
+                    <label class="identifier">Smjer:</label><br />
+                    <select class="selecter_s" id="course_study_select"></select><br />
                     <label class="identifier">Odaberi kolegij:</label><br />
-                    <select name="" id=""></select><br />
+                    <select class="selecter_s" id="course_course_select"></select><br />
                     <label class="identifier">Naziv:</label><br />
                     <input class="input_s" type="text" /><br />
                     <label class="identifier">Voditelj:</label><br />
@@ -49,37 +66,29 @@
                     <button class="deleteSetting">Obrisi</button>
                 </div>
             </div>
-        </div>
-        <div class="row_s">
             <div class="cell_s">
-                <div class="userSettings">
-                    <label class="identifier-big">Dodaj demonstratora</label>
-                    <label class="identifier">Puno ime i prezime:</label><br />
-                    <input class="input_s" type="text" /><br />
-                    <label class="identifier">Lozinka:</label><br />
-                    <input class="input_s" type="text" /><br />
-                    <label class="identifier">Lozinka opet:</label><br />
-                    <input class="input_s" type="text" /><br />
-                    <label class="identifier">Kolegiji:</label><br />
-                    <select name="" id=""></select><br /><br />
-                    <button class="saveSetting">Dodaj</button>
-                </div>
-            </div>
-            <div class="cell_s">
-                <div class="userSettings">
-                    <label class="identifier-big">Uredi demonstratora</label><br />
-                    <label class="identifier">Odaberi demonstratora:</label><br />
-                    <select name="" id=""></select><br />
-                    <label class="identifier">Puno ime:</label><br />
-                    <input class="input_s" type="text" /><br />
-                    <label class="identifier">Kolegiji:</label><br />
-                    <select name="" id=""></select><br /><br />
+                <div class="termSettings">
+                    <div class="identifier-big">
+                        <label>Dodaj / uredi termin</label><br />
+                    </div>
+                    <label class="identifier">Smjer:</label><br />
+                    <select class="selecter_s" id="term_study_select"></select><br />
+                    <label class="identifier">Odaberi kolegij:</label><br />
+                    <select class="selecter_s" id="term_course_select"></select><br />
+                    <label class="identifier">Odaberi termin:</label><br />
+                    <select class="selecter_s" id="term_term_select"></select><br />
+                    <label class="identifier">Datum:</label><br />
+                    <input class="input_s" type="text" /><br /> <br />
                     <button class="saveSetting2">Spremi</button>
                     <button class="deleteSetting">Obrisi</button>
                 </div>
             </div>
         </div>
     </div>
+
+
+
+    @*PASSWORD*@
     <div class="change-settings-label">
         <label for="">Postavke lozinke:</label>
     </div>

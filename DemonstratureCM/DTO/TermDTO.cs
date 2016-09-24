@@ -6,11 +6,12 @@ namespace DemonstratureCM.DTO
     {
         public int Id { get; set; }
         public int IdCollegeCourse { get; set; }
+        public CourseDTO Course { get; set; }
         public int IdUser { get; set; }
+        public MyUserDTO UserPerson { get; set; }
         public int IdGroup { get; set; }
         public GroupDTO Group { get; set; }
         public DateTime TermDate { get; set; }
         public bool IsAvailable { get; set; }
-        public string UserFullName { get; set; }
     }
 }
