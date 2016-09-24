@@ -12,10 +12,16 @@ namespace DemonstratureDB.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Table_1
+    public partial class TermT
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string somevalue { get; set; }
+        public int Id { get; set; }
+        public int CourseId { get; set; }
+        public int UserId { get; set; }
+        public int GroupId { get; set; }
+        public System.DateTime Date { get; set; }
+        public bool IsAvailable { get; set; }
+    
+        public virtual CourseT CourseT { get; set; }
+        public virtual UserT UserT { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DemonstratureBLL;
+using System.Web.Http;
 using System.Web.Mvc;
 
 namespace DemonstratureAPI.Controllers
@@ -11,12 +12,12 @@ namespace DemonstratureAPI.Controllers
             ViewBag.Title = "Table Page";
             return View();
         }
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         public ActionResult FirstAjax()
         {
             return Json("chamara", JsonRequestBehavior.AllowGet);
         }
-        [HttpGet]
+        [System.Web.Mvc.HttpGet]
         public ActionResult AllUsers()
         {
             var instance = new UserLogic();
@@ -25,7 +26,7 @@ namespace DemonstratureAPI.Controllers
             //return null;
         }
 
-        [HttpGet]
+        [System.Web.Mvc.HttpGet]
         public ActionResult AllTerms()
         {
             var instance = new TermLogic();
@@ -33,7 +34,7 @@ namespace DemonstratureAPI.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
         }
-        [HttpGet]
+        [System.Web.Mvc.HttpGet]
         public ActionResult AllCollegeCourses()
         {
             var instance = new CourseLogic();

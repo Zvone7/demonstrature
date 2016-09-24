@@ -25,6 +25,10 @@ namespace DemonstratureDB.Data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Table_1> Table_1 { get; set; }
+        public virtual DbSet<CourseT> CourseT { get; set; }
+        public virtual DbSet<GroupT> GroupT { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<TermT> TermT { get; set; }
+        public virtual DbSet<UserT> UserT { get; set; }
     }
 }

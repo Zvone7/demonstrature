@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using DemonstratureBLL.Mappings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,6 +11,11 @@ namespace DemonstratureAPI.Controllers
 {
     public class ValuesController : ApiController
     {
-        
+        //private IMapper Mapper;
+        //public ValuesController()
+        //{
+        //    AutoMapperConfiguration.RegisterMappings();
+        //    Mapper = AutoMapperConfiguration.Instance;
+        //}
     }
 }

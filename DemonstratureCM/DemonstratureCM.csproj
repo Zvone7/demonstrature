@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BM\CourseBM.cs" />
+    <Compile Include="BM\MyUserBM.cs" />
     <Compile Include="DTO\CourseDTO.cs" />
     <Compile Include="DTO\GroupDTO.cs" />
     <Compile Include="DTO\MyUserDTO.cs" />

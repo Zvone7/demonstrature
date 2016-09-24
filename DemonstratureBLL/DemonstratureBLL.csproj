@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="CourseLogic.cs" />
     <Compile Include="GroupLogic.cs" />
+    <Compile Include="Mappings\AutoMapperConfiguration.cs" />
+    <Compile Include="Mappings\AutoMapperProfiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TermLogic.cs" />
     <Compile Include="UserLogic.cs" />
