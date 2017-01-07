@@ -6,18 +6,15 @@
     ViewBag.Title = "Tablica demonstratura";
 }
 <script src="~/Scripts/jquery-2.2.3.js"></script>
-<script src="~/Scripts/knockout-3.4.0.js"></script>
-<script src="~/Scripts/knockout.mapping-latest.js"></script>
-<script src="~/Scripts/require.js"></script>
-@*<script data-main="~/../Scripts/main-config" src="~/Scripts/require.js"></script>*@
+@*<script src="~/Scripts/require.js"></script>*@
+<script src="~/Scripts/Cookies.js"></script>
 <script src="~/Scripts/Pages/Table.js"></script>
-<button data-bind="click: test">tipka</button>
-<button data-bind="click: test2">tipka2</button>
+@*<button onclick="test">tipka</button>*@
 <div class="rTable">
     <div class="rTableRow">
         <div class="leftNavigation"></div>
         <div class="upperNavigation">
-            <div class="arrowLeft" id="arrowLeft" data-bind="click: leftClicked, css:{'arrowLeftDisabled': disableLeft(), 'arrowLeft':!disableLeft()} ">
+            <div class="arrowLeft" id="arrowLeft">
                 <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
             </div>
         </div>
@@ -26,14 +23,14 @@
         <div class="upperNavigation"></div>
         <div class="upperNavigation"></div>
         <div class="upperNavigation">
-            <div class="arrowRight" id="arrowRight" data-bind="click: rightClicked, css:{'arrowRightDisabled': disableRight(), 'arrowRight':!disableRight()} ">
+            <div class="arrowRight" id="arrowRight">
                 <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
             </div>
         </div>
     </div>
     <div class="rTableRow">
         <div class="leftNavigation">
-            <div class="arrowUp" id="arrowUp" data-bind="click: upClicked, css:{'arrowUpDisabled': disableUp(), 'arrowUp':!disableUp()} ">
+            <div class="arrowUp" id="arrowUp">
                 <i class="fa fa-arrow-up fa-lg" aria-hidden="true"></i>
             </div>
         </div>
@@ -45,56 +42,54 @@
             </select>
         </div>
         <div class="rTableHeading">
-            <label class="label_t" id="Group1" data-bind="text: Terms0()[0].Group().Name">PE-LV1</label><br>
-            <label class="label_t" id="demonstrator1" data-bind="text: Terms0()[0].Group().Owner.FullName">demonstrator</label>
+            <label class="label_t" id="groupName0" >PE-LV1</label><br>
+            <label class="label_t" id="groupOwner0" >demonstrator</label><br>
         </div>
         <div class="rTableHeading">
-            <label class="label_t" id="Group2" data-bind="text: Terms0()[1].Group().Name">PE-LV1</label><br>
-            <label class="label_t" id="demonstrator2" data-bind="text: Terms0()[1].Group().Owner.FullName">demonstrator</label>
+            <label class="label_t" id="groupName1" >PE-LV1</label><br>
+            <label class="label_t" id="groupOwner1" >demonstrator</label><br>
         </div>
         <div class="rTableHeading">
-            <label class="label_t" id="Group3" data-bind="text: Terms0()[2].Group().Name">PE-LV1</label><br>
-            <label class="label_t" id="demonstrator3" data-bind="text: Terms0()[2].Group().Owner.FullName">demonstrator</label>
+            <label class="label_t" id="groupName2" >PE-LV1</label><br>
+            <label class="label_t" id="groupOwner2" >demonstrator</label><br>
         </div>
         <div class="rTableHeading">
-            <label class="label_t" id="Group4" data-bind="text: Terms0()[3].Group().Name">PE-LV1</label><br>
-            <label class="label_t" id="demonstrator4" data-bind="text: Terms0()[3].Group().Owner.FullName">demonstrator</label>
+            <label class="label_t" id="groupName3"  >PE-LV1</label><br>
+            <label class="label_t" id="groupOwner3" >demonstrator</label><br>
         </div>
         <div class="rTableHeading">
-            <label class="label_t" id="Group5" data-bind="text: Terms0()[4].Group().Name">PE-LV1</label><br>
-            <label class="label_t" id="demonstrator5" data-bind="text: Terms0()[4].Group().Owner.FullName">demonstrator</label>
+            <label class="label_t" id="Group5"  >PE-LV1</label><br>
+            <label class="label_t" id="groupOwner4" >demonstrator</label><br>
         </div>
     </div>
     <div class="rTableRow">
         <div class="leftNavigation"></div>
         <div class="firstColumn">
-            <label class="label_t" id="date1" data-bind="text:Terms0()[0].TermDate">datum</label>
+            <label class="label_t" id="date0">datum</label>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms0()[0].UserPerson().FullName">demonstrator</label><br>
-            <button class="tableButton takeTerm" data-bind="css: {'takeTerm_disabled': Terms0()[0].UserPerson().Username!=Terms0()[0].Group().Owner.Username, 
-                                                                  'takeTerm': Terms0()[0].UserPerson().Username==Terms0()[0].Group().Owner.Username}"
-                >Uzmi</button>
+            <label class="label_t demoName" id="termOwner00" >demonstrator</label><br>
+            <button class="tableButton takeTerm">Uzmi</button>
             <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search11" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms0()[1].UserPerson().FullName">demonstrator</label><br>
-            <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
+            <label class="label_t demoName" id="termOwner01" >demonstrator</label><br>
+            <button class="tableButton takeTerm">Uzmi</button><button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search12" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms0()[2].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner02" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search13" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms0()[3].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner03" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search14" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms0()[4].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner04">demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search15" type="text" placeholder="search" /><br>
         </div>
@@ -102,30 +97,30 @@
     <div class="rTableRow">
         <div class="leftNavigation"></div>
         <div class="firstColumn">
-            <label class="label_t" data-bind="text:Terms1()[0].TermDate">datum</label>
+            <label class="label_t" id="date1">datum</label>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms1()[0].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner10" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search21" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms1()[1].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner11" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search22" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms1()[2].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner12" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search23" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms1()[3].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner13" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search24" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms1()[4].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner14" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search25" type="text" placeholder="search" /><br>
         </div>
@@ -133,30 +128,30 @@
     <div class="rTableRow">
         <div class="leftNavigation"></div>
         <div class="firstColumn">
-            <label class="label_t" data-bind="text:Terms2()[0].TermDate">datum</label>
+            <label class="label_t" id="date2">datum</label>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms2()[0].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner20" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search31" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms2()[1].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner21" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search32" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms2()[2].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner22" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search33" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms2()[3].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner23" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search34" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms2()[4].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner24" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search35" type="text" placeholder="search" /><br>
         </div>
@@ -164,36 +159,36 @@
     <div class="rTableRow">
         <div class="leftNavigation">
             <div>
-                <div class="arrowDown" data-bind="click: downClicked, css:{'arrowDownDisabled': disableDown(), 'arrowDown':!disableDown()} ">
+                <div class="arrowDown" id="arrowDown">
                     <i class="fa fa-arrow-down fa-lg" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
         <div class="firstColumn">
-            <label class="label_t" data-bind="text:Terms3()[0].TermDate">datum</label>
+            <label class="label_t" id="date3">datum</label>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms3()[0].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner30" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search41" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms3()[1].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner31">demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search42" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms3()[2].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner32" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search43" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms3()[3].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner33" >demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search44" type="text" placeholder="search" /><br>
         </div>
         <div class="rTableCell">
-            <label class="label_t demoName" data-bind="text:Terms3()[4].UserPerson().FullName">demonstrator</label><br>
+            <label class="label_t demoName" id="termOwner34">demonstrator</label><br>
             <button class="tableButton takeTerm">Uzmi</button> <button class="tableButton skipTerm">Preskoči</button><br>
             <input class="search-student" id="search45" type="text" placeholder="search" /><br>
         </div>

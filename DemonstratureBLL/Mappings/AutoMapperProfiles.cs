@@ -16,8 +16,12 @@ namespace DemonstratureBLL.Mappings
         [Obsolete]
         protected override void Configure()
         {
-            //CreateMap<Weeks, WeekDTO>();
             CreateMap<UserT, MyUserDTO>().ReverseMap();
+            CreateMap<MyUserWithPassDTO, UserT>();
+            CreateMap<CourseT, CourseDTO>().ReverseMap();
+            CreateMap<CourseUserT, CourseUserDTO>().ReverseMap();
+            CreateMap<GroupT, GroupDTO>().ReverseMap();
+            CreateMap<TermT, TermDTO>().ReverseMap();
         }
     }
 }

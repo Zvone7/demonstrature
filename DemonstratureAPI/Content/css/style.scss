@@ -32,6 +32,34 @@ body {
    margin: 70px 0 0 0px;
    padding: 0 0 0 0;
 }
+.intro_s{
+    text-align:center;
+    align-content:center;
+    position:absolute;
+    display:marker;
+    margin-left:calc(50% - 150px);
+    margin-top:calc(10% - 50px);
+}
+.red_box{
+    background-color:red;
+    padding: 10px;
+}
+.blue_box{
+    background-color:blue;
+    padding: 10px;
+}
+.green_box{
+    background-color:green;
+    padding: 10px;
+}
+.yellow_box{
+    background-color:yellow;
+    padding: 10px;
+}
+.white_box{
+    background-color:white;
+    padding: 10px;
+}
 //------------------------------------------------------body-------------------------------------------------------//
 //-----------------------------------------------------navbar------------------------------------------------------//
 .myNavbar{
@@ -46,25 +74,49 @@ body {
    padding: 0;
    overflow: hidden;
 }
+.myLi{
+}
+a:-webkit-any-link{
+    text-decoration:none;
+    color:white;
+    cursor:default;
+    &:hover{
+        background-color:red;
+        text-decoration:underline;
+    }
+}
 .tableLi{
-    float:left;
+    position:absolute;
+    float:none;
+    padding-left:0px;
     font-size: 25px;
 }
 .settingLi{
+    /*position:absolute;*/
+    float:none;
+    padding-left:calc(100% - 175px);
     font-size: 20px;
-    float:right;
-}
-.settingsDiv{
-    color:$myHeaderTextColor;
-    //padding: 25px calc(100%-20px) 0 0;
-    padding-top: 25px;
-    padding-right: 70px;
-    padding-left: 0px;
-    padding-bottom:0;
 }
 .tableDiv{
     color:$myHeaderTextColor;
     margin:20px 0 0 100px;
+}
+.settingsDiv{
+    text-decoration:none;
+    color:$myHeaderTextColor;
+    //padding: 25px calc(100%-20px) 0 0;
+    padding-top: 15px;
+    padding-right: 70px;
+    padding-left: 0px;
+    padding-bottom:0;
+}
+.loginDiv{
+    color:$myHeaderTextColor;
+    //padding: 25px calc(100%-20px) 0 0;
+    /*padding-top: 25px;*/
+    padding-right: 70px;
+    padding-left: 0px;
+    padding-bottom:0;
 }
 //-----------------------------------------------------navbar------------------------------------------------------//
 //------------------------------------------------------table------------------------------------------------------//
@@ -139,10 +191,12 @@ body {
         color:$myHeaderTextColor;
     }
     &.univStudies{
-
+        font-size:30px;
+        width:250px;
     }
     &.univCourse{
-
+        font-size:30px;
+        width:250px;
     }
 }
 .selecter_s{
@@ -151,7 +205,8 @@ body {
     color: $placeholderColor;
     border:1px solid $myHeaderBorderColor;
     outline:none;
-    width: 135px;
+    width: 200px;
+    font-weight:bold;
     option {
         background: darken($myCellColor,2%);
         color:$placeholderColor;
@@ -294,6 +349,20 @@ body {
   padding-top:3px;
   font-size:14px;
 }
+.identifier-bold{
+  color:white;
+  padding-top:3px;
+  padding-left:5px;
+  font-size:18px;
+  font-weight:bold;
+}
+.identifier-small{
+  color:#ddd;
+  padding-top:3px;
+  padding-left:31px;
+  font-size:18px;
+  font-style:italic;
+}
 .identifier-big{
   color:ghostwhite;
   font-size:21px;
@@ -304,8 +373,28 @@ body {
 }
 //--------------------------------------------------------labels---------------------------------------------------//
 //--------------------------------------------------------input----------------------------------------------------//
+input{
+    &:hover{
+        cursor:default;
+    }
+}
 .input_s{
   margin: 5px 0 2px 0;
+  padding-left:3px;
+  width: 199px;
+  border: 1px solid $myCellColor;
+  background: $myCellColor;
+  border-radius:2px;
+  font-weight: 700;
+  outline:none;
+  &:hover{
+    background-color: darken($myCellColor,10%);    
+  }
+}
+.input_login{
+  margin: 5px 0 2px 0;
+  padding-left:3px;
+  text-align:center;
   width: 199px;
   border: 1px solid $myCellColor;
   background: $myCellColor;
@@ -365,6 +454,7 @@ body {
   .adminSettings{
     //margin-top:50px;
     //margin-left:0px;
+    visibility:collapse;
     .courseSettings{
       padding:10px;
       border: 1px solid white; 
@@ -374,6 +464,11 @@ body {
       padding:10px;
       border: 1px solid white; 
       border-radius: 5px;   
+    }
+    .groupSettings{
+      padding:10px;
+      border: 1px solid white; 
+      border-radius: 5px;
     }
     .termSettings{
       padding:10px;
@@ -388,6 +483,7 @@ body {
   font-weight: 700;
   padding: 7px 21px;
   width: 199px;
+  height: 35px;
   text-align: center;
   text-decoration: none;
   border-radius: 2px;
@@ -414,4 +510,38 @@ body {
     background-color: darken(#900,10%);    
   }
 }
+.loginPosition{
+    text-align:center;
+    align-content:center;
+    position:absolute;
+    margin-left:calc(50% - 200px);
+    margin-top: calc(25% - 50px);
+}
+.loginForm{
+    border:1px solid white;
+    border-radius:5px;
+    padding:20px;
+}
 //--------------------------------------------------------forms----------------------------------------------------//
+//------------------------------------------------------checkboxes-------------------------------------------------//
+.checkbox1{    
+    -webkit-appearance: none;
+    width:20px;
+    height:20px;
+    background-color: $myBackgroundColor;
+	border: 1px solid #fff;
+	border-radius: 13px;
+    vertical-align:middle;
+    cursor:pointer;
+    color:red;
+    outline:none;
+    &:checked{
+	    background-color: $myCellColor;
+	    border: 1px solid #fff;
+	    color: #99a1a7;
+    }
+    &:hover{
+	    background-color: lighten($myBackgroundColor,20%);
+    }
+}
+//------------------------------------------------------checkboxes-------------------------------------------------//

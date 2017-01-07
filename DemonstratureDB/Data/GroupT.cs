@@ -14,8 +14,20 @@ namespace DemonstratureDB.Data
     
     public partial class GroupT
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public GroupT()
+        {
+            this.TermT = new HashSet<TermT>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Owner { get; set; }
+        public int CourseId { get; set; }
+        public Nullable<int> OwnerId { get; set; }
+    
+        public virtual CourseT CourseT { get; set; }
+        public virtual UserT UserT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TermT> TermT { get; set; }
     }
 }

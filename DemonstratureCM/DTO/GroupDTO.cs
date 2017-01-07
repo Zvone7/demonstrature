@@ -10,7 +10,7 @@ namespace DemonstratureCM.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public MyUserDTO Owner { get; set; }
-
+        public int OwnerId { get; set; }
+        public int CourseId { get; set; }
     }
 }

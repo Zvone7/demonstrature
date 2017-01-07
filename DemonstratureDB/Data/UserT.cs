@@ -17,16 +17,23 @@ namespace DemonstratureDB.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public UserT()
         {
+            this.CourseUserT = new HashSet<CourseUserT>();
+            this.GroupT = new HashSet<GroupT>();
             this.TermT = new HashSet<TermT>();
         }
     
         public int Id { get; set; }
         public string Username { get; set; }
-        public string FullName { get; set; }
+        public string Name { get; set; }
+        public string LastName { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
         public bool IsActive { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CourseUserT> CourseUserT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GroupT> GroupT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TermT> TermT { get; set; }
     }

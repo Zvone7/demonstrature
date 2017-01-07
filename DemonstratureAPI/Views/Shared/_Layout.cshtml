@@ -13,20 +13,31 @@
 </head>
 <body>
     <div class="myNavbar">
-        <ul class="myUl">
+        <ul id="myUl" class="myUl">
             <li class="myLi tableLi">
-                <a href="@Url.Action("Table", "Table")">
-                    <div class="tableDiv">
-                        <i class="fa fa-table" aria-hidden="true"></i> Tablica
-                    </div>
-                </a>
+                <div class="">
+                    <a href="@Url.Action("Table", "Table")">
+                        <div class="tableDiv">
+                            <i class="fa fa-table" aria-hidden="true"></i> Tablica
+                        </div>
+                    </a>
+                </div>
             </li>
             <li class="myLi settingLi">
-                <a href="@Url.Action("Settings", "Settings")">
-                    <div class="settingsDiv">
-                        <i class="fa fa-cog" aria-hidden="true"></i> Settings
-                    </div>
-                </a>
+                <div class="">
+                    <a href="@Url.Action("Settings", "Settings")">
+                        <div class="settingsDiv">
+                            <i class="fa fa-cog" aria-hidden="true"></i> Postavke
+                        </div>
+                    </a>
+                </div>
+                <div class="">
+                    <a href="@Url.Action("Login", "Login")">
+                        <div class="loginDiv">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i> Odjava
+                        </div>
+                    </a>
+                </div>
             </li>
         </ul>
     </div>

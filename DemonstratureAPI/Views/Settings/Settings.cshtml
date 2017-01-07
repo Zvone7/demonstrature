@@ -5,17 +5,41 @@
 @{
     ViewBag.Title = "Settings";
 }
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="~/Scripts/jquery-2.2.3.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="~/Scripts/knockout-3.4.0.js"></script>
 <script src="~/Scripts/knockout.mapping-latest.js"></script>
 <script src="~/Scripts/Pages/Settings.js"></script>
+
 
 <div class="allSettings">
     <div class="change-settings-label">
         <label>Promijeni postavke:</label>
     </div>    
+    @*PASSWORD*@
+    <div class="change-settings-label">
+        <label for="">Postavke lozinke:</label>
+    </div>
+    <div class="cell_s">
+        <div class="passwordSetting">
+            <div>
+                <label class="identifier">Stara lozinka:</label><br>
+                <input id="old_password" class="input_s" type="password" /><br /><hr />
+            </div>
+            <div>
+                <label class="identifier">Nova lozinka:</label><br>
+                <input id="password" class="input_s" type="password" />
+            </div>
+            <div>
+                <label class="identifier">Nova lozinka opet:</label><br>
+                <input id="password_again" class="input_s" type="password" />
+            </div><br>
+            <button id="password_save" class="saveSetting">Pohrani promjene</button>
+        </div>
+    </div>
     @*ADMIN*@
-    <div class="adminSettings">
+    <div id="adminSettings" class="adminSettings">
         <div class="change-settings-label">
             <label for="">Postavke administratora:</label>
         </div>
@@ -23,29 +47,32 @@
             <div class="cell_s">
                 <div class="userSettings">
                     <label class="identifier-big">Dodaj / uredi korisnika</label>
+                    <br /><br />
                     <label class="identifier">Odaberi korisnika:</label><br />
                     <select class="selecter_s" id="user_user_select"></select><br />
-                    <label class="identifier">Puno ime i prezime:</label><br />
-                    <input class="input_s" data-bind="value: UserData().FullName"/><br />
+                    <label class="identifier">Prezime:</label><br />
+                    <input id="user_last_name" class="input_s" /><br />
+                    <label class="identifier">Ime:</label><br />
+                    <input id="user_name" class="input_s" /><br />
                     <label class="identifier">Korisničko ime:</label><br />
-                    <input class="input_s" type="text" data-bind="value: UserData().Username()"/><br />
+                    <input id="user_username" class="input_s" type="text"/><br />
                     <label class="identifier">Razina pristupa:</label><br />
-                    <select class="selecter_s" id="user_access_select">
+                    <select class="selecter_s" id="user_select_role">
+                        <option value="Administrator">Administrator</option>
                         <option value="Demonstrator">Demonstrator</option>
-                        <option value="Demonstrator-moderator">Demonstrator/moderator</option>
-                        <option value="Asistent">Asistent</option>
                     </select><br />
-                    <label class="identifier">Kolegiji:</label><br />
-                    <select class="selecter_s" id="user_courses_select2"></select><br /><br />
-                    <button class="saveSetting2">Spremi</button>
-                    <button class="deleteSetting">Obrisi</button>
                     <hr />
-                    <label class="identifier-big">Izmjena lozinke korisnika</label>
+                    <label class="identifier-big">Lozinka korisnika</label><br />
+                    <label class="identifier">(Ostaviti prazno ako se ne mijenja)</label><br /><br />
                     <label class="identifier">Lozinka:</label><br />
-                    <input class="input_s" type="text" /><br />
-                    <label class="identifier">Lozinka opet:</label><br />
-                    <input class="input_s" type="text" /><br /><br />
-                    <button class="saveSetting">Pohrani promjene</button>
+                    <input id="user_password" class="input_s" type="password" /><br />
+                    <label class="identifier">Ponovi lozinku:</label><br />
+                    <input id="user_password_again" class="input_s" type="password" /><br />
+                    <hr />
+                    <label class="identifier-big">Kolegiji</label><br /><br />
+                    <p id="user_user_course"></p>                    
+                    <button id="user_save" class="saveSetting2">Spremi</button>
+                    <button id="user_delete" class="deleteSetting">Obriši</button>                    
                 </div>
             </div>
             <div class="cell_s">
@@ -58,13 +85,32 @@
                     <label class="identifier">Odaberi kolegij:</label><br />
                     <select class="selecter_s" id="course_course_select"></select><br />
                     <label class="identifier">Naziv:</label><br />
-                    <input class="input_s" type="text" /><br />
-                    <label class="identifier">Voditelj:</label><br />
-                    <input class="input_s" type="text" /><br />
+                    <input id="course_name" class="input_s" type="text" /><br />
+                    <label class="identifier">Profesor:</label><br />
+                    <input id="course_prof" class="input_s" type="text" /><br />
                     <label class="identifier">Asistent:</label><br />
-                    <input class="input_s" type="text" /><br /><br />
-                    <button class="saveSetting2">Spremi</button>
-                    <button class="deleteSetting">Obrisi</button>
+                    <input id="course_asis" class="input_s" type="text" /><br /><br />
+                    <button id="course_save" class="saveSetting2">Spremi</button>
+                    <button id="course_delete" class="deleteSetting">Obriši</button>
+                </div>
+            </div>
+            <div class="cell_s">
+                <div class="groupSettings">
+                    <div class="identifier-big">
+                        <label>Dodaj / uredi grupu</label><br />
+                    </div>
+                    <label class="identifier">Smjer:</label><br />
+                    <select class="selecter_s" id="group_study_select"></select><br />
+                    <label class="identifier">Odaberi kolegij:</label><br />
+                    <select class="selecter_s" id="group_course_select"></select><br />
+                    <label class="identifier">Odaberi grupu:</label><br />
+                    <select class="selecter_s" id="group_group_select"></select><br />
+                    <label class="identifier">Odaberi vlasnika grupe:</label><br />
+                    <select class="selecter_s" id="group_owner_select"></select><br />
+                    <label class="identifier">Naziv grupe:</label><br />
+                    <input id="group_name" class="input_s" type="text" /><br /> <br />
+                    <button id="group_save" class="saveSetting2">Spremi</button>
+                    <button id="group_delete" class="deleteSetting">Obriši</button>
                 </div>
             </div>
             <div class="cell_s">
@@ -76,38 +122,16 @@
                     <select class="selecter_s" id="term_study_select"></select><br />
                     <label class="identifier">Odaberi kolegij:</label><br />
                     <select class="selecter_s" id="term_course_select"></select><br />
+                    <label class="identifier">Odaberi grupu:</label><br />
+                    <select class="selecter_s" id="term_group_select"></select><br />
                     <label class="identifier">Odaberi termin:</label><br />
                     <select class="selecter_s" id="term_term_select"></select><br />
                     <label class="identifier">Datum:</label><br />
-                    <input class="input_s" type="text" /><br /> <br />
-                    <button class="saveSetting2">Spremi</button>
-                    <button class="deleteSetting">Obrisi</button>
+                    <input id="term_date" class="input_s" type="text" /><br /> <br />
+                    <button id="term_save" class="saveSetting2">Spremi</button>
+                    <button id="term_delete" class="deleteSetting">Obriši</button>
                 </div>
             </div>
-        </div>
-    </div>
-
-
-
-    @*PASSWORD*@
-    <div class="change-settings-label">
-        <label for="">Postavke lozinke:</label>
-    </div>
-    <div class="cell_s">
-        <div class="passwordSetting">
-            <div>
-                <label class="identifier">Stara lozinka:</label><br>
-                <input class="input_s" type="text" /><br /><hr />
-            </div>
-            <div>
-                <label class="identifier">Nova lozinka:</label><br>
-                <input class="input_s" type="text" />
-            </div>
-            <div>
-                <label class="identifier">Nova lozinka opet:</label><br>
-                <input class="input_s" type="text" />
-            </div><br>
-            <button class="saveSetting">Pohrani promjene</button>
         </div>
     </div>
 </div>

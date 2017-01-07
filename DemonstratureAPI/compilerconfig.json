@@ -10,5 +10,9 @@
   {
     "outputFile": "Content/css/table.css",
     "inputFile": "Content/css/table.scss"
+  },
+  {
+    "outputFile": "Scripts/Cookies.es5.js",
+    "inputFile": "Scripts/Cookies.js"
   }
 ]

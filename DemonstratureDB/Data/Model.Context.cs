@@ -26,8 +26,8 @@ namespace DemonstratureDB.Data
         }
     
         public virtual DbSet<CourseT> CourseT { get; set; }
+        public virtual DbSet<CourseUserT> CourseUserT { get; set; }
         public virtual DbSet<GroupT> GroupT { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TermT> TermT { get; set; }
         public virtual DbSet<UserT> UserT { get; set; }
     }

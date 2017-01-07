@@ -12,12 +12,13 @@ namespace DemonstratureDB.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagrams
+    public partial class CourseUserT
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int Id { get; set; }
+        public int CourseId { get; set; }
+        public int UserId { get; set; }
+    
+        public virtual CourseT CourseT { get; set; }
+        public virtual UserT UserT { get; set; }
     }
 }

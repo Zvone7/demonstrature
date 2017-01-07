@@ -17,23 +17,8 @@ namespace DemonstratureAPI.Controllers
         {
             return Json("chamara", JsonRequestBehavior.AllowGet);
         }
-        [System.Web.Mvc.HttpGet]
-        public ActionResult AllUsers()
-        {
-            var instance = new UserLogic();
-            var result = instance.GetAllUsers();
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
-        }
-
-        [System.Web.Mvc.HttpGet]
-        public ActionResult AllTerms()
-        {
-            var instance = new TermLogic();
-            var result = instance.GetAllTerms(5,5);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
-        }
+        
+        
         [System.Web.Mvc.HttpGet]
         public ActionResult AllCollegeCourses()
         {

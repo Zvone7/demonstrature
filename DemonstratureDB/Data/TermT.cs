@@ -16,12 +16,12 @@ namespace DemonstratureDB.Data
     {
         public int Id { get; set; }
         public int CourseId { get; set; }
-        public int UserId { get; set; }
+        public Nullable<int> UserId { get; set; }
         public int GroupId { get; set; }
-        public System.DateTime Date { get; set; }
-        public bool IsAvailable { get; set; }
+        public Nullable<System.DateTime> TermDate { get; set; }
     
         public virtual CourseT CourseT { get; set; }
+        public virtual GroupT GroupT { get; set; }
         public virtual UserT UserT { get; set; }
     }
 }
