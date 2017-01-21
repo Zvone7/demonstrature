@@ -15,6 +15,7 @@ $disableColor: #595959;
 $myHeaderTextColor: #e6e6ff;
 $myFirstColumnTextColor: #e6e6ff;
 $placeholderColor: #000;
+$buttonTextSave: palegreen;
 //--------------------------------------------------text colors----------------------------------------------------//
 //--------------------------------------------------border colors--------------------------------------------------//
 $myBorderColor: #333333;
@@ -24,49 +25,89 @@ $myFirstColumnBorderColor: #333333;
 $arrowBorderColor: #0d0d0d;
 $searchBorder: #333333;
 //--------------------------------------------------border colors--------------------------------------------------//
+//----------------------------------------------------font sizes---------------------------------------------------//
+$fontPcXL: 31px;
+$fontPcL: 27px;
+$fontPcM: 23px;
+$fontPcS: 19px;
+$fontPcXS: 15px;
+//----------------------------------------------------font sizes---------------------------------------------------//
 //------------------------------------------------------body-------------------------------------------------------//
 body {
    font-family: 'Lato', sans-serif;
-   font-size: 15px;
+   font-size: $fontPcS;
    background-color: $myBackgroundColor;
-   margin: 70px 0 0 0px;
+   margin: 100px 0 0 0px;
    padding: 0 0 0 0;
 }
-.intro_s{
-    text-align:center;
-    align-content:center;
-    position:absolute;
-    display:marker;
-    margin-left:calc(50% - 150px);
-    margin-top:calc(10% - 50px);
+.introPosition{    
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;    
+    margin-top:5%;
+    padding: 0;
+    width:100%;
+    .lower{
+        margin-top:0;
+    }
+    .introLogo{
+        top:0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align:center;
+        /*margin: auto;*/
+        .logoImg{            
+            height: 150px;
+            &:hover{
+            cursor: pointer;
+            }
+        }
+    }
+    .introText{
+        color:ghostwhite;
+        font-size:$fontPcM;
+        text-align:center;
+        padding-top:20px;
+        &.big{
+            font-size:$fontPcXL;
+            font-weight:bold;
+        }
+        &.small{
+            font-size:$fontPcXS;
+        }
+    }
 }
-.red_box{
-    background-color:red;
-    padding: 10px;
-}
-.blue_box{
-    background-color:blue;
-    padding: 10px;
-}
-.green_box{
-    background-color:green;
-    padding: 10px;
-}
-.yellow_box{
-    background-color:yellow;
-    padding: 10px;
-}
-.white_box{
-    background-color:white;
-    padding: 10px;
+.loginPosition{
+    margin-top: 40px;
+    .loginForm{
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto; 
+        border:1px solid white;
+        border-radius:15px;
+        padding:20px;
+        width:200px;
+    }
+    .identifier-big{
+      color:whitesmoke;
+      font-size:$fontPcM;
+      font-weight:bold;
+      padding-bottom:5px;
+      text-align: center;
+    }
 }
 //------------------------------------------------------body-------------------------------------------------------//
 //-----------------------------------------------------navbar------------------------------------------------------//
 .myNavbar{
    background-color: $headerColor;
    width: 100%;
-   height: 80px;
-   margin: -69px 0 0 0;
+   height: 100px;
+   margin: -100px 0 0 0;
 }
 .myUl{
    list-style-type: none;
@@ -89,17 +130,19 @@ a:-webkit-any-link{
     position:absolute;
     float:none;
     padding-left:0px;
-    font-size: 25px;
+    font-size: $fontPcM;
 }
 .settingLi{
-    /*position:absolute;*/
-    float:none;
-    padding-left:calc(100% - 175px);
-    font-size: 20px;
+    margin-left:90%;
+    width:300px;
+    /*float:none;*/
+    /*padding-left:calc(100% - 175px);*/
+    font-size: $fontPcS;
 }
 .tableDiv{
     color:$myHeaderTextColor;
     margin:20px 0 0 100px;
+    font-size:1.5*$fontPcXL;
 }
 .settingsDiv{
     text-decoration:none;
@@ -108,7 +151,8 @@ a:-webkit-any-link{
     padding-top: 15px;
     padding-right: 70px;
     padding-left: 0px;
-    padding-bottom:0;
+    padding-bottom:5px;
+    font-size:$fontPcL;
 }
 .loginDiv{
     color:$myHeaderTextColor;
@@ -117,6 +161,7 @@ a:-webkit-any-link{
     padding-right: 70px;
     padding-left: 0px;
     padding-bottom:0;
+    font-size:$fontPcM;
 }
 //-----------------------------------------------------navbar------------------------------------------------------//
 //------------------------------------------------------table------------------------------------------------------//
@@ -191,11 +236,11 @@ a:-webkit-any-link{
         color:$myHeaderTextColor;
     }
     &.univStudies{
-        font-size:30px;
+        font-size:$fontPcM;
         width:250px;
     }
     &.univCourse{
-        font-size:30px;
+        font-size:$fontPcM;
         width:250px;
     }
 }
@@ -227,14 +272,18 @@ a:-webkit-any-link{
   line-height:1;
   vertical-align: top;
 }
+.table-cell{
+    background-color:red;
+    height:20%;
+}
 //------------------------------------------------------table------------------------------------------------------//
 //--------------------------------------------------navigation buttons---------------------------------------------//
 .arrow{
    background-color: $myCellColor;
    border: 2px solid $arrowBorderColor;
-   border-radius: 10px;
-   font-size: 20px;
-   padding: 10px;
+   border-radius: 25px;
+   font-size: $fontPcXL;
+   padding: 25px;
    position: absolute;
    vertical-align: middle;
    transition: all .3s ease;
@@ -245,14 +294,14 @@ a:-webkit-any-link{
 .arrowLeft{
    @extend .arrow;
    position: absolute;
-   margin: -10px 45px 0 77px;
+   margin: -30px 45px 0 117px;
    .fa-arrow-left{      
     }
    }
 .arrowLeftDisabled{
    @extend .arrow;
    position: absolute;
-   margin: -10px 45px 0 77px;
+   margin: -30px 45px 0 117px;
    background-color:$disableColor;
    &:hover{
       transform:scale(1);
@@ -261,14 +310,14 @@ a:-webkit-any-link{
 .arrowRight{
    @extend .arrow;
    position: absolute;
-   margin: -10px 15px 0 95px;   
+   margin: -30px 45px 0 157px;   
    .fa-arrow-right{         
    }
 }
 .arrowRightDisabled{
    @extend .arrow;
    position: absolute;
-   margin: -10px 15px 0 95px; 
+   margin: -30px 45px 0 157px;   
    background-color:$disableColor;
    &:hover{
       transform:scale(1);
@@ -276,14 +325,14 @@ a:-webkit-any-link{
 }
 .arrowUp{
    @extend .arrow;
-   margin: 10px 0 0 -55px;
+   margin: 10px 0px 0px -75px;
    .fa-arrow-up{     
    }
 }
 .arrowUpDisabled{
    @extend .arrow;
    position: absolute;
-   margin: 10px 0 0 -55px;
+   margin: 10px 0px 0px -75px;
    background-color:$disableColor;
    &:hover{
       transform:scale(1);
@@ -291,7 +340,7 @@ a:-webkit-any-link{
 }
 .arrowDown{
    @extend .arrow;
-   margin: 35px 0 0 -55px;
+   margin: 85px 0 0 -75px;
    .fa-arrow-down{  
       padding: 0 0 0 0;
       margin: 0 0 0 0;
@@ -300,7 +349,7 @@ a:-webkit-any-link{
 .arrowDownDisabled{
    @extend .arrow;
    position: absolute;
-   margin: 35px 0 0 -55px;
+   margin: 85px 0 0 -75px;
    background-color:$disableColor;
    &:hover{
       transform:scale(1);
@@ -312,34 +361,46 @@ a:-webkit-any-link{
    background-color: lighten($searchColor,7%);
    border:1px solid $searchBorder;
    border-radius: 3px;
-   width: 130px;
-   margin: 0 0;
+   width: 304px;
+   margin: -9px 0 0 0;
    outline: none;
    padding: 2px;
+   font-size: $fontPcS;
 }
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color: $placeholderColor;
 }
 //--------------------------------------------------------search---------------------------------------------------//
 //--------------------------------------------------------labels---------------------------------------------------//
-.demoName{
-   padding: 1px 22px;
-   margin: 0 15px;
-   font-weight: bolder;
-   background-color: $demoNameColor;
-   border: 2px solid $searchBorder;
-   border-radius: 3px;
-   width: 130px;
-}
 .label_t {
    //border: 1px solid #bbb;
    padding: 1px 6px;
    margin: 5px 15px;
+   font-size:22px;   
+   &.groupName{
+       font-size:$fontPcXL;
+   }
+   &.groupOwner{
+       font-size:$fontPcL;
+   }
+   &.demoName{
+   padding: 25px 40px;
+   margin: 5px 15px 0 15px;
+   font-weight: bolder;
+   background-color: $demoNameColor;
+   border: 2px solid $searchBorder;
+   border-radius: 3px;
+   width: 224px;
+   word-wrap:break-word;
+    }
+   &.date{
+       font-size:$fontPcL;
+   }
 }
 .change-settings-label{
     margin-top:20px;
   color:white;
-  font-size:23px;
+  font-size:$fontPcM;
   font-weight:bolder;
   padding-left:20px;
   padding-bottom:20px;
@@ -347,25 +408,25 @@ a:-webkit-any-link{
 .identifier{
   color:white;
   padding-top:3px;
-  font-size:14px;
+  font-size:$fontPcS;
 }
 .identifier-bold{
   color:white;
   padding-top:3px;
   padding-left:5px;
-  font-size:18px;
+  font-size:$fontPcS;
   font-weight:bold;
 }
 .identifier-small{
   color:#ddd;
   padding-top:3px;
   padding-left:31px;
-  font-size:18px;
+  font-size:$fontPcXS;
   font-style:italic;
 }
 .identifier-big{
   color:ghostwhite;
-  font-size:21px;
+  font-size:$fontPcM;
   font-weight:bold;
   padding-bottom:5px;
   float:left;
@@ -412,17 +473,22 @@ input{
     border-radius: 4px;
     color: black;
     font-family: 'Lato', sans-serif;
-    margin: 20px 3px 20px 3px;
+    margin: 9px 3px 20px 3px;
+    height:100px;
+    width:150px;
     transition: all .1s ease;
     outline:none;
+    font-size:$fontPcXS;
+    word-wrap:break-word;
     &.takeTerm{
+        font-size:$fontPcM;
         background-color: $buttonTakeColor;
+        color:$buttonTextSave;
         &:hover{
             background-color: darken($buttonTakeColor,5%);
             cursor: pointer;
         }
-    }
-    
+    }    
     &.takeTerm_disabled{
         background-color: $disableColor;
         &:hover{
@@ -431,9 +497,11 @@ input{
         }
     }
     &.skipTerm{
-        background-color: $buttonSkipColor;       
+        font-size:$fontPcM;
+        background-color: $buttonSkipColor;    
+        font-weight:bold;   
         &:hover{
-            background-color: darken($buttonSkipColor,5%);
+            background-color: darken($buttonSkipColor,1%);
             cursor: pointer;
         }
     }
@@ -487,10 +555,10 @@ input{
   text-align: center;
   text-decoration: none;
   border-radius: 2px;
-  font-size: 14px;
+  font-size: $fontPcXS;
   font-family: 'Lato', sans-serif;
   outline:none;
-  color:palegreen;
+  color:$buttonTextSave;
   &:hover{
     background-color: darken($buttonTakeColor,5%);
     cursor: pointer;
@@ -509,18 +577,6 @@ input{
   &:hover{
     background-color: darken(#900,10%);    
   }
-}
-.loginPosition{
-    text-align:center;
-    align-content:center;
-    position:absolute;
-    margin-left:calc(50% - 200px);
-    margin-top: calc(25% - 50px);
-}
-.loginForm{
-    border:1px solid white;
-    border-radius:5px;
-    padding:20px;
 }
 //--------------------------------------------------------forms----------------------------------------------------//
 //------------------------------------------------------checkboxes-------------------------------------------------//

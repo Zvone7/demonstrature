@@ -16,7 +16,8 @@ class TableVM{
     public AllUsers: MyUser2DTO[] = new Array<MyUser2DTO>();
     public Users: MyUserM_T[];
     public UserData: MyUserM_T;
-    public BlankUser: MyUserM_T = new MyUserM_T({ Id: '0', Username: 'blank', FullName: '-', Role: 'D' });
+    public BlankUser: MyUserM_T = new MyUserM_T({ Id: '0', Username: 'blank', Name: 'Prazan', LastName:'termin', Role: 'D' });
+    public BlankGroupOwner: MyUserM_T = new MyUserM_T({ Id: '0', Username: 'blank', Name: 'Nema', LastName:'vlasnika', Role: 'D' });
     //------------------------------------COURSE--------------------------------//
     public AllCourses;
     public Courses: Course2DTO[];
@@ -36,24 +37,31 @@ class TableVM{
     public numberOfGroups: number = 0;
     public numberOfTerms: number = 0;
     public notification_no_available_data: string = "Nema podataka";
-    public notification_no_term_owner: string = "-";
+    public notification_no_term_owner: string = "Prazan termin_2";
     public notification_no_group_owner: string = "Nema";
     public notification_no_group_name: string = "Nema";
     //------------------------------------FUNCTIONS------------------------------------//
     constructor() {
         var self = this;
         $(document).ready(function () {
+            //console.log("constructing");
             self.getAllCourses();
-            //this.getAllUsers();
+            self.setInitialTermValues();
             //this.setTodayDate();
-            $('#selectStudy').on("change", function () {
-                var value = $(this).val();
-                self.populateSelectCourseName(value);
-            });
-            $('#selectCourse').on("change", function () {
-                console.log("selectCourse changed");
-                self.updateValuesAfterSelect();
-            });
+            $('select').on("change", function () {
+                if (this.id == "selectStudy") {
+                    var value = $(this).val();
+                    self.populateSelectCourse(value);
+                }
+                else if (this.id == "selectCourse") {
+                    //console.log("selectCourse changed");
+                    self.updateTermValuesAfterSelect();
+                }
+                else if (this.id.lastIndexOf("search") != '-1') {
+                    var i = parseInt(this.id.substring(6, 7));
+                    var j = parseInt(this.id.substring(7, 8));
+                }
+            })
             //navigation
             $('#arrowLeft').on("click", () => {
                 console.log("lalaa");
@@ -71,9 +79,28 @@ class TableVM{
             //css
             $('#myUl').css("visibility", "visible");
         });
+        /*
+            constructor
+                getAllCourses
+                    populateSelectStudy
+                        populateSelectCourse
+                            updateValuesAfterSelect
+                                getTermsByCourseId
+                                    getGroupsByCourseId
+                                        getUsersByCourseId
+                                            updateSelectUser
+                                            updateGroupData
+                                            createFullTermData
+                                                fillAllTerms
+                                                    createTermTable
+                                                        updateGroupWebData
+                                                        updateWebData
+                setInitialValues
+        */
     }
     //-------------------------------USERS START------------------------------------------------//
     public getAllUsers = () => {
+        //console.log("Getting all users");
         var self = this;
         var serviceURL = '/Table/AllUsers';
         $.ajax({
@@ -111,6 +138,8 @@ class TableVM{
             self.ActiveUsers = new Array<MyUserM_T>();
             //console.log("users by course id:",data);
             self.ActiveUsers = data;
+            self.updateSelectUser();
+            self.updateGroupData();
             self.createFullTermData();
         }
         function errorFunc(data) {
@@ -118,8 +147,8 @@ class TableVM{
         }
     }
     //-------------------------------USERS END--------------------------------------------------//
-    //---------------------------------------------------------------------------------------//
-    //---------------------------------------------------------------------------------------//
+    //------------------------------------------------------------------------------------------//
+    //------------------------------------------------------------------------------------------//
     //-------------------------------COURSE START-----------------------------------------------//
     public getAllCourses = () => {
         //console.log("gettingAllCourses");
@@ -143,7 +172,7 @@ class TableVM{
         }
     }
     public populateSelectStudy = () => {
-        //console.log("pupulating select study");
+        //console.log("populating select study");
         var studies = [];
         var output = [];
         for (var i = 0; i < this.Courses.length; i++) {
@@ -166,11 +195,11 @@ class TableVM{
         }
         $('#selectStudy').html(output.join(''));
         var selectStudyValue = $('#selectStudy').val();
-        this.populateSelectCourseName(selectStudyValue);
+        this.populateSelectCourse(selectStudyValue);
         //this.updateValuesAfterSelect(); // mislim da tu ne treba
     }
-    public populateSelectCourseName = (studyName: string) => {
-        //console.log("pupulating select course");
+    public populateSelectCourse = (studyName: string) => {
+        //console.log("populating select course");
         var output = [];
         var names = [];
         for (var i = 0; i < this.Courses.length; i++) {
@@ -198,12 +227,136 @@ class TableVM{
             }
         }       
         $('#selectCourse').html(output.join(''));
-        this.updateValuesAfterSelect();
+        this.updateTermValuesAfterSelect();
     }
-    //-------------------------------COURSE END--------------------------------------------------//
-    //---------------------------------------------------------------------------------------//
-    //---------------------------------------------------------------------------------------//
-    //-------------------------------TERM START------------------------------------------------//
+    //-------------------------------COURSE END-------------------------------------------------//
+    //------------------------------------------------------------------------------------------//
+    //------------------------------------------------------------------------------------------//
+    //-------------------------------TERM START-------------------------------------------------//
+    public createFullTermData = () => {
+        //console.log("creating full term data");
+        //console.log("Empty terms", this.EmptyTerms);
+        //console.log("Active Users", this.ActiveUsers);
+        //console.log("Active Groups", this.ActiveGroups);
+        this.ActiveTerms = new Array<TermM_T>();
+        for (var i = 0; i < this.EmptyTerms.length; i++) {
+            this.ActiveTerms[i] = new TermM_T();
+            this.ActiveTerms[i].Id = this.EmptyTerms[i].Id;
+            this.ActiveTerms[i].CourseId = this.EmptyTerms[i].CourseId;
+            this.ActiveTerms[i].Course = this.Course;
+            /*start date conversion*/
+            var date = this.EmptyTerms[i].TermDate;
+            /*date conversion end*/
+            this.ActiveTerms[i].TermDate = date;
+            this.ActiveTerms[i].UserId = this.EmptyTerms[i].UserId;
+            this.ActiveTerms[i].GroupId = this.EmptyTerms[i].GroupId;
+        }
+        for (var i = 0; i < this.ActiveTerms.length; i++) {
+            for (var j = 0; j < this.ActiveUsers.length; j++) {
+                if (this.ActiveTerms[i].UserId == this.ActiveUsers[j].Id) {
+                    this.ActiveTerms[i].UserPerson = this.ActiveUsers[j];
+                    break;
+                }
+                else {
+                    this.ActiveTerms[i].UserPerson = this.BlankUser;
+                }
+            }
+            for (var j = 0; j < this.ActiveGroups.length; j++) {
+                if (this.ActiveTerms[i].GroupId == this.ActiveGroups[j].Id) {
+                    this.ActiveTerms[i].Group = this.ActiveGroups[j];
+                    break;
+                }
+                else {
+                    this.ActiveTerms[i].Group = this.BlankGroup;
+                }
+            }
+        }
+        //console.log("Active Terms", this.ActiveTerms);
+        if (this.Terms0.length > 0) {
+            //console.log("self.Terms0.length>0");
+            //self.updateTermTable();
+        }
+        else {
+            //console.log("self.Terms0.length=0");
+            this.fillAllTerms();
+        }
+    }
+    public createTermTable = () => {
+        //console.log("creating term table");
+        //console.log("allTerms", this.AllTerms);
+        //console.log("activeGroups", this.ActiveGroups);
+        for (var i = 0; i < this.AllTerms.length; i++) {
+            for (var j = 0; j < this.ActiveGroups.length; j++) {
+                var cell = new CellM_T();
+                //console.log(i, j);
+                cell.x = i;
+                cell.y = j;
+                cell.UserId = this.AllTerms[i][j].UserId;
+                cell.UserPerson = new MyUserM_T(this.AllTerms[i][j].UserPerson);
+                var jsonDate = this.AllTerms[i][j].TermDate.toString();
+                var date = jsonDate.split('.');
+                cell.TermDate = date[0] + "." + date[1] + "." + date[2];
+                //console.log("created cell ", cell);
+                cell.Group = this.AllTerms[i][j].Group;
+                if (i == 0) this.Terms0.push(cell);
+                else if (i == 1) this.Terms1.push(cell);
+                else if (i == 2) this.Terms2.push(cell);
+                else if (i == 3) this.Terms3.push(cell);
+            }
+        }
+        //console.log("Terms0", this.Terms0); console.log("Terms1", this.Terms1); console.log("Terms2", this.Terms2); console.log("Terms3", this.Terms3);
+        this.updateGroupWebData();
+        this.updateTermWebData(this.Terms0, 0);
+        this.updateTermWebData(this.Terms1, 1);
+        this.updateTermWebData(this.Terms2, 2);
+        this.updateTermWebData(this.Terms3, 3);
+    }
+    public fillAllTerms = () => {
+        //console.log("filling all terms");
+        var stringResult = "";
+        var flags = [], TermDates = [], foundDate: boolean;
+        //this part determines how many different dates there are
+        for (var i = 0; i < this.ActiveTerms.length; i++) {
+            foundDate = false;
+            for (var j = 0; j < TermDates.length; j++) {
+                if (TermDates[j] == this.ActiveTerms[i].TermDate) {
+                    foundDate = true;
+                }
+            }
+            if (!foundDate) {
+                TermDates.push(this.ActiveTerms[i].TermDate);
+            }
+        }
+        //end
+        this.numberOfTerms = TermDates.length;
+        this.numberOfGroups = this.ActiveGroups.length;
+        //console.log("There are ", this.numberOfGroups, "different groups and ", TermDates.length, "different dates")
+        this.AllTerms = new Array<CellM_T[]>();
+        //this makes a 2D array called AllTerms in which every row stands for date, and every column for group
+        for (var i = 0; i < TermDates.length; i++) {
+            this.AllTerms[i] = new Array<CellM_T>();
+            for (var j = 0; j < this.ActiveGroups.length; j++) {
+                var cell: CellM_T = new CellM_T();
+                cell.x = i;
+                cell.y = j;
+                var person = new MyUserM_T();
+                for (var k = 0; k < this.ActiveTerms.length; k++) {
+                    var t = this.ActiveTerms[k];
+                    if (t.TermDate == TermDates[i] && t.GroupId == this.ActiveGroups[j].Id) {
+                        person = t.UserPerson;
+                    }
+                }
+                cell.UserPerson = person;
+                cell.UserId = person.Id;
+                cell.TermDate = TermDates[i];
+                cell.Group = this.ActiveGroups[j];
+                this.AllTerms[i][j] = cell;
+            }
+        }
+
+        //console.log("All Terms:", this.AllTerms);
+        this.createTermTable();
+    }
     public getTermsByCourseId = (courseId) => {
         //console.log("getting terms by course Id");
         var self = this;
@@ -226,145 +379,53 @@ class TableVM{
         }
 
     }
-    public fillAllTerms = () => {
-        //console.log("filling all terms");
-        var stringResult = "";
-        var flags = [], TermDates = [], foundDate:boolean;
-        for (var i = 0; i < this.ActiveTerms.length; i++) {
-            foundDate = false;
-            if (TermDates.length == 0){
-                TermDates.push(this.ActiveTerms[i].TermDate);
-                continue;
+    public setInitialTermValues = () => {
+        //console.log("setting inital term values");
+        var IdButtonTakeDefault = "#buttonTakeTerm";
+        var IdButtonSkipDefault = "#buttonSkipTerm";
+        for (var i = 0; i < 4; i++) {
+            for (var j = 0; j < 5; j++) {
+                var IdButtonTake = IdButtonTakeDefault + i.toString() + j.toString();
+                var IdButtonSkip = IdButtonSkipDefault + i.toString() + j.toString();
+                $(IdButtonTake).text("Rezerviraj termin");
+                $(IdButtonSkip).text("Preskoči termin");
+
+
+
+
+                var IdButtonTake = IdButtonTakeDefault;
+                var IdButtonSkip = IdButtonSkipDefault;
             }
-            for (var j = 0; j < TermDates.length; j++) {
-                if (TermDates[j] == this.ActiveTerms[i].TermDate) {
-                    foundDate = true;
-                }
-            }
-            if (foundDate) {
-                TermDates.push(this.ActiveTerms[i].TermDate);
-            }
-        }
-        this.numberOfTerms = TermDates.length;
-        this.numberOfGroups = this.ActiveGroups.length;
-        this.AllTerms = new Array<CellM_T[]>();
-        for (var i = 0; i < TermDates.length; i++) {
-            this.AllTerms[i] = new Array<CellM_T>();
-            for (var j = 0; j < this.ActiveGroups.length; j++) {
-                var cell: CellM_T = new CellM_T();
-                cell.x = i;
-                cell.y = j;
-                //console.log(i, j);
-                if (i == 0 && j == 0) {
-                    //console.log(this.ActiveTerms[i]);
-                }
-                cell.UserPerson = this.ActiveTerms[i].UserPerson;
-                //var jsonDate = this.ActiveTerms[i].TermDate.toString();
-                //console.log("jsonDate", jsonDate);
-                //var date = jsonDate.split('.');
-                //cell.TermDate = date[0] + "." + date[1] + "." + date[2];
-                cell.TermDate = this.ActiveTerms[i].TermDate.getDate() + "." +
-                                (this.ActiveTerms[i].TermDate.getMonth() + 1) + "." +
-                                this.ActiveTerms[i].TermDate.getFullYear() + ".";
-                cell.Group = this.ActiveTerms[i].Group;
-                this.AllTerms[i][j] = cell;
-            }
-        }
-        //console.log("All Terms:", this.AllTerms);
-        this.createTermTable();
-    }
-    public createTermTable = () => {
-        for (var i = 0; i < this.AllTerms.length; i++) {
-            for (var j = 0; j < this.ActiveGroups.length; j++) {
-                var cell = new CellM_T();
-                cell.x = i;
-                cell.y = j;
-                cell.UserPerson = new MyUserM_T(this.AllTerms[i][j].UserPerson);
-                var jsonDate = this.AllTerms[i][j].TermDate.toString();
-                var date = jsonDate.split('.');
-                cell.TermDate = date[0] + "." + date[1] + "." + date[2];
-                cell.Group = this.AllTerms[i][j].Group;
-                if (i == 0) this.Terms0.push(cell);
-                else if (i == 1) this.Terms1.push(cell);
-                else if (i == 2) this.Terms2.push(cell);
-                else if (i == 3) this.Terms3.push(cell);
-            }
-        }
-        //console.log(this.Terms0); console.log(this.Terms1); console.log(this.Terms2); console.log(this.Terms3);
-        this.updateWebData(this.Terms0, 0);
-        this.updateWebData(this.Terms1, 1);
-        this.updateWebData(this.Terms2, 2);
-        this.updateWebData(this.Terms3, 3);
-    }
-    public createFullTermData = () => {
-        //console.log("creating full term data");
-        //console.log("Empty terms", this.EmptyTerms);
-        //console.log("Active Users", this.ActiveUsers);
-        //console.log("Active Groups", this.ActiveGroups);
-        this.ActiveTerms = new Array<TermM_T>();
-        for (var i = 0; i < this.EmptyTerms.length; i++) {
-            this.ActiveTerms[i] = new TermM_T();
-            this.ActiveTerms[i].Id = this.EmptyTerms[i].Id;
-            this.ActiveTerms[i].CourseId = this.EmptyTerms[i].CourseId;
-            this.ActiveTerms[i].Course = this.Course;
-            /*start date conversion*/
-            var date = this.EmptyTerms[i].TermDate;
-            var realDate = parseInt(date.toString().substr(6, date.toString().trim().length - 8));
-            var realDate2 = new Date(realDate);
-            /*date conversion end*/
-            this.ActiveTerms[i].TermDate = realDate2;
-            this.ActiveTerms[i].UserId = this.EmptyTerms[i].UserId;
-        }
-        for (var i = 0; i < this.ActiveTerms.length; i++) {
-            for (var j = 0; j < this.ActiveUsers.length; j++) {
-                if (this.ActiveTerms[i].UserId == this.ActiveUsers[j].Id) {
-                    this.ActiveTerms[i].UserPerson = this.ActiveUsers[j];
-                }
-                else {
-                    this.ActiveTerms[i].UserPerson = this.BlankUser;
-                }
-            }
-            for (var j = 0; j < this.ActiveGroups.length; j++) {
-                if (this.ActiveTerms[i].GroupId == this.ActiveGroups[j].Id) {
-                    this.ActiveTerms[i].Group = this.ActiveGroups[j];
-                }
-                else {
-                    this.ActiveTerms[i].Group = this.BlankGroup;
-                }
-            }
-        }
-        //console.log("Active Terms", this.ActiveTerms);
-        if (this.Terms0.length > 0) {
-            console.log("self.Terms0.length>0");
-            //self.updateTermTable(Terms);
-        }
-        else {
-            console.log("self.Terms0.length=0");
-            this.fillAllTerms();
         }
     }
-    public updateTermTable = (data: TermM_T[][]) => {
-        for (var i = 0; i < data.length; i++) {
-            for (var j = 0; j < data[0].length; j++) {
-                var cell = new CellM_T();
-                cell.x = i;
-                cell.y = j;
-                cell.UserPerson=data[i][j].UserPerson;
-                var jsonDate = data[i][j].TermDate.toString();
-                var date = new Date(parseInt(jsonDate.substr(6)));
-                cell.TermDate=date.getDate() + "." +
-                    (date.getMonth()).toString() + "." +
-                    date.getFullYear().toString();
-                cell.Group=data[i][j].Group;
-                if (i == 0) this.Terms0.push(cell);
-                else if (i == 1) this.Terms1.push(cell);
-                else if (i == 2) this.Terms2.push(cell);
-                else if (i == 3) this.Terms3.push(cell);
+    public updateSelectUser = () => {
+        //console.log("populating select user");
+        //console.log("Active Users:\n",this.ActiveUsers);
+        var output = [];
+        output.push('<option value="' + "0" + '">' + "Odaberite demonstratora" + '</option>');
+        if (this.ActiveUsers == null) {
+            $(selectId).find('option').remove().end();
+            $(selectId).html(output.join(''));
+            return;
+        }
+        for (var i = 0; i < this.ActiveUsers.length; i++) {
+            //console.log("filling search")
+            var name = this.ActiveUsers[i].Name + " " + this.ActiveUsers[i].LastName;
+            var id = this.ActiveUsers[i].Id;
+            var outputMember = '<option value="' + id.toString() + '">' + name + '</option>';
+            output.push(outputMember);
+        }
+        //console.log(output);
+        for (var i = 0; i < 4; i++) {
+            for (var j = 0; j < 5; j++) {
+                var selectId = "#search" + i.toString() + j.toString();
+                $(selectId).find('option').remove().end();
+                $(selectId).html(output.join(''));
             }
         }
     }
     public updateTermArrays = (i_: number, j_: number) => {
-        console.log("clicked stuff:", i_, "|", j_);
+        //console.log("updating Term Arrays for:", i_, "|", j_);
         //i_ = 0; j_ = 0;
         var helper = "";
         for (var i = 0; i < 4; i++) {
@@ -410,10 +471,31 @@ class TableVM{
                 }
             }
         }
-        console.log("terms0 userperson:", this.Terms0[0].UserPerson);
+        //console.log("terms0 userperson:", this.Terms0[0].UserPerson);
     }
-    public updateValuesAfterSelect = () => {
-        //console.log("updating values after select");
+    public updateTermTable = (data: TermM_T[][]) => {
+        //console.log("updating Term Table");
+        for (var i = 0; i < data.length; i++) {
+            for (var j = 0; j < data[0].length; j++) {
+                var cell = new CellM_T();
+                cell.x = i;
+                cell.y = j;
+                cell.UserPerson=data[i][j].UserPerson;
+                var jsonDate = data[i][j].TermDate.toString();
+                var date = new Date(parseInt(jsonDate.substr(6)));
+                cell.TermDate=date.getDate() + "." +
+                    (date.getMonth()).toString() + "." +
+                    date.getFullYear().toString();
+                cell.Group=data[i][j].Group;
+                if (i == 0) this.Terms0.push(cell);
+                else if (i == 1) this.Terms1.push(cell);
+                else if (i == 2) this.Terms2.push(cell);
+                else if (i == 3) this.Terms3.push(cell);
+            }
+        }
+    }
+    public updateTermValuesAfterSelect = () => {
+        //console.log("------------\nupdating term values after select");
         var selectStudy = $('#selectStudy').val();
         var selectCourse = $('#selectCourse').val()
         var self = this;
@@ -428,39 +510,26 @@ class TableVM{
         self.Course = course;
         self.getTermsByCourseId(course.Id);
     }
-    public updateWebData = (termsX: CellM_T[], x: number) => {
+    public updateTermWebData = (termsX: CellM_T[], x: number) => {
         var i = x;
         console.log("updating web data for row ", i.toString(), " with this data ", termsX);
 
         var dateLabelId = "#date" + i.toString();
         var termOwnerLabelId = "#termOwner";
-        var groupOwnerLabelId = "#groupOwner";
-        var groupNameLabelId = "#groupName";
 
         if (termsX.length != 0) {
             var date = termsX[0].TermDate;
             $(dateLabelId).text(date);
-            $(groupOwnerLabelId).text(this.notification_no_group_owner);
             for (var j = 0; j < 5; j++) {
                 termOwnerLabelId += i.toString() + j.toString();
-                groupOwnerLabelId += j.toString();
-                groupNameLabelId += j.toString();
                 var termOwner = "";
-                var groupOwner = "";
-                var groupName = "";
                 if (termsX.length <= j) {
                     termOwner = this.notification_no_term_owner;
-                    groupOwner = this.notification_no_group_owner;
-                    groupName = this.notification_no_group_name;
                 }
                 else {
-                    termOwner = termsX[j].UserPerson.FullName;
-                    groupOwner = termsX[j].Group.UserPerson.FullName;
-                    groupName = termsX[j].Group.Name;
+                    termOwner = termsX[j].UserPerson.Name + " " + termsX[j].UserPerson.LastName;
                 }
                 $(termOwnerLabelId).text(termOwner);
-                $(groupOwnerLabelId).text(groupOwner);
-                $(groupNameLabelId).text(groupName);
                 //console.log("[", i, "],[", j, "]","\nTerm Owner:", termOwner,"\nGroup Owner:", groupOwner,"\nGroup Name:", groupName);
                 //console.log("[", i, "],[", j, "]", "\nTerm Owner Id:", termOwnerLabelId, "\nGroup Owner Id:", groupOwnerLabelId, "\nGroup Name Id:", groupNameLabelId);
                 termOwnerLabelId = "#termOwner";
@@ -470,26 +539,20 @@ class TableVM{
             $(dateLabelId).text(this.notification_no_available_data);
             for (var j = 0; j < 5; j++) {
                 termOwnerLabelId += i.toString() + j.toString();
-                groupOwnerLabelId += j.toString();
-                groupNameLabelId += j.toString();
                 var termOwner = this.notification_no_term_owner;
-                var groupOwner = this.notification_no_group_owner;
-                var groupName = this.notification_no_group_name;
 
                 $(termOwnerLabelId).text(termOwner);
-                $(groupOwnerLabelId).text(groupOwner);
-                $(groupNameLabelId).text(groupName);
                 //console.log("[", i, "],[", j, "]","\nTerm Owner:", termOwner,"\nGroup Owner:", groupOwner,"\nGroup Name:", groupName);
                 termOwnerLabelId = "#termOwner";
             }
         }
     }
     //-------------------------------TERM END---------------------------------------------------//
-    //---------------------------------------------------------------------------------------//
-    //---------------------------------------------------------------------------------------//
+    //------------------------------------------------------------------------------------------//
+    //------------------------------------------------------------------------------------------//
     //-------------------------------GROUP START------------------------------------------------//
     public getGroupsByCourseId = (courseId:number) => {
-        //console.log("getting groups for", selectGroupId, "and needNew is", needsNew.toString());
+        //console.log("getting groups for", courseId);
         var self = this;
         var serviceURL = '/Settings/GetGroupsByCourseId';
         $.ajax({
@@ -511,9 +574,54 @@ class TableVM{
         }
 
     }
+    public updateGroupData = () => {
+        //console.log("Updating group data");
+        var self = this;
+        for (var i = 0; i < self.ActiveUsers.length; i++) {
+            for (var j = 0; j < self.ActiveGroups.length; j++) {
+                if (self.ActiveGroups[j].OwnerId == self.ActiveUsers[i].Id) {
+                    self.ActiveGroups[j].UserPerson = self.ActiveUsers[i];
+                    break;
+                }
+                else {
+                    self.ActiveGroups[j].UserPerson = self.BlankGroupOwner;
+                }
+            }
+        }
+    }
+    public updateGroupWebData = () => {
+        //console.log("Updating group web data");
+        var self = this;
+        if (self.ActiveGroups.length == 0) {
+            console.log("Nema pronadjenih grupa");
+            return;
+        }
+        var offset = 0;
+        for (var i = offset; i < self.ActiveGroups.length; i++){
+            //console.log(self.ActiveGroups[i]);
+            var groupNameId = "#groupName" + i.toString();
+            var groupOwnerId = "#groupOwner" + i.toString();
+            var groupNameValue = self.ActiveGroups[i].Name;
+            var groupOwnerValue = self.ActiveGroups[i].UserPerson.Name + " " + self.ActiveGroups[i].UserPerson.LastName;
+            //console.log("filling ", groupOwnerId, " with ", groupOwnerValue);
+            $(groupNameId).text(groupNameValue);
+            $(groupOwnerId).text(groupOwnerValue);
+        }
+        if (offset + self.ActiveGroups.length < 5) {
+            for (var i = offset + self.ActiveGroups.length; i < 5; i++) {
+                var groupNameId = "#groupName" + i.toString();
+                var groupOwnerId = "#groupOwner" + i.toString();
+                var groupNameValue = self.notification_no_group_name;
+                var groupOwnerValue = self.notification_no_group_owner;
+                $(groupNameId).text(groupNameValue);
+                $(groupOwnerId).text(groupOwnerValue);
+               
+            }
+        }
+    }
     //-------------------------------GROUP END--------------------------------------------------//
-    //---------------------------------------------------------------------------------------//
-    //---------------------------------------------------------------------------------------//
+    //------------------------------------------------------------------------------------------//
+    //------------------------------------------------------------------------------------------//
     //-------------------------------NAVIGATION START-------------------------------------------//
     public leftClicked = () => {
         this.moveY++;
@@ -581,20 +689,30 @@ class TableVM{
         }
     }
     //-------------------------------NAVIGATION END---------------------------------------------//
+    //------------------------------------------------------------------------------------------//
+    //------------------------------------------------------------------------------------------//
+    //-------------------------------EVERYTHING ELSE START--------------------------------------//
+
+    //-------------------------------EVERYTHING ELSE END----------------------------------------//
+    //------------------------------------------------------------------------------------------//
+
+
     public test = () => {
         this.Terms0[0].UserPerson.Username="lalala";
     }
 }
 class MyUserM_T {
     public Id:number;
-    public Username : string;
-    public FullName : string;
+    public Username: string;
+    public Name: string;
+    public LastName: string;
     public Role : string;
     constructor(myUser?: any) {
         if (myUser) {
             this.Id=myUser.Id;
-            this.Username=myUser.Username;
-            this.FullName=myUser.FullName;
+            this.Username = myUser.Username;
+            this.Name = myUser.Name;
+            this.LastName = myUser.LastName;
             this.Role=myUser.Role;
         }
     }
@@ -613,14 +731,14 @@ class TermM_T {
     public UserPerson: MyUserM_T;
     public GroupId: number;
     public Group: GroupM_T;    
-    public TermDate: Date;    
+    public TermDate: string;    
 }
 class Term2DTO {
     public Id: number;
     public CourseId: number;
-    public GroupId: GroupDTO;
+    public GroupId: number;
     public UserId: number;
-    public TermDate: Date = new Date();
+    public TermDate: string;
 }
 class CellM_T {
     public x :number;
@@ -628,7 +746,8 @@ class CellM_T {
     public TakeState : boolean;
     public SkipState : boolean;
     public TermDate : string;
-    public Group : GroupM_T;
+    public Group: GroupM_T;
+    public UserId: number;
     public UserPerson : MyUserM_T;    
 }
 class Course2DTO {

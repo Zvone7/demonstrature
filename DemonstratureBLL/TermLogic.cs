@@ -34,7 +34,7 @@ namespace DemonstratureBLL
             List<GroupDTO> existingGroups = _mapper.Map<List<GroupDTO>>(_groupRepo.GetGroupsByCourseId(t.CourseId));
             List<TermDTO> termsToCreate = new List<TermDTO>();
             List<TermDTO> termsToAdd = new List<TermDTO>();
-            List<TermDTO> existingTerms = GetTerms(t.TermDate, t.CourseId);
+            List<TermDTO> existingTerms = GetTerms(CreateDateFromString(t.TermDate), t.CourseId);
             if (existingGroups != null)
             {
                 foreach (var g in existingGroups)
@@ -78,7 +78,7 @@ namespace DemonstratureBLL
         
         public bool DeleteTerms(TermDTO t)
         {
-            var terms = GetTerms(t.TermDate, t.CourseId);
+            var terms = GetTerms(CreateDateFromString(t.TermDate), t.CourseId);
             foreach(var t2 in terms)
             {
                 var result = DeleteTerm(t2.Id);
@@ -95,7 +95,7 @@ namespace DemonstratureBLL
         
         public bool UpdateTerms(TermDTO t)
         {
-            var terms = GetTerms(t.TermDate, t.CourseId);
+            var terms = GetTerms(CreateDateFromString(t.TermDate), t.CourseId);
             foreach (var t2 in terms)
             {
                 t2.TermDate = t.TermDate;
@@ -168,6 +168,19 @@ namespace DemonstratureBLL
             var terms2 = _mapper.Map<List<TermDTO>>(terms);
             terms2 = terms2.OrderBy(t => t.TermDate).ToList();
             return terms2;
+        }
+
+        public DateTime CreateDateFromString(string date)
+        {
+            if (date == null)
+            {
+                return new DateTime(1,1,1);
+            }
+            var day = Int32.Parse(date.Split('.')[0]);
+            var month = Int32.Parse(date.Split('.')[1]);
+            var year = Int32.Parse(date.Split('.')[2]);
+            var dateToReturn = new DateTime(year, month, day);
+            return dateToReturn;
         }
     }
 }

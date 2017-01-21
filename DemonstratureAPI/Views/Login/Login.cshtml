@@ -9,67 +9,38 @@
 <script src="~/Scripts/knockout-3.4.0.js"></script>
 <script src="~/Scripts/knockout.mapping-latest.js"></script>
 <script src="~/Scripts/Pages/Login.js"></script>
-
-<p class="intro_s">
-    <label class="identifier-big">Dobrodošli u aplikaciju za odabir termina demonstrature.</label>
-    <br />
-</p>
-    <div class="loginPosition">
-        <div class="row_s">
-            <div class="cell_s">
-                <div class="loginForm">
-                    <label class="identifier-big">Prijava</label>
-                    <br />
-                    <br />
-                    <hr />
-                    <br />
-                    <label class="identifier">Korisničko ime:</label><br />
-                    <input id="login_username" class="input_login" type="text" /><br /> <br />
-                    <label class="identifier">Lozinka:</label><br />
-                    <input id="login_password" class="input_login" type="password" /><br /> <br /><br />
-                    <button id="login_login" class="saveSetting">Prijava</button>
-                </div>
-            </div>
+<div class="bodyLogin">
+    <div class="introPosition">
+        <div class="introLogo">
+            <a href="http://www.etfos.unios.hr/">
+                <img src="http://www.etfos.unios.hr/new-images/ferit-web-200.png" alt="logo" class="logoImg">
+            </a>
+        </div>
+        <div class="introText big">
+            Dobrodošli!
+        </div>
+        <div class="introText">
+            Aplikacija za odabir termina demonstrature.
         </div>
     </div>
+        <div class="loginPosition">
+            <div class="loginForm">
+                        <label class="identifier-big">Prijava</label>
+                        <br />
+                        <br />
+                        <hr />
+                        <br />
+                        <label class="identifier">Korisničko ime:</label><br />
+                        <input id="login_username" class="input_login" type="text" /><br /> <br />
+                        <label class="identifier">Lozinka:</label><br />
+                        <input id="login_password" class="input_login" type="password" /><br /> <br /><br />
+                        <button id="login_login" class="saveSetting">Prijava</button>           
+            </div>
+        </div>
 
-@*<p class="intro_s">
-    <label class="identifier-small">Ako još nemate podatke za login, obratite se asistentu kolegija na kojem ste demonstrator.</label><br />
-</p>*@
-
-    @*<button id="test" class="saveSetting">Test</button>*@
-
-@*<div class="row_s">
-    <div class="cell_s">
-        <div class="red_box"></div>
-    </div>
-    <div class="cell_s">
-        <div class="blue_box"></div>
-    </div>
-    <div class="cell_s">
-        <div class="green_box"></div>
-    </div>
-    <div class="cell_s">
-        <div class="yellow_box"></div>
-    </div>
-    <div class="cell_s">
-        <div class="white_box"></div>
-    </div>
+    <div class="introPosition lower">
+        <div class="introText small">
+            Ako još nemate podatke za login, obratite se asistentu kolegija na kojem ste demonstrator.<br />
+        </div>
+    </div>     
 </div>
-<div class="row_s" hidden>
-    <div class="cell_s">
-    </div>
-    <div class="cell_s">
-        <div class="green_box"></div>
-    </div>
-    <div class="cell_s">
-        <div class="blue_box"></div>
-        <div class="red_box"></div>
-        <div class="yellow_box"></div>
-    </div>
-    <div class="cell_s">
-        <div class="white_box"></div>
-    </div>
-    <div class="cell_s">
-    </div>
-</div>*@

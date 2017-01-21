@@ -11,6 +11,6 @@ namespace DemonstratureCM.DTO
         public MyUserDTO UserPerson { get; set; }
         public int GroupId { get; set; }
         public GroupDTO Group { get; set; }
-        public DateTime TermDate { get; set; }
+        public string TermDate { get; set; }
     }
 }

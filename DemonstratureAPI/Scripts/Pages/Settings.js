@@ -46,61 +46,13 @@ var SettingsVM = (function () {
                 _this.updateCourse(nc);
             }
         };
-        this.button_saveGroup = function () {
-            var groupId = $("#group_group_select").val();
-            var name = $("#group_name").val();
-            var ownerId = $("#group_owner_select").val();
-            var courseId = $("#group_course_select").val();
-            var g = new GroupDTO();
-            g.Name = name;
-            g.CourseId = courseId;
-            g.OwnerId = ownerId;
-            if (groupId == "0") {
-                console.log("making a new group");
-                g.Id = 0;
-                _this.createGroup(g);
+        this.button_deleteCourse = function () {
+            var courseId = $("#course_course_select :selected").val();
+            if (courseId == 0) {
+                alert(_this.warning_delete_new);
             }
             else {
-                console.log("updating existing group");
-                g.Id = groupId;
-                _this.updateGroup(g);
-            }
-        };
-        this.button_saveTerm = function () {
-            var termId = $("#term_term_select").val();
-            var termDate = $("#term_date").val();
-            var courseId = $("#term_course_select").val();
-            var groupId = $("#term_group_select").val();
-            var t = new TermDTO();
-            t.CourseId = courseId;
-            t.TermDate = termDate;
-            t.GroupId = groupId;
-            //console.log(t);
-            if (termDate == "" || groupId == "" || courseId == "") {
-                alert(_this.warning_blank_field);
-                return;
-            }
-            if (groupId == "-1" && termId == "0") {
-                console.log("Making a new term for all groups");
-                t.Id = 0;
-                console.log(t);
-                _this.createTerms(t);
-            }
-            else if (groupId == "-1" && termId != "0") {
-                //console.log("Updating all terms for date");
-                t.Id = 0;
-                _this.updateTerms(t);
-            }
-            else if (groupId != "-1" && termId == "0") {
-                //console.log("Making a new term for specific course");
-                t.Id = 0;
-                console.log(t);
-                _this.createTerm(t);
-            }
-            else {
-                //console.log("updating existing term");
-                t.Id = termId;
-                _this.updateTerm(t);
+                _this.deleteCourse(courseId);
             }
         };
         this.button_saveUser = function () {
@@ -201,6 +153,117 @@ var SettingsVM = (function () {
                 }
             }
         };
+        this.button_deleteUser = function () {
+            var userId = $("#user_user_select :selected").val();
+            if (userId == 0) {
+                alert(_this.warning_delete_new);
+            }
+            else {
+                _this.deleteUser(userId);
+            }
+        };
+        this.button_saveGroup = function () {
+            var groupId = $("#group_group_select").val();
+            var name = $("#group_name").val();
+            var ownerId = $("#group_owner_select").val();
+            var courseId = $("#group_course_select").val();
+            var g = new GroupDTO();
+            g.Name = name;
+            g.CourseId = courseId;
+            g.OwnerId = ownerId;
+            if (groupId == "0") {
+                console.log("making a new group");
+                g.Id = 0;
+                _this.createGroup(g);
+            }
+            else {
+                console.log("updating existing group");
+                g.Id = groupId;
+                _this.updateGroup(g);
+            }
+        };
+        this.button_deleteGroup = function () {
+            var groupId = $("#group_group_select").val();
+            if (groupId == "0") {
+                alert(_this.warning_delete_new);
+            }
+            else {
+                _this.deleteGroup(groupId);
+            }
+        };
+        this.button_saveTerm = function () {
+            var termId = $("#term_term_select").val();
+            var termDate = $("#term_date").val();
+            var courseId = $("#term_course_select").val();
+            var groupId = $("#term_group_select").val();
+            var tmonth = termDate.split('/')[0];
+            var tday = termDate.split('/')[1];
+            var tyear = termDate.split('/')[2];
+            tmonth = parseInt(tmonth);
+            tday = parseInt(tday);
+            tyear = parseInt(tyear);
+            termDate = tday + "." + tmonth + "." + tyear;
+            var t = new TermDTO();
+            t.CourseId = courseId;
+            t.TermDate = termDate;
+            t.GroupId = groupId;
+            console.log(t);
+            if (termDate == "" || groupId == "" || courseId == "") {
+                alert(_this.warning_blank_field);
+                return;
+            }
+            if (groupId == "-1" && termId == "0") {
+                //console.log("Making a new term for all groups");
+                t.Id = 0;
+                //console.log(t);
+                _this.createTerms(t);
+            }
+            else if (groupId == "-1" && termId != "0") {
+                //console.log("Updating all terms for date");
+                t.Id = 0;
+                _this.updateTerms(t);
+            }
+            else if (groupId != "-1" && termId == "0") {
+                //console.log("Making a new term for specific course");
+                t.Id = 0;
+                console.log(t);
+                _this.createTerm(t);
+            }
+            else {
+                //console.log("updating existing term");
+                t.Id = termId;
+                _this.updateTerm(t);
+            }
+        };
+        this.button_deleteTerm = function () {
+            var termId = $("#term_term_select").val();
+            var termDate = $("#term_date").val();
+            var courseId = $("#term_course_select").val();
+            var groupId = $("#term_group_select").val();
+            var tmonth = termDate.split('/')[0];
+            var tday = termDate.split('/')[1];
+            var tyear = termDate.split('/')[2];
+            tmonth = parseInt(tmonth);
+            tday = parseInt(tday);
+            tyear = parseInt(tyear);
+            termDate = tday + "." + tmonth + "." + tyear;
+            if (termId == "0") {
+                alert(_this.warning_delete_new);
+            }
+            else if (groupId == "-1") {
+                console.log("deleting terms for all groups", t);
+                var t = new TermDTO();
+                t.CourseId = courseId;
+                t.TermDate = termDate;
+                t.GroupId = groupId;
+                t.Id = 0;
+                _this.deleteTerms(t);
+            }
+            else {
+                console.log("deleting term per single group");
+                _this.deleteTerm(termId);
+            }
+        };
         this.button_savePassword = function () {
             var self = _this;
             self.LoginCheck();
@@ -221,55 +284,6 @@ var SettingsVM = (function () {
             }
             self.checkIfCorrectPassword(userId, oldPassword, password);
             return;
-        };
-        this.button_deleteCourse = function () {
-            var courseId = $("#course_course_select :selected").val();
-            if (courseId == 0) {
-                alert(_this.warning_delete_new);
-            }
-            else {
-                _this.deleteCourse(courseId);
-            }
-        };
-        this.button_deleteGroup = function () {
-            var groupId = $("#group_group_select").val();
-            if (groupId == "0") {
-                alert(_this.warning_delete_new);
-            }
-            else {
-                _this.deleteGroup(groupId);
-            }
-        };
-        this.button_deleteTerm = function () {
-            var termId = $("#term_term_select").val();
-            var termDate = $("#term_date").val();
-            var courseId = $("#term_course_select").val();
-            var groupId = $("#term_group_select").val();
-            if (termId == "0") {
-                alert(_this.warning_delete_new);
-            }
-            else if (groupId == "-1") {
-                console.log("deleting terms");
-                var t = new TermDTO();
-                t.CourseId = courseId;
-                t.TermDate = termDate;
-                t.GroupId = groupId;
-                t.Id = 0;
-                _this.deleteTerms(t);
-            }
-            else {
-                console.log("deleting term");
-                _this.deleteTerm(termId);
-            }
-        };
-        this.button_deleteUser = function () {
-            var userId = $("#user_user_select :selected").val();
-            if (userId == 0) {
-                alert(_this.warning_delete_new);
-            }
-            else {
-                _this.deleteUser(userId);
-            }
         };
         //-------------------------------BUTTONS END---------------------------------------------//
         //---------------------------------------------------------------------------------------//
@@ -860,8 +874,7 @@ var SettingsVM = (function () {
         };
         this.createTerms = function (t) {
             console.log("creating terms", t);
-            console.log(t.TermDate);
-            return;
+            //return;
             //nešto s datumima nešto ne znam
             var self = _this;
             var serviceURL = '/Settings/CreateTerms';
@@ -901,7 +914,8 @@ var SettingsVM = (function () {
             }
         };
         this.deleteTerms = function (t) {
-            //console.log("deleting terms");
+            console.log("deleting terms");
+            console.log(t);
             var self = _this;
             var serviceURL = '/Settings/DeleteTerms';
             $.ajax({
@@ -938,7 +952,7 @@ var SettingsVM = (function () {
             }
         };
         this.getTermsByCourseId = function () {
-            //console.log("getting term per course data");
+            //console.log("getting term per course id");
             var courseId = $('#term_course_select').val();
             $("#term_name").val("");
             //console.log(courseId);
@@ -953,8 +967,10 @@ var SettingsVM = (function () {
                 error: errorFunc
             });
             function successFunc(data, status) {
+                //console.log(data);
                 self.Terms = data;
-                console.log(self.Terms);
+                for (var i = 0; i < self.Terms.length; i++) {
+                }
                 self.populateSelectTerm();
             }
             function errorFunc(data) {
@@ -989,7 +1005,7 @@ var SettingsVM = (function () {
             }
         };
         this.populateSelectTerm = function () {
-            //console.log("------\npopulating select term");
+            //console.log("populating select term");
             //console.log("Terms:\n",this.Terms);
             var selectId = "#term_term_select";
             var moreGroupsMode = false;
@@ -997,6 +1013,7 @@ var SettingsVM = (function () {
                 moreGroupsMode = true;
             }
             var output = [];
+            var outputDates = [];
             output.push('<option value="' + "0" + '">' + "Novi termin" + '</option>');
             if (_this.Terms == null) {
                 $(selectId).find('option').remove().end();
@@ -1006,27 +1023,21 @@ var SettingsVM = (function () {
             //console.log(this.Terms);
             for (var i = 0; i < _this.Terms.length; i++) {
                 if (!moreGroupsMode) {
-                    var date = _this.Terms[i].TermDate;
-                    var realDate = parseInt(date.toString().substr(6, date.toString().trim().length - 8));
-                    var realDate2 = new Date(realDate);
-                    var dateStringified = realDate2.getDate() + "." + (realDate2.getMonth() + 1).toString() + "." + realDate2.getFullYear().toString();
-                    _this.Terms[i].TermDate = new Date(realDate);
+                    //console.log("filling term_term_select")
+                    var date = _this.Terms[i].TermDate.substring(0, 10);
                     var id = _this.Terms[i].Id;
-                    var outputMember = '<option value="' + id.toString() + '">' + dateStringified + '</option>';
+                    var outputMember = '<option value="' + id.toString() + '">' + date + '</option>';
                     output.push(outputMember);
                 }
                 else {
-                    var date = _this.Terms[i].TermDate;
-                    var realDate = parseInt(date.toString().substr(6, date.toString().trim().length - 8));
-                    var realDate2 = new Date(realDate);
-                    var dateStringified = realDate2.getDate() + "." + (realDate2.getMonth() + 1).toString() + "." + realDate2.getFullYear().toString();
-                    _this.Terms[i].TermDate = new Date(realDate);
-                    var id = 1;
-                    var outputMember = '<option value="' + id.toString() + '">' + dateStringified + '</option>';
+                    //console.log("filling term_term_select_2")
+                    var date = _this.Terms[i].TermDate.substring(0, 10);
+                    var id = _this.Terms[i].Id;
+                    var outputMember = '<option value="' + id.toString() + '">' + date + '</option>';
                     var alreadyExists = false;
                     if (output != null) {
-                        for (var j = 0; j < output.length; j++) {
-                            if (output[j] == outputMember) {
+                        for (var j = 0; j < outputDates.length; j++) {
+                            if (outputDates[j] == date) {
                                 alreadyExists = true;
                                 break;
                             }
@@ -1034,6 +1045,7 @@ var SettingsVM = (function () {
                     }
                     if (!alreadyExists) {
                         output.push(outputMember);
+                        outputDates.push(date);
                     }
                 }
             }
@@ -1093,16 +1105,16 @@ var SettingsVM = (function () {
         };
         this.updateTermData = function () {
             var termId = $("#term_term_select").val();
-            //console.log("updating term data", termId);
+            //console.log("updating term data for termId=", termId);
             //console.log("Terms:", this.Terms);
             if (termId == 0) {
-                var realDate2 = new Date();
-                var year = realDate2.getFullYear().toString();
-                var month = (realDate2.getMonth() + 1).toString();
-                var day = realDate2.getDate().toString();
+                var today = new Date();
+                var year = today.getFullYear().toString();
+                var month = (today.getMonth() + 1).toString();
+                var day = today.getDate().toString();
                 var month = _this.minTwoDigits(parseInt(month));
                 var day = _this.minTwoDigits(parseInt(day));
-                //console.log("aaa:", year + "-" + month + "-" + day);
+                //console.log("a", day, month, year);
                 $("#term_date").val(month + "/" + day + "/" + year);
             }
             else {
@@ -1116,16 +1128,13 @@ var SettingsVM = (function () {
                     console.log("error choosing term");
                     return;
                 }
-                //console.log("updating term data",t);
+                console.log("updating term dataaa", t);
                 var date = t.TermDate;
-                var realDate2 = date;
-                var year = realDate2.getFullYear().toString();
-                var month = (realDate2.getMonth() + 1).toString();
-                var day = realDate2.getDate().toString();
-                var month = _this.minTwoDigits(parseInt(month));
-                var day = _this.minTwoDigits(parseInt(day));
-                //console.log(year, month, day);
-                $("#term_date").val(day + "/" + month + "/" + year);
+                var day = date.split('.')[0];
+                var month = date.split('.')[1];
+                var year = date.split('.')[2];
+                //console.log("b", day, month, year);
+                $("#term_date").val(month + "/" + day + "/" + year);
             }
         };
         //-------------------------------TERM END------------------------------------------------//
@@ -1432,7 +1441,6 @@ var MyUserDTO = (function () {
 }());
 var TermDTO = (function () {
     function TermDTO() {
-        this.TermDate = new Date();
     }
     return TermDTO;
 }());

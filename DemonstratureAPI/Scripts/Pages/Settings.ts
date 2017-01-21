@@ -150,66 +150,16 @@ class SettingsVM {
             this.updateCourse(nc);
         }
     }
-    public button_saveGroup = () => {
-        var groupId = $("#group_group_select").val();
-        var name = $("#group_name").val();
-        var ownerId =$("#group_owner_select").val();
-        var courseId = $("#group_course_select").val();
-
-        var g = new GroupDTO();
-        g.Name = name;
-        g.CourseId = courseId;
-        g.OwnerId = ownerId;
-
-        if (groupId == "0") {
-            console.log("making a new group");
-            g.Id = 0;
-            this.createGroup(g);
+    public button_deleteCourse = () => {
+        var courseId = $("#course_course_select :selected").val();
+        if (courseId == 0) {
+            alert(this.warning_delete_new);
         }
         else {
-            console.log("updating existing group");
-            g.Id = groupId;
-            this.updateGroup(g);
+            this.deleteCourse(courseId);
         }
     }
-    public button_saveTerm = () => {
-        var termId = $("#term_term_select").val();
-        var termDate = $("#term_date").val();
-        var courseId = $("#term_course_select").val();
-        var groupId = $("#term_group_select").val();
 
-        var t = new TermDTO();
-        t.CourseId = courseId;
-        t.TermDate = termDate;
-        t.GroupId = groupId;
-        //console.log(t);
-        if (termDate == "" || groupId == "" || courseId=="") {
-            alert(this.warning_blank_field);
-            return;
-        }
-        if (groupId=="-1" && termId == "0") {
-            console.log("Making a new term for all groups");
-            t.Id = 0;
-            console.log(t);
-            this.createTerms(t);
-        }
-        else if (groupId=="-1" && termId!="0"){
-            //console.log("Updating all terms for date");
-            t.Id = 0;
-            this.updateTerms(t);            
-        }
-        else if (groupId != "-1" && termId == "0") {
-            //console.log("Making a new term for specific course");
-            t.Id = 0;
-            console.log(t);
-            this.createTerm(t);
-        }
-        else {
-            //console.log("updating existing term");
-            t.Id = termId;
-            this.updateTerm(t);
-        }
-    }
     public button_saveUser = () => {
         var self = this;
         var userId = $("#user_user_select :selected").val();
@@ -316,6 +266,126 @@ class SettingsVM {
         }
 
     }
+    public button_deleteUser = () => {
+        var userId = $("#user_user_select :selected").val();
+        if (userId == 0) {
+            alert(this.warning_delete_new);
+        }
+        else {
+            this.deleteUser(userId);
+        }
+    }
+    
+    public button_saveGroup = () => {
+        var groupId = $("#group_group_select").val();
+        var name = $("#group_name").val();
+        var ownerId =$("#group_owner_select").val();
+        var courseId = $("#group_course_select").val();
+
+        var g = new GroupDTO();
+        g.Name = name;
+        g.CourseId = courseId;
+        g.OwnerId = ownerId;
+
+        if (groupId == "0") {
+            console.log("making a new group");
+            g.Id = 0;
+            this.createGroup(g);
+        }
+        else {
+            console.log("updating existing group");
+            g.Id = groupId;
+            this.updateGroup(g);
+        }
+    }
+    public button_deleteGroup = () => {
+        var groupId = $("#group_group_select").val();
+        if (groupId == "0") {
+            alert(this.warning_delete_new);
+        }
+        else {
+            this.deleteGroup(groupId);
+        }
+    }
+
+    public button_saveTerm = () => {
+        var termId = $("#term_term_select").val();
+        var termDate = $("#term_date").val();
+        var courseId = $("#term_course_select").val();
+        var groupId = $("#term_group_select").val();
+
+        var tmonth = termDate.split('/')[0];
+        var tday = termDate.split('/')[1];
+        var tyear = termDate.split('/')[2];
+        tmonth = parseInt(tmonth);
+        tday = parseInt(tday);
+        tyear = parseInt(tyear);
+        termDate = tday + "." + tmonth + "." + tyear;
+
+        var t = new TermDTO();
+        t.CourseId = courseId;
+        t.TermDate = termDate;
+        t.GroupId = groupId;
+        console.log(t);
+        if (termDate == "" || groupId == "" || courseId=="") {
+            alert(this.warning_blank_field);
+            return;
+        }
+        if (groupId=="-1" && termId == "0") {
+            //console.log("Making a new term for all groups");
+            t.Id = 0;
+            //console.log(t);
+            this.createTerms(t);
+        }
+        else if (groupId=="-1" && termId!="0"){
+            //console.log("Updating all terms for date");
+            t.Id = 0;
+            this.updateTerms(t);            
+        }
+        else if (groupId != "-1" && termId == "0") {
+            //console.log("Making a new term for specific course");
+            t.Id = 0;
+            console.log(t);
+            this.createTerm(t);
+        }
+        else {
+            //console.log("updating existing term");
+            t.Id = termId;
+            this.updateTerm(t);
+        }
+    }
+    public button_deleteTerm = () => {
+        var termId = $("#term_term_select").val();
+        var termDate = $("#term_date").val();
+        var courseId = $("#term_course_select").val();
+        var groupId = $("#term_group_select").val();
+
+        var tmonth = termDate.split('/')[0];
+        var tday = termDate.split('/')[1];
+        var tyear = termDate.split('/')[2];
+        tmonth = parseInt(tmonth);
+        tday = parseInt(tday);
+        tyear = parseInt(tyear);
+        termDate = tday + "." + tmonth + "." + tyear;
+
+        if (termId == "0") {
+            alert(this.warning_delete_new);
+        }
+        else if (groupId == "-1") {
+            console.log("deleting terms for all groups", t);
+            var t = new TermDTO();
+            t.CourseId = courseId;
+            t.TermDate = termDate;
+            t.GroupId = groupId;
+            t.Id = 0;
+            this.deleteTerms(t);
+        }
+        else {
+            console.log("deleting term per single group");
+            this.deleteTerm(termId);
+        }
+    }
+
     public button_savePassword = () => {
         var self = this;
         self.LoginCheck();
@@ -338,56 +408,6 @@ class SettingsVM {
         self.checkIfCorrectPassword(userId, oldPassword, password);
         return;
 
-    }
-    public button_deleteCourse = () => {
-        var courseId = $("#course_course_select :selected").val();
-        if (courseId == 0) {
-            alert(this.warning_delete_new);
-        }
-        else {
-            this.deleteCourse(courseId);
-        }
-    }
-    public button_deleteGroup = () => {
-        var groupId = $("#group_group_select").val();
-        if (groupId == "0") {
-            alert(this.warning_delete_new);
-        }
-        else {
-            this.deleteGroup(groupId);
-        }
-    }
-    public button_deleteTerm = () => {
-        var termId = $("#term_term_select").val();
-        var termDate = $("#term_date").val();
-        var courseId = $("#term_course_select").val();
-        var groupId = $("#term_group_select").val();
-
-        if (termId == "0") {
-            alert(this.warning_delete_new);
-        }
-        else if (groupId == "-1") {
-            console.log("deleting terms");
-            var t = new TermDTO();
-            t.CourseId = courseId;
-            t.TermDate = termDate;
-            t.GroupId = groupId;
-            t.Id = 0;
-            this.deleteTerms(t);
-        }
-        else {
-            console.log("deleting term");
-            this.deleteTerm(termId);
-        }
-    }
-    public button_deleteUser = () => {
-        var userId = $("#user_user_select :selected").val();
-        if (userId == 0) {
-            alert(this.warning_delete_new);
-        }
-        else {
-            this.deleteUser(userId);
-        }
     }
     //-------------------------------BUTTONS END---------------------------------------------//
     //---------------------------------------------------------------------------------------//
@@ -1011,8 +1031,7 @@ class SettingsVM {
     }
     public createTerms = (t: TermDTO) => {
         console.log("creating terms", t);
-        console.log(t.TermDate);
-        return;
+        //return;
         //nešto s datumima nešto ne znam
         var self = this;
         var serviceURL = '/Settings/CreateTerms';
@@ -1052,7 +1071,8 @@ class SettingsVM {
         }
     }
     public deleteTerms = (t: TermDTO) => {
-        //console.log("deleting terms");
+        console.log("deleting terms");
+        console.log(t);
         var self = this;
         var serviceURL = '/Settings/DeleteTerms';
         $.ajax({
@@ -1090,7 +1110,7 @@ class SettingsVM {
 
     }
     public getTermsByCourseId = () => {
-        //console.log("getting term per course data");
+        //console.log("getting term per course id");
         var courseId = $('#term_course_select').val();
         $("#term_name").val("");
         //console.log(courseId);
@@ -1104,9 +1124,12 @@ class SettingsVM {
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: TermDTO[], status) {
+        function successFunc(data, status) {
+            //console.log(data);
             self.Terms = data;
-            console.log(self.Terms);
+            for (var i = 0; i < self.Terms.length; i++) {
+                //console.log(self.Terms[i].TermDate);
+            }
             self.populateSelectTerm();
         }
         function errorFunc(data) {
@@ -1143,7 +1166,7 @@ class SettingsVM {
 
     }
     public populateSelectTerm = () => {
-        //console.log("------\npopulating select term");
+        //console.log("populating select term");
         //console.log("Terms:\n",this.Terms);
         var selectId = "#term_term_select";
         var moreGroupsMode = false;
@@ -1152,6 +1175,7 @@ class SettingsVM {
             //console.log("more groups mode!");
         }
         var output = [];
+        var outputDates = [];
         output.push('<option value="' + "0" + '">' + "Novi termin" + '</option>');
         if (this.Terms == null) {
             $(selectId).find('option').remove().end();
@@ -1161,27 +1185,21 @@ class SettingsVM {
         //console.log(this.Terms);
         for (var i = 0; i < this.Terms.length; i++) {
             if (!moreGroupsMode) {
-                var date = this.Terms[i].TermDate;
-                var realDate:number = parseInt(date.toString().substr(6, date.toString().trim().length - 8));
-                var realDate2 = new Date(realDate);
-                var dateStringified = realDate2.getDate() + "." + (realDate2.getMonth() + 1).toString() + "." + realDate2.getFullYear().toString();
-                this.Terms[i].TermDate = new Date(realDate);
+                //console.log("filling term_term_select")
+                var date = this.Terms[i].TermDate.substring(0, 10);
                 var id = this.Terms[i].Id;
-                var outputMember = '<option value="' + id.toString() + '">' + dateStringified + '</option>';
+                var outputMember = '<option value="' + id.toString() + '">' + date + '</option>';
                 output.push(outputMember);
             }
             else {
-                var date = this.Terms[i].TermDate;
-                var realDate = parseInt(date.toString().substr(6, date.toString().trim().length - 8));
-                var realDate2 = new Date(realDate);
-                var dateStringified = realDate2.getDate() + "." + (realDate2.getMonth() + 1).toString() + "." + realDate2.getFullYear().toString();
-                this.Terms[i].TermDate = new Date(realDate);
-                var id = 1;
-                var outputMember = '<option value="' + id.toString() + '">' + dateStringified + '</option>';
+                //console.log("filling term_term_select_2")
+                var date = this.Terms[i].TermDate.substring(0,10);
+                var id = this.Terms[i].Id;
+                var outputMember = '<option value="' + id.toString() + '">' + date + '</option>';
                 var alreadyExists = false;
                 if (output != null) {
-                    for (var j = 0; j < output.length; j++) {
-                        if (output[j] == outputMember) {
+                    for (var j = 0; j < outputDates.length; j++) {
+                        if (outputDates[j] == date) {
                             alreadyExists = true;
                             break;
                         }
@@ -1189,7 +1207,10 @@ class SettingsVM {
                 }
                 if (!alreadyExists) {
                     output.push(outputMember);
+                    outputDates.push(date);
                 }
+                //console.log("option for term", this.Terms[i], "is:\n", outputMember);
+                //console.log("Id", this.Terms[i].Id, "\nid", id);
             }
         }
         //console.log(output);
@@ -1248,16 +1269,16 @@ class SettingsVM {
     }
     public updateTermData = () => {
         var termId = $("#term_term_select").val();
-        //console.log("updating term data", termId);
+        //console.log("updating term data for termId=", termId);
         //console.log("Terms:", this.Terms);
         if (termId == 0) {
-            var realDate2: Date = new Date();
-            var year = realDate2.getFullYear().toString();
-            var month = (realDate2.getMonth() + 1).toString();
-            var day = realDate2.getDate().toString();
+            var today: Date = new Date();
+            var year = today.getFullYear().toString();
+            var month = (today.getMonth() + 1).toString();
+            var day = today.getDate().toString();
             var month = this.minTwoDigits(parseInt(month));
             var day = this.minTwoDigits(parseInt(day));
-            //console.log("aaa:", year + "-" + month + "-" + day);
+            //console.log("a", day, month, year);
             $("#term_date").val(month + "/" + day + "/" + year);
         }
         else {
@@ -1271,16 +1292,13 @@ class SettingsVM {
                 console.log("error choosing term");
                 return;
             }
-            //console.log("updating term data",t);
-            var date:Date = t.TermDate;
-            var realDate2:Date = date;
-            var year = realDate2.getFullYear().toString();
-            var month = (realDate2.getMonth() + 1).toString();
-            var day = realDate2.getDate().toString();
-            var month = this.minTwoDigits(parseInt(month));
-            var day = this.minTwoDigits(parseInt(day));
-            //console.log(year, month, day);
-            $("#term_date").val(day + "/" + month + "/" + year);
+            console.log("updating term dataaa",t);
+            var date = t.TermDate;
+            var day = date.split('.')[0];
+            var month = date.split('.')[1];
+            var year = date.split('.')[2];
+            //console.log("b", day, month, year);
+            $("#term_date").val(month + "/" + day + "/" + year);
         }
     }
     //-------------------------------TERM END------------------------------------------------//
@@ -1482,7 +1500,7 @@ class TermDTO {
     public Id:number;
     public CourseId: number;
     public GroupId: GroupDTO;
-    public TermDate: Date = new Date();    
+    public TermDate: string;
     }
 class CourseDTO {
     public Id: number;
