@@ -9,21 +9,21 @@ class TableVM{
     public Terms1: CellM_T[] = new Array<CellM_T>();
     public Terms2: CellM_T[] = new Array<CellM_T>();
     public Terms3: CellM_T[] = new Array<CellM_T>();
-    public EmptyTerms: Term2DTO[];
+    public EmptyTerms: TermDTO_T[];
     public ActiveTerms: TermM_T[] = new Array<TermM_T>();
     public AllTerms: CellM_T[][];
     //------------------------------------USER----------------------------------//
-    public ActiveUser: MyUserM_T;
-    public ActiveUsers: MyUserM_T[];
-    public AllUsers: MyUser2DTO[] = new Array<MyUser2DTO>();
-    public Users: MyUserM_T[];
-    public UserData: MyUserM_T;
-    public BlankUser: MyUserM_T = new MyUserM_T({ Id: '0', Username: 'blank', Name: 'Prazan', LastName:'termin', Role: 'D' });
-    public BlankGroupOwner: MyUserM_T = new MyUserM_T({ Id: '0', Username: 'blank', Name: 'Nema', LastName:'vlasnika', Role: 'D' });
+    public ActiveUser: UserM_T;
+    public ActiveUsers: UserM_T[];
+    public AllUsers: UserDTO_T[] = new Array<UserDTO_T>();
+    public Users: UserM_T[];
+    public UserData: UserM_T;
+    public BlankUser: UserM_T = new UserM_T({ Id: '0', Username: 'blank', Name: 'Prazan', LastName:'termin', Role: 'D' });
+    public BlankGroupOwner: UserM_T = new UserM_T({ Id: '0', Username: 'blank', Name: 'Nema', LastName:'vlasnika', Role: 'D' });
     //------------------------------------COURSE--------------------------------//
     public AllCourses;
-    public Courses: Course2DTO[];
-    public Course: Course2DTO;
+    public Courses: CourseDTO_T[];
+    public Course: CourseDTO_T;
     //------------------------------------GROUP----------------------------------//
     public ActiveGroups: GroupM_T[];
     public AllGroups;
@@ -117,7 +117,7 @@ class TableVM{
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: MyUserM_T[], status) {
+        function successFunc(data: UserM_T[], status) {
             self.Users = data;
         }
         function errorFunc(data) {
@@ -136,8 +136,8 @@ class TableVM{
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: MyUserM_T[], status) {
-            self.ActiveUsers = new Array<MyUserM_T>();
+        function successFunc(data: UserM_T[], status) {
+            self.ActiveUsers = new Array<UserM_T>();
             //console.log("users by course id:",data);
             self.ActiveUsers = data;
             self.updateSelectUser();
@@ -159,9 +159,9 @@ class TableVM{
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: MyUserM_T, status) {
+        function successFunc(data: UserM_T, status) {
             if (data != null) {
-                self.ActiveUser = new MyUserM_T();
+                self.ActiveUser = new UserM_T();
                 self.ActiveUser = data;
                 self.UserCheck();
             }
@@ -189,7 +189,7 @@ class TableVM{
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: Course2DTO[], status) {
+        function successFunc(data: CourseDTO_T[], status) {
             self.Courses = data;
             //console.log(self.Courses);
             self.populateSelectStudy();
@@ -319,7 +319,7 @@ class TableVM{
                 cell.x = i;
                 cell.y = j;
                 cell.UserId = this.AllTerms[i][j].UserId;
-                cell.UserPerson = new MyUserM_T(this.AllTerms[i][j].UserPerson);
+                cell.UserPerson = new UserM_T(this.AllTerms[i][j].UserPerson);
                 var jsonDate = this.AllTerms[i][j].TermDate.toString();
                 var date = jsonDate.split('.');
                 cell.TermDate = date[0] + "." + date[1] + "." + date[2];
@@ -366,7 +366,7 @@ class TableVM{
                 var cell: CellM_T = new CellM_T();
                 cell.x = i;
                 cell.y = j;
-                var person = new MyUserM_T();
+                var person = new UserM_T();
                 for (var k = 0; k < this.ActiveTerms.length; k++) {
                     var t = this.ActiveTerms[k];
                     if (t.TermDate == TermDates[i] && t.GroupId == this.ActiveGroups[j].Id) {
@@ -396,7 +396,7 @@ class TableVM{
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: Term2DTO[], status) {
+        function successFunc(data: TermDTO_T[], status) {
             self.EmptyTerms = data;
             self.getGroupsByCourseId(courseId);
 
@@ -526,7 +526,7 @@ class TableVM{
         var selectStudy = $('#selectStudy').val();
         var selectCourse = $('#selectCourse').val()
         var self = this;
-        var course = new Course2DTO();
+        var course = new CourseDTO_T();
         for (var i = 0; i < self.Courses.length; i++) {
             var y = self.Courses[i];
             if (y.Study == selectStudy && y.Name == selectCourse) {
@@ -754,7 +754,7 @@ class TableVM{
     public LoginCheck = () => {
         var loginDataCookie = this.CheckCookie("LoginData");
         if (loginDataCookie != "") {
-            var loginData = new LoginDataSBM2();
+            var loginData = new LoginDataM_T();
             loginData.Username = loginDataCookie.split(' ')[0];
             loginData.Password = loginDataCookie.split(' ')[1];
             this.getUser(loginData.Username);
@@ -810,7 +810,7 @@ class TableVM{
         this.Terms0[0].UserPerson.Username="lalala";
     }
 }
-class MyUserM_T {
+class UserM_T {
     public Id:number;
     public Username: string;
     public Name: string;
@@ -826,7 +826,7 @@ class MyUserM_T {
         }
     }
 }
-class MyUser2DTO {
+class UserDTO_T {
     public Id: number;
     public Username: string;
     public FullName: string;
@@ -837,12 +837,12 @@ class TermM_T {
     public CourseId: number;
     public Course: CourseM_T;
     public UserId: number;
-    public UserPerson: MyUserM_T;
+    public UserPerson: UserM_T;
     public GroupId: number;
     public Group: GroupM_T;    
     public TermDate: string;    
 }
-class Term2DTO {
+class TermDTO_T {
     public Id: number;
     public CourseId: number;
     public GroupId: number;
@@ -857,15 +857,7 @@ class CellM_T {
     public TermDate : string;
     public Group: GroupM_T;
     public UserId: number;
-    public UserPerson : MyUserM_T;    
-}
-class Course2DTO {
-    public Id: number;
-    public Name: string;
-    public Study: string;
-    public Leader: string;
-    public Asistant: string;
-    public TermT: TermM_T[][];    
+    public UserPerson : UserM_T;    
 }
 class CourseM_T {
     public Id : number;
@@ -875,12 +867,20 @@ class CourseM_T {
     public Asistant : string;
     public TermT : TermM_T[][]; 
 }
+class CourseDTO_T {
+    public Id: number;
+    public Name: string;
+    public Study: string;
+    public Leader: string;
+    public Asistant: string;
+    public TermT: TermM_T[][];    
+}
 class GroupM_T {
     public Id : number;
     public Name: string;
     public OwnerId: number;
     public CourseId: number;
-    public UserPerson: MyUserM_T;
+    public UserPerson: UserM_T;
     constructor(group?: any) {
         if (group) {
             this.Id = group.Id;
@@ -891,7 +891,7 @@ class GroupM_T {
         }
     }
 }
-class LoginDataSBM2 {
+class LoginDataM_T {
     public Username: string;
     public Password: string;
 }

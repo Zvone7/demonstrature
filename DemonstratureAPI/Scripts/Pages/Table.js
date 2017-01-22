@@ -13,8 +13,8 @@ var TableVM = (function () {
         this.Terms3 = new Array();
         this.ActiveTerms = new Array();
         this.AllUsers = new Array();
-        this.BlankUser = new MyUserM_T({ Id: '0', Username: 'blank', Name: 'Prazan', LastName: 'termin', Role: 'D' });
-        this.BlankGroupOwner = new MyUserM_T({ Id: '0', Username: 'blank', Name: 'Nema', LastName: 'vlasnika', Role: 'D' });
+        this.BlankUser = new UserM_T({ Id: '0', Username: 'blank', Name: 'Prazan', LastName: 'termin', Role: 'D' });
+        this.BlankGroupOwner = new UserM_T({ Id: '0', Username: 'blank', Name: 'Nema', LastName: 'vlasnika', Role: 'D' });
         this.BlankGroup = new GroupM_T({ Id: '0', Name: '-', OwnerId: '0', CourseId: '0', UserPerson: this.BlankUser });
         //------------------------------------PRIMITIVE------------------------------//
         this.disableLeft = false;
@@ -93,7 +93,7 @@ var TableVM = (function () {
             });
             function successFunc(data, status) {
                 if (data != null) {
-                    self.ActiveUser = new MyUserM_T();
+                    self.ActiveUser = new UserM_T();
                     self.ActiveUser = data;
                     self.UserCheck();
                 }
@@ -249,7 +249,7 @@ var TableVM = (function () {
                     cell.x = i;
                     cell.y = j;
                     cell.UserId = _this.AllTerms[i][j].UserId;
-                    cell.UserPerson = new MyUserM_T(_this.AllTerms[i][j].UserPerson);
+                    cell.UserPerson = new UserM_T(_this.AllTerms[i][j].UserPerson);
                     var jsonDate = _this.AllTerms[i][j].TermDate.toString();
                     var date = jsonDate.split('.');
                     cell.TermDate = date[0] + "." + date[1] + "." + date[2];
@@ -300,7 +300,7 @@ var TableVM = (function () {
                     var cell = new CellM_T();
                     cell.x = i;
                     cell.y = j;
-                    var person = new MyUserM_T();
+                    var person = new UserM_T();
                     for (var k = 0; k < _this.ActiveTerms.length; k++) {
                         var t = _this.ActiveTerms[k];
                         if (t.TermDate == TermDates[i] && t.GroupId == _this.ActiveGroups[j].Id) {
@@ -457,7 +457,7 @@ var TableVM = (function () {
             var selectStudy = $('#selectStudy').val();
             var selectCourse = $('#selectCourse').val();
             var self = _this;
-            var course = new Course2DTO();
+            var course = new CourseDTO_T();
             for (var i = 0; i < self.Courses.length; i++) {
                 var y = self.Courses[i];
                 if (y.Study == selectStudy && y.Name == selectCourse) {
@@ -677,7 +677,7 @@ var TableVM = (function () {
         this.LoginCheck = function () {
             var loginDataCookie = _this.CheckCookie("LoginData");
             if (loginDataCookie != "") {
-                var loginData = new LoginDataSBM2();
+                var loginData = new LoginDataM_T();
                 loginData.Username = loginDataCookie.split(' ')[0];
                 loginData.Password = loginDataCookie.split(' ')[1];
                 _this.getUser(loginData.Username);
@@ -786,8 +786,8 @@ var TableVM = (function () {
     }
     return TableVM;
 }());
-var MyUserM_T = (function () {
-    function MyUserM_T(myUser) {
+var UserM_T = (function () {
+    function UserM_T(myUser) {
         if (myUser) {
             this.Id = myUser.Id;
             this.Username = myUser.Username;
@@ -796,37 +796,37 @@ var MyUserM_T = (function () {
             this.Role = myUser.Role;
         }
     }
-    return MyUserM_T;
+    return UserM_T;
 }());
-var MyUser2DTO = (function () {
-    function MyUser2DTO() {
+var UserDTO_T = (function () {
+    function UserDTO_T() {
     }
-    return MyUser2DTO;
+    return UserDTO_T;
 }());
 var TermM_T = (function () {
     function TermM_T() {
     }
     return TermM_T;
 }());
-var Term2DTO = (function () {
-    function Term2DTO() {
+var TermDTO_T = (function () {
+    function TermDTO_T() {
     }
-    return Term2DTO;
+    return TermDTO_T;
 }());
 var CellM_T = (function () {
     function CellM_T() {
     }
     return CellM_T;
 }());
-var Course2DTO = (function () {
-    function Course2DTO() {
-    }
-    return Course2DTO;
-}());
 var CourseM_T = (function () {
     function CourseM_T() {
     }
     return CourseM_T;
+}());
+var CourseDTO_T = (function () {
+    function CourseDTO_T() {
+    }
+    return CourseDTO_T;
 }());
 var GroupM_T = (function () {
     function GroupM_T(group) {
@@ -840,8 +840,8 @@ var GroupM_T = (function () {
     }
     return GroupM_T;
 }());
-var LoginDataSBM2 = (function () {
-    function LoginDataSBM2() {
+var LoginDataM_T = (function () {
+    function LoginDataM_T() {
     }
-    return LoginDataSBM2;
+    return LoginDataM_T;
 }());

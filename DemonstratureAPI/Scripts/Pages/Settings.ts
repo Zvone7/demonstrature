@@ -7,14 +7,14 @@
 
 class SettingsVM {
     //-------------------------------------primitive-----------------------------------//
-    public Courses: CourseDTO[];
-    public Users: MyUserDTO[];
-    public ActiveUser: MyUserDTO;
-    public UserCourses: CourseUserDTO[];
-    public CourseCourse: CourseDTO;
-    public Groups: GroupDTO[];
-    public GroupOwners: MyUserDTO[];
-    public Terms: TermDTO[];
+    public Courses: CourseDTO_S[];
+    public Users: UserDTO_S[];
+    public ActiveUser: UserDTO_S;
+    public UserCourses: CourseUserDTO_S[];
+    public CourseCourse: CourseDTO_S;
+    public Groups: GroupDTO_S[];
+    public GroupOwners: UserDTO_S[];
+    public Terms: TermDTO_S[];
 
     public warning_blank_field = "Molim popunite sva polja!";
     public warning_delete_new = "Pogreska pri odabiru";
@@ -132,7 +132,7 @@ class SettingsVM {
             return;
         }
         if (courseSelect == "Novi kolegij") {
-            var nc: CourseBM = new CourseBM();
+            var nc: CourseM_S = new CourseM_S();
             nc.Id = 0;
             nc.Name = courseName;
             nc.Professor = courseProf;
@@ -141,7 +141,7 @@ class SettingsVM {
             this.createCourse(nc);
         }
         else {
-            var nc: CourseBM = new CourseBM();
+            var nc: CourseM_S = new CourseM_S();
             nc.Id = courseSelectId;
             nc.Name = courseName;
             nc.Professor = courseProf;
@@ -185,7 +185,7 @@ class SettingsVM {
             console.log("u be tryin to change password");
         }
 
-        var userCoursesHelper: CourseDTO[] = new Array<CourseDTO>();
+        var userCoursesHelper: CourseDTO_S[] = new Array<CourseDTO_S>();
         // add courses
         var children = $("#user_user_course").find(':checkbox');
         for (var j = 0; j < children.length; j++) {
@@ -208,7 +208,7 @@ class SettingsVM {
         //if adding a new user
         if (userId == 0) {
             console.log("creating new user");
-            var nu: MyUserBM = new MyUserBM();
+            var nu: UserM_S = new UserM_S();
             nu.Id = 0;
             nu.Name = userName;
             nu.LastName = userLastName;
@@ -232,7 +232,7 @@ class SettingsVM {
         else {
             if (!changingPassword) {
                 console.log("updating user without pass");
-                var nu: MyUserBM = new MyUserBM();
+                var nu: UserM_S = new UserM_S();
                 nu.Id = userId;
                 nu.Name = userName;
                 nu.LastName = userLastName;
@@ -243,7 +243,7 @@ class SettingsVM {
             }
             else {
                 console.log("updating user with pass");
-                var nu: MyUserBM = new MyUserBM();
+                var nu: UserM_S = new UserM_S();
                 nu.Id = userId;
                 nu.Name = userName;
                 nu.LastName = userLastName;
@@ -282,7 +282,7 @@ class SettingsVM {
         var ownerId =$("#group_owner_select").val();
         var courseId = $("#group_course_select").val();
 
-        var g = new GroupDTO();
+        var g = new GroupDTO_S();
         g.Name = name;
         g.CourseId = courseId;
         g.OwnerId = ownerId;
@@ -322,7 +322,7 @@ class SettingsVM {
         tyear = parseInt(tyear);
         termDate = tday + "." + tmonth + "." + tyear;
 
-        var t = new TermDTO();
+        var t = new TermDTO_S();
         t.CourseId = courseId;
         t.TermDate = termDate;
         t.GroupId = groupId;
@@ -373,7 +373,7 @@ class SettingsVM {
         }
         else if (groupId == "-1") {
             console.log("deleting terms for all groups", t);
-            var t = new TermDTO();
+            var t = new TermDTO_S();
             t.CourseId = courseId;
             t.TermDate = termDate;
             t.GroupId = groupId;
@@ -413,7 +413,7 @@ class SettingsVM {
     //---------------------------------------------------------------------------------------//
     //---------------------------------------------------------------------------------------//
     //-------------------------------COURSES START-------------------------------------------//
-    public createCourse = (c: CourseBM) => {
+    public createCourse = (c: CourseM_S) => {
         var self = this;
         var serviceURL = '/Settings/CreateCourse';
         $.ajax({
@@ -479,7 +479,7 @@ class SettingsVM {
         
 
     }
-    public createCourseCheckboxesHelp = (c: CourseDTO) => {
+    public createCourseCheckboxesHelp = (c: CourseDTO_S) => {
         var container = document.getElementById("user_user_course");
         var label = document.createElement('label')
         label.htmlFor = "id";
@@ -527,7 +527,7 @@ class SettingsVM {
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: CourseDTO[], status) {
+        function successFunc(data: CourseDTO_S[], status) {
             self.Courses = data;
             self.populateSelectStudy("#course_study_select");
             self.populateSelectStudy("#group_study_select");
@@ -540,7 +540,7 @@ class SettingsVM {
             console.log('error getting data about all courses');
         }
     }
-    public updateCourse = (c: CourseBM) => {
+    public updateCourse = (c: CourseM_S) => {
         var self = this;
         var serviceURL = '/Settings/UpdateCourse';
         $.ajax({
@@ -585,7 +585,7 @@ class SettingsVM {
     //---------------------------------------------------------------------------------------//
     //---------------------------------------------------------------------------------------//
     //-------------------------------USER START----------------------------------------------//
-    public createUser = (nu: MyUserBM) => {
+    public createUser = (nu: UserM_S) => {
         var self = this;
         var serviceURL = '/Settings/CreateUser';
         $.ajax({
@@ -606,7 +606,7 @@ class SettingsVM {
     }
     public checkIfCorrectPassword(userId:number, oldPassword:string, newPassword:string) {
         var self = this;
-        var pu: PasswordUpdaterBM = new PasswordUpdaterBM();
+        var pu: PasswordUpdaterM_S = new PasswordUpdaterM_S();
         pu.Password = oldPassword;
         pu.UserId = userId;
         var serviceURL = '/Settings/CheckIfCorrectPassword';
@@ -666,7 +666,7 @@ class SettingsVM {
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: MyUserDTO[], status) {
+        function successFunc(data: UserDTO_S[], status) {
             self.Users = data;
             self.populateSelectUser();
         }
@@ -685,9 +685,9 @@ class SettingsVM {
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: MyUserDTO, status) {
+        function successFunc(data: UserDTO_S, status) {
             if (data != null) {
-                self.ActiveUser = new MyUserDTO();
+                self.ActiveUser = new UserDTO_S();
                 self.ActiveUser = data;
                 self.UserCheck();
             }
@@ -730,7 +730,7 @@ class SettingsVM {
         }
         $(selectId).html(output.join(''));
     }
-    public updateUser = (nu: MyUserBM) => {
+    public updateUser = (nu: UserM_S) => {
         var self = this;
         var serviceURL = '/Settings/UpdateUser';
         $.ajax({
@@ -789,7 +789,7 @@ class SettingsVM {
             }
         }
     }
-    public updateUserPassword = (pu: PasswordUpdaterBM) => {
+    public updateUserPassword = (pu: PasswordUpdaterM_S) => {
         var self = this;
         var serviceURL = '/Settings/UpdateUserPassword';
         $.ajax({
@@ -824,7 +824,7 @@ class SettingsVM {
     //---------------------------------------------------------------------------------------//
     //---------------------------------------------------------------------------------------//
     //-------------------------------GROUP START---------------------------------------------//
-    public createGroup = (g: GroupDTO) => {
+    public createGroup = (g: GroupDTO_S) => {
         var self = this;
         var serviceURL = '/Settings/CreateGroup';
         $.ajax({
@@ -873,7 +873,7 @@ class SettingsVM {
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: GroupDTO, status) {
+        function successFunc(data: GroupDTO_S, status) {
             var group = data;
             $("$group_owner_select").val(group.OwnerId);
         }
@@ -898,7 +898,7 @@ class SettingsVM {
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: GroupDTO[], status) {
+        function successFunc(data: GroupDTO_S[], status) {
             self.Groups = data;
             //console.log("------------------");console.log("courseSelectId: ", selectCourseId);console.log("groupSelectId: ", selectGroupId);console.log("groups: ", self.Groups);
             self.populateSelectGroup(selectGroupId, needsNew, isTermSelect);
@@ -921,7 +921,7 @@ class SettingsVM {
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: MyUserDTO[], status) {
+        function successFunc(data: UserDTO_S[], status) {
             self.GroupOwners = data;
             self.populateGroupOwners();
         }
@@ -962,7 +962,7 @@ class SettingsVM {
             this.getGroupData(groupId);
         }
     }
-    public updateGroup = (g: GroupDTO) => {
+    public updateGroup = (g: GroupDTO_S) => {
         var self = this;
         var serviceURL = '/Settings/UpdateGroup';
         $.ajax({
@@ -992,7 +992,7 @@ class SettingsVM {
             $("#group_name").val("");
         }
         else {
-            var g = new GroupDTO;
+            var g = new GroupDTO_S;
             for (var i = 0; i < this.Groups.length; i++) {
                 if (groupId == this.Groups[i].Id) {
                     g = this.Groups[i];
@@ -1010,7 +1010,7 @@ class SettingsVM {
     //---------------------------------------------------------------------------------------//
     //---------------------------------------------------------------------------------------//
     //-------------------------------TERM START----------------------------------------------//
-    public createTerm = (t: TermDTO) => {
+    public createTerm = (t: TermDTO_S) => {
         //console.log("creating term");
         var self = this;
         var serviceURL = '/Settings/CreateTerm';
@@ -1029,7 +1029,7 @@ class SettingsVM {
             console.log('Error creating new term');
         }
     }
-    public createTerms = (t: TermDTO) => {
+    public createTerms = (t: TermDTO_S) => {
         console.log("creating terms", t);
         //return;
         //nešto s datumima nešto ne znam
@@ -1070,7 +1070,7 @@ class SettingsVM {
             console.log('error deleting term');
         }
     }
-    public deleteTerms = (t: TermDTO) => {
+    public deleteTerms = (t: TermDTO_S) => {
         console.log("deleting terms");
         console.log(t);
         var self = this;
@@ -1101,7 +1101,7 @@ class SettingsVM {
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: TermDTO, status) {
+        function successFunc(data: TermDTO_S, status) {
             var term = data;
         }
         function errorFunc() {
@@ -1156,7 +1156,7 @@ class SettingsVM {
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: TermDTO[], status) {
+        function successFunc(data: TermDTO_S[], status) {
             self.Terms = data;
             self.populateSelectTerm();
         }
@@ -1218,7 +1218,7 @@ class SettingsVM {
         $(selectId).html(output.join(''));
         this.updateTermData();
     }
-    public updateTerm = (t: TermDTO) => {
+    public updateTerm = (t: TermDTO_S) => {
         //console.log("updating term");
         var self = this;
         var serviceURL = '/Settings/UpdateTerm';
@@ -1243,7 +1243,7 @@ class SettingsVM {
             console.log('Error updating term(2)');
         }
     }
-    public updateTerms = (t: TermDTO) => {
+    public updateTerms = (t: TermDTO_S) => {
         //console.log("updating terms");
         var self = this;
         var serviceURL = '/Settings/UpdateTerms';
@@ -1282,7 +1282,7 @@ class SettingsVM {
             $("#term_date").val(month + "/" + day + "/" + year);
         }
         else {
-            var t = new TermDTO;
+            var t = new TermDTO_S;
             for (var i = 0; i < this.Terms.length; i++) {
                 if (termId == this.Terms[i].Id) {
                     t = this.Terms[i];
@@ -1427,7 +1427,7 @@ class SettingsVM {
     public LoginCheck = () => {
         var loginDataCookie = this.CheckCookie("LoginData");
         if (loginDataCookie != "") {
-            var loginData = new LoginDataSBM();
+            var loginData = new LoginDataM_S();
             loginData.Username = loginDataCookie.split(' ')[0];
             loginData.Password = loginDataCookie.split(' ')[1];
             this.getUser(loginData.Username);
@@ -1477,58 +1477,58 @@ class SettingsVM {
     }
 }
 
-class MyUserBM {
+class UserM_S {
     public Id: number;
     public Username: string;
     public Name: string;
     public LastName: string;
     public Role: string;
     public Password: string;
-    public Courses: CourseDTO[] = new Array<CourseDTO>();
+    public Courses: CourseDTO_S[] = new Array<CourseDTO_S>();
 }
-class MyUserDTO {
+class UserDTO_S {
     public Id: number;
     public Username: string;
     public Name: string;
     public LastName: string;
     public Role: string;
 }
-class TermDTO {
+class TermDTO_S {
     public Id:number;
     public CourseId: number;
-    public GroupId: GroupDTO;
+    public GroupId: GroupDTO_S;
     public TermDate: string;
     }
-class CourseDTO {
+class CourseDTO_S {
     public Id: number;
     public Name: string;
     public Study: string;
     public Professor: string;
     public Asistant: string;
 }
-class CourseBM {
+class CourseM_S {
     public Id:number;
     public Name:string;
     public Study:string;
     public Professor:string;
     public Asistant:string;
 }
-class GroupDTO{
+class GroupDTO_S{
     public Id: number;
     public Name: string;
     public OwnerId: number;
     public CourseId: number;
 }
-class CourseUserDTO {
+class CourseUserDTO_S {
     public UserId: number;
     public CourseId: number;
     public CourseName: string;
 }
-class LoginDataSBM {
+class LoginDataM_S {
     public Username: string;
     public Password: string;
 }
-class PasswordUpdaterBM {
+class PasswordUpdaterM_S {
     UserId: number;
     Password: string;
 }

@@ -28,7 +28,7 @@ var SettingsVM = (function () {
                 return;
             }
             if (courseSelect == "Novi kolegij") {
-                var nc = new CourseBM();
+                var nc = new CourseM_S();
                 nc.Id = 0;
                 nc.Name = courseName;
                 nc.Professor = courseProf;
@@ -37,7 +37,7 @@ var SettingsVM = (function () {
                 _this.createCourse(nc);
             }
             else {
-                var nc = new CourseBM();
+                var nc = new CourseM_S();
                 nc.Id = courseSelectId;
                 nc.Name = courseName;
                 nc.Professor = courseProf;
@@ -97,7 +97,7 @@ var SettingsVM = (function () {
             //if adding a new user
             if (userId == 0) {
                 console.log("creating new user");
-                var nu = new MyUserBM();
+                var nu = new UserM_S();
                 nu.Id = 0;
                 nu.Name = userName;
                 nu.LastName = userLastName;
@@ -120,7 +120,7 @@ var SettingsVM = (function () {
             else {
                 if (!changingPassword) {
                     console.log("updating user without pass");
-                    var nu = new MyUserBM();
+                    var nu = new UserM_S();
                     nu.Id = userId;
                     nu.Name = userName;
                     nu.LastName = userLastName;
@@ -131,7 +131,7 @@ var SettingsVM = (function () {
                 }
                 else {
                     console.log("updating user with pass");
-                    var nu = new MyUserBM();
+                    var nu = new UserM_S();
                     nu.Id = userId;
                     nu.Name = userName;
                     nu.LastName = userLastName;
@@ -167,7 +167,7 @@ var SettingsVM = (function () {
             var name = $("#group_name").val();
             var ownerId = $("#group_owner_select").val();
             var courseId = $("#group_course_select").val();
-            var g = new GroupDTO();
+            var g = new GroupDTO_S();
             g.Name = name;
             g.CourseId = courseId;
             g.OwnerId = ownerId;
@@ -203,7 +203,7 @@ var SettingsVM = (function () {
             tday = parseInt(tday);
             tyear = parseInt(tyear);
             termDate = tday + "." + tmonth + "." + tyear;
-            var t = new TermDTO();
+            var t = new TermDTO_S();
             t.CourseId = courseId;
             t.TermDate = termDate;
             t.GroupId = groupId;
@@ -252,7 +252,7 @@ var SettingsVM = (function () {
             }
             else if (groupId == "-1") {
                 console.log("deleting terms for all groups", t);
-                var t = new TermDTO();
+                var t = new TermDTO_S();
                 t.CourseId = courseId;
                 t.TermDate = termDate;
                 t.GroupId = groupId;
@@ -527,7 +527,7 @@ var SettingsVM = (function () {
             });
             function successFunc(data, status) {
                 if (data != null) {
-                    self.ActiveUser = new MyUserDTO();
+                    self.ActiveUser = new UserDTO_S();
                     self.ActiveUser = data;
                     self.UserCheck();
                 }
@@ -835,7 +835,7 @@ var SettingsVM = (function () {
                 $("#group_name").val("");
             }
             else {
-                var g = new GroupDTO;
+                var g = new GroupDTO_S;
                 for (var i = 0; i < _this.Groups.length; i++) {
                     if (groupId == _this.Groups[i].Id) {
                         g = _this.Groups[i];
@@ -1118,7 +1118,7 @@ var SettingsVM = (function () {
                 $("#term_date").val(month + "/" + day + "/" + year);
             }
             else {
-                var t = new TermDTO;
+                var t = new TermDTO_S;
                 for (var i = 0; i < _this.Terms.length; i++) {
                     if (termId == _this.Terms[i].Id) {
                         t = _this.Terms[i];
@@ -1263,7 +1263,7 @@ var SettingsVM = (function () {
         this.LoginCheck = function () {
             var loginDataCookie = _this.CheckCookie("LoginData");
             if (loginDataCookie != "") {
-                var loginData = new LoginDataSBM();
+                var loginData = new LoginDataM_S();
                 loginData.Username = loginDataCookie.split(' ')[0];
                 loginData.Password = loginDataCookie.split(' ')[1];
                 _this.getUser(loginData.Username);
@@ -1395,7 +1395,7 @@ var SettingsVM = (function () {
     }
     SettingsVM.prototype.checkIfCorrectPassword = function (userId, oldPassword, newPassword) {
         var self = this;
-        var pu = new PasswordUpdaterBM();
+        var pu = new PasswordUpdaterM_S();
         pu.Password = oldPassword;
         pu.UserId = userId;
         var serviceURL = '/Settings/CheckIfCorrectPassword';
@@ -1425,49 +1425,49 @@ var SettingsVM = (function () {
     };
     return SettingsVM;
 }());
-var MyUserBM = (function () {
-    function MyUserBM() {
+var UserM_S = (function () {
+    function UserM_S() {
         this.Courses = new Array();
     }
-    return MyUserBM;
+    return UserM_S;
 }());
-var MyUserDTO = (function () {
-    function MyUserDTO() {
+var UserDTO_S = (function () {
+    function UserDTO_S() {
     }
-    return MyUserDTO;
+    return UserDTO_S;
 }());
-var TermDTO = (function () {
-    function TermDTO() {
+var TermDTO_S = (function () {
+    function TermDTO_S() {
     }
-    return TermDTO;
+    return TermDTO_S;
 }());
-var CourseDTO = (function () {
-    function CourseDTO() {
+var CourseDTO_S = (function () {
+    function CourseDTO_S() {
     }
-    return CourseDTO;
+    return CourseDTO_S;
 }());
-var CourseBM = (function () {
-    function CourseBM() {
+var CourseM_S = (function () {
+    function CourseM_S() {
     }
-    return CourseBM;
+    return CourseM_S;
 }());
-var GroupDTO = (function () {
-    function GroupDTO() {
+var GroupDTO_S = (function () {
+    function GroupDTO_S() {
     }
-    return GroupDTO;
+    return GroupDTO_S;
 }());
-var CourseUserDTO = (function () {
-    function CourseUserDTO() {
+var CourseUserDTO_S = (function () {
+    function CourseUserDTO_S() {
     }
-    return CourseUserDTO;
+    return CourseUserDTO_S;
 }());
-var LoginDataSBM = (function () {
-    function LoginDataSBM() {
+var LoginDataM_S = (function () {
+    function LoginDataM_S() {
     }
-    return LoginDataSBM;
+    return LoginDataM_S;
 }());
-var PasswordUpdaterBM = (function () {
-    function PasswordUpdaterBM() {
+var PasswordUpdaterM_S = (function () {
+    function PasswordUpdaterM_S() {
     }
-    return PasswordUpdaterBM;
+    return PasswordUpdaterM_S;
 }());
