@@ -1298,9 +1298,6 @@ var SettingsVM = (function () {
         };
         //-----------------------AUTHORIZATION & AUTHENTICATION END------------------------------//
         //---------------------------------------------------------------------------------------//
-        this.test = function () {
-            console.log("test function");
-        };
         this.minTwoDigits = function (n) {
             return (n < 10 ? '0' : '') + n;
         };

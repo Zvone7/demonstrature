@@ -1,5 +1,6 @@
 $(document).ready(function () {
     var tableVM = new TableVM();
+    tableVM.LoginCheck();
 });
 var TableVM = (function () {
     //------------------------------------FUNCTIONS------------------------------------//
@@ -29,11 +30,17 @@ var TableVM = (function () {
         this.notification_no_term_owner = "Prazan termin_2";
         this.notification_no_group_owner = "Nema";
         this.notification_no_group_name = "Nema";
+        this.warning_password_match = "Provjerite lozinku!";
+        this.warning_not_logged_in = "Molim ulogirajte se!";
+        this.link_main = "http://localhost:49977";
+        this.link_settings = "/Settings/Settings";
+        this.link_table = "/Table/Table";
+        this.link_login = "/Login/Login";
         //-------------------------------USERS START------------------------------------------------//
         this.getAllUsers = function () {
-            //console.log("Getting all users");
+            //console.log("getting all users");
             var self = _this;
-            var serviceURL = '/Table/AllUsers';
+            var serviceURL = '/Settings/GetUsers';
             $.ajax({
                 type: "GET",
                 url: serviceURL,
@@ -43,13 +50,10 @@ var TableVM = (function () {
                 error: errorFunc
             });
             function successFunc(data, status) {
-                //alert(data);
                 self.Users = data;
-                console.log(self.Users);
-                console.log(status);
             }
-            function errorFunc() {
-                alert('error');
+            function errorFunc(data) {
+                console.log('error getting data about all users', data);
             }
         };
         this.getUsersByCourseId = function (courseId) {
@@ -74,6 +78,31 @@ var TableVM = (function () {
             }
             function errorFunc(data) {
                 console.log('error getting data about all groups for course with id', courseId, "\nreason:\n", data);
+            }
+        };
+        this.getUser = function (username) {
+            var self = _this;
+            var serviceURL = '/Settings/UserByUsername';
+            $.ajax({
+                type: "GET",
+                url: serviceURL + "?username=" + username,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: successFunc,
+                error: errorFunc
+            });
+            function successFunc(data, status) {
+                if (data != null) {
+                    self.ActiveUser = new MyUserM_T();
+                    self.ActiveUser = data;
+                    self.UserCheck();
+                }
+                else {
+                    self.ActiveUser = null;
+                }
+            }
+            function errorFunc(data) {
+                console.log('error getting data about user courses');
             }
         };
         //-------------------------------USERS END--------------------------------------------------//
@@ -612,7 +641,90 @@ var TableVM = (function () {
         //-------------------------------NAVIGATION END---------------------------------------------//
         //------------------------------------------------------------------------------------------//
         //------------------------------------------------------------------------------------------//
+        //----------------------------------COOKIE START--------------------------------------------//
+        this.GetCookie = function (cname) {
+            try {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+            catch (err) {
+                return "";
+            }
+        };
+        this.CheckCookie = function (cname) {
+            var loginData = _this.GetCookie(cname);
+            if (loginData != "") {
+                return loginData;
+            }
+            else {
+                return "";
+            }
+        };
+        //----------------------------------COOKIE END----------------------------------------------//
+        //------------------------------------------------------------------------------------------//
+        //------------------------------------------------------------------------------------------//
+        //-----------------------AUTHORIZATION & AUTHENTICATION START-------------------------------//
+        this.LoginCheck = function () {
+            var loginDataCookie = _this.CheckCookie("LoginData");
+            if (loginDataCookie != "") {
+                var loginData = new LoginDataSBM2();
+                loginData.Username = loginDataCookie.split(' ')[0];
+                loginData.Password = loginDataCookie.split(' ')[1];
+                _this.getUser(loginData.Username);
+            }
+            else {
+                alert(_this.warning_not_logged_in);
+                location.href = _this.link_main + _this.link_login;
+            }
+        };
+        this.UserCheck = function () {
+            if (_this.ActiveUser != null) {
+                if (_this.ActiveUser.Role == "A") {
+                    _this.ActivateAdministrator();
+                }
+                else {
+                    _this.ActivateRegularUser();
+                }
+            }
+            else {
+                alert(_this.warning_not_logged_in);
+                location.href = _this.link_main + _this.link_login;
+            }
+        };
+        this.ActivateAdministrator = function () {
+            $("#adminSettings").css("visibility", "visible");
+            _this.getAllCourses();
+            _this.setInitialTermValues();
+        };
+        this.ActivateRegularUser = function () {
+            $("#adminSettings").css("visibility", "collapse");
+        };
+        //-----------------------AUTHORIZATION & AUTHENTICATION END---------------------------------//
+        //------------------------------------------------------------------------------------------//
         //-------------------------------EVERYTHING ELSE START--------------------------------------//
+        this.setTodayDate = function () {
+            var realDate2 = new Date();
+            var year = realDate2.getFullYear().toString();
+            var month = (realDate2.getMonth() + 1).toString();
+            var day = realDate2.getDate().toString();
+            var month = _this.minTwoDigits(parseInt(month));
+            var day = _this.minTwoDigits(parseInt(day));
+            //console.log(day, month, year);
+            $("#term_date").val(year + "-" + month + "-" + day);
+        };
+        this.minTwoDigits = function (n) {
+            return (n < 10 ? '0' : '') + n;
+        };
         //-------------------------------EVERYTHING ELSE END----------------------------------------//
         //------------------------------------------------------------------------------------------//
         this.test = function () {
@@ -621,8 +733,6 @@ var TableVM = (function () {
         var self = this;
         $(document).ready(function () {
             //console.log("constructing");
-            self.getAllCourses();
-            self.setInitialTermValues();
             //this.setTodayDate();
             $('select').on("change", function () {
                 if (this.id == "selectStudy") {
@@ -656,7 +766,7 @@ var TableVM = (function () {
             $('#myUl').css("visibility", "visible");
         });
         /*
-            constructor
+            loginCheck
                 getAllCourses
                     populateSelectStudy
                         populateSelectCourse
@@ -729,4 +839,9 @@ var GroupM_T = (function () {
         }
     }
     return GroupM_T;
+}());
+var LoginDataSBM2 = (function () {
+    function LoginDataSBM2() {
+    }
+    return LoginDataSBM2;
 }());

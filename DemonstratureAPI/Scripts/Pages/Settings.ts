@@ -1462,9 +1462,6 @@ class SettingsVM {
     }
     //-----------------------AUTHORIZATION & AUTHENTICATION END------------------------------//
     //---------------------------------------------------------------------------------------//
-    public test = () => {
-        console.log("test function");
-    }
     public minTwoDigits = (n) => {
         return (n < 10 ? '0' : '') + n;
     }

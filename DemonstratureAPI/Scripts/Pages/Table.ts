@@ -1,5 +1,6 @@
 ﻿$(document).ready(() => {
     var tableVM: TableVM = new TableVM();
+    tableVM.LoginCheck();
 });
 
 class TableVM{
@@ -12,6 +13,7 @@ class TableVM{
     public ActiveTerms: TermM_T[] = new Array<TermM_T>();
     public AllTerms: CellM_T[][];
     //------------------------------------USER----------------------------------//
+    public ActiveUser: MyUserM_T;
     public ActiveUsers: MyUserM_T[];
     public AllUsers: MyUser2DTO[] = new Array<MyUser2DTO>();
     public Users: MyUserM_T[];
@@ -40,13 +42,17 @@ class TableVM{
     public notification_no_term_owner: string = "Prazan termin_2";
     public notification_no_group_owner: string = "Nema";
     public notification_no_group_name: string = "Nema";
+    public warning_password_match = "Provjerite lozinku!";
+    public warning_not_logged_in = "Molim ulogirajte se!";
+    public link_main = "http://localhost:49977";
+    public link_settings = "/Settings/Settings";
+    public link_table = "/Table/Table";
+    public link_login = "/Login/Login";
     //------------------------------------FUNCTIONS------------------------------------//
     constructor() {
         var self = this;
         $(document).ready(function () {
             //console.log("constructing");
-            self.getAllCourses();
-            self.setInitialTermValues();
             //this.setTodayDate();
             $('select').on("change", function () {
                 if (this.id == "selectStudy") {
@@ -80,7 +86,7 @@ class TableVM{
             $('#myUl').css("visibility", "visible");
         });
         /*
-            constructor
+            loginCheck            
                 getAllCourses
                     populateSelectStudy
                         populateSelectCourse
@@ -100,9 +106,9 @@ class TableVM{
     }
     //-------------------------------USERS START------------------------------------------------//
     public getAllUsers = () => {
-        //console.log("Getting all users");
+        //console.log("getting all users");
         var self = this;
-        var serviceURL = '/Table/AllUsers';
+        var serviceURL = '/Settings/GetUsers';
         $.ajax({
             type: "GET",
             url: serviceURL,
@@ -111,16 +117,12 @@ class TableVM{
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(data: Array<MyUserM_T>, status) {
-            //alert(data);
-            self.Users=data;
-            console.log(self.Users);
-            console.log(status);
+        function successFunc(data: MyUserM_T[], status) {
+            self.Users = data;
         }
-        function errorFunc() {
-            alert('error');
+        function errorFunc(data) {
+            console.log('error getting data about all users', data);
         }
-
     }
     public getUsersByCourseId = (courseId:number) => {
         //console.log("getting users by course Id");
@@ -144,6 +146,31 @@ class TableVM{
         }
         function errorFunc(data) {
             console.log('error getting data about all groups for course with id', courseId, "\nreason:\n", data);
+        }
+    }
+    public getUser = (username: string) => {
+        var self = this;
+        var serviceURL = '/Settings/UserByUsername';
+        $.ajax({
+            type: "GET",
+            url: serviceURL + "?username=" + username,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc,
+            error: errorFunc
+        });
+        function successFunc(data: MyUserM_T, status) {
+            if (data != null) {
+                self.ActiveUser = new MyUserM_T();
+                self.ActiveUser = data;
+                self.UserCheck();
+            }
+            else {
+                self.ActiveUser = null;
+            }
+        }
+        function errorFunc(data) {
+            console.log('error getting data about user courses');
         }
     }
     //-------------------------------USERS END--------------------------------------------------//
@@ -691,8 +718,90 @@ class TableVM{
     //-------------------------------NAVIGATION END---------------------------------------------//
     //------------------------------------------------------------------------------------------//
     //------------------------------------------------------------------------------------------//
+    //----------------------------------COOKIE START--------------------------------------------//
+    public GetCookie = (cname) => {
+        try {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        catch (err) {
+            return "";
+        }
+    }
+    public CheckCookie = (cname) => {
+        var loginData = this.GetCookie(cname);
+        if (loginData != "") {
+            return loginData;
+        }
+        else {
+            return "";
+        }
+    }
+    //----------------------------------COOKIE END----------------------------------------------//
+    //------------------------------------------------------------------------------------------//
+    //------------------------------------------------------------------------------------------//
+    //-----------------------AUTHORIZATION & AUTHENTICATION START-------------------------------//
+    public LoginCheck = () => {
+        var loginDataCookie = this.CheckCookie("LoginData");
+        if (loginDataCookie != "") {
+            var loginData = new LoginDataSBM2();
+            loginData.Username = loginDataCookie.split(' ')[0];
+            loginData.Password = loginDataCookie.split(' ')[1];
+            this.getUser(loginData.Username);
+        }
+        else {
+            alert(this.warning_not_logged_in);
+            location.href = this.link_main + this.link_login;
+        }
+    }
+    public UserCheck = () => {
+        if (this.ActiveUser != null) {
+            if (this.ActiveUser.Role == "A") {
+                this.ActivateAdministrator();
+            }
+            else {
+                this.ActivateRegularUser();
+            }
+        }
+        else {
+            alert(this.warning_not_logged_in);
+            location.href = this.link_main + this.link_login;
+        }
+    }
+    public ActivateAdministrator = () => {
+        $("#adminSettings").css("visibility", "visible");
+        this.getAllCourses();
+        this.setInitialTermValues();
+    }
+    public ActivateRegularUser = () => {
+        $("#adminSettings").css("visibility", "collapse");
+    }
+    //-----------------------AUTHORIZATION & AUTHENTICATION END---------------------------------//
+    //------------------------------------------------------------------------------------------//
     //-------------------------------EVERYTHING ELSE START--------------------------------------//
-
+    public setTodayDate = () => {
+        var realDate2 = new Date();
+        var year = realDate2.getFullYear().toString();
+        var month = (realDate2.getMonth() + 1).toString();
+        var day = realDate2.getDate().toString();
+        var month = this.minTwoDigits(parseInt(month));
+        var day = this.minTwoDigits(parseInt(day));
+        //console.log(day, month, year);
+        $("#term_date").val(year + "-" + month + "-" + day);
+    }
+    public minTwoDigits = (n) => {
+        return (n < 10 ? '0' : '') + n;
+    }
     //-------------------------------EVERYTHING ELSE END----------------------------------------//
     //------------------------------------------------------------------------------------------//
 
@@ -781,5 +890,9 @@ class GroupM_T {
             this.UserPerson = group.UserPerson;
         }
     }
+}
+class LoginDataSBM2 {
+    public Username: string;
+    public Password: string;
 }
 
