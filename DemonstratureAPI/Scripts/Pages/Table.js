@@ -193,8 +193,8 @@ var TableVM = (function () {
         //------------------------------------------------------------------------------------------//
         //-------------------------------TERM START-------------------------------------------------//
         this.createFullTermData = function () {
-            //console.log("creating full term data");
-            //console.log("Empty terms", this.EmptyTerms);
+            console.log("creating full term data");
+            console.log("Empty terms", _this.EmptyTerms);
             //console.log("Active Users", this.ActiveUsers);
             //console.log("Active Groups", this.ActiveGroups);
             _this.ActiveTerms = new Array();

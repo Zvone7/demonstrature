@@ -113,34 +113,41 @@ namespace DemonstratureBLL
 
         public bool UpdateUser(MyUserWithPassBM u)
         {
-            MyUserWithPassDTO u2 = new MyUserWithPassDTO();
-            u2.Id = u.Id;
-            u2.Name = u.Name;
-            u2.LastName = u.LastName;
-            u2.Username = u.Username;
-            u2.Role = u.Role;
-            u2.IsActive = true;
-            u2.Courses = u.Courses;
-            if (u.Password != null)
+            try
             {
-                u2.Password = u.Password;
-            }
-            UserT u3 = _mapper.Map<UserT>(u2);
-            //can't have two users with same usernames
-            var allUsers = _userRepo.GetUser();
-            foreach (UserT ux in allUsers)
-            {
-                if (u3.Username == ux.Username && u3.Id!=u3.Id)
+                MyUserWithPassDTO u2 = new MyUserWithPassDTO();
+                u2.Id = u.Id;
+                u2.Name = u.Name;
+                u2.LastName = u.LastName;
+                u2.Username = u.Username;
+                u2.Role = u.Role;
+                u2.IsActive = true;
+                u2.Courses = u.Courses;
+                if (u.Password != null && u.Password!="")
                 {
-                    return false;
+                    u2.Password = u.Password;
                 }
+                UserT u3 = _mapper.Map<UserT>(u2);
+                //can't have two users with same usernames
+                var allUsers = _userRepo.GetUser();
+                foreach (UserT ux in allUsers)
+                {
+                    if (u3.Username == ux.Username && u3.Id != u3.Id)
+                    {
+                        return false;
+                    }
+                }
+                if (UserCourses(u2))
+                {
+                    _userRepo.UpdateUser(u3);
+                    return true;
+                }
+                return false;
             }
-            if (UserCourses(u2))
+            catch
             {
-                _userRepo.UpdateUser(u3);
-                return true;
+                return false;
             }
-            return false;
         }
 
         public bool CheckIfCorrectPassword(PasswordUpdaterBM pu)
@@ -152,6 +159,7 @@ namespace DemonstratureBLL
             }
             return false;
         }
+
         public bool UpdateUserPassword(PasswordUpdaterBM pu)
         {
             var user=_userRepo.GetUser(pu.UserId);
@@ -192,9 +200,14 @@ namespace DemonstratureBLL
             return true;
         }
 
-        public bool TryLogin(LoginData lg)
+        public bool TryLogin(LoginDataBM ld)
         {
-            return _userRepo.TryLogin(lg);
+            return _userRepo.TryLogin(ld);
+        }
+
+        public bool CheckAdmin(LoginDataBM ld)
+        {
+            return _userRepo.CheckAdmin(ld);
         }
     }
 }

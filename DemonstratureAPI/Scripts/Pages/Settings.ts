@@ -15,6 +15,7 @@ class SettingsVM {
     public Groups: GroupDTO_S[];
     public GroupOwners: UserDTO_S[];
     public Terms: TermDTO_S[];
+    public LoginData: LoginDataM_S;
 
     public warning_blank_field = "Molim popunite sva polja!";
     public warning_delete_new = "Pogreska pri odabiru";
@@ -239,6 +240,8 @@ class SettingsVM {
                 nu.Username = userUsername;
                 nu.Role = userRole;
                 nu.Courses = userCoursesHelper;
+                nu.Password = "";
+                //console.log(nu);
                 this.updateUser(nu);
             }
             else {
@@ -415,11 +418,14 @@ class SettingsVM {
     //-------------------------------COURSES START-------------------------------------------//
     public createCourse = (c: CourseM_S) => {
         var self = this;
+        var obj = new AuthCourse();
+        obj.LoginData = self.LoginData;
+        obj.Course = c;
         var serviceURL = '/Settings/CreateCourse';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: c,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -498,12 +504,14 @@ class SettingsVM {
     }
     public deleteCourse = (courseId: number) => {
         var self = this;
+        var obj = new AuthCourseId();
+        obj.LoginData = self.LoginData;
+        obj.CourseId = courseId;
         var serviceURL = '/Settings/DeleteCourse';
         $.ajax({
-            type: "DELETE",
-            url: serviceURL + "?courseId=" + courseId,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            type: "POST",
+            url: serviceURL,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -542,11 +550,14 @@ class SettingsVM {
     }
     public updateCourse = (c: CourseM_S) => {
         var self = this;
+        var obj = new AuthCourse();
+        obj.LoginData = self.LoginData;
+        obj.Course = c;
         var serviceURL = '/Settings/UpdateCourse';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: c,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -587,11 +598,14 @@ class SettingsVM {
     //-------------------------------USER START----------------------------------------------//
     public createUser = (nu: UserM_S) => {
         var self = this;
+        var obj = new AuthMyUserWithPassBM();
+        obj.LoginData = self.LoginData;
+        obj.MyUserWithPass = nu;
         var serviceURL = '/Settings/CreateUser';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: nu,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -609,11 +623,14 @@ class SettingsVM {
         var pu: PasswordUpdaterM_S = new PasswordUpdaterM_S();
         pu.Password = oldPassword;
         pu.UserId = userId;
+        var obj = new AuthPasswordUpdater();
+        obj.LoginData = self.LoginData;
+        obj.PasswordUpdater = pu;
         var serviceURL = '/Settings/CheckIfCorrectPassword';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: pu,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -636,12 +653,14 @@ class SettingsVM {
     }
     public deleteUser = (userId: number) => {
         var self = this;
+        var obj = new AuthUserId();
+        obj.LoginData = self.LoginData;
+        obj.UserId = userId;
         var serviceURL = '/Settings/DeleteUser';
         $.ajax({
-            type: "DELETE",
-            url: serviceURL + "?userId=" + userId,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            type: "POST",
+            url: serviceURL,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -731,12 +750,17 @@ class SettingsVM {
         $(selectId).html(output.join(''));
     }
     public updateUser = (nu: UserM_S) => {
+        //console.log("updating user", nu);
         var self = this;
+        var obj = new AuthMyUserWithPassBM();
+        obj.LoginData = self.LoginData;
+        obj.MyUserWithPass = nu;
+        console.log(obj);
         var serviceURL = '/Settings/UpdateUser';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: nu,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -791,11 +815,14 @@ class SettingsVM {
     }
     public updateUserPassword = (pu: PasswordUpdaterM_S) => {
         var self = this;
+        var obj = new AuthPasswordUpdater();
+        obj.LoginData = self.LoginData;
+        obj.PasswordUpdater = pu;
         var serviceURL = '/Settings/UpdateUserPassword';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: pu,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -826,11 +853,14 @@ class SettingsVM {
     //-------------------------------GROUP START---------------------------------------------//
     public createGroup = (g: GroupDTO_S) => {
         var self = this;
+        var obj = new AuthGroup();
+        obj.LoginData = self.LoginData;
+        obj.GroupDTO = g;
         var serviceURL = '/Settings/CreateGroup';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: g,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -844,12 +874,13 @@ class SettingsVM {
     }    
     public deleteGroup = (groupId: number) => {
         var self = this;
+        var obj = new AuthGroupId();
+        obj.LoginData = self.LoginData;
+        obj.GroupId = groupId;
         var serviceURL = '/Settings/DeleteGroup';
         $.ajax({
-            type: "DELETE",
-            url: serviceURL + "?groupId=" + groupId,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            type: "POST",
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -964,11 +995,14 @@ class SettingsVM {
     }
     public updateGroup = (g: GroupDTO_S) => {
         var self = this;
+        var obj = new AuthGroup();
+        obj.LoginData = self.LoginData;
+        obj.GroupDTO = g;
         var serviceURL = '/Settings/UpdateGroup';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: g,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -1013,11 +1047,14 @@ class SettingsVM {
     public createTerm = (t: TermDTO_S) => {
         //console.log("creating term");
         var self = this;
+        var obj = new AuthTerm();
+        obj.LoginData = self.LoginData;
+        obj.Term = t;
         var serviceURL = '/Settings/CreateTerm';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: t,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -1030,15 +1067,18 @@ class SettingsVM {
         }
     }
     public createTerms = (t: TermDTO_S) => {
-        console.log("creating terms", t);
+        //console.log("creating terms", t);
         //return;
         //nešto s datumima nešto ne znam
         var self = this;
+        var obj = new AuthTerm();
+        obj.LoginData = self.LoginData;
+        obj.Term = t;
         var serviceURL = '/Settings/CreateTerms';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: t,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -1053,12 +1093,13 @@ class SettingsVM {
     public deleteTerm = (termId: number) => {
         //console.log("deleting term");
         var self = this;
+        var obj = new AuthTermId();
+        obj.LoginData = self.LoginData;
+        obj.TermId = termId;
         var serviceURL = '/Settings/DeleteTerm';
         $.ajax({
-            type: "DELETE",
-            url: serviceURL + "?termId=" + termId,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            type: "POST",
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -1071,14 +1112,17 @@ class SettingsVM {
         }
     }
     public deleteTerms = (t: TermDTO_S) => {
-        console.log("deleting terms");
-        console.log(t);
+        //console.log("deleting terms");
+        //console.log(t);
         var self = this;
+        var obj = new AuthTerm();
+        obj.LoginData = self.LoginData;
+        obj.Term = t;
         var serviceURL = '/Settings/DeleteTerms';
         $.ajax({
-            type: "DELETE",
+            type: "POST",
             url: serviceURL,
-            data: t,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -1221,11 +1265,14 @@ class SettingsVM {
     public updateTerm = (t: TermDTO_S) => {
         //console.log("updating term");
         var self = this;
+        var obj = new AuthTerm();
+        obj.LoginData = self.LoginData;
+        obj.Term = t;
         var serviceURL = '/Settings/UpdateTerm';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: t,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -1246,6 +1293,9 @@ class SettingsVM {
     public updateTerms = (t: TermDTO_S) => {
         //console.log("updating terms");
         var self = this;
+        var obj = new AuthTerm();
+        obj.LoginData = self.LoginData;
+        obj.Term = t;
         var serviceURL = '/Settings/UpdateTerms';
         $.ajax({
             type: "POST",
@@ -1427,10 +1477,10 @@ class SettingsVM {
     public LoginCheck = () => {
         var loginDataCookie = this.CheckCookie("LoginData");
         if (loginDataCookie != "") {
-            var loginData = new LoginDataM_S();
-            loginData.Username = loginDataCookie.split(' ')[0];
-            loginData.Password = loginDataCookie.split(' ')[1];
-            this.getUser(loginData.Username);
+            this.LoginData = new LoginDataM_S();
+            this.LoginData.Username = loginDataCookie.split(' ')[0];
+            this.LoginData.Password = loginDataCookie.split(' ')[1];
+            this.getUser(this.LoginData.Username);
         }
         else {
             alert(this.warning_not_logged_in);
@@ -1531,4 +1581,40 @@ class LoginDataM_S {
 class PasswordUpdaterM_S {
     UserId: number;
     Password: string;
+}
+class AuthUserId {
+    LoginData: LoginDataM_S;
+    UserId: number;
+}
+class AuthMyUserWithPassBM {
+    LoginData: LoginDataM_S;
+    MyUserWithPass: UserM_S;
+}
+class AuthPasswordUpdater {
+    LoginData: LoginDataM_S;
+    PasswordUpdater: PasswordUpdaterM_S;
+}
+class AuthCourse {
+    LoginData: LoginDataM_S;
+    Course: CourseM_S;
+}
+class AuthCourseId {
+    LoginData: LoginDataM_S;
+    CourseId: number;
+}
+class AuthGroup {
+    LoginData: LoginDataM_S;
+    GroupDTO: GroupDTO_S;
+}
+class AuthGroupId {
+    LoginData: LoginDataM_S;
+    GroupId: number;
+}
+class AuthTerm {
+    LoginData: LoginDataM_S;
+    Term: TermDTO_S;
+}
+class AuthTermId {
+    LoginData: LoginDataM_S;
+    TermId: number;
 }

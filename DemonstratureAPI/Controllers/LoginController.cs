@@ -15,7 +15,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult TryLogin(LoginData log)
+        public ActionResult TryLogin(LoginDataBM log)
         {
             var instance = new UserLogic();
             var result = instance.TryLogin(log);

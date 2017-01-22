@@ -1,6 +1,6 @@
 ﻿body {
   font-family: 'Lato', sans-serif;
-  font-size: 19px;
+  font-size: 18px;
   background-color: #333333;
   margin: 100px 0 0 0px;
   padding: 0 0 0 0; }
@@ -29,14 +29,14 @@
         cursor: pointer; }
   .introPosition .introText {
     color: ghostwhite;
-    font-size: 23px;
+    font-size: 22px;
     text-align: center;
     padding-top: 20px; }
     .introPosition .introText.big {
-      font-size: 31px;
+      font-size: 30px;
       font-weight: bold; }
     .introPosition .introText.small {
-      font-size: 15px; }
+      font-size: 14px; }
 
 .loginPosition {
   margin-top: 40px; }
@@ -52,7 +52,7 @@
     width: 200px; }
   .loginPosition .identifier-big {
     color: whitesmoke;
-    font-size: 23px;
+    font-size: 22px;
     font-weight: bold;
     padding-bottom: 5px;
     text-align: center; }
@@ -81,19 +81,19 @@ a:-webkit-any-link {
   position: absolute;
   float: none;
   padding-left: 0px;
-  font-size: 23px; }
+  font-size: 22px; }
 
 .settingLi {
   margin-left: 90%;
   width: 300px;
   /*float:none;*/
   /*padding-left:calc(100% - 175px);*/
-  font-size: 19px; }
+  font-size: 18px; }
 
 .tableDiv {
   color: #e6e6ff;
   margin: 20px 0 0 100px;
-  font-size: 46.5px; }
+  font-size: 45px; }
 
 .settingsDiv {
   text-decoration: none;
@@ -102,7 +102,7 @@ a:-webkit-any-link {
   padding-right: 70px;
   padding-left: 0px;
   padding-bottom: 5px;
-  font-size: 27px; }
+  font-size: 26px; }
 
 .loginDiv {
   color: #e6e6ff;
@@ -110,7 +110,7 @@ a:-webkit-any-link {
   padding-right: 70px;
   padding-left: 0px;
   padding-bottom: 0;
-  font-size: 23px; }
+  font-size: 22px; }
 
 .container {
   padding-right: 15px;
@@ -177,10 +177,10 @@ a:-webkit-any-link {
     background: #003D78;
     color: #e6e6ff; }
   .selecter.univStudies {
-    font-size: 23px;
+    font-size: 22px;
     width: 250px; }
   .selecter.univCourse {
-    font-size: 23px;
+    font-size: 22px;
     width: 250px; }
 
 .selecter_s {
@@ -212,7 +212,7 @@ a:-webkit-any-link {
   background-color: #cce5ff;
   border: 2px solid #0d0d0d;
   border-radius: 25px;
-  font-size: 31px;
+  font-size: 30px;
   padding: 25px;
   position: absolute;
   vertical-align: middle;
@@ -273,7 +273,7 @@ a:-webkit-any-link {
   margin: -9px 0 0 0;
   outline: none;
   padding: 2px;
-  font-size: 19px; }
+  font-size: 18px; }
 
 ::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
@@ -284,9 +284,9 @@ a:-webkit-any-link {
   margin: 5px 15px;
   font-size: 22px; }
   .label_t.groupName {
-    font-size: 31px; }
+    font-size: 30px; }
   .label_t.groupOwner {
-    font-size: 27px; }
+    font-size: 26px; }
   .label_t.demoName {
     padding: 25px 40px;
     margin: 5px 15px 0 15px;
@@ -297,12 +297,12 @@ a:-webkit-any-link {
     width: 224px;
     word-wrap: break-word; }
   .label_t.date {
-    font-size: 27px; }
+    font-size: 26px; }
 
 .change-settings-label {
   margin-top: 20px;
   color: white;
-  font-size: 23px;
+  font-size: 22px;
   font-weight: bolder;
   padding-left: 20px;
   padding-bottom: 20px; }
@@ -310,25 +310,25 @@ a:-webkit-any-link {
 .identifier {
   color: white;
   padding-top: 3px;
-  font-size: 19px; }
+  font-size: 14px; }
 
 .identifier-bold {
   color: white;
   padding-top: 3px;
   padding-left: 5px;
-  font-size: 19px;
+  font-size: 18px;
   font-weight: bold; }
 
 .identifier-small {
   color: #ddd;
   padding-top: 3px;
   padding-left: 31px;
-  font-size: 15px;
+  font-size: 14px;
   font-style: italic; }
 
 .identifier-big {
   color: ghostwhite;
-  font-size: 23px;
+  font-size: 22px;
   font-weight: bold;
   padding-bottom: 5px;
   float: left;
@@ -372,10 +372,10 @@ input:hover {
   width: 150px;
   transition: all .1s ease;
   outline: none;
-  font-size: 15px;
+  font-size: 14px;
   word-wrap: break-word; }
   .tableButton.takeTerm {
-    font-size: 23px;
+    font-size: 22px;
     background-color: green;
     color: palegreen; }
     .tableButton.takeTerm:hover {
@@ -387,7 +387,7 @@ input:hover {
       background-color: #4c4c4c;
       cursor: pointer; }
   .tableButton.skipTerm {
-    font-size: 23px;
+    font-size: 22px;
     background-color: gray;
     font-weight: bold; }
     .tableButton.skipTerm:hover {
@@ -431,7 +431,7 @@ input:hover {
   text-align: center;
   text-decoration: none;
   border-radius: 2px;
-  font-size: 15px;
+  font-size: 14px;
   font-family: 'Lato', sans-serif;
   outline: none;
   color: palegreen; }

@@ -127,6 +127,8 @@ var SettingsVM = (function () {
                     nu.Username = userUsername;
                     nu.Role = userRole;
                     nu.Courses = userCoursesHelper;
+                    nu.Password = "";
+                    //console.log(nu);
                     _this.updateUser(nu);
                 }
                 else {
@@ -291,11 +293,14 @@ var SettingsVM = (function () {
         //-------------------------------COURSES START-------------------------------------------//
         this.createCourse = function (c) {
             var self = _this;
+            var obj = new AuthCourse();
+            obj.LoginData = self.LoginData;
+            obj.Course = c;
             var serviceURL = '/Settings/CreateCourse';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: c,
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -368,12 +373,14 @@ var SettingsVM = (function () {
         };
         this.deleteCourse = function (courseId) {
             var self = _this;
+            var obj = new AuthCourseId();
+            obj.LoginData = self.LoginData;
+            obj.CourseId = courseId;
             var serviceURL = '/Settings/DeleteCourse';
             $.ajax({
-                type: "DELETE",
-                url: serviceURL + "?courseId=" + courseId,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
+                type: "POST",
+                url: serviceURL,
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -412,11 +419,14 @@ var SettingsVM = (function () {
         };
         this.updateCourse = function (c) {
             var self = _this;
+            var obj = new AuthCourse();
+            obj.LoginData = self.LoginData;
+            obj.Course = c;
             var serviceURL = '/Settings/UpdateCourse';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: c,
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -457,11 +467,14 @@ var SettingsVM = (function () {
         //-------------------------------USER START----------------------------------------------//
         this.createUser = function (nu) {
             var self = _this;
+            var obj = new AuthMyUserWithPassBM();
+            obj.LoginData = self.LoginData;
+            obj.MyUserWithPass = nu;
             var serviceURL = '/Settings/CreateUser';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: nu,
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -476,12 +489,14 @@ var SettingsVM = (function () {
         };
         this.deleteUser = function (userId) {
             var self = _this;
+            var obj = new AuthUserId();
+            obj.LoginData = self.LoginData;
+            obj.UserId = userId;
             var serviceURL = '/Settings/DeleteUser';
             $.ajax({
-                type: "DELETE",
-                url: serviceURL + "?userId=" + userId,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
+                type: "POST",
+                url: serviceURL,
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -571,12 +586,17 @@ var SettingsVM = (function () {
             $(selectId).html(output.join(''));
         };
         this.updateUser = function (nu) {
+            //console.log("updating user", nu);
             var self = _this;
+            var obj = new AuthMyUserWithPassBM();
+            obj.LoginData = self.LoginData;
+            obj.MyUserWithPass = nu;
+            console.log(obj);
             var serviceURL = '/Settings/UpdateUser';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: nu,
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -631,11 +651,14 @@ var SettingsVM = (function () {
         };
         this.updateUserPassword = function (pu) {
             var self = _this;
+            var obj = new AuthPasswordUpdater();
+            obj.LoginData = self.LoginData;
+            obj.PasswordUpdater = pu;
             var serviceURL = '/Settings/UpdateUserPassword';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: pu,
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -666,11 +689,14 @@ var SettingsVM = (function () {
         //-------------------------------GROUP START---------------------------------------------//
         this.createGroup = function (g) {
             var self = _this;
+            var obj = new AuthGroup();
+            obj.LoginData = self.LoginData;
+            obj.GroupDTO = g;
             var serviceURL = '/Settings/CreateGroup';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: g,
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -684,12 +710,13 @@ var SettingsVM = (function () {
         };
         this.deleteGroup = function (groupId) {
             var self = _this;
+            var obj = new AuthGroupId();
+            obj.LoginData = self.LoginData;
+            obj.GroupId = groupId;
             var serviceURL = '/Settings/DeleteGroup';
             $.ajax({
-                type: "DELETE",
-                url: serviceURL + "?groupId=" + groupId,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
+                type: "POST",
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -807,11 +834,14 @@ var SettingsVM = (function () {
         };
         this.updateGroup = function (g) {
             var self = _this;
+            var obj = new AuthGroup();
+            obj.LoginData = self.LoginData;
+            obj.GroupDTO = g;
             var serviceURL = '/Settings/UpdateGroup';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: g,
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -856,11 +886,14 @@ var SettingsVM = (function () {
         this.createTerm = function (t) {
             //console.log("creating term");
             var self = _this;
+            var obj = new AuthTerm();
+            obj.LoginData = self.LoginData;
+            obj.Term = t;
             var serviceURL = '/Settings/CreateTerm';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: t,
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -873,15 +906,18 @@ var SettingsVM = (function () {
             }
         };
         this.createTerms = function (t) {
-            console.log("creating terms", t);
+            //console.log("creating terms", t);
             //return;
             //nešto s datumima nešto ne znam
             var self = _this;
+            var obj = new AuthTerm();
+            obj.LoginData = self.LoginData;
+            obj.Term = t;
             var serviceURL = '/Settings/CreateTerms';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: t,
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -896,12 +932,13 @@ var SettingsVM = (function () {
         this.deleteTerm = function (termId) {
             //console.log("deleting term");
             var self = _this;
+            var obj = new AuthTermId();
+            obj.LoginData = self.LoginData;
+            obj.TermId = termId;
             var serviceURL = '/Settings/DeleteTerm';
             $.ajax({
-                type: "DELETE",
-                url: serviceURL + "?termId=" + termId,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
+                type: "POST",
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -914,14 +951,17 @@ var SettingsVM = (function () {
             }
         };
         this.deleteTerms = function (t) {
-            console.log("deleting terms");
-            console.log(t);
+            //console.log("deleting terms");
+            //console.log(t);
             var self = _this;
+            var obj = new AuthTerm();
+            obj.LoginData = self.LoginData;
+            obj.Term = t;
             var serviceURL = '/Settings/DeleteTerms';
             $.ajax({
-                type: "DELETE",
+                type: "POST",
                 url: serviceURL,
-                data: t,
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -1057,11 +1097,14 @@ var SettingsVM = (function () {
         this.updateTerm = function (t) {
             //console.log("updating term");
             var self = _this;
+            var obj = new AuthTerm();
+            obj.LoginData = self.LoginData;
+            obj.Term = t;
             var serviceURL = '/Settings/UpdateTerm';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: t,
+                data: obj,
                 success: successFunc,
                 error: errorFunc
             });
@@ -1082,6 +1125,9 @@ var SettingsVM = (function () {
         this.updateTerms = function (t) {
             //console.log("updating terms");
             var self = _this;
+            var obj = new AuthTerm();
+            obj.LoginData = self.LoginData;
+            obj.Term = t;
             var serviceURL = '/Settings/UpdateTerms';
             $.ajax({
                 type: "POST",
@@ -1263,10 +1309,10 @@ var SettingsVM = (function () {
         this.LoginCheck = function () {
             var loginDataCookie = _this.CheckCookie("LoginData");
             if (loginDataCookie != "") {
-                var loginData = new LoginDataM_S();
-                loginData.Username = loginDataCookie.split(' ')[0];
-                loginData.Password = loginDataCookie.split(' ')[1];
-                _this.getUser(loginData.Username);
+                _this.LoginData = new LoginDataM_S();
+                _this.LoginData.Username = loginDataCookie.split(' ')[0];
+                _this.LoginData.Password = loginDataCookie.split(' ')[1];
+                _this.getUser(_this.LoginData.Username);
             }
             else {
                 alert(_this.warning_not_logged_in);
@@ -1398,11 +1444,14 @@ var SettingsVM = (function () {
         var pu = new PasswordUpdaterM_S();
         pu.Password = oldPassword;
         pu.UserId = userId;
+        var obj = new AuthPasswordUpdater();
+        obj.LoginData = self.LoginData;
+        obj.PasswordUpdater = pu;
         var serviceURL = '/Settings/CheckIfCorrectPassword';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: pu,
+            data: obj,
             success: successFunc,
             error: errorFunc
         });
@@ -1470,4 +1519,49 @@ var PasswordUpdaterM_S = (function () {
     function PasswordUpdaterM_S() {
     }
     return PasswordUpdaterM_S;
+}());
+var AuthUserId = (function () {
+    function AuthUserId() {
+    }
+    return AuthUserId;
+}());
+var AuthMyUserWithPassBM = (function () {
+    function AuthMyUserWithPassBM() {
+    }
+    return AuthMyUserWithPassBM;
+}());
+var AuthPasswordUpdater = (function () {
+    function AuthPasswordUpdater() {
+    }
+    return AuthPasswordUpdater;
+}());
+var AuthCourse = (function () {
+    function AuthCourse() {
+    }
+    return AuthCourse;
+}());
+var AuthCourseId = (function () {
+    function AuthCourseId() {
+    }
+    return AuthCourseId;
+}());
+var AuthGroup = (function () {
+    function AuthGroup() {
+    }
+    return AuthGroup;
+}());
+var AuthGroupId = (function () {
+    function AuthGroupId() {
+    }
+    return AuthGroupId;
+}());
+var AuthTerm = (function () {
+    function AuthTerm() {
+    }
+    return AuthTerm;
+}());
+var AuthTermId = (function () {
+    function AuthTermId() {
+    }
+    return AuthTermId;
 }());

@@ -26,11 +26,11 @@ $arrowBorderColor: #0d0d0d;
 $searchBorder: #333333;
 //--------------------------------------------------border colors--------------------------------------------------//
 //----------------------------------------------------font sizes---------------------------------------------------//
-$fontPcXL: 31px;
-$fontPcL: 27px;
-$fontPcM: 23px;
-$fontPcS: 19px;
-$fontPcXS: 15px;
+$fontPcXL: 30px;
+$fontPcL: 26px;
+$fontPcM: 22px;
+$fontPcS: 18px;
+$fontPcXS: 14px;
 //----------------------------------------------------font sizes---------------------------------------------------//
 //------------------------------------------------------body-------------------------------------------------------//
 body {
@@ -408,7 +408,7 @@ a:-webkit-any-link{
 .identifier{
   color:white;
   padding-top:3px;
-  font-size:$fontPcS;
+  font-size:$fontPcXS;
 }
 .identifier-bold{
   color:white;

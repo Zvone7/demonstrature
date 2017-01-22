@@ -118,7 +118,7 @@ namespace DemonstratureDB
             }
             return false;
         }
-        public bool TryLogin(LoginData lg)
+        public bool TryLogin(LoginDataBM lg)
         {
             try
             {
@@ -130,6 +130,32 @@ namespace DemonstratureDB
                 else
                 {
                     return false; 
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public bool CheckAdmin(LoginDataBM ld)
+        {
+            try
+            {
+                var user = dbase.UserT.Where(u => u.Username == ld.Username && u.Password == ld.Password).FirstOrDefault();
+                if (user != null)
+                {
+                    if (user.Role == "A")
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
                 }
             }
             catch

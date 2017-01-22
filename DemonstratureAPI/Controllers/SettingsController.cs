@@ -1,4 +1,5 @@
 ﻿using DemonstratureBLL;
+using DemonstratureCM.Auth;
 using DemonstratureCM.BM;
 using DemonstratureCM.DTO;
 using System.Web.Http;
@@ -41,12 +42,21 @@ namespace DemonstratureAPI.Controllers
             //return null;
         }
 
-        [System.Web.Mvc.HttpDelete]
-        public ActionResult DeleteUser([FromUri]int userId)
+        [System.Web.Mvc.HttpPost]
+        public ActionResult DeleteUser([FromBody]AuthUserId obj)
         {
             var instance = new UserLogic();
-            var result = instance.DeleteUser(userId);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var ld = obj.LoginData;
+            if (instance.CheckAdmin(ld))
+            {
+                var userId = obj.UserID;
+                var result = instance.DeleteUser(userId);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return null;
+            }
             //return null;
         }
 
@@ -60,66 +70,95 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult CreateUser([FromBody]MyUserWithPassBM u)
+        public ActionResult CreateUser([FromBody]AuthMyUserWithPassBM obj)
         {
             var instance = new UserLogic();
-            var result = instance.CreateUser(u);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            var ld = obj.LoginData;
+            if (instance.CheckAdmin(ld))
+            {
+                var u = obj.MyUserWithPass;
+                var result = instance.CreateUser(u);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult UpdateUser([FromBody]MyUserWithPassBM u)
+        public ActionResult UpdateUser([FromBody]AuthMyUserWithPassBM obj)
         {
             var instance = new UserLogic();
-            var result = instance.UpdateUser(u);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            var ld = obj.LoginData;
+            if (instance.CheckAdmin(ld))
+            {
+                var u = obj.MyUserWithPass;
+                var result = instance.UpdateUser(u);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
         }
         
         [System.Web.Mvc.HttpPost]
-        public ActionResult CheckIfCorrectPassword([FromBody]PasswordUpdaterBM pu)
+        public ActionResult CheckIfCorrectPassword([FromBody]AuthPasswordUpdaterBM obj)
         {
             var instance = new UserLogic();
-            var result = instance.CheckIfCorrectPassword(pu);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            var ld = obj.LoginData;
+            if (instance.CheckAdmin(ld))
+            {
+                var pu = obj.PasswordUpdater;
+                var result = instance.CheckIfCorrectPassword(pu);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult UpdateUserPassword([FromBody]PasswordUpdaterBM pu)
+        public ActionResult UpdateUserPassword([FromBody]AuthPasswordUpdaterBM obj)
         {
             var instance = new UserLogic();
-            var result = instance.UpdateUserPassword(pu);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            var ld = obj.LoginData;
+            if (instance.CheckAdmin(ld))
+            {
+                var pu = obj.PasswordUpdater;
+                var result = instance.UpdateUserPassword(pu);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
         }
 
         //---------------------------------------------------COURSE------------------------------//
         [System.Web.Mvc.HttpPost]
-        public ActionResult CreateCourse(CourseBM c)
+        public ActionResult CreateCourse([FromBody]AuthCourseBM obj)
         {
-            var instance = new CourseLogic();
-            var result = instance.CreateCourse(c);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            if (new UserLogic().CheckAdmin(obj.LoginData))
+            {
+                var instance = new CourseLogic();
+                var result = instance.CreateCourse(obj.Course);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
         }
 
-        [System.Web.Mvc.HttpDelete]
-        public ActionResult DeleteCourse([FromUri]int courseId)
+        [System.Web.Mvc.HttpPost]
+        public ActionResult DeleteCourse([FromBody]AuthCourseId obj)
         {
-            var instance = new CourseLogic();
-            var result = instance.DeleteCourse(courseId);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            if (new UserLogic().CheckAdmin(obj.LoginData))
+            {
+                var instance = new CourseLogic();
+                var result = instance.DeleteCourse(obj.CourseId);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
         }
         [System.Web.Mvc.HttpPost]
-        public ActionResult UpdateCourse(CourseBM c)
+        public ActionResult UpdateCourse([FromBody]AuthCourseBM obj)
         {
-            var instance = new CourseLogic();
-            var result = instance.UpdateCourse(c);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            if (new UserLogic().CheckAdmin(obj.LoginData))
+            {
+                var instance = new CourseLogic();
+                var result = instance.UpdateCourse(obj.Course);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
         }
 
         [System.Web.Mvc.HttpGet]
@@ -152,33 +191,40 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult CreateGroup(GroupDTO g)
+        public ActionResult CreateGroup([FromBody]AuthGroupDTO obj)
         {
-            var instance = new GroupLogic();
-            var result = instance.CreateGroup(g);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
-        }
-
-        [System.Web.Mvc.HttpDelete]
-        public ActionResult DeleteGroup([FromUri]int groupId)
-        {
-            var instance = new GroupLogic();
-            var result = instance.DeleteGroup(groupId);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            if (new UserLogic().CheckAdmin(obj.LoginData))
+            {
+                var instance = new GroupLogic();
+                var result = instance.CreateGroup(obj.Group);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult UpdateGroup(GroupDTO g)
+        public ActionResult DeleteGroup([FromUri]AuthGroupId obj)
         {
-            var instance = new GroupLogic();
-            var result = instance.UpdateGroup(g);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            if (new UserLogic().CheckAdmin(obj.LoginData))
+            {
+                var instance = new GroupLogic();
+                var result = instance.DeleteGroup(obj.GroupId);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
         }
 
-
+        [System.Web.Mvc.HttpPost]
+        public ActionResult UpdateGroup([FromBody]AuthGroupDTO obj)
+        {
+            if (new UserLogic().CheckAdmin(obj.LoginData))
+            {
+                var instance = new GroupLogic();
+                var result = instance.UpdateGroup(obj.Group);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
+        }
 
         //---------------------------------------------------TERM-------------------------------//
 
@@ -210,57 +256,75 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult CreateTerm(TermDTO g)
+        public ActionResult CreateTerm([FromBody]AuthTermDTO obj)
         {
-            var instance = new TermLogic();
-            var result = instance.CreateTerm(g);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            if (new UserLogic().CheckAdmin(obj.LoginData))
+            {
+                var instance = new TermLogic();
+                var result = instance.CreateTerm(obj.Term);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult CreateTerms(TermDTO g)
+        public ActionResult CreateTerms([FromBody]AuthTermDTO obj)
         {
-            var instance = new TermLogic();
-            var result = instance.CreateTerms(g);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
-        }
-
-        [System.Web.Mvc.HttpDelete]
-        public ActionResult DeleteTerm([FromUri]int termId)
-        {
-            var instance = new TermLogic();
-            var result = instance.DeleteTerm(termId);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
-        }
-
-        [System.Web.Mvc.HttpDelete]
-        public ActionResult DeleteTerms([FromUri]TermDTO t)
-        {
-            var instance = new TermLogic();
-            var result = instance.DeleteTerms(t);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            if (new UserLogic().CheckAdmin(obj.LoginData))
+            {
+                var instance = new TermLogic();
+                var result = instance.CreateTerms(obj.Term);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult UpdateTerm(TermDTO g)
+        public ActionResult DeleteTerm([FromBody]AuthTermId obj)
         {
-            var instance = new TermLogic();
-            var result = instance.UpdateTerm(g);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            if (new UserLogic().CheckAdmin(obj.LoginData))
+            {
+                var instance = new TermLogic();
+                var result = instance.DeleteTerm(obj.TermId);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult UpdateTerms(TermDTO g)
+        public ActionResult DeleteTerms([FromBody]AuthTermDTO obj)
         {
-            var instance = new TermLogic();
-            var result = instance.UpdateTerms(g);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            if (new UserLogic().CheckAdmin(obj.LoginData))
+            {
+                var instance = new TermLogic();
+                var result = instance.DeleteTerms(obj.Term);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
+        }
+
+        [System.Web.Mvc.HttpPost]
+        public ActionResult UpdateTerm([FromBody]AuthTermDTO obj)
+        {
+            if (new UserLogic().CheckAdmin(obj.LoginData))
+            {
+                var instance = new TermLogic();
+                var result = instance.UpdateTerm(obj.Term);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
+        }
+
+        [System.Web.Mvc.HttpPost]
+        public ActionResult UpdateTerms([FromBody]AuthTermDTO obj)
+        {
+            if (new UserLogic().CheckAdmin(obj.LoginData))
+            {
+                var instance = new TermLogic();
+                var result = instance.UpdateTerms(obj.Term);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else return null;
         }
 
     }

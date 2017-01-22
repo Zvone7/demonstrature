@@ -261,8 +261,8 @@ class TableVM{
     //------------------------------------------------------------------------------------------//
     //-------------------------------TERM START-------------------------------------------------//
     public createFullTermData = () => {
-        //console.log("creating full term data");
-        //console.log("Empty terms", this.EmptyTerms);
+        console.log("creating full term data");
+        console.log("Empty terms", this.EmptyTerms);
         //console.log("Active Users", this.ActiveUsers);
         //console.log("Active Groups", this.ActiveGroups);
         this.ActiveTerms = new Array<TermM_T>();

@@ -130,7 +130,21 @@ namespace DemonstratureBLL
             //ID-evi svih grupa za pojedini kolegij
             var groupsCount = _groupRepo.GetGroupsByCourseId(courseId).ToList().Count;
             //koliko grupa ima u svakom kolegiju
-            var dates = termsForCourse.Select(t => t.TermDate).Distinct();
+            var ddates = termsForCourse.Select(t => t.TermDate).ToList();
+            var dates = new List<string>();
+            foreach(var d in ddates)
+            {
+                var d2 = d.ToString();
+                if (dates.Contains(d2))
+                {
+                    continue;
+                }
+                else
+                {
+                    dates.Add(d2);
+                }
+            }
+            var dates1 = termsForCourse.Select(t => t.TermDate).Distinct();
 
             //svi termini gdje je datum jedan od distinct datuma i gdje ih ima ukupno kao grupa
 

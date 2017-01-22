@@ -11,6 +11,8 @@ class LoginVM {
     public link_table = "/Table/Table";
     public link_login = "/Login/Login";
 
+    public cookieMinuteTimeout = 30;
+
     constructor() {
         var self = this;
         $('#login_login').on("click", () => {
@@ -75,7 +77,7 @@ class LoginVM {
         var cookieValue = username + " " + password;
         var myDate = new Date();
         var expiryDate = new Date();
-        expiryDate.setMinutes(myDate.getMinutes() + 10);
+        expiryDate.setMinutes(myDate.getMinutes() + this.cookieMinuteTimeout);
         document.cookie =
             cookieName + "=" +
             cookieValue + ";expires=" +

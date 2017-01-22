@@ -10,6 +10,7 @@ var LoginVM = (function () {
         this.link_settings = "/Settings/Settings";
         this.link_table = "/Table/Table";
         this.link_login = "/Login/Login";
+        this.cookieMinuteTimeout = 30;
         this.button_tryLogin = function () {
             var username = $("#login_username").val();
             var password = $("#login_password").val();
@@ -52,7 +53,7 @@ var LoginVM = (function () {
             var cookieValue = username + " " + password;
             var myDate = new Date();
             var expiryDate = new Date();
-            expiryDate.setMinutes(myDate.getMinutes() + 10);
+            expiryDate.setMinutes(myDate.getMinutes() + _this.cookieMinuteTimeout);
             document.cookie =
                 cookieName + "=" +
                     cookieValue + ";expires=" +
