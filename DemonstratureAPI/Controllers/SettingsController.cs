@@ -203,7 +203,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult DeleteGroup([FromUri]AuthGroupId obj)
+        public ActionResult DeleteGroup([FromBody]AuthGroupId obj)
         {
             if (new UserLogic().CheckAdmin(obj.LoginData))
             {

@@ -376,7 +376,7 @@ a:-webkit-any-link{
    //border: 1px solid #bbb;
    padding: 1px 6px;
    margin: 5px 15px;
-   font-size:22px;   
+   font-size:$fontPcL;   
    &.groupName{
        font-size:$fontPcXL;
    }

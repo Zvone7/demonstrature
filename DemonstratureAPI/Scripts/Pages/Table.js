@@ -2,6 +2,7 @@ $(document).ready(function () {
     var tableVM = new TableVM();
     tableVM.LoginCheck();
 });
+//patiš se sa micanjem gore dolje..zabavica
 var TableVM = (function () {
     //------------------------------------FUNCTIONS------------------------------------//
     function TableVM() {
@@ -18,18 +19,19 @@ var TableVM = (function () {
         this.BlankGroup = new GroupM_T({ Id: '0', Name: '-', OwnerId: '0', CourseId: '0', UserPerson: this.BlankUser });
         //------------------------------------PRIMITIVE------------------------------//
         this.disableLeft = false;
-        this.disableRight = true;
+        this.disableRight = false;
         this.disableUp = false;
-        this.disableDown = true;
+        this.disableDown = false;
         //-------------------------------------primitive-----------------------------------//
-        this.moveX = 0;
-        this.moveY = 0;
+        this.position_verti = 0;
+        this.position_horiz = 0;
         this.numberOfGroups = 0;
         this.numberOfTerms = 0;
+        this.numberOfTermsBeforeToday = 0;
         this.notification_no_available_data = "Nema podataka";
         this.notification_no_term_owner = "Prazan termin_2";
         this.notification_no_group_owner = "Nema";
-        this.notification_no_group_name = "Nema";
+        this.notification_no_group_name = "Ne postoji";
         this.warning_password_match = "Provjerite lozinku!";
         this.warning_not_logged_in = "Molim ulogirajte se!";
         this.link_main = "http://localhost:49977";
@@ -193,8 +195,8 @@ var TableVM = (function () {
         //------------------------------------------------------------------------------------------//
         //-------------------------------TERM START-------------------------------------------------//
         this.createFullTermData = function () {
-            console.log("creating full term data");
-            console.log("Empty terms", _this.EmptyTerms);
+            //console.log("creating full term data");
+            //console.log("Empty terms", this.EmptyTerms);
             //console.log("Active Users", this.ActiveUsers);
             //console.log("Active Groups", this.ActiveGroups);
             _this.ActiveTerms = new Array();
@@ -232,9 +234,10 @@ var TableVM = (function () {
             }
             //console.log("Active Terms", this.ActiveTerms);
             if (_this.Terms0.length > 0) {
+                console.log("self.Terms0.length>0, 303 red!!");
             }
             else {
-                //console.log("self.Terms0.length=0");
+                console.log("self.Terms0.length=0");
                 _this.fillAllTerms();
             }
         };
@@ -242,7 +245,7 @@ var TableVM = (function () {
             //console.log("creating term table");
             //console.log("allTerms", this.AllTerms);
             //console.log("activeGroups", this.ActiveGroups);
-            for (var i = 0; i < _this.AllTerms.length; i++) {
+            for (var i = _this.position_verti; i < _this.AllTerms.length; i++) {
                 for (var j = 0; j < _this.ActiveGroups.length; j++) {
                     var cell = new CellM_T();
                     //console.log(i, j);
@@ -255,17 +258,18 @@ var TableVM = (function () {
                     cell.TermDate = date[0] + "." + date[1] + "." + date[2];
                     //console.log("created cell ", cell);
                     cell.Group = _this.AllTerms[i][j].Group;
-                    if (i == 0)
+                    if (i == 0 + _this.position_verti)
                         _this.Terms0.push(cell);
-                    else if (i == 1)
+                    else if (i == 1 + _this.position_verti)
                         _this.Terms1.push(cell);
-                    else if (i == 2)
+                    else if (i == 2 + _this.position_verti)
                         _this.Terms2.push(cell);
-                    else if (i == 3)
+                    else if (i == 3 + _this.position_verti)
                         _this.Terms3.push(cell);
                 }
             }
             //console.log("Terms0", this.Terms0); console.log("Terms1", this.Terms1); console.log("Terms2", this.Terms2); console.log("Terms3", this.Terms3);
+            _this.setInitialNavigation();
             _this.updateGroupWebData();
             _this.updateTermWebData(_this.Terms0, 0);
             _this.updateTermWebData(_this.Terms1, 1);
@@ -291,6 +295,25 @@ var TableVM = (function () {
             //end
             _this.numberOfTerms = TermDates.length;
             _this.numberOfGroups = _this.ActiveGroups.length;
+            //figure out how many terms are before todays date
+            for (var i = 0; i < TermDates.length; i++) {
+                var date = TermDates[i];
+                var today = new Date();
+                today.setHours(0);
+                today.setMinutes(0);
+                today.setSeconds(0);
+                today.setMilliseconds(0);
+                var day_ = date.split(".")[0];
+                var month_ = date.split(".")[1];
+                var year_ = date.split(".")[2];
+                var dateFormated = new Date(parseInt(year_), parseInt(month_) - 1, parseInt(day_));
+                //console.log(dateFormated, "\n\n", today);
+                if (dateFormated < today) {
+                    _this.position_verti++;
+                }
+            }
+            //console.log("there are ", this.position_verti, " terms which are before today");
+            _this.numberOfTermsBeforeToday = _this.position_verti;
             //console.log("There are ", this.numberOfGroups, "different groups and ", TermDates.length, "different dates")
             _this.AllTerms = new Array();
             //this makes a 2D array called AllTerms in which every row stands for date, and every column for group
@@ -378,20 +401,21 @@ var TableVM = (function () {
                 }
             }
         };
-        this.updateTermArrays = function (i_, j_) {
-            //console.log("updating Term Arrays for:", i_, "|", j_);
-            //i_ = 0; j_ = 0;
+        this.updateTermArrays = function () {
+            var j_ = _this.position_horiz;
+            var i_ = _this.position_verti;
+            console.log("updating Term Arrays for:", i_, "|", j_);
             var helper = "";
             for (var i = 0; i < 4; i++) {
                 for (var j = 0; j < 5; j++) {
                     var cell = _this.AllTerms[i_ + i][j_ + j];
                     cell.x = i;
                     cell.y = j;
-                    if (i == 0) {
+                    if (i == 0 + _this.position_verti) {
                         _this.Terms0[j].UserPerson = cell.UserPerson;
                         _this.Terms0[j].SkipState = cell.SkipState;
                         _this.Terms0[j].TakeState = cell.SkipState;
-                        _this.Terms0[j].TermDate = cell.TermDate;
+                        _this.Terms0[j].TermDate = cell.TermDate.substring(0, 9);
                         _this.Terms0[j].x = cell.x;
                         _this.Terms0[j].y = cell.y;
                         _this.Terms0[j].Group = cell.Group;
@@ -400,7 +424,7 @@ var TableVM = (function () {
                         _this.Terms1[j].UserPerson = cell.UserPerson;
                         _this.Terms1[j].SkipState = cell.SkipState;
                         _this.Terms1[j].TakeState = cell.SkipState;
-                        _this.Terms1[j].TermDate = cell.TermDate;
+                        _this.Terms1[j].TermDate = cell.TermDate.substring(0, 9);
                         _this.Terms1[j].x = cell.x;
                         _this.Terms1[j].y = cell.y;
                         _this.Terms1[j].Group = cell.Group;
@@ -409,7 +433,7 @@ var TableVM = (function () {
                         _this.Terms2[j].UserPerson = cell.UserPerson;
                         _this.Terms2[j].SkipState = cell.SkipState;
                         _this.Terms2[j].TakeState = cell.SkipState;
-                        _this.Terms2[j].TermDate = cell.TermDate;
+                        _this.Terms2[j].TermDate = cell.TermDate.substring(0, 9);
                         _this.Terms2[j].x = cell.x;
                         _this.Terms2[j].y = cell.y;
                         _this.Terms2[j].Group = cell.Group;
@@ -418,13 +442,18 @@ var TableVM = (function () {
                         _this.Terms3[j].UserPerson = cell.UserPerson;
                         _this.Terms3[j].SkipState = cell.SkipState;
                         _this.Terms3[j].TakeState = cell.SkipState;
-                        _this.Terms3[j].TermDate = cell.TermDate;
+                        _this.Terms3[j].TermDate = cell.TermDate.substring(0, 9);
                         _this.Terms3[j].x = cell.x;
                         _this.Terms3[j].y = cell.y;
                         _this.Terms3[j].Group = cell.Group;
                     }
                 }
             }
+            _this.updateTermWebData(_this.Terms0, 0);
+            _this.updateTermWebData(_this.Terms1, 1);
+            _this.updateTermWebData(_this.Terms2, 2);
+            _this.updateTermWebData(_this.Terms3, 3);
+            _this.updateGroupWebData();
             //console.log("terms0 userperson:", this.Terms0[0].UserPerson);
         };
         this.updateTermTable = function (data) {
@@ -470,7 +499,7 @@ var TableVM = (function () {
         };
         this.updateTermWebData = function (termsX, x) {
             var i = x;
-            console.log("updating web data for row ", i.toString(), " with this data ", termsX);
+            //console.log("updating web data for row ", i.toString(), " with this data ", termsX);
             var dateLabelId = "#date" + i.toString();
             var termOwnerLabelId = "#termOwner";
             if (termsX.length != 0) {
@@ -544,25 +573,26 @@ var TableVM = (function () {
             }
         };
         this.updateGroupWebData = function () {
-            //console.log("Updating group web data");
+            _this.checkValidMovement();
+            //console.log("Updating group web data, this.position_horiz", this.position_horiz);
             var self = _this;
             if (self.ActiveGroups.length == 0) {
                 console.log("Nema pronadjenih grupa");
                 return;
             }
-            var offset = 0;
-            for (var i = offset; i < self.ActiveGroups.length; i++) {
+            for (var i = 0; i < self.ActiveGroups.length - 1; i++) {
                 //console.log(self.ActiveGroups[i]);
                 var groupNameId = "#groupName" + i.toString();
                 var groupOwnerId = "#groupOwner" + i.toString();
-                var groupNameValue = self.ActiveGroups[i].Name;
-                var groupOwnerValue = self.ActiveGroups[i].UserPerson.Name + " " + self.ActiveGroups[i].UserPerson.LastName;
+                var groupNameValue = self.ActiveGroups[i + _this.position_horiz].Name;
+                var groupOwnerValue = self.ActiveGroups[i + _this.position_horiz].UserPerson.Name + " " + self.ActiveGroups[i + _this.position_horiz].UserPerson.LastName;
                 //console.log("filling ", groupOwnerId, " with ", groupOwnerValue);
+                //console.log(i, ":", groupNameValue, groupOwnerValue);
                 $(groupNameId).text(groupNameValue);
                 $(groupOwnerId).text(groupOwnerValue);
             }
-            if (offset + self.ActiveGroups.length < 5) {
-                for (var i = offset + self.ActiveGroups.length; i < 5; i++) {
+            if (self.ActiveGroups.length < 5) {
+                for (var i = self.ActiveGroups.length - 1; i < 5; i++) {
                     var groupNameId = "#groupName" + i.toString();
                     var groupOwnerId = "#groupOwner" + i.toString();
                     var groupNameValue = self.notification_no_group_name;
@@ -577,65 +607,143 @@ var TableVM = (function () {
         //------------------------------------------------------------------------------------------//
         //-------------------------------NAVIGATION START-------------------------------------------//
         this.leftClicked = function () {
-            _this.moveY++;
-            if (_this.checkValidMovement(_this.moveX, _this.moveY)) {
+            _this.position_horiz--;
+            if (_this.checkValidMovement()) {
                 _this.disableRight = false;
+                if (_this.position_horiz == 0) {
+                    _this.disableLeft = true;
+                }
+                _this.updateTermArrays();
+                _this.updateNavigationClasses();
             }
             else {
-                _this.handleWrongMove();
-                _this.moveY--;
                 _this.disableLeft = true;
+                _this.position_horiz++;
+                _this.handleWrongMove();
             }
         };
         this.rightClicked = function () {
-            _this.moveY--;
-            if (_this.checkValidMovement(_this.moveX, _this.moveY)) {
-                _this.updateTermArrays(_this.moveX, _this.moveY);
+            _this.position_horiz++;
+            if (_this.checkValidMovement()) {
                 _this.disableLeft = false;
+                if (_this.position_horiz == _this.numberOfGroups - 5) {
+                    _this.disableRight = true;
+                }
+                _this.updateTermArrays();
+                _this.updateNavigationClasses();
             }
             else {
-                _this.handleWrongMove();
-                _this.moveY++;
                 _this.disableRight = true;
+                _this.disableLeft = false;
+                _this.position_horiz--;
+                _this.handleWrongMove();
             }
         };
         this.upClicked = function () {
-            _this.moveX++;
-            if (_this.checkValidMovement(_this.moveX, _this.moveY)) {
-                _this.updateTermArrays(_this.moveX, _this.moveY);
+            _this.position_verti++;
+            if (_this.checkValidMovement()) {
                 _this.disableDown = false;
+                if (_this.position_verti == (_this.numberOfTerms - _this.numberOfTermsBeforeToday)) {
+                    _this.disableDown = true;
+                }
+                _this.updateTermArrays();
+                _this.updateNavigationClasses();
             }
             else {
-                _this.handleWrongMove();
-                _this.moveX--;
                 _this.disableUp = true;
+                _this.position_verti--;
+                _this.handleWrongMove();
             }
         };
         this.downClicked = function () {
-            _this.moveX--;
-            if (_this.checkValidMovement(_this.moveX, _this.moveY)) {
-                _this.updateTermArrays(_this.moveX, _this.moveY);
+            _this.position_verti--;
+            if (_this.checkValidMovement()) {
                 _this.disableUp = false;
+                if (_this.position_verti == (-1 * _this.numberOfTermsBeforeToday)) {
+                    _this.disableUp = true;
+                }
+                _this.updateTermArrays();
+                _this.updateNavigationClasses();
             }
             else {
-                _this.handleWrongMove();
-                _this.moveX++;
                 _this.disableDown = true;
+                _this.position_verti++;
+                _this.handleWrongMove();
             }
         };
         this.handleWrongMove = function () {
-            console.log("Wrong move!");
+            console.log("*********************\nWrong move!\n*********************");
+            _this.updateNavigationClasses();
         };
-        this.checkValidMovement = function (moveX, moveY) {
-            //console.log(this.moveX, this.moveY);
-            if (moveX >= 0 && moveX + 4 <= _this.numberOfTerms
-                && moveY >= 0 && moveY + 5 <= _this.numberOfGroups) {
+        this.updateNavigationClasses = function () {
+            console.log("updating navigation classes");
+            console.log("left:", !_this.disableLeft);
+            console.log("right:", !_this.disableRight);
+            console.log("up:", !_this.disableUp);
+            console.log("down:", !_this.disableDown);
+            if (_this.disableLeft) {
+                $("#arrowLeft").attr('class', 'arrowLeftDisabled');
+            }
+            else {
+                $("#arrowLeft").attr('class', 'arrowLeft');
+            }
+            if (_this.disableRight) {
+                $("#arrowRight").attr('class', 'arrowRightDisabled');
+            }
+            else {
+                $("#arrowRight").attr('class', 'arrowRight');
+            }
+            if (_this.disableUp) {
+                $("#arrowUp").attr('class', 'arrowUpDisabled');
+            }
+            else {
+                $("#arrowUp").attr('class', 'arrowUp');
+            }
+            if (_this.disableDown) {
+                $("#arrowDown").attr('class', 'arrowDownDisabled');
+            }
+            else {
+                $("#arrowDown").attr('class', 'arrowDown');
+            }
+        };
+        this.checkValidMovement = function () {
+            console.log("vertical position:\n", _this.position_verti, "/", _this.numberOfTerms, "\nhorizontal position\n", _this.position_horiz, "/", _this.numberOfGroups);
+            console.log("vertical upper limit:", _this.numberOfTerms - _this.numberOfTermsBeforeToday - 4);
+            console.log("vertical lower limit:", -1 * _this.numberOfTermsBeforeToday);
+            if (_this.position_verti >= (-1 * _this.numberOfTermsBeforeToday) &&
+                _this.position_verti < (_this.numberOfTerms - _this.numberOfTermsBeforeToday - 4)
+                &&
+                    _this.position_horiz >= 0 &&
+                _this.position_horiz + 5 <= _this.numberOfGroups) {
                 console.log("true");
                 return true;
             }
             else {
-                console.log("false");
+                console.log("Invalid move!");
                 return false;
+            }
+        };
+        this.setInitialNavigation = function () {
+            //console.log("setting inital navigation");
+            $("#arrowLeft").attr('class', 'arrowLeft');
+            $("#arrowRight").attr('class', 'arrowRight');
+            $("#arrowUp").attr('class', 'arrowUp');
+            $("#arrowDown").attr('class', 'arrowDown');
+            if (_this.position_horiz == 0) {
+                _this.disableLeft = true;
+                $("#arrowLeft").attr('class', 'arrowLeftDisabled');
+            }
+            if (_this.numberOfGroups <= 5) {
+                _this.disableRight = true;
+                $("#arrowRight").attr('class', 'arrowRightDisabled');
+            }
+            if (_this.position_verti == 0) {
+                _this.disableUp = true;
+                $("#arrowUp").attr('class', 'arrowUpDisabled');
+            }
+            if (_this.numberOfTerms <= 4) {
+                _this.disableDown = true;
+                $("#arrowDown").attr('class', 'arrowDownDisabled');
             }
         };
         //-------------------------------NAVIGATION END---------------------------------------------//
@@ -741,6 +849,12 @@ var TableVM = (function () {
                 }
                 else if (this.id == "selectCourse") {
                     //console.log("selectCourse changed");
+                    self.Terms0 = new Array();
+                    self.Terms1 = new Array();
+                    self.Terms2 = new Array();
+                    self.Terms3 = new Array();
+                    self.position_horiz = 0;
+                    self.position_verti = 0;
                     self.updateTermValuesAfterSelect();
                 }
                 else if (this.id.lastIndexOf("search") != '-1') {
@@ -750,7 +864,6 @@ var TableVM = (function () {
             });
             //navigation
             $('#arrowLeft').on("click", function () {
-                console.log("lalaa");
                 self.leftClicked();
             });
             $('#arrowRight').on("click", function () {
@@ -781,7 +894,9 @@ var TableVM = (function () {
                                                     createTermTable
                                                         updateGroupWebData
                                                         updateWebData
-                setInitialValues
+                                                        setInitialNavigation
+                setInitialTermValues
+                    
         */
     }
     return TableVM;
@@ -845,4 +960,3 @@ var LoginDataM_T = (function () {
     }
     return LoginDataM_T;
 }());
-//# sourceMappingURL=Table.js.map

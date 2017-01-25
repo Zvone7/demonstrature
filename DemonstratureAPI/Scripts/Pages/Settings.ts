@@ -183,7 +183,7 @@ class SettingsVM {
         if (password != "" || passwordAgain != "") {
             //this means that administrator is trying to change the password
             changingPassword = true;
-            console.log("u be tryin to change password");
+            //console.log("u be tryin to change password");
         }
 
         var userCoursesHelper: CourseDTO_S[] = new Array<CourseDTO_S>();
@@ -755,7 +755,7 @@ class SettingsVM {
         var obj = new AuthMyUserWithPassBM();
         obj.LoginData = self.LoginData;
         obj.MyUserWithPass = nu;
-        console.log(obj);
+        //console.log(obj);
         var serviceURL = '/Settings/UpdateUser';
         $.ajax({
             type: "POST",
@@ -765,7 +765,7 @@ class SettingsVM {
             error: errorFunc
         });
         function successFunc(data, status) {
-            if (status == "success") {
+            if (status == "success" && data==true) {
                 console.log("Succesfully updated user.");
                 self.getAllCourses();
                 self.getAllUsers();
@@ -852,10 +852,12 @@ class SettingsVM {
     //---------------------------------------------------------------------------------------//
     //-------------------------------GROUP START---------------------------------------------//
     public createGroup = (g: GroupDTO_S) => {
+        //console.log("creating group");
         var self = this;
-        var obj = new AuthGroup();
+        var obj = new AuthGroupDTO();
         obj.LoginData = self.LoginData;
-        obj.GroupDTO = g;
+        obj.Group = g;
+        //console.log(obj);
         var serviceURL = '/Settings/CreateGroup';
         $.ajax({
             type: "POST",
@@ -865,28 +867,42 @@ class SettingsVM {
             error: errorFunc
         });
         function successFunc(data, status) {
-            console.log("Succesfully created group.", data, status);
-            self.getAllCourses();
+            if (data != null) {
+                console.log("Succesfully created group.", data, status);
+                self.getAllCourses();
+            }
+            else {
+                console.log('Error creating new group(1)');
+
+            }
         }
         function errorFunc() {
             console.log('Error creating new group');
         }
     }    
     public deleteGroup = (groupId: number) => {
+        //console.log("deleting group");
         var self = this;
         var obj = new AuthGroupId();
         obj.LoginData = self.LoginData;
         obj.GroupId = groupId;
+        //console.log(obj);
         var serviceURL = '/Settings/DeleteGroup';
         $.ajax({
             type: "POST",
+            url: serviceURL,
             data: obj,
             success: successFunc,
             error: errorFunc
         });
-        function successFunc(status) {
-            console.log("group deleted!");
-            self.getAllCourses();
+        function successFunc(data, status) {
+            if (status == "success" && data == true) {
+                console.log("group deleted!", data, status);
+                self.getAllCourses();
+            }
+            else {
+                console.log('error deleting group(1)');
+            }
         }
         function errorFunc(data) {
             console.log('error deleting group');
@@ -995,9 +1011,9 @@ class SettingsVM {
     }
     public updateGroup = (g: GroupDTO_S) => {
         var self = this;
-        var obj = new AuthGroup();
+        var obj = new AuthGroupDTO();
         obj.LoginData = self.LoginData;
-        obj.GroupDTO = g;
+        obj.Group = g;
         var serviceURL = '/Settings/UpdateGroup';
         $.ajax({
             type: "POST",
@@ -1007,13 +1023,13 @@ class SettingsVM {
             error: errorFunc
         });
         function successFunc(data, status) {
-            if (status == "success") {
+            if (status == "success" && data==true) {
                 console.log("Succesfully updated group.");
                 $("#group_group_select").val(g.Id);
                 self.getAllCourses();
             }
             else {
-                console.log('Error updating group(1)');
+                console.log('Error updating group(1)', data, status);
             }
         }
         function errorFunc() {
@@ -1602,9 +1618,9 @@ class AuthCourseId {
     LoginData: LoginDataM_S;
     CourseId: number;
 }
-class AuthGroup {
+class AuthGroupDTO {
     LoginData: LoginDataM_S;
-    GroupDTO: GroupDTO_S;
+    Group: GroupDTO_S;
 }
 class AuthGroupId {
     LoginData: LoginDataM_S;

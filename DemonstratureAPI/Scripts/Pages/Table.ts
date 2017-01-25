@@ -3,6 +3,8 @@
     tableVM.LoginCheck();
 });
 
+//patiš se sa micanjem gore dolje..zabavica
+
 class TableVM{
     //------------------------------------TERM----------------------------------//
     public Terms0: CellM_T[] = new Array<CellM_T>();
@@ -30,18 +32,19 @@ class TableVM{
     public BlankGroup: GroupM_T = new GroupM_T({ Id: '0', Name: '-', OwnerId: '0', CourseId: '0', UserPerson: this.BlankUser });
     //------------------------------------PRIMITIVE------------------------------//
     public disableLeft: boolean = false;
-    public disableRight: boolean = true;
+    public disableRight: boolean = false;
     public disableUp: boolean = false;
-    public disableDown: boolean = true;
+    public disableDown: boolean = false;
     //-------------------------------------primitive-----------------------------------//
-    public moveX: number = 0;
-    public moveY: number = 0;
+    public position_verti: number = 0;
+    public position_horiz: number = 0;
     public numberOfGroups: number = 0;
     public numberOfTerms: number = 0;
+    public numberOfTermsBeforeToday: number = 0;
     public notification_no_available_data: string = "Nema podataka";
     public notification_no_term_owner: string = "Prazan termin_2";
     public notification_no_group_owner: string = "Nema";
-    public notification_no_group_name: string = "Nema";
+    public notification_no_group_name: string = "Ne postoji";
     public warning_password_match = "Provjerite lozinku!";
     public warning_not_logged_in = "Molim ulogirajte se!";
     public link_main = "http://localhost:49977";
@@ -61,6 +64,12 @@ class TableVM{
                 }
                 else if (this.id == "selectCourse") {
                     //console.log("selectCourse changed");
+                    self.Terms0 = new Array<CellM_T>();
+                    self.Terms1 = new Array<CellM_T>();
+                    self.Terms2 = new Array<CellM_T>();
+                    self.Terms3 = new Array<CellM_T>();
+                    self.position_horiz = 0;
+                    self.position_verti = 0;
                     self.updateTermValuesAfterSelect();
                 }
                 else if (this.id.lastIndexOf("search") != '-1') {
@@ -70,7 +79,6 @@ class TableVM{
             })
             //navigation
             $('#arrowLeft').on("click", () => {
-                console.log("lalaa");
                 self.leftClicked();
             });
             $('#arrowRight').on("click", () => {
@@ -101,7 +109,9 @@ class TableVM{
                                                     createTermTable
                                                         updateGroupWebData
                                                         updateWebData
-                setInitialValues
+                                                        setInitialNavigation
+                setInitialTermValues
+                    
         */
     }
     //-------------------------------USERS START------------------------------------------------//
@@ -261,8 +271,8 @@ class TableVM{
     //------------------------------------------------------------------------------------------//
     //-------------------------------TERM START-------------------------------------------------//
     public createFullTermData = () => {
-        console.log("creating full term data");
-        console.log("Empty terms", this.EmptyTerms);
+        //console.log("creating full term data");
+        //console.log("Empty terms", this.EmptyTerms);
         //console.log("Active Users", this.ActiveUsers);
         //console.log("Active Groups", this.ActiveGroups);
         this.ActiveTerms = new Array<TermM_T>();
@@ -300,11 +310,11 @@ class TableVM{
         }
         //console.log("Active Terms", this.ActiveTerms);
         if (this.Terms0.length > 0) {
-            //console.log("self.Terms0.length>0");
+            console.log("self.Terms0.length>0, 303 red!!");
             //self.updateTermTable();
         }
         else {
-            //console.log("self.Terms0.length=0");
+            console.log("self.Terms0.length=0");
             this.fillAllTerms();
         }
     }
@@ -312,7 +322,7 @@ class TableVM{
         //console.log("creating term table");
         //console.log("allTerms", this.AllTerms);
         //console.log("activeGroups", this.ActiveGroups);
-        for (var i = 0; i < this.AllTerms.length; i++) {
+        for (var i = this.position_verti; i < this.AllTerms.length; i++) {
             for (var j = 0; j < this.ActiveGroups.length; j++) {
                 var cell = new CellM_T();
                 //console.log(i, j);
@@ -325,13 +335,15 @@ class TableVM{
                 cell.TermDate = date[0] + "." + date[1] + "." + date[2];
                 //console.log("created cell ", cell);
                 cell.Group = this.AllTerms[i][j].Group;
-                if (i == 0) this.Terms0.push(cell);
-                else if (i == 1) this.Terms1.push(cell);
-                else if (i == 2) this.Terms2.push(cell);
-                else if (i == 3) this.Terms3.push(cell);
+                if (i == 0 + this.position_verti) this.Terms0.push(cell);
+                else if (i == 1 + this.position_verti) this.Terms1.push(cell);
+                else if (i == 2 + this.position_verti) this.Terms2.push(cell);
+                else if (i == 3 + this.position_verti) this.Terms3.push(cell);
             }
         }
         //console.log("Terms0", this.Terms0); console.log("Terms1", this.Terms1); console.log("Terms2", this.Terms2); console.log("Terms3", this.Terms3);
+
+        this.setInitialNavigation();
         this.updateGroupWebData();
         this.updateTermWebData(this.Terms0, 0);
         this.updateTermWebData(this.Terms1, 1);
@@ -357,6 +369,25 @@ class TableVM{
         //end
         this.numberOfTerms = TermDates.length;
         this.numberOfGroups = this.ActiveGroups.length;
+        //figure out how many terms are before todays date
+        for (var i = 0; i < TermDates.length; i++) {
+            var date = TermDates[i];
+            var today = new Date();
+            today.setHours(0);
+            today.setMinutes(0);
+            today.setSeconds(0);
+            today.setMilliseconds(0);
+            var day_ = date.split(".")[0];
+            var month_ = date.split(".")[1];
+            var year_ = date.split(".")[2];
+            var dateFormated = new Date(parseInt(year_), parseInt(month_)-1, parseInt(day_)) ;
+            //console.log(dateFormated, "\n\n", today);
+            if (dateFormated < today) {
+                this.position_verti++;
+            }
+        }
+        //console.log("there are ", this.position_verti, " terms which are before today");
+        this.numberOfTermsBeforeToday = this.position_verti;
         //console.log("There are ", this.numberOfGroups, "different groups and ", TermDates.length, "different dates")
         this.AllTerms = new Array<CellM_T[]>();
         //this makes a 2D array called AllTerms in which every row stands for date, and every column for group
@@ -451,20 +482,21 @@ class TableVM{
             }
         }
     }
-    public updateTermArrays = (i_: number, j_: number) => {
-        //console.log("updating Term Arrays for:", i_, "|", j_);
-        //i_ = 0; j_ = 0;
+    public updateTermArrays = () => {
+        var j_ = this.position_horiz;
+        var i_ = this.position_verti;
+        console.log("updating Term Arrays for:", i_, "|", j_);
         var helper = "";
         for (var i = 0; i < 4; i++) {
             for (var j = 0; j < 5; j++) {
                 var cell = this.AllTerms[i_ + i][j_ + j];
                 cell.x = i;
                 cell.y = j;
-                if (i == 0) {
+                if (i == 0 + this.position_verti) {
                     this.Terms0[j].UserPerson=cell.UserPerson;
                     this.Terms0[j].SkipState=cell.SkipState;
-                    this.Terms0[j].TakeState=cell.SkipState;
-                    this.Terms0[j].TermDate=cell.TermDate;
+                    this.Terms0[j].TakeState = cell.SkipState;
+                    this.Terms0[j].TermDate = cell.TermDate.substring(0,9);
                     this.Terms0[j].x = cell.x;
                     this.Terms0[j].y = cell.y;
                     this.Terms0[j].Group=cell.Group;
@@ -473,7 +505,7 @@ class TableVM{
                     this.Terms1[j].UserPerson=cell.UserPerson;
                     this.Terms1[j].SkipState=cell.SkipState;
                     this.Terms1[j].TakeState=cell.SkipState;
-                    this.Terms1[j].TermDate=cell.TermDate;
+                    this.Terms1[j].TermDate = cell.TermDate.substring(0, 9);
                     this.Terms1[j].x = cell.x;
                     this.Terms1[j].y = cell.y;
                     this.Terms1[j].Group=cell.Group;
@@ -482,7 +514,7 @@ class TableVM{
                     this.Terms2[j].UserPerson=cell.UserPerson;
                     this.Terms2[j].SkipState=cell.SkipState;
                     this.Terms2[j].TakeState=cell.SkipState;
-                    this.Terms2[j].TermDate=cell.TermDate;
+                    this.Terms2[j].TermDate = cell.TermDate.substring(0, 9);
                     this.Terms2[j].x = cell.x;
                     this.Terms2[j].y = cell.y;
                     this.Terms2[j].Group=cell.Group;
@@ -491,13 +523,18 @@ class TableVM{
                     this.Terms3[j].UserPerson=cell.UserPerson;
                     this.Terms3[j].SkipState=cell.SkipState;
                     this.Terms3[j].TakeState=cell.SkipState;
-                    this.Terms3[j].TermDate=cell.TermDate;
+                    this.Terms3[j].TermDate = cell.TermDate.substring(0, 9);
                     this.Terms3[j].x = cell.x;
                     this.Terms3[j].y = cell.y;
                     this.Terms3[j].Group=cell.Group;
                 }
             }
         }
+        this.updateTermWebData(this.Terms0, 0);
+        this.updateTermWebData(this.Terms1, 1);
+        this.updateTermWebData(this.Terms2, 2);
+        this.updateTermWebData(this.Terms3, 3);
+        this.updateGroupWebData();
         //console.log("terms0 userperson:", this.Terms0[0].UserPerson);
     }
     public updateTermTable = (data: TermM_T[][]) => {
@@ -539,7 +576,7 @@ class TableVM{
     }
     public updateTermWebData = (termsX: CellM_T[], x: number) => {
         var i = x;
-        console.log("updating web data for row ", i.toString(), " with this data ", termsX);
+        //console.log("updating web data for row ", i.toString(), " with this data ", termsX);
 
         var dateLabelId = "#date" + i.toString();
         var termOwnerLabelId = "#termOwner";
@@ -617,25 +654,26 @@ class TableVM{
         }
     }
     public updateGroupWebData = () => {
-        //console.log("Updating group web data");
+        this.checkValidMovement();
+        //console.log("Updating group web data, this.position_horiz", this.position_horiz);
         var self = this;
         if (self.ActiveGroups.length == 0) {
             console.log("Nema pronadjenih grupa");
             return;
         }
-        var offset = 0;
-        for (var i = offset; i < self.ActiveGroups.length; i++){
+        for (var i = 0; i < self.ActiveGroups.length-1; i++){
             //console.log(self.ActiveGroups[i]);
             var groupNameId = "#groupName" + i.toString();
             var groupOwnerId = "#groupOwner" + i.toString();
-            var groupNameValue = self.ActiveGroups[i].Name;
-            var groupOwnerValue = self.ActiveGroups[i].UserPerson.Name + " " + self.ActiveGroups[i].UserPerson.LastName;
+            var groupNameValue = self.ActiveGroups[i + this.position_horiz].Name;
+            var groupOwnerValue = self.ActiveGroups[i + this.position_horiz].UserPerson.Name + " " + self.ActiveGroups[i + this.position_horiz].UserPerson.LastName;
             //console.log("filling ", groupOwnerId, " with ", groupOwnerValue);
+            //console.log(i, ":", groupNameValue, groupOwnerValue);
             $(groupNameId).text(groupNameValue);
-            $(groupOwnerId).text(groupOwnerValue);
+            $(groupOwnerId).text(groupOwnerValue);            
         }
-        if (offset + self.ActiveGroups.length < 5) {
-            for (var i = offset + self.ActiveGroups.length; i < 5; i++) {
+        if (self.ActiveGroups.length<5) {
+            for (var i = self.ActiveGroups.length-1; i < 5; i++) {
                 var groupNameId = "#groupName" + i.toString();
                 var groupOwnerId = "#groupOwner" + i.toString();
                 var groupNameValue = self.notification_no_group_name;
@@ -651,69 +689,133 @@ class TableVM{
     //------------------------------------------------------------------------------------------//
     //-------------------------------NAVIGATION START-------------------------------------------//
     public leftClicked = () => {
-        this.moveY++;
-        if (this.checkValidMovement(this.moveX, this.moveY))
+        this.position_horiz--;
+        if (this.checkValidMovement())
         {
-            this.disableRight=false;
-            //this.updateTermArrays(this.moveX, this.moveY);
+            this.disableRight = false;
+            if (this.position_horiz == 0) {
+                this.disableLeft = true;
+            }
+            this.updateTermArrays();
+            this.updateNavigationClasses();
         }
         else {
-            this.handleWrongMove();
-            this.moveY--;
             this.disableLeft=true;
+            this.position_horiz++;
+            this.handleWrongMove();
         }
     }
     public rightClicked = () => {
-        this.moveY--;
-        if (this.checkValidMovement(this.moveX, this.moveY)) {
-            this.updateTermArrays(this.moveX, this.moveY);
-            this.disableLeft=false;
+        this.position_horiz++;
+        if (this.checkValidMovement()) {
+            this.disableLeft = false;
+            if (this.position_horiz == this.numberOfGroups-5) {
+                this.disableRight = true;
+            }
+            this.updateTermArrays();
+            this.updateNavigationClasses();
         }
         else {
+            this.disableRight = true;
+            this.disableLeft = false;
+            this.position_horiz--;
             this.handleWrongMove();
-            this.moveY++;
-            this.disableRight=true;
         }
     }
     public upClicked = () => {
-        this.moveX++;
-        if (this.checkValidMovement(this.moveX, this.moveY)) {
-            this.updateTermArrays(this.moveX, this.moveY);
-            this.disableDown=false;
+        this.position_verti++;
+        if (this.checkValidMovement()) {
+            this.disableDown = false;
+            if (this.position_verti == (this.numberOfTerms - this.numberOfTermsBeforeToday)) {
+                this.disableDown = true;
+            }
+            this.updateTermArrays();
+            this.updateNavigationClasses();
         }
         else {
-            this.handleWrongMove();
-            this.moveX--;
             this.disableUp=true;
+            this.position_verti--;
+            this.handleWrongMove();
         }        
     }
     public downClicked = () => {
-        this.moveX--;
-        if (this.checkValidMovement(this.moveX, this.moveY)) {
-            this.updateTermArrays(this.moveX, this.moveY);
-            this.disableUp=false;
+        this.position_verti--;
+        if (this.checkValidMovement()) {
+            this.disableUp = false;
+            if (this.position_verti == (-1 * this.numberOfTermsBeforeToday)) {
+                this.disableUp = true;
+            }
+            this.updateTermArrays();
+            this.updateNavigationClasses();
         }
         else {
-            this.handleWrongMove();
-            this.moveX++;
             this.disableDown=true;
+            this.position_verti++;
+            this.handleWrongMove();
         }
     }
     public handleWrongMove = () => {
-        console.log("Wrong move!");
+        console.log("*********************\nWrong move!\n*********************");
+        this.updateNavigationClasses();
     }
-    public checkValidMovement = (moveX: number, moveY: number) => {
-        //console.log(this.moveX, this.moveY);
-        if (moveX >= 0 && moveX + 4 <= this.numberOfTerms
-            && moveY >= 0 && moveY + 5 <= this.numberOfGroups
-        ) {
+    public updateNavigationClasses = () => {
+        console.log("updating navigation classes");
+        console.log("left:", !this.disableLeft);console.log("right:", !this.disableRight);console.log("up:", !this.disableUp);console.log("down:", !this.disableDown);
+        if (this.disableLeft) {
+            $("#arrowLeft").attr('class', 'arrowLeftDisabled');
+        }
+        else {
+            $("#arrowLeft").attr('class', 'arrowLeft');
+        }
+        if (this.disableRight) {
+            $("#arrowRight").attr('class', 'arrowRightDisabled');
+        }
+        else {
+            $("#arrowRight").attr('class', 'arrowRight');
+        }
+        if (this.disableUp) {
+            $("#arrowUp").attr('class', 'arrowUpDisabled');
+        }
+        else {
+            $("#arrowUp").attr('class', 'arrowUp');
+        }
+        if (this.disableDown) {
+            $("#arrowDown").attr('class', 'arrowDownDisabled');
+        }
+        else {
+            $("#arrowDown").attr('class', 'arrowDown');
+        }
+    }
+    public checkValidMovement = () => {
+        console.log("vertical position:\n", this.position_verti, "/", this.numberOfTerms, "\nhorizontal position\n", this.position_horiz, "/", this.numberOfGroups);
+        console.log("vertical upper limit:", this.numberOfTerms - this.numberOfTermsBeforeToday - 4);
+        console.log("vertical lower limit:", -1 * this.numberOfTermsBeforeToday);
+        if (
+            this.position_verti >= (-1 * this.numberOfTermsBeforeToday) &&
+            this.position_verti < (this.numberOfTerms - this.numberOfTermsBeforeToday - 4)
+            &&
+            this.position_horiz >= 0 &&
+            this.position_horiz + 5 <= this.numberOfGroups
+        )
+        {
             console.log("true");
             return true;
         }
         else {
-            console.log("false");
+            console.log("Invalid move!");
             return false;
         }
+    }
+    public setInitialNavigation = () => {
+        //console.log("setting inital navigation");
+        $("#arrowLeft").attr('class', 'arrowLeft');
+        $("#arrowRight").attr('class', 'arrowRight');
+        $("#arrowUp").attr('class', 'arrowUp');
+        $("#arrowDown").attr('class', 'arrowDown');
+        if (this.position_horiz == 0) { this.disableLeft = true; $("#arrowLeft").attr('class', 'arrowLeftDisabled'); }
+        if (this.numberOfGroups <= 5) { this.disableRight = true; $("#arrowRight").attr('class', 'arrowRightDisabled'); }
+        if (this.position_verti == 0) { this.disableUp = true; $("#arrowUp").attr('class', 'arrowUpDisabled'); }
+        if (this.numberOfTerms <= 4) { this.disableDown = true; $("#arrowDown").attr('class', 'arrowDownDisabled'); }
     }
     //-------------------------------NAVIGATION END---------------------------------------------//
     //------------------------------------------------------------------------------------------//
