@@ -1,0 +1,449 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DemonstratureModel_L.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CourseT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Study" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Professor" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Asistant" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CourseUserT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GroupT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CourseId" Type="int" Nullable="false" />
+          <Property Name="OwnerId" Type="int" />
+        </EntityType>
+        <EntityType Name="TermT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="TermDate" Type="date" />
+        </EntityType>
+        <EntityType Name="UserT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FkCourseUserCourse">
+          <End Role="CourseT" Type="Self.CourseT" Multiplicity="1" />
+          <End Role="CourseUserT" Type="Self.CourseUserT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseUserT">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkCourseUserUser">
+          <End Role="UserT" Type="Self.UserT" Multiplicity="1" />
+          <End Role="CourseUserT" Type="Self.CourseUserT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseUserT">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkGroupCourse">
+          <End Role="CourseT" Type="Self.CourseT" Multiplicity="1" />
+          <End Role="GroupT" Type="Self.GroupT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupT">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkGroupOwner">
+          <End Role="UserT" Type="Self.UserT" Multiplicity="0..1" />
+          <End Role="GroupT" Type="Self.GroupT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupT">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkTermCourse">
+          <End Role="CourseT" Type="Self.CourseT" Multiplicity="1" />
+          <End Role="TermT" Type="Self.TermT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TermT">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkTermGroup">
+          <End Role="GroupT" Type="Self.GroupT" Multiplicity="1" />
+          <End Role="TermT" Type="Self.TermT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TermT">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkTermUser">
+          <End Role="UserT" Type="Self.UserT" Multiplicity="0..1" />
+          <End Role="TermT" Type="Self.TermT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TermT">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DemonstratureModel_LStoreContainer">
+          <EntitySet Name="CourseT" EntityType="Self.CourseT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CourseUserT" EntityType="Self.CourseUserT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GroupT" EntityType="Self.GroupT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TermT" EntityType="Self.TermT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserT" EntityType="Self.UserT" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FkCourseUserCourse" Association="Self.FkCourseUserCourse">
+            <End Role="CourseT" EntitySet="CourseT" />
+            <End Role="CourseUserT" EntitySet="CourseUserT" />
+          </AssociationSet>
+          <AssociationSet Name="FkCourseUserUser" Association="Self.FkCourseUserUser">
+            <End Role="UserT" EntitySet="UserT" />
+            <End Role="CourseUserT" EntitySet="CourseUserT" />
+          </AssociationSet>
+          <AssociationSet Name="FkGroupCourse" Association="Self.FkGroupCourse">
+            <End Role="CourseT" EntitySet="CourseT" />
+            <End Role="GroupT" EntitySet="GroupT" />
+          </AssociationSet>
+          <AssociationSet Name="FkGroupOwner" Association="Self.FkGroupOwner">
+            <End Role="UserT" EntitySet="UserT" />
+            <End Role="GroupT" EntitySet="GroupT" />
+          </AssociationSet>
+          <AssociationSet Name="FkTermCourse" Association="Self.FkTermCourse">
+            <End Role="CourseT" EntitySet="CourseT" />
+            <End Role="TermT" EntitySet="TermT" />
+          </AssociationSet>
+          <AssociationSet Name="FkTermGroup" Association="Self.FkTermGroup">
+            <End Role="GroupT" EntitySet="GroupT" />
+            <End Role="TermT" EntitySet="TermT" />
+          </AssociationSet>
+          <AssociationSet Name="FkTermUser" Association="Self.FkTermUser">
+            <End Role="UserT" EntitySet="UserT" />
+            <End Role="TermT" EntitySet="TermT" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DemonstratureModel_L" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CourseT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Study" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Professor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Asistant" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CourseUserT" Relationship="Self.FkCourseUserCourse" FromRole="CourseT" ToRole="CourseUserT" />
+          <NavigationProperty Name="GroupT" Relationship="Self.FkGroupCourse" FromRole="CourseT" ToRole="GroupT" />
+          <NavigationProperty Name="TermT" Relationship="Self.FkTermCourse" FromRole="CourseT" ToRole="TermT" />
+        </EntityType>
+        <EntityType Name="CourseUserT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CourseT" Relationship="Self.FkCourseUserCourse" FromRole="CourseUserT" ToRole="CourseT" />
+          <NavigationProperty Name="UserT" Relationship="Self.FkCourseUserUser" FromRole="CourseUserT" ToRole="UserT" />
+        </EntityType>
+        <EntityType Name="GroupT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CourseId" Type="Int32" Nullable="false" />
+          <Property Name="OwnerId" Type="Int32" />
+          <NavigationProperty Name="CourseT" Relationship="Self.FkGroupCourse" FromRole="GroupT" ToRole="CourseT" />
+          <NavigationProperty Name="UserT" Relationship="Self.FkGroupOwner" FromRole="GroupT" ToRole="UserT" />
+          <NavigationProperty Name="TermT" Relationship="Self.FkTermGroup" FromRole="GroupT" ToRole="TermT" />
+        </EntityType>
+        <EntityType Name="TermT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="TermDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="CourseT" Relationship="Self.FkTermCourse" FromRole="TermT" ToRole="CourseT" />
+          <NavigationProperty Name="GroupT" Relationship="Self.FkTermGroup" FromRole="TermT" ToRole="GroupT" />
+          <NavigationProperty Name="UserT" Relationship="Self.FkTermUser" FromRole="TermT" ToRole="UserT" />
+        </EntityType>
+        <EntityType Name="UserT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CourseUserT" Relationship="Self.FkCourseUserUser" FromRole="UserT" ToRole="CourseUserT" />
+          <NavigationProperty Name="GroupT" Relationship="Self.FkGroupOwner" FromRole="UserT" ToRole="GroupT" />
+          <NavigationProperty Name="TermT" Relationship="Self.FkTermUser" FromRole="UserT" ToRole="TermT" />
+        </EntityType>
+        <Association Name="FkCourseUserCourse">
+          <End Role="CourseT" Type="Self.CourseT" Multiplicity="1" />
+          <End Role="CourseUserT" Type="Self.CourseUserT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseUserT">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkGroupCourse">
+          <End Role="CourseT" Type="Self.CourseT" Multiplicity="1" />
+          <End Role="GroupT" Type="Self.GroupT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupT">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkTermCourse">
+          <End Role="CourseT" Type="Self.CourseT" Multiplicity="1" />
+          <End Role="TermT" Type="Self.TermT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TermT">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkCourseUserUser">
+          <End Role="UserT" Type="Self.UserT" Multiplicity="1" />
+          <End Role="CourseUserT" Type="Self.CourseUserT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseUserT">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkGroupOwner">
+          <End Role="UserT" Type="Self.UserT" Multiplicity="0..1" />
+          <End Role="GroupT" Type="Self.GroupT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupT">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkTermGroup">
+          <End Role="GroupT" Type="Self.GroupT" Multiplicity="1" />
+          <End Role="TermT" Type="Self.TermT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TermT">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkTermUser">
+          <End Role="UserT" Type="Self.UserT" Multiplicity="0..1" />
+          <End Role="TermT" Type="Self.TermT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserT">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TermT">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DemonstratureEntities_L" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CourseT" EntityType="Self.CourseT" />
+          <EntitySet Name="CourseUserT" EntityType="Self.CourseUserT" />
+          <EntitySet Name="GroupT" EntityType="Self.GroupT" />
+          <EntitySet Name="TermT" EntityType="Self.TermT" />
+          <EntitySet Name="UserT" EntityType="Self.UserT" />
+          <AssociationSet Name="FkCourseUserCourse" Association="Self.FkCourseUserCourse">
+            <End Role="CourseT" EntitySet="CourseT" />
+            <End Role="CourseUserT" EntitySet="CourseUserT" />
+          </AssociationSet>
+          <AssociationSet Name="FkGroupCourse" Association="Self.FkGroupCourse">
+            <End Role="CourseT" EntitySet="CourseT" />
+            <End Role="GroupT" EntitySet="GroupT" />
+          </AssociationSet>
+          <AssociationSet Name="FkTermCourse" Association="Self.FkTermCourse">
+            <End Role="CourseT" EntitySet="CourseT" />
+            <End Role="TermT" EntitySet="TermT" />
+          </AssociationSet>
+          <AssociationSet Name="FkCourseUserUser" Association="Self.FkCourseUserUser">
+            <End Role="UserT" EntitySet="UserT" />
+            <End Role="CourseUserT" EntitySet="CourseUserT" />
+          </AssociationSet>
+          <AssociationSet Name="FkGroupOwner" Association="Self.FkGroupOwner">
+            <End Role="UserT" EntitySet="UserT" />
+            <End Role="GroupT" EntitySet="GroupT" />
+          </AssociationSet>
+          <AssociationSet Name="FkTermGroup" Association="Self.FkTermGroup">
+            <End Role="GroupT" EntitySet="GroupT" />
+            <End Role="TermT" EntitySet="TermT" />
+          </AssociationSet>
+          <AssociationSet Name="FkTermUser" Association="Self.FkTermUser">
+            <End Role="UserT" EntitySet="UserT" />
+            <End Role="TermT" EntitySet="TermT" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DemonstratureModel_LStoreContainer" CdmEntityContainer="DemonstratureEntities_L">
+          <EntitySetMapping Name="CourseT">
+            <EntityTypeMapping TypeName="DemonstratureModel_L.CourseT">
+              <MappingFragment StoreEntitySet="CourseT">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Study" ColumnName="Study" />
+                <ScalarProperty Name="Professor" ColumnName="Professor" />
+                <ScalarProperty Name="Asistant" ColumnName="Asistant" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseUserT">
+            <EntityTypeMapping TypeName="DemonstratureModel_L.CourseUserT">
+              <MappingFragment StoreEntitySet="CourseUserT">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupT">
+            <EntityTypeMapping TypeName="DemonstratureModel_L.GroupT">
+              <MappingFragment StoreEntitySet="GroupT">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TermT">
+            <EntityTypeMapping TypeName="DemonstratureModel_L.TermT">
+              <MappingFragment StoreEntitySet="TermT">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="TermDate" ColumnName="TermDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserT">
+            <EntityTypeMapping TypeName="DemonstratureModel_L.UserT">
+              <MappingFragment StoreEntitySet="UserT">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

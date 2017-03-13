@@ -62,13 +62,13 @@
     <Compile Include="CourseRepo.cs" />
     <Compile Include="CourseUserRepo.cs" />
     <Compile Include="Data\CourseT.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>Model_L.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\CourseUserT.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>Model_L.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\GroupT.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>Model_L.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Model.Context.cs">
       <AutoGen>True</AutoGen>
@@ -85,11 +85,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Data\Model_L.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model_L.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Model_L.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model_L.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Model_L.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model_L.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Data\TermT.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>Model_L.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\UserT.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>Model_L.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -116,6 +131,13 @@
     </EntityDeploy>
     <None Include="Data\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="Data\Model_L.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model_L.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Data\Model_L.edmx.diagram">
+      <DependentUpon>Model_L.edmx</DependentUpon>
     </None>
     <None Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -180,6 +202,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>
       <LastGenOutput>Model.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\Model_L.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model_L.edmx</DependentUpon>
+      <LastGenOutput>Model_L.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\Model_L.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model_L.edmx</DependentUpon>
+      <LastGenOutput>Model_L.cs</LastGenOutput>
     </Content>
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Scripts\bootstrap.js" />

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="809295bb6f714b01b4501bd550c52e41" Name="Diagram1">
+        <EntityTypeShape EntityType="DemonstratureModel_L.CourseT" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DemonstratureModel_L.CourseUserT" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="DemonstratureModel_L.GroupT" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DemonstratureModel_L.TermT" Width="1.5" PointX="5.25" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DemonstratureModel_L.UserT" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <AssociationConnector Association="DemonstratureModel_L.FkCourseUserCourse" ManuallyRouted="false" />
+        <AssociationConnector Association="DemonstratureModel_L.FkGroupCourse" ManuallyRouted="false" />
+        <AssociationConnector Association="DemonstratureModel_L.FkTermCourse" ManuallyRouted="false" />
+        <AssociationConnector Association="DemonstratureModel_L.FkCourseUserUser" ManuallyRouted="false" />
+        <AssociationConnector Association="DemonstratureModel_L.FkGroupOwner" ManuallyRouted="false" />
+        <AssociationConnector Association="DemonstratureModel_L.FkTermGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="DemonstratureModel_L.FkTermUser" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
