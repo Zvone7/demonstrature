@@ -1,6 +1,6 @@
 ﻿$(document).ready(() => {
     var tableVM: TableVM = new TableVM();
-    tableVM.LoginCheck();
+    //tableVM.LoginCheck();
 });
 
 //patiš se sa micanjem gore dolje..zabavica
@@ -78,6 +78,14 @@ class TableVM{
                 }
             })
             //navigation
+
+            $('#logout').on("click", () => {
+                self.LogOut();
+            });
+            $('#test').on("click", () => {
+                self.test();
+            });
+
             $('#arrowLeft').on("click", () => {
                 self.leftClicked();
             });
@@ -173,7 +181,6 @@ class TableVM{
             if (data != null) {
                 self.ActiveUser = new UserM_T();
                 self.ActiveUser = data;
-                self.UserCheck();
             }
             else {
                 self.ActiveUser = null;
@@ -853,31 +860,23 @@ class TableVM{
     //------------------------------------------------------------------------------------------//
     //------------------------------------------------------------------------------------------//
     //-----------------------AUTHORIZATION & AUTHENTICATION START-------------------------------//
-    public LoginCheck = () => {
-        var loginDataCookie = this.CheckCookie("LoginData");
-        if (loginDataCookie != "") {
-            var loginData = new LoginDataM_T();
-            loginData.Username = loginDataCookie.split(' ')[0];
-            loginData.Password = loginDataCookie.split(' ')[1];
-            this.getUser(loginData.Username);
+    public LogOut = () => {
+        var self = this;
+        var serviceURL = '/Login/LogOff';
+        $.ajax({
+            type: "GET",
+            url: serviceURL,
+            contentType: "application/json; charset=utf-8",
+            success: successFunc,
+            error: errorFunc
+        });
+        function successFunc(data) {
+            console.log("Succesfull logoff");
+            location.href = self.link_main + self.link_login;
         }
-        else {
-            alert(this.warning_not_logged_in);
-            location.href = this.link_main + this.link_login;
-        }
-    }
-    public UserCheck = () => {
-        if (this.ActiveUser != null) {
-            if (this.ActiveUser.Role == "A") {
-                this.ActivateAdministrator();
-            }
-            else {
-                this.ActivateRegularUser();
-            }
-        }
-        else {
-            alert(this.warning_not_logged_in);
-            location.href = this.link_main + this.link_login;
+        function errorFunc() {
+            console.log("Fail logoff");
+
         }
     }
     public ActivateAdministrator = () => {
@@ -909,7 +908,8 @@ class TableVM{
 
 
     public test = () => {
-        this.Terms0[0].UserPerson.Username="lalala";
+        
+        //console.log("f", userUniqueVariable);
     }
 }
 class UserM_T {

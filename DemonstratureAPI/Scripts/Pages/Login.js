@@ -77,16 +77,14 @@ var LoginVM = (function () {
         };
         var self = this;
         $('#login_login').on("click", function () {
-            self.button_tryLogin();
+            //self.button_tryLogin();
         });
         $('#login_username').on("keypress", function (event) {
             if (event.which == 13) {
-                self.button_tryLogin();
             }
         });
         $('#login_password').on("keypress", function (event) {
             if (event.which == 13) {
-                self.button_tryLogin();
             }
         });
         $('#myUl').css("visibility", "hidden");

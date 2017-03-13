@@ -16,16 +16,16 @@ class LoginVM {
     constructor() {
         var self = this;
         $('#login_login').on("click", () => {
-            self.button_tryLogin();
+            //self.button_tryLogin();
         });
         $('#login_username').on("keypress", (event) => {
             if (event.which == 13) {
-                self.button_tryLogin();
+                //self.button_tryLogin();
             }
         });
         $('#login_password').on("keypress", (event) => {
             if (event.which == 13) {
-                self.button_tryLogin();
+                //self.button_tryLogin();
             }
         });
         $('#myUl').css("visibility", "hidden");

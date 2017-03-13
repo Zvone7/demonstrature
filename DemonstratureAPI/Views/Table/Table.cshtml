@@ -1,16 +1,24 @@
-﻿@{
+﻿@model DemonstratureAPI.Models.MyUser
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{
     ViewBag.Title = "Tablica demonstratura";
 }
+
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="~/Scripts/jquery-2.2.3.js"></script>
 @*<script src="~/Scripts/require.js"></script>*@
 <script src="~/Scripts/Cookies.js"></script>
 <script src="~/Scripts/Pages/Table.js"></script>
-@*<button onclick="test">tipka</button>*@
+
+
+<div>@ViewBag.Name</div>
+<div>@Model.Id</div>
+
+<button id="test">tipka</button>
 <div class="rTable">
     <div class="rTableRow">
         <div class="leftNavigation"></div>

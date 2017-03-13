@@ -256,9 +256,17 @@ namespace DemonstratureBLL
             return true;
         }
 
-        public bool TryLogin(LoginDataBM ld)
+        public MyUserDTO TryLogin(LoginDataBM ld)
         {
-            return _userRepo.TryLogin(ld);
+            UserT user =_userRepo.TryLogin(ld);
+            if (user == null)
+            {
+                return null;
+            }
+            else
+            {
+                return _mapper.Map<MyUserDTO>(user);
+            }
         }
 
         public bool CheckAdmin(LoginDataBM ld)

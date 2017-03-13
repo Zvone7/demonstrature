@@ -25,16 +25,18 @@
     </div>
         <div class="loginPosition">
             <div class="loginForm">
+                <form action="/Login/LogIn" method="post">
                         <label class="identifier-big">Prijava</label>
                         <br />
                         <br />
                         <hr />
                         <br />
                         <label class="identifier">Korisničko ime:</label><br />
-                        <input id="login_username" class="input_login" type="text" /><br /> <br />
+                        <input id="login_username" class="input_login" type="text" name="username" /><br /> <br />
                         <label class="identifier">Lozinka:</label><br />
-                        <input id="login_password" class="input_login" type="password" /><br /> <br /><br />
-                        <button id="login_login" class="saveSetting">Prijava</button>           
+                        <input id="login_password" class="input_login" type="password" name="password" /><br /> <br /><br />
+                        <button id="login_login" class="saveSetting">Prijava</button>     
+                </form>      
             </div>
         </div>
 

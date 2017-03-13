@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var s = new SettingsVM();
-    s.LoginCheck();
+    //s.LoginCheck();
     //s.populateSelectStudy();
 });
 var SettingsVM = (function () {
@@ -1320,6 +1320,24 @@ var SettingsVM = (function () {
         //---------------------------------------------------------------------------------------//
         //---------------------------------------------------------------------------------------//
         //-----------------------AUTHORIZATION & AUTHENTICATION START----------------------------//
+        this.LogOut = function () {
+            var self = _this;
+            var serviceURL = '/Login/LogOff';
+            $.ajax({
+                type: "GET",
+                url: serviceURL,
+                contentType: "application/json; charset=utf-8",
+                success: successFunc,
+                error: errorFunc
+            });
+            function successFunc(data) {
+                console.log("Succesfull logoff");
+                location.href = self.link_main + self.link_login;
+            }
+            function errorFunc() {
+                console.log("Fail logoff");
+            }
+        };
         this.LoginCheck = function () {
             var loginDataCookie = _this.CheckCookie("LoginData");
             if (loginDataCookie != "") {
@@ -1374,6 +1392,9 @@ var SettingsVM = (function () {
         var self = this;
         //console.log("constructor: settings");
         $(document).ready(function () {
+            $('#logout').on("click", function () {
+                self.LogOut();
+            });
             //password update
             $('#password_save').on("click", function () {
                 self.button_savePassword();

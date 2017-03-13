@@ -1,6 +1,6 @@
 ﻿$(document).ready(() => {
     var s = new SettingsVM();
-    s.LoginCheck();
+    //s.LoginCheck();
     //s.populateSelectStudy();
 
 });
@@ -34,6 +34,9 @@ class SettingsVM {
         $(document).ready(function () {
 
 
+            $('#logout').on("click", () => {
+                self.LogOut();
+            });
 
 
 
@@ -1490,6 +1493,25 @@ class SettingsVM {
     //---------------------------------------------------------------------------------------//
     //---------------------------------------------------------------------------------------//
     //-----------------------AUTHORIZATION & AUTHENTICATION START----------------------------//
+    public LogOut = () => {
+        var self = this;
+        var serviceURL = '/Login/LogOff';
+        $.ajax({
+            type: "GET",
+            url: serviceURL,
+            contentType: "application/json; charset=utf-8",
+            success: successFunc,
+            error: errorFunc
+        });
+        function successFunc(data) {
+            console.log("Succesfull logoff");
+            location.href = self.link_main + self.link_login;
+        }
+        function errorFunc() {
+            console.log("Fail logoff");
+
+        }
+    }
     public LoginCheck = () => {
         var loginDataCookie = this.CheckCookie("LoginData");
         if (loginDataCookie != "") {

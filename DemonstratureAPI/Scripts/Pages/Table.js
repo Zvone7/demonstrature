@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var tableVM = new TableVM();
-    tableVM.LoginCheck();
+    //tableVM.LoginCheck();
 });
 //patiš se sa micanjem gore dolje..zabavica
 var TableVM = (function () {
@@ -97,7 +97,6 @@ var TableVM = (function () {
                 if (data != null) {
                     self.ActiveUser = new UserM_T();
                     self.ActiveUser = data;
-                    self.UserCheck();
                 }
                 else {
                     self.ActiveUser = null;
@@ -782,31 +781,22 @@ var TableVM = (function () {
         //------------------------------------------------------------------------------------------//
         //------------------------------------------------------------------------------------------//
         //-----------------------AUTHORIZATION & AUTHENTICATION START-------------------------------//
-        this.LoginCheck = function () {
-            var loginDataCookie = _this.CheckCookie("LoginData");
-            if (loginDataCookie != "") {
-                var loginData = new LoginDataM_T();
-                loginData.Username = loginDataCookie.split(' ')[0];
-                loginData.Password = loginDataCookie.split(' ')[1];
-                _this.getUser(loginData.Username);
+        this.LogOut = function () {
+            var self = _this;
+            var serviceURL = '/Login/LogOff';
+            $.ajax({
+                type: "GET",
+                url: serviceURL,
+                contentType: "application/json; charset=utf-8",
+                success: successFunc,
+                error: errorFunc
+            });
+            function successFunc(data) {
+                console.log("Succesfull logoff");
+                location.href = self.link_main + self.link_login;
             }
-            else {
-                alert(_this.warning_not_logged_in);
-                location.href = _this.link_main + _this.link_login;
-            }
-        };
-        this.UserCheck = function () {
-            if (_this.ActiveUser != null) {
-                if (_this.ActiveUser.Role == "A") {
-                    _this.ActivateAdministrator();
-                }
-                else {
-                    _this.ActivateRegularUser();
-                }
-            }
-            else {
-                alert(_this.warning_not_logged_in);
-                location.href = _this.link_main + _this.link_login;
+            function errorFunc() {
+                console.log("Fail logoff");
             }
         };
         this.ActivateAdministrator = function () {
@@ -836,7 +826,7 @@ var TableVM = (function () {
         //-------------------------------EVERYTHING ELSE END----------------------------------------//
         //------------------------------------------------------------------------------------------//
         this.test = function () {
-            _this.Terms0[0].UserPerson.Username = "lalala";
+            //console.log("f", userUniqueVariable);
         };
         var self = this;
         $(document).ready(function () {
@@ -863,6 +853,12 @@ var TableVM = (function () {
                 }
             });
             //navigation
+            $('#logout').on("click", function () {
+                self.LogOut();
+            });
+            $('#test').on("click", function () {
+                self.test();
+            });
             $('#arrowLeft').on("click", function () {
                 self.leftClicked();
             });

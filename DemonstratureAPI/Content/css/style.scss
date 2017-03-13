@@ -26,11 +26,11 @@ $arrowBorderColor: #0d0d0d;
 $searchBorder: #333333;
 //--------------------------------------------------border colors--------------------------------------------------//
 //----------------------------------------------------font sizes---------------------------------------------------//
-$fontPcXL: 30px;
-$fontPcL: 26px;
-$fontPcM: 22px;
-$fontPcS: 18px;
-$fontPcXS: 14px;
+$fontPcXL: 26px;
+$fontPcL: 22px;
+$fontPcM: 18px;
+$fontPcS: 14px;
+$fontPcXS: 10px;
 //----------------------------------------------------font sizes---------------------------------------------------//
 //------------------------------------------------------body-------------------------------------------------------//
 body {
@@ -49,7 +49,7 @@ body {
     margin-top:5%;
     padding: 0;
     width:100%;
-    .lower{
+    &.lower{
         margin-top:0;
     }
     .introLogo{
@@ -122,7 +122,7 @@ a:-webkit-any-link{
     color:white;
     cursor:default;
     &:hover{
-        background-color:red;
+        /*background-color:red;*/
         text-decoration:underline;
     }
 }
@@ -142,7 +142,7 @@ a:-webkit-any-link{
 .tableDiv{
     color:$myHeaderTextColor;
     margin:20px 0 0 100px;
-    font-size:1.5*$fontPcXL;
+    font-size:1.5*$fontPcL;
 }
 .settingsDiv{
     text-decoration:none;
@@ -183,12 +183,12 @@ a:-webkit-any-link{
    background-color: $myCellColor;
    border: 1px solid $myBorderColor;
    display: table-cell;
-   padding: 35px 35px 35px 35px;
+   padding: 15px;
    text-align: center;
 }
 .firstColumn {
    @extend .rTableCell;
-   padding: 15px 0;
+   padding: 8px 0;
    background-color: $myFirstColumnColor;
    border: 1px solid $myFirstColumnBorderColor;
    border-right:1px solid $myBorderColor;
@@ -230,18 +230,18 @@ a:-webkit-any-link{
     color: $myHeaderTextColor;
     border:1px solid $myCellColor;
     outline:none;
-    width: 135px;
+    width: 65px;
     option {
         background: $myHeaderColor;
         color:$myHeaderTextColor;
     }
     &.univStudies{
         font-size:$fontPcM;
-        width:250px;
+        width:125px;
     }
     &.univCourse{
         font-size:$fontPcM;
-        width:250px;
+        width:125px;
     }
 }
 .selecter_s{
@@ -281,9 +281,9 @@ a:-webkit-any-link{
 .arrow{
    background-color: $myCellColor;
    border: 2px solid $arrowBorderColor;
-   border-radius: 25px;
+   border-radius: 10px;
    font-size: $fontPcXL;
-   padding: 25px;
+   padding: 10px;
    position: absolute;
    vertical-align: middle;
    transition: all .3s ease;
@@ -361,7 +361,7 @@ a:-webkit-any-link{
    background-color: lighten($searchColor,7%);
    border:1px solid $searchBorder;
    border-radius: 3px;
-   width: 304px;
+   width: 152px;
    margin: -9px 0 0 0;
    outline: none;
    padding: 2px;
@@ -376,21 +376,21 @@ a:-webkit-any-link{
    //border: 1px solid #bbb;
    padding: 1px 6px;
    margin: 5px 15px;
-   font-size:$fontPcL;   
+   font-size:$fontPcM;   
    &.groupName{
-       font-size:$fontPcXL;
-   }
-   &.groupOwner{
        font-size:$fontPcL;
    }
+   &.groupOwner{
+       font-size:$fontPcM;
+   }
    &.demoName{
-   padding: 25px 40px;
+   padding: 12px 20px;
    margin: 5px 15px 0 15px;
    font-weight: bolder;
    background-color: $demoNameColor;
    border: 2px solid $searchBorder;
    border-radius: 3px;
-   width: 224px;
+   width: 112px;
    word-wrap:break-word;
     }
    &.date{
@@ -474,8 +474,8 @@ input{
     color: black;
     font-family: 'Lato', sans-serif;
     margin: 9px 3px 20px 3px;
-    height:100px;
-    width:150px;
+    height:50px;
+    width:75px;
     transition: all .1s ease;
     outline:none;
     font-size:$fontPcXS;
@@ -506,6 +506,16 @@ input{
         }
     }
 } 
+.logOutButton{
+    background-color:$headerColor;
+    border:none;
+    color:$demoNameColor;
+    font-size:$fontPcL;
+    &:hover{
+        cursor:pointer;
+        text-decoration:underline;
+    }
+}
 //--------------------------------------------------------buttons--------------------------------------------------//
 //--------------------------------------------------------forms----------------------------------------------------//
 .allSettings{

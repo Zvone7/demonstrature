@@ -118,23 +118,23 @@ namespace DemonstratureDB
             }
             return false;
         }
-        public bool TryLogin(LoginDataBM lg)
+        public UserT TryLogin(LoginDataBM lg)
         {
             try
             {
                 var user = dbase.UserT.Where(u => u.Username == lg.Username && u.Password == lg.Password).FirstOrDefault();
                 if (user != null)
                 {
-                    return true;
+                    return user;
                 }
                 else
                 {
-                    return false; 
+                    return null; 
                 }
             }
             catch
             {
-                return false;
+                return null;
             }
         }
         public bool CheckAdmin(LoginDataBM ld)
