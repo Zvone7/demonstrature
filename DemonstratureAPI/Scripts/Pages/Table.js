@@ -1,6 +1,7 @@
 $(document).ready(function () {
     var tableVM = new TableVM();
     //tableVM.LoginCheck();
+    tableVM.getAllCourses();
 });
 //patiš se sa micanjem gore dolje..zabavica
 var TableVM = (function () {
@@ -872,7 +873,7 @@ var TableVM = (function () {
                 self.downClicked();
             });
             //css
-            $('#myUl').css("visibility", "visible");
+            //$('#myUl').css("visibility", "visible");
         });
         /*
             loginCheck
@@ -956,4 +957,3 @@ var LoginDataM_T = (function () {
     }
     return LoginDataM_T;
 }());
-//# sourceMappingURL=Table.js.map

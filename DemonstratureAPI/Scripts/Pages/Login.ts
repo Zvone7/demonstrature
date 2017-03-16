@@ -28,7 +28,7 @@ class LoginVM {
                 //self.button_tryLogin();
             }
         });
-        $('#myUl').css("visibility", "hidden");
+        //$('#myUl').css("visibility", "hidden");
 
         $('#test').on("click", () => {
             self.createCookie("zgrubisic","1234");

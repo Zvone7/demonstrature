@@ -33,6 +33,12 @@ class SettingsVM {
         //console.log("constructor: settings");
         $(document).ready(function () {
 
+            if ($("#adminSettings").length >= 1) {
+                self.ActivateAdministrator();
+            }
+            else {
+                self.ActivateRegularUser();
+            }
 
             $('#logout').on("click", () => {
                 self.LogOut();
@@ -118,7 +124,7 @@ class SettingsVM {
             $("#term_date").datepicker();
 
 
-            $('#myUl').css("visibility", "visible");
+            //$('#myUl').css("visibility", "visible");
 
         });
     }
@@ -394,7 +400,6 @@ class SettingsVM {
 
     public button_savePassword = () => {
         var self = this;
-        self.LoginCheck();
         var userId = self.ActiveUser.Id;
         //console.log(userId);
         var oldPassword = $("#old_password").val().trim();
@@ -421,14 +426,11 @@ class SettingsVM {
     //-------------------------------COURSES START-------------------------------------------//
     public createCourse = (c: CourseM_S) => {
         var self = this;
-        var obj = new AuthCourse();
-        obj.LoginData = self.LoginData;
-        obj.Course = c;
         var serviceURL = '/Settings/CreateCourse';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: c,
             success: successFunc,
             error: errorFunc
         });
@@ -507,14 +509,11 @@ class SettingsVM {
     }
     public deleteCourse = (courseId: number) => {
         var self = this;
-        var obj = new AuthCourseId();
-        obj.LoginData = self.LoginData;
-        obj.CourseId = courseId;
         var serviceURL = '/Settings/DeleteCourse';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: courseId,
             success: successFunc,
             error: errorFunc
         });
@@ -553,14 +552,11 @@ class SettingsVM {
     }
     public updateCourse = (c: CourseM_S) => {
         var self = this;
-        var obj = new AuthCourse();
-        obj.LoginData = self.LoginData;
-        obj.Course = c;
         var serviceURL = '/Settings/UpdateCourse';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: c,
             success: successFunc,
             error: errorFunc
         });
@@ -601,14 +597,11 @@ class SettingsVM {
     //-------------------------------USER START----------------------------------------------//
     public createUser = (nu: UserM_S) => {
         var self = this;
-        var obj = new AuthMyUserWithPassBM();
-        obj.LoginData = self.LoginData;
-        obj.MyUserWithPass = nu;
         var serviceURL = '/Settings/CreateUser';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: nu,
             success: successFunc,
             error: errorFunc
         });
@@ -626,14 +619,11 @@ class SettingsVM {
         var pu: PasswordUpdaterM_S = new PasswordUpdaterM_S();
         pu.Password = oldPassword;
         pu.UserId = userId;
-        var obj = new AuthPasswordUpdater();
-        obj.LoginData = self.LoginData;
-        obj.PasswordUpdater = pu;
         var serviceURL = '/Settings/CheckIfCorrectPassword';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: pu,
             success: successFunc,
             error: errorFunc
         });
@@ -656,14 +646,11 @@ class SettingsVM {
     }
     public deleteUser = (userId: number) => {
         var self = this;
-        var obj = new AuthUserId();
-        obj.LoginData = self.LoginData;
-        obj.UserId = userId;
         var serviceURL = '/Settings/DeleteUser';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: userId,
             success: successFunc,
             error: errorFunc
         });
@@ -711,7 +698,6 @@ class SettingsVM {
             if (data != null) {
                 self.ActiveUser = new UserDTO_S();
                 self.ActiveUser = data;
-                self.UserCheck();
             }
             else {
                 self.ActiveUser = null;
@@ -1510,33 +1496,6 @@ class SettingsVM {
         function errorFunc() {
             console.log("Fail logoff");
 
-        }
-    }
-    public LoginCheck = () => {
-        var loginDataCookie = this.CheckCookie("LoginData");
-        if (loginDataCookie != "") {
-            this.LoginData = new LoginDataM_S();
-            this.LoginData.Username = loginDataCookie.split(' ')[0];
-            this.LoginData.Password = loginDataCookie.split(' ')[1];
-            this.getUser(this.LoginData.Username);
-        }
-        else {
-            alert(this.warning_not_logged_in);
-            location.href = this.link_main + this.link_login;
-        }
-    }
-    public UserCheck = () => {
-        if (this.ActiveUser != null) {
-            if (this.ActiveUser.Role == "A") {
-                this.ActivateAdministrator();
-            }
-            else {
-                this.ActivateRegularUser();
-            }
-        }
-        else {
-            alert(this.warning_not_logged_in);
-            location.href = this.link_main + this.link_login;
         }
     }
     public ActivateAdministrator = () => {

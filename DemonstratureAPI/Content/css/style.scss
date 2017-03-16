@@ -41,65 +41,65 @@ body {
    padding: 0 0 0 0;
 }
 .introPosition{    
-    top:0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;    
-    margin-top:5%;
-    padding: 0;
-    width:100%;
-    &.lower{
-        margin-top:0;
-    }
-    .introLogo{
-        top:0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        text-align:center;
-        /*margin: auto;*/
-        .logoImg{            
-            height: 150px;
-            &:hover{
-            cursor: pointer;
-            }
-        }
-    }
-    .introText{
-        color:ghostwhite;
-        font-size:$fontPcM;
-        text-align:center;
-        padding-top:20px;
-        &.big{
-            font-size:$fontPcXL;
-            font-weight:bold;
-        }
-        &.small{
-            font-size:$fontPcXS;
-        }
-    }
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;    
+	margin-top:5%;
+	padding: 0;
+	width:100%;
+	&.lower{
+		margin-top:0;
+	}
+	.introLogo{
+		top:0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		text-align:center;
+		/*margin: auto;*/
+		.logoImg{            
+			height: 200px;
+			&:hover{
+			cursor: pointer;
+			}
+		}
+	}
+	.introText{
+		color:ghostwhite;
+		font-size:$fontPcL;
+		text-align:center;
+		padding-top:20px;
+		&.big{
+			font-size:1.5*$fontPcXL;
+			font-weight:bold;
+		}
+		&.small{
+			font-size:$fontPcS;
+		}
+	}
 }
 .loginPosition{
-    margin-top: 40px;
-    .loginForm{
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto; 
-        border:1px solid white;
-        border-radius:15px;
-        padding:20px;
-        width:200px;
-    }
-    .identifier-big{
-      color:whitesmoke;
-      font-size:$fontPcM;
-      font-weight:bold;
-      padding-bottom:5px;
-      text-align: center;
-    }
+	margin-top: 40px;
+	.loginForm{
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		margin: auto; 
+		border:1px solid white;
+		border-radius:15px;
+		padding:20px;
+		width:200px;
+	}
+	.identifier-big{
+	  color:whitesmoke;
+	  font-size:$fontPcM;
+	  font-weight:bold;
+	  padding-bottom:5px;
+	  text-align: center;
+	}
 }
 //------------------------------------------------------body-------------------------------------------------------//
 //-----------------------------------------------------navbar------------------------------------------------------//
@@ -118,58 +118,68 @@ body {
 .myLi{
 }
 a:-webkit-any-link{
-    text-decoration:none;
-    color:white;
-    cursor:default;
-    &:hover{
-        /*background-color:red;*/
-        text-decoration:underline;
-    }
+	text-decoration:none;
+	color:inherit;
+	cursor:default;
+	&:hover{
+		/*background-color:red;*/
+		text-decoration:none;
+		cursor:inherit;
+		transform:scale(1.15);
+	}
 }
 .tableLi{
-    position:absolute;
-    float:none;
-    padding-left:0px;
-    font-size: $fontPcM;
+	position:absolute;
+	float:none;
+	padding-left:0px;
+    padding-top:calc(1%);
+	font-size: $fontPcM;
 }
 .settingLi{
-    margin-left:90%;
-    width:300px;
-    /*float:none;*/
-    /*padding-left:calc(100% - 175px);*/
-    font-size: $fontPcS;
+	margin-left:90%;
+	/*width:300px;*/
+	/*float:none;*/
+	/*padding-right:calc(100% - 175px);*/
+	font-size: $fontPcS;
 }
 .tableDiv{
-    color:$myHeaderTextColor;
-    margin:20px 0 0 100px;
-    font-size:1.5*$fontPcL;
+	color:$myHeaderTextColor;
+	margin:20px 0 0 100px;
+	font-size:1.5*$fontPcL;    
+	&:hover{
+		cursor:pointer;
+	}
 }
-.settingsDiv{
-    text-decoration:none;
-    color:$myHeaderTextColor;
-    //padding: 25px calc(100%-20px) 0 0;
-    padding-top: 15px;
-    padding-right: 70px;
-    padding-left: 0px;
-    padding-bottom:5px;
-    font-size:$fontPcL;
+.userControlsDiv{
+	text-decoration:none;
+	color:$myHeaderTextColor;
+	font-size:$fontPcM;
+	float:unset;
+	//padding: 25px calc(100%-20px) 0 0;
+	/*padding-top: 0px;*/
+	/*padding-right: 0px;
+	padding-left: 0px;
+	padding-bottom:15px;*/
+	&:hover{
+		cursor:pointer;
+        text-decoration:none;
+	}
 }
-.loginDiv{
-    color:$myHeaderTextColor;
-    //padding: 25px calc(100%-20px) 0 0;
-    /*padding-top: 25px;*/
-    padding-right: 70px;
-    padding-left: 0px;
-    padding-bottom:0;
-    font-size:$fontPcM;
+.userNameDiv{
+	color: $myHeaderTextColor;
+	font-size: $fontPcS;
+	margin: 0 0 0 -15px;
+	padding-top:25px;
+	padding-right:360px;
+	width: 200px;
 }
 //-----------------------------------------------------navbar------------------------------------------------------//
 //------------------------------------------------------table------------------------------------------------------//
 .container{
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: 0;
-    margin-left: 100px;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: 0;
+	margin-left: 100px;
 }
 .rTable {
    display: table;
@@ -225,43 +235,43 @@ a:-webkit-any-link{
    border: none;
 }
 .selecter{
-    margin: 10px 0;
-    background: $myHeaderColor;
-    color: $myHeaderTextColor;
-    border:1px solid $myCellColor;
-    outline:none;
-    width: 65px;
-    option {
-        background: $myHeaderColor;
-        color:$myHeaderTextColor;
-    }
-    &.univStudies{
-        font-size:$fontPcM;
-        width:125px;
-    }
-    &.univCourse{
-        font-size:$fontPcM;
-        width:125px;
-    }
+	margin: 10px 0;
+	background: $myHeaderColor;
+	color: $myHeaderTextColor;
+	border:1px solid $myCellColor;
+	outline:none;
+	width: 65px;
+	option {
+		background: $myHeaderColor;
+		color:$myHeaderTextColor;
+	}
+	&.univStudies{
+		font-size:$fontPcM;
+		width:125px;
+	}
+	&.univCourse{
+		font-size:$fontPcM;
+		width:125px;
+	}
 }
 .selecter_s{
-    margin: 5px 0;
-    background: $myCellColor;
-    color: $placeholderColor;
-    border:1px solid $myHeaderBorderColor;
-    outline:none;
-    width: 200px;
-    font-weight:bold;
-    option {
-        background: darken($myCellColor,2%);
-        color:$placeholderColor;
-    }
-    &.univStudies{
+	margin: 5px 0;
+	background: $myCellColor;
+	color: $placeholderColor;
+	border:1px solid $myHeaderBorderColor;
+	outline:none;
+	width: 200px;
+	font-weight:bold;
+	option {
+		background: darken($myCellColor,2%);
+		color:$placeholderColor;
+	}
+	&.univStudies{
 
-    }
-    &.univCourse{
+	}
+	&.univCourse{
 
-    }
+	}
 }
 .row_s{
    display: table-row;  
@@ -273,8 +283,8 @@ a:-webkit-any-link{
   vertical-align: top;
 }
 .table-cell{
-    background-color:red;
-    height:20%;
+	background-color:red;
+	height:20%;
 }
 //------------------------------------------------------table------------------------------------------------------//
 //--------------------------------------------------navigation buttons---------------------------------------------//
@@ -288,7 +298,7 @@ a:-webkit-any-link{
    vertical-align: middle;
    transition: all .3s ease;
    &:hover{
-      transform:scale(1.15);
+	  transform:scale(1.15);
    }
 }
 .arrowLeft{
@@ -296,7 +306,7 @@ a:-webkit-any-link{
    position: absolute;
    margin: -30px 45px 0 117px;
    .fa-arrow-left{      
-    }
+	}
    }
 .arrowLeftDisabled{
    @extend .arrow;
@@ -304,7 +314,7 @@ a:-webkit-any-link{
    margin: -30px 45px 0 117px;
    background-color:$disableColor;
    &:hover{
-      transform:scale(1);
+	  transform:scale(1);
    }
 }
 .arrowRight{
@@ -320,7 +330,7 @@ a:-webkit-any-link{
    margin: -30px 45px 0 157px;   
    background-color:$disableColor;
    &:hover{
-      transform:scale(1);
+	  transform:scale(1);
    }
 }
 .arrowUp{
@@ -335,15 +345,15 @@ a:-webkit-any-link{
    margin: 10px 0px 0px -75px;
    background-color:$disableColor;
    &:hover{
-      transform:scale(1);
+	  transform:scale(1);
    }
 }
 .arrowDown{
    @extend .arrow;
    margin: 85px 0 0 -75px;
    .fa-arrow-down{  
-      padding: 0 0 0 0;
-      margin: 0 0 0 0;
+	  padding: 0 0 0 0;
+	  margin: 0 0 0 0;
    }
 }
 .arrowDownDisabled{
@@ -352,7 +362,7 @@ a:-webkit-any-link{
    margin: 85px 0 0 -75px;
    background-color:$disableColor;
    &:hover{
-      transform:scale(1);
+	  transform:scale(1);
    }
 }
 //--------------------------------------------------navigation buttons---------------------------------------------//
@@ -368,7 +378,7 @@ a:-webkit-any-link{
    font-size: $fontPcS;
 }
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: $placeholderColor;
+	color: $placeholderColor;
 }
 //--------------------------------------------------------search---------------------------------------------------//
 //--------------------------------------------------------labels---------------------------------------------------//
@@ -376,12 +386,13 @@ a:-webkit-any-link{
    //border: 1px solid #bbb;
    padding: 1px 6px;
    margin: 5px 15px;
+
    font-size:$fontPcM;   
    &.groupName{
-       font-size:$fontPcL;
+	   font-size:$fontPcM;
    }
    &.groupOwner{
-       font-size:$fontPcM;
+	   font-size:$fontPcS;
    }
    &.demoName{
    padding: 12px 20px;
@@ -392,13 +403,13 @@ a:-webkit-any-link{
    border-radius: 3px;
    width: 112px;
    word-wrap:break-word;
-    }
+	}
    &.date{
-       font-size:$fontPcL;
+	   font-size:$fontPcS;
    }
 }
 .change-settings-label{
-    margin-top:20px;
+  margin-top:20px;
   color:white;
   font-size:$fontPcM;
   font-weight:bolder;
@@ -408,7 +419,7 @@ a:-webkit-any-link{
 .identifier{
   color:white;
   padding-top:3px;
-  font-size:$fontPcXS;
+  font-size:$fontPcS;
 }
 .identifier-bold{
   color:white;
@@ -435,9 +446,9 @@ a:-webkit-any-link{
 //--------------------------------------------------------labels---------------------------------------------------//
 //--------------------------------------------------------input----------------------------------------------------//
 input{
-    &:hover{
-        cursor:default;
-    }
+	&:hover{
+		cursor:default;
+	}
 }
 .input_s{
   margin: 5px 0 2px 0;
@@ -449,7 +460,7 @@ input{
   font-weight: 700;
   outline:none;
   &:hover{
-    background-color: darken($myCellColor,10%);    
+	background-color: darken($myCellColor,10%);    
   }
 }
 .input_login{
@@ -463,59 +474,73 @@ input{
   font-weight: 700;
   outline:none;
   &:hover{
-    background-color: darken($myCellColor,10%);    
+	background-color: darken($myCellColor,10%);    
   }
 }
 //--------------------------------------------------------input----------------------------------------------------//
 //--------------------------------------------------------buttons--------------------------------------------------//
 .tableButton{
-    border: 1px solid $myBorderColor;
-    border-radius: 4px;
-    color: black;
-    font-family: 'Lato', sans-serif;
-    margin: 9px 3px 20px 3px;
-    height:50px;
-    width:75px;
-    transition: all .1s ease;
-    outline:none;
-    font-size:$fontPcXS;
-    word-wrap:break-word;
-    &.takeTerm{
-        font-size:$fontPcM;
-        background-color: $buttonTakeColor;
-        color:$buttonTextSave;
-        &:hover{
-            background-color: darken($buttonTakeColor,5%);
-            cursor: pointer;
-        }
-    }    
-    &.takeTerm_disabled{
-        background-color: $disableColor;
-        &:hover{
-            background-color: darken($disableColor,5%);
-            cursor: pointer;
-        }
-    }
-    &.skipTerm{
-        font-size:$fontPcM;
-        background-color: $buttonSkipColor;    
-        font-weight:bold;   
-        &:hover{
-            background-color: darken($buttonSkipColor,1%);
-            cursor: pointer;
-        }
-    }
+	border: 1px solid $myBorderColor;
+	border-radius: 4px;
+	color: black;
+	font-family: 'Lato', sans-serif;
+	margin: 9px 3px 20px 3px;
+	height:50px;
+	width:75px;
+	transition: all .1s ease;
+	outline:none;
+	font-size:$fontPcXS;
+	word-wrap:break-word;
+	&.takeTerm{
+		font-size:$fontPcM;
+		background-color: $buttonTakeColor;
+		color:$buttonTextSave;
+		&:hover{
+			background-color: darken($buttonTakeColor,5%);
+			cursor: pointer;
+		}
+	}    
+	&.takeTerm_disabled{
+		background-color: $disableColor;
+		&:hover{
+			background-color: darken($disableColor,5%);
+			cursor: pointer;
+		}
+	}
+	&.skipTerm{
+		font-size:$fontPcM;
+		background-color: $buttonSkipColor;    
+		font-weight:bold;   
+		&:hover{
+			background-color: darken($buttonSkipColor,1%);
+			cursor: pointer;
+		}
+	}
 } 
 .logOutButton{
-    background-color:$headerColor;
-    border:none;
-    color:$demoNameColor;
-    font-size:$fontPcL;
-    &:hover{
-        cursor:pointer;
-        text-decoration:underline;
+	background-color:$headerColor;
+	border:none;
+	color:$myHeaderTextColor;
+	font-size:$fontPcL;
+	&:hover{
+		cursor:pointer;
+		text-decoration:underline;
+	}
+    &:focus{
+        outline:none;
     }
 }
+.cogButton{
+	background-color:$headerColor;
+	border:none;
+	color:$myHeaderTextColor;
+	font-size:$fontPcL;
+	&:hover{
+		cursor:pointer;
+		text-decoration:none;
+	}
+}
+
 //--------------------------------------------------------buttons--------------------------------------------------//
 //--------------------------------------------------------forms----------------------------------------------------//
 .allSettings{
@@ -524,35 +549,35 @@ input{
   width:250px;
   border-radius: 5px;
   .passwordSetting{
-    padding:10px;
-    //margin: 10px 20px;
-    border: 1px solid white; 
-    border-radius: 5px;     
+	padding:10px;
+	//margin: 10px 20px;
+	border: 1px solid white; 
+	border-radius: 5px;     
   }
   .adminSettings{
-    //margin-top:50px;
-    //margin-left:0px;
-    visibility:collapse;
-    .courseSettings{
-      padding:10px;
-      border: 1px solid white; 
-      border-radius: 5px; 
-    }
-    .userSettings{
-      padding:10px;
-      border: 1px solid white; 
-      border-radius: 5px;   
-    }
-    .groupSettings{
-      padding:10px;
-      border: 1px solid white; 
-      border-radius: 5px;
-    }
-    .termSettings{
-      padding:10px;
-      border: 1px solid white; 
-      border-radius: 5px;
-    }
+	//margin-top:50px;
+	//margin-left:0px;
+	/*visibility:collapse;*/
+	.courseSettings{
+	  padding:10px;
+	  border: 1px solid white; 
+	  border-radius: 5px; 
+	}
+	.userSettings{
+	  padding:10px;
+	  border: 1px solid white; 
+	  border-radius: 5px;   
+	}
+	.groupSettings{
+	  padding:10px;
+	  border: 1px solid white; 
+	  border-radius: 5px;
+	}
+	.termSettings{
+	  padding:10px;
+	  border: 1px solid white; 
+	  border-radius: 5px;
+	}
   }
 }
 .saveSetting{
@@ -565,13 +590,13 @@ input{
   text-align: center;
   text-decoration: none;
   border-radius: 2px;
-  font-size: $fontPcXS;
+  font-size: $fontPcS;
   font-family: 'Lato', sans-serif;
   outline:none;
   color:$buttonTextSave;
   &:hover{
-    background-color: darken($buttonTakeColor,5%);
-    cursor: pointer;
+	background-color: darken($buttonTakeColor,5%);
+	cursor: pointer;
   }
 }
 .saveSetting2{
@@ -585,29 +610,29 @@ input{
   width:80px;
   color:lightgray;
   &:hover{
-    background-color: darken(#900,10%);    
+	background-color: darken(#900,10%);    
   }
 }
 //--------------------------------------------------------forms----------------------------------------------------//
 //------------------------------------------------------checkboxes-------------------------------------------------//
 .checkbox1{    
-    -webkit-appearance: none;
-    width:20px;
-    height:20px;
-    background-color: $myBackgroundColor;
+	-webkit-appearance: none;
+	width:20px;
+	height:20px;
+	background-color: $myBackgroundColor;
 	border: 1px solid #fff;
 	border-radius: 13px;
-    vertical-align:middle;
-    cursor:pointer;
-    color:red;
-    outline:none;
-    &:checked{
-	    background-color: $myCellColor;
-	    border: 1px solid #fff;
-	    color: #99a1a7;
-    }
-    &:hover{
-	    background-color: lighten($myBackgroundColor,20%);
-    }
+	vertical-align:middle;
+	cursor:pointer;
+	color:red;
+	outline:none;
+	&:checked{
+		background-color: $myCellColor;
+		border: 1px solid #fff;
+		color: #99a1a7;
+	}
+	&:hover{
+		background-color: lighten($myBackgroundColor,20%);
+	}
 }
 //------------------------------------------------------checkboxes-------------------------------------------------//

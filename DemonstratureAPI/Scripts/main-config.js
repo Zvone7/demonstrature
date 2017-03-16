@@ -28,4 +28,3 @@ require(["knockout", "app/main", "koMapping", "bootstrap", "knockout-amd-helpers
     ko.mapping = koMapping;
     ko.applyBindings(mainModule.vm);
 });
-//# sourceMappingURL=main-config.js.map

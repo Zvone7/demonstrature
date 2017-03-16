@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model DemonstratureAPI.Models.MyUserWithReturnUrl
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -6,54 +8,60 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href="~/Content/css/style.css" rel="stylesheet" />
+    <!-- Latest compiled and minified CSS -->
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">*@
+
+    <!-- Optional theme -->
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">*@
+
+    <!-- Latest compiled and minified JavaScript -->
+    @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>*@
 </head>
 <body>
-    <div class="myNavbar">
-        <ul id="myUl" class="myUl">
-            <li class="myLi tableLi">
-                <div class="">
-                    <a href="@Url.Action("Table", "Table")">
-                        <div class="tableDiv">
-                            <i class="fa fa-table" aria-hidden="true"></i> Tablica
+    @{
+        if (Model.Id != -1)
+        {
+            <div class="myNavbar">
+                <ul id="myUl" class="myUl">
+                    <li class="myLi tableLi">
+                        <div class="">
+                            <a href="@Url.Action("Table", "Table")">
+                                <div class="tableDiv">
+                                    <i class="fa fa-table" aria-hidden="true"></i> Tablica
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
-            </li>
-            <li class="myLi settingLi">
-                <div class="">
-                    <a href="@Url.Action("Settings", "Settings")">
-                        <div class="settingsDiv">
-                            <i class="fa fa-cog" aria-hidden="true"></i> Postavke
+                    </li>
+                    <li class="myLi settingLi">
+                        <div class="">
+                            <div class="userNameDiv">@Model.Name</div>
+                            <div class="userControlsDiv">
+                                <a href="@Url.Action("Settings", "Settings")">
+                                    <i class="fa fa-cog cogButton" aria-hidden="true"></i>
+                                    @*Postavke*@
+                                </a>
+                                <button id="logout" class="logOutButton">
+                                    @*Odjava*@
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                </button>
+                            </div>
                         </div>
-                    </a>
-                </div>
-                <div class="">
-                    @*<a href="@Url.Action("Login", "Login")" id="logout">
-                        <div class="loginDiv">
-                            <i class="fa fa-sign-in" aria-hidden="true"></i> Odjava
-                        </div>
-                    </a>*@
-                    <button id="logout" class="logOutButton">
-                        <div class="loginDiv">
-                            <i class="fa fa-sign-in" aria-hidden="true"></i> Odjava
-                        </div>
-                    </button>
-                </div>
-            </li>
-        </ul>
-    </div>
+                    </li>
+                </ul>
+            </div>
 
+        }
+    }
     <div class="container body-content">
         @RenderBody()
         <footer>
             @*<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>*@
         </footer>
     </div>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>

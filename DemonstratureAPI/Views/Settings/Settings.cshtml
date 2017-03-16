@@ -1,4 +1,5 @@
-﻿@{
+﻿@model DemonstratureAPI.Models.MyUserWithReturnUrl
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -39,99 +40,105 @@
         </div>
     </div>
     @*ADMIN*@
-    <div id="adminSettings" class="adminSettings">
-        <div class="change-settings-label">
-            <label for="">Postavke administratora:</label>
-        </div>
-        <div class="row_s">
-            <div class="cell_s">
-                <div class="userSettings">
-                    <label class="identifier-big">Dodaj / uredi korisnika</label>
-                    <br /><br />
-                    <label class="identifier">Odaberi korisnika:</label><br />
-                    <select class="selecter_s" id="user_user_select"></select><br />
-                    <label class="identifier">Prezime:</label><br />
-                    <input id="user_last_name" class="input_s" /><br />
-                    <label class="identifier">Ime:</label><br />
-                    <input id="user_name" class="input_s" /><br />
-                    <label class="identifier">Korisničko ime:</label><br />
-                    <input id="user_username" class="input_s" type="text"/><br />
-                    <label class="identifier">Razina pristupa:</label><br />
-                    <select class="selecter_s" id="user_select_role">
-                        <option value="Administrator">Administrator</option>
-                        <option value="Demonstrator">Demonstrator</option>
-                    </select><br />
-                    <hr />
-                    <label class="identifier-big">Lozinka korisnika</label><br />
-                    <label class="identifier">(Ostaviti prazno ako se ne mijenja)</label><br /><br />
-                    <label class="identifier">Lozinka:</label><br />
-                    <input id="user_password" class="input_s" type="password" /><br />
-                    <label class="identifier">Ponovi lozinku:</label><br />
-                    <input id="user_password_again" class="input_s" type="password" /><br />
-                    <hr />
-                    <label class="identifier-big">Kolegiji</label><br /><br />
-                    <p id="user_user_course"></p>                    
-                    <button id="user_save" class="saveSetting2">Spremi</button>
-                    <button id="user_delete" class="deleteSetting">Obriši</button>                    
+    @{ 
+        if (@Model.Role == "A")
+        {
+            <div id="adminSettings" class="adminSettings">
+                <div class="change-settings-label">
+                    <label for="">Postavke administratora:</label>
                 </div>
-            </div>
-            <div class="cell_s">
-                <div class="courseSettings">
-                    <div class="identifier-big">
-                        <label>Dodaj / uredi kolegij</label><br />
+                <div class="row_s">
+                    <div class="cell_s">
+                        <div class="userSettings">
+                            <label class="identifier-big">Dodaj / uredi korisnika</label>
+                            <br /><br />
+                            <label class="identifier">Odaberi korisnika:</label><br />
+                            <select class="selecter_s" id="user_user_select"></select><br />
+                            <label class="identifier">Prezime:</label><br />
+                            <input id="user_last_name" class="input_s" /><br />
+                            <label class="identifier">Ime:</label><br />
+                            <input id="user_name" class="input_s" /><br />
+                            <label class="identifier">Korisničko ime:</label><br />
+                            <input id="user_username" class="input_s" type="text"/><br />
+                            <label class="identifier">Razina pristupa:</label><br />
+                            <select class="selecter_s" id="user_select_role">
+                                <option value="Administrator">Administrator</option>
+                                <option value="Demonstrator">Demonstrator</option>
+                            </select><br />
+                            <hr />
+                            <label class="identifier-big">Lozinka korisnika</label><br />
+                            <label class="identifier">(Ostaviti prazno ako se ne mijenja)</label><br /><br />
+                            <label class="identifier">Lozinka:</label><br />
+                            <input id="user_password" class="input_s" type="password" /><br />
+                            <label class="identifier">Ponovi lozinku:</label><br />
+                            <input id="user_password_again" class="input_s" type="password" /><br />
+                            <hr />
+                            <label class="identifier-big">Kolegiji</label><br /><br />
+                            <p id="user_user_course"></p>                    
+                            <button id="user_save" class="saveSetting2">Spremi</button>
+                            <button id="user_delete" class="deleteSetting">Obriši</button>                    
+                        </div>
                     </div>
-                    <label class="identifier">Smjer:</label><br />
-                    <select class="selecter_s" id="course_study_select"></select><br />
-                    <label class="identifier">Odaberi kolegij:</label><br />
-                    <select class="selecter_s" id="course_course_select"></select><br />
-                    <label class="identifier">Naziv:</label><br />
-                    <input id="course_name" class="input_s" type="text" /><br />
-                    <label class="identifier">Profesor:</label><br />
-                    <input id="course_prof" class="input_s" type="text" /><br />
-                    <label class="identifier">Asistent:</label><br />
-                    <input id="course_asis" class="input_s" type="text" /><br /><br />
-                    <button id="course_save" class="saveSetting2">Spremi</button>
-                    <button id="course_delete" class="deleteSetting">Obriši</button>
-                </div>
-            </div>
-            <div class="cell_s">
-                <div class="groupSettings">
-                    <div class="identifier-big">
-                        <label>Dodaj / uredi grupu</label><br />
+                    <div class="cell_s">
+                        <div class="courseSettings">
+                            <div class="identifier-big">
+                                <label>Dodaj / uredi kolegij</label><br />
+                            </div>
+                            <label class="identifier">Smjer:</label><br />
+                            <select class="selecter_s" id="course_study_select"></select><br />
+                            <label class="identifier">Odaberi kolegij:</label><br />
+                            <select class="selecter_s" id="course_course_select"></select><br />
+                            <label class="identifier">Naziv:</label><br />
+                            <input id="course_name" class="input_s" type="text" /><br />
+                            <label class="identifier">Profesor:</label><br />
+                            <input id="course_prof" class="input_s" type="text" /><br />
+                            <label class="identifier">Asistent:</label><br />
+                            <input id="course_asis" class="input_s" type="text" /><br /><br />
+                            <button id="course_save" class="saveSetting2">Spremi</button>
+                            <button id="course_delete" class="deleteSetting">Obriši</button>
+                        </div>
                     </div>
-                    <label class="identifier">Smjer:</label><br />
-                    <select class="selecter_s" id="group_study_select"></select><br />
-                    <label class="identifier">Odaberi kolegij:</label><br />
-                    <select class="selecter_s" id="group_course_select"></select><br />
-                    <label class="identifier">Odaberi grupu:</label><br />
-                    <select class="selecter_s" id="group_group_select"></select><br />
-                    <label class="identifier">Odaberi vlasnika grupe:</label><br />
-                    <select class="selecter_s" id="group_owner_select"></select><br />
-                    <label class="identifier">Naziv grupe:</label><br />
-                    <input id="group_name" class="input_s" type="text" /><br /> <br />
-                    <button id="group_save" class="saveSetting2">Spremi</button>
-                    <button id="group_delete" class="deleteSetting">Obriši</button>
-                </div>
-            </div>
-            <div class="cell_s">
-                <div class="termSettings">
-                    <div class="identifier-big">
-                        <label>Dodaj / uredi termin</label><br />
+                    <div class="cell_s">
+                        <div class="groupSettings">
+                            <div class="identifier-big">
+                                <label>Dodaj / uredi grupu</label><br />
+                            </div>
+                            <label class="identifier">Smjer:</label><br />
+                            <select class="selecter_s" id="group_study_select"></select><br />
+                            <label class="identifier">Odaberi kolegij:</label><br />
+                            <select class="selecter_s" id="group_course_select"></select><br />
+                            <label class="identifier">Odaberi grupu:</label><br />
+                            <select class="selecter_s" id="group_group_select"></select><br />
+                            <label class="identifier">Odaberi vlasnika grupe:</label><br />
+                            <select class="selecter_s" id="group_owner_select"></select><br />
+                            <label class="identifier">Naziv grupe:</label><br />
+                            <input id="group_name" class="input_s" type="text" /><br /> <br />
+                            <button id="group_save" class="saveSetting2">Spremi</button>
+                            <button id="group_delete" class="deleteSetting">Obriši</button>
+                        </div>
                     </div>
-                    <label class="identifier">Smjer:</label><br />
-                    <select class="selecter_s" id="term_study_select"></select><br />
-                    <label class="identifier">Odaberi kolegij:</label><br />
-                    <select class="selecter_s" id="term_course_select"></select><br />
-                    <label class="identifier">Odaberi grupu:</label><br />
-                    <select class="selecter_s" id="term_group_select"></select><br />
-                    <label class="identifier">Odaberi termin:</label><br />
-                    <select class="selecter_s" id="term_term_select"></select><br />
-                    <label class="identifier">Datum:</label><br />
-                    <input id="term_date" class="input_s" type="text" /><br /> <br />
-                    <button id="term_save" class="saveSetting2">Spremi</button>
-                    <button id="term_delete" class="deleteSetting">Obriši</button>
+                    <div class="cell_s">
+                        <div class="termSettings">
+                            <div class="identifier-big">
+                                <label>Dodaj / uredi termin</label><br />
+                            </div>
+                            <label class="identifier">Smjer:</label><br />
+                            <select class="selecter_s" id="term_study_select"></select><br />
+                            <label class="identifier">Odaberi kolegij:</label><br />
+                            <select class="selecter_s" id="term_course_select"></select><br />
+                            <label class="identifier">Odaberi grupu:</label><br />
+                            <select class="selecter_s" id="term_group_select"></select><br />
+                            <label class="identifier">Odaberi termin:</label><br />
+                            <select class="selecter_s" id="term_term_select"></select><br />
+                            <label class="identifier">Datum:</label><br />
+                            <input id="term_date" class="input_s" type="text" /><br /> <br />
+                            <button id="term_save" class="saveSetting2">Spremi</button>
+                            <button id="term_delete" class="deleteSetting">Obriši</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+
+        }
+    }
 </div>

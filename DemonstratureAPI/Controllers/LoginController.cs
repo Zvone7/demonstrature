@@ -1,7 +1,10 @@
-﻿using DemonstratureBLL;
+﻿using DemonstratureAPI.Models;
+using DemonstratureBLL;
 using DemonstratureCM.BM;
 using DemonstratureCM.DTO;
 using Microsoft.AspNet.Identity;
+using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
@@ -14,14 +17,20 @@ namespace DemonstratureAPI.Controllers
         // GET: Login
         public ActionResult Login()
         {
+            //this doesn't get called
+            var model = new MyUser()
+            {
+                Id = -1
+            };
             ViewBag.Title = "Login page";
-            return View();
+            return View(model);
         }
         [HttpGet]
         public ActionResult LogIn(string returnUrl)
         {
-            var model = new LoginDataBM
+            var model = new MyUserWithReturnUrl()
             {
+                Id=-1,
                 ReturnUrl = returnUrl
             };
 
@@ -50,24 +59,12 @@ namespace DemonstratureAPI.Controllers
             if (user!=null)
             {
                 ClaimsIdentity identity;
-                if (user.Role == "A")
-                {
                     identity = new ClaimsIdentity(new[] {
-                        new Claim(ClaimTypes.Role, "A"),
+                        new Claim(ClaimTypes.Role, user.Role),
                         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                        new Claim(ClaimTypes.Name, user.Name+" "+user.LastName)
+                        new Claim(ClaimTypes.Name, user.Name+" "+user.LastName),
+                        new Claim(ClaimTypes.GivenName, user.Username)
                     },"ApplicationCookie");
-                }
-                else
-                {
-                    identity = new ClaimsIdentity(new[] {
-                        new Claim(ClaimTypes.Role, "D"),
-                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                        new Claim(ClaimTypes.Name, user.Name+" "+user.LastName)
-                    },"ApplicationCookie");
-                }
-
-                ViewData["Role"] = user.Role;
 
                 var ctx = Request.GetOwinContext();
                 var authManager = ctx.Authentication;

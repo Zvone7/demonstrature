@@ -1,6 +1,7 @@
 ﻿$(document).ready(() => {
     var tableVM: TableVM = new TableVM();
     //tableVM.LoginCheck();
+    tableVM.getAllCourses();
 });
 
 //patiš se sa micanjem gore dolje..zabavica
@@ -99,7 +100,7 @@ class TableVM{
                 self.downClicked();
             });
             //css
-            $('#myUl').css("visibility", "visible");
+            //$('#myUl').css("visibility", "visible");
         });
         /*
             loginCheck            

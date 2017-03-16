@@ -267,7 +267,6 @@ var SettingsVM = (function () {
         };
         this.button_savePassword = function () {
             var self = _this;
-            self.LoginCheck();
             var userId = self.ActiveUser.Id;
             //console.log(userId);
             var oldPassword = $("#old_password").val().trim();
@@ -292,14 +291,11 @@ var SettingsVM = (function () {
         //-------------------------------COURSES START-------------------------------------------//
         this.createCourse = function (c) {
             var self = _this;
-            var obj = new AuthCourse();
-            obj.LoginData = self.LoginData;
-            obj.Course = c;
             var serviceURL = '/Settings/CreateCourse';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: obj,
+                data: c,
                 success: successFunc,
                 error: errorFunc
             });
@@ -372,14 +368,11 @@ var SettingsVM = (function () {
         };
         this.deleteCourse = function (courseId) {
             var self = _this;
-            var obj = new AuthCourseId();
-            obj.LoginData = self.LoginData;
-            obj.CourseId = courseId;
             var serviceURL = '/Settings/DeleteCourse';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: obj,
+                data: courseId,
                 success: successFunc,
                 error: errorFunc
             });
@@ -418,14 +411,11 @@ var SettingsVM = (function () {
         };
         this.updateCourse = function (c) {
             var self = _this;
-            var obj = new AuthCourse();
-            obj.LoginData = self.LoginData;
-            obj.Course = c;
             var serviceURL = '/Settings/UpdateCourse';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: obj,
+                data: c,
                 success: successFunc,
                 error: errorFunc
             });
@@ -466,14 +456,11 @@ var SettingsVM = (function () {
         //-------------------------------USER START----------------------------------------------//
         this.createUser = function (nu) {
             var self = _this;
-            var obj = new AuthMyUserWithPassBM();
-            obj.LoginData = self.LoginData;
-            obj.MyUserWithPass = nu;
             var serviceURL = '/Settings/CreateUser';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: obj,
+                data: nu,
                 success: successFunc,
                 error: errorFunc
             });
@@ -488,14 +475,11 @@ var SettingsVM = (function () {
         };
         this.deleteUser = function (userId) {
             var self = _this;
-            var obj = new AuthUserId();
-            obj.LoginData = self.LoginData;
-            obj.UserId = userId;
             var serviceURL = '/Settings/DeleteUser';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
-                data: obj,
+                data: userId,
                 success: successFunc,
                 error: errorFunc
             });
@@ -543,7 +527,6 @@ var SettingsVM = (function () {
                 if (data != null) {
                     self.ActiveUser = new UserDTO_S();
                     self.ActiveUser = data;
-                    self.UserCheck();
                 }
                 else {
                     self.ActiveUser = null;
@@ -1338,33 +1321,6 @@ var SettingsVM = (function () {
                 console.log("Fail logoff");
             }
         };
-        this.LoginCheck = function () {
-            var loginDataCookie = _this.CheckCookie("LoginData");
-            if (loginDataCookie != "") {
-                _this.LoginData = new LoginDataM_S();
-                _this.LoginData.Username = loginDataCookie.split(' ')[0];
-                _this.LoginData.Password = loginDataCookie.split(' ')[1];
-                _this.getUser(_this.LoginData.Username);
-            }
-            else {
-                alert(_this.warning_not_logged_in);
-                location.href = _this.link_main + _this.link_login;
-            }
-        };
-        this.UserCheck = function () {
-            if (_this.ActiveUser != null) {
-                if (_this.ActiveUser.Role == "A") {
-                    _this.ActivateAdministrator();
-                }
-                else {
-                    _this.ActivateRegularUser();
-                }
-            }
-            else {
-                alert(_this.warning_not_logged_in);
-                location.href = _this.link_main + _this.link_login;
-            }
-        };
         this.ActivateAdministrator = function () {
             $("#adminSettings").css("visibility", "visible");
             _this.getAllCourses();
@@ -1392,6 +1348,12 @@ var SettingsVM = (function () {
         var self = this;
         //console.log("constructor: settings");
         $(document).ready(function () {
+            if ($("#adminSettings").length >= 1) {
+                self.ActivateAdministrator();
+            }
+            else {
+                self.ActivateRegularUser();
+            }
             $('#logout').on("click", function () {
                 self.LogOut();
             });
@@ -1471,7 +1433,7 @@ var SettingsVM = (function () {
                 self.updateTermData();
             });
             $("#term_date").datepicker();
-            $('#myUl').css("visibility", "visible");
+            //$('#myUl').css("visibility", "visible");
         });
     }
     SettingsVM.prototype.checkIfCorrectPassword = function (userId, oldPassword, newPassword) {
@@ -1479,14 +1441,11 @@ var SettingsVM = (function () {
         var pu = new PasswordUpdaterM_S();
         pu.Password = oldPassword;
         pu.UserId = userId;
-        var obj = new AuthPasswordUpdater();
-        obj.LoginData = self.LoginData;
-        obj.PasswordUpdater = pu;
         var serviceURL = '/Settings/CheckIfCorrectPassword';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: pu,
             success: successFunc,
             error: errorFunc
         });
@@ -1600,4 +1559,3 @@ var AuthTermId = (function () {
     }
     return AuthTermId;
 }());
-//# sourceMappingURL=Settings.js.map

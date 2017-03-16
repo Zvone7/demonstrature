@@ -87,7 +87,7 @@ var LoginVM = (function () {
             if (event.which == 13) {
             }
         });
-        $('#myUl').css("visibility", "hidden");
+        //$('#myUl').css("visibility", "hidden");
         $('#test').on("click", function () {
             self.createCookie("zgrubisic", "1234");
         });
@@ -99,4 +99,3 @@ var LoginDataBM = (function () {
     }
     return LoginDataBM;
 }());
-//# sourceMappingURL=Login.js.map
