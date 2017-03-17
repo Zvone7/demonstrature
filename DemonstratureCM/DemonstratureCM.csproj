@@ -48,15 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Auth\AuthCourseBM.cs" />
-    <Compile Include="Auth\AuthCourseId.cs" />
-    <Compile Include="Auth\AuthGroupDTO.cs" />
-    <Compile Include="Auth\AuthGroupId.cs" />
-    <Compile Include="Auth\AuthPasswordUpdaterBM.cs" />
-    <Compile Include="Auth\AuthTermDTO.cs" />
-    <Compile Include="Auth\AuthTermId.cs" />
-    <Compile Include="Auth\AuthUserId.cs" />
-    <Compile Include="Auth\AuthMyUserWithPassBM.cs" />
     <Compile Include="BM\CourseBM.cs" />
     <Compile Include="BM\LoginDataBM.cs" />
     <Compile Include="BM\MyUserBM.cs" />

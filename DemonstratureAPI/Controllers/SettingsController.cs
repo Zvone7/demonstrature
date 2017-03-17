@@ -1,6 +1,5 @@
 ﻿using DemonstratureAPI.Models;
 using DemonstratureBLL;
-using DemonstratureCM.Auth;
 using DemonstratureCM.BM;
 using DemonstratureCM.DTO;
 using System;

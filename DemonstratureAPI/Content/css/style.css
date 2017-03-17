@@ -282,7 +282,7 @@ a:-webkit-any-link {
   margin: -9px 0 0 0;
   outline: none;
   padding: 2px;
-  font-size: 14px; }
+  font-size: 10px; }
 
 ::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */

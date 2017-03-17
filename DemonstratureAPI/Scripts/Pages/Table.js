@@ -749,38 +749,6 @@ var TableVM = (function () {
         //-------------------------------NAVIGATION END---------------------------------------------//
         //------------------------------------------------------------------------------------------//
         //------------------------------------------------------------------------------------------//
-        //----------------------------------COOKIE START--------------------------------------------//
-        this.GetCookie = function (cname) {
-            try {
-                var name = cname + "=";
-                var ca = document.cookie.split(';');
-                for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ') {
-                        c = c.substring(1);
-                    }
-                    if (c.indexOf(name) == 0) {
-                        return c.substring(name.length, c.length);
-                    }
-                }
-                return "";
-            }
-            catch (err) {
-                return "";
-            }
-        };
-        this.CheckCookie = function (cname) {
-            var loginData = _this.GetCookie(cname);
-            if (loginData != "") {
-                return loginData;
-            }
-            else {
-                return "";
-            }
-        };
-        //----------------------------------COOKIE END----------------------------------------------//
-        //------------------------------------------------------------------------------------------//
-        //------------------------------------------------------------------------------------------//
         //-----------------------AUTHORIZATION & AUTHENTICATION START-------------------------------//
         this.LogOut = function () {
             var self = _this;
@@ -957,3 +925,4 @@ var LoginDataM_T = (function () {
     }
     return LoginDataM_T;
 }());
+//# sourceMappingURL=Table.js.map
