@@ -132,7 +132,7 @@ a:-webkit-any-link{
 	position:absolute;
 	float:none;
 	padding-left:0px;
-    padding-top:calc(1%);
+	padding-top:calc(1%);
 	font-size: $fontPcM;
 }
 .settingLi{
@@ -162,7 +162,7 @@ a:-webkit-any-link{
 	padding-bottom:15px;*/
 	&:hover{
 		cursor:pointer;
-        text-decoration:none;
+		text-decoration:none;
 	}
 }
 .userNameDiv{
@@ -375,7 +375,7 @@ a:-webkit-any-link{
    margin: -9px 0 0 0;
    outline: none;
    padding: 2px;
-   font-size: $fontPcS;
+   font-size: $fontPcXS;
 }
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
 	color: $placeholderColor;
@@ -526,9 +526,9 @@ input{
 		cursor:pointer;
 		text-decoration:underline;
 	}
-    &:focus{
-        outline:none;
-    }
+	&:focus{
+		outline:none;
+	}
 }
 .cogButton{
 	background-color:$headerColor;

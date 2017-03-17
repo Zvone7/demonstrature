@@ -741,15 +741,12 @@ class SettingsVM {
     public updateUser = (nu: UserM_S) => {
         //console.log("updating user", nu);
         var self = this;
-        var obj = new AuthMyUserWithPassBM();
-        obj.LoginData = self.LoginData;
-        obj.MyUserWithPass = nu;
         //console.log(obj);
         var serviceURL = '/Settings/UpdateUser';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: nu,
             success: successFunc,
             error: errorFunc
         });
@@ -804,14 +801,11 @@ class SettingsVM {
     }
     public updateUserPassword = (pu: PasswordUpdaterM_S) => {
         var self = this;
-        var obj = new AuthPasswordUpdater();
-        obj.LoginData = self.LoginData;
-        obj.PasswordUpdater = pu;
         var serviceURL = '/Settings/UpdateUserPassword';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: pu,
             success: successFunc,
             error: errorFunc
         });
@@ -843,15 +837,12 @@ class SettingsVM {
     public createGroup = (g: GroupDTO_S) => {
         //console.log("creating group");
         var self = this;
-        var obj = new AuthGroupDTO();
-        obj.LoginData = self.LoginData;
-        obj.Group = g;
         //console.log(obj);
         var serviceURL = '/Settings/CreateGroup';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: g,
             success: successFunc,
             error: errorFunc
         });
@@ -872,15 +863,12 @@ class SettingsVM {
     public deleteGroup = (groupId: number) => {
         //console.log("deleting group");
         var self = this;
-        var obj = new AuthGroupId();
-        obj.LoginData = self.LoginData;
-        obj.GroupId = groupId;
         //console.log(obj);
         var serviceURL = '/Settings/DeleteGroup';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: groupId,
             success: successFunc,
             error: errorFunc
         });
@@ -1000,14 +988,11 @@ class SettingsVM {
     }
     public updateGroup = (g: GroupDTO_S) => {
         var self = this;
-        var obj = new AuthGroupDTO();
-        obj.LoginData = self.LoginData;
-        obj.Group = g;
         var serviceURL = '/Settings/UpdateGroup';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: g,
             success: successFunc,
             error: errorFunc
         });
@@ -1052,14 +1037,11 @@ class SettingsVM {
     public createTerm = (t: TermDTO_S) => {
         //console.log("creating term");
         var self = this;
-        var obj = new AuthTerm();
-        obj.LoginData = self.LoginData;
-        obj.Term = t;
         var serviceURL = '/Settings/CreateTerm';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: t,
             success: successFunc,
             error: errorFunc
         });
@@ -1076,14 +1058,11 @@ class SettingsVM {
         //return;
         //nešto s datumima nešto ne znam
         var self = this;
-        var obj = new AuthTerm();
-        obj.LoginData = self.LoginData;
-        obj.Term = t;
         var serviceURL = '/Settings/CreateTerms';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: t,
             success: successFunc,
             error: errorFunc
         });
@@ -1098,13 +1077,10 @@ class SettingsVM {
     public deleteTerm = (termId: number) => {
         //console.log("deleting term");
         var self = this;
-        var obj = new AuthTermId();
-        obj.LoginData = self.LoginData;
-        obj.TermId = termId;
         var serviceURL = '/Settings/DeleteTerm';
         $.ajax({
             type: "POST",
-            data: obj,
+            data: termId,
             success: successFunc,
             error: errorFunc
         });
@@ -1120,14 +1096,11 @@ class SettingsVM {
         //console.log("deleting terms");
         //console.log(t);
         var self = this;
-        var obj = new AuthTerm();
-        obj.LoginData = self.LoginData;
-        obj.Term = t;
         var serviceURL = '/Settings/DeleteTerms';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: t,
             success: successFunc,
             error: errorFunc
         });
@@ -1270,14 +1243,11 @@ class SettingsVM {
     public updateTerm = (t: TermDTO_S) => {
         //console.log("updating term");
         var self = this;
-        var obj = new AuthTerm();
-        obj.LoginData = self.LoginData;
-        obj.Term = t;
         var serviceURL = '/Settings/UpdateTerm';
         $.ajax({
             type: "POST",
             url: serviceURL,
-            data: obj,
+            data: t,
             success: successFunc,
             error: errorFunc
         });
@@ -1298,9 +1268,6 @@ class SettingsVM {
     public updateTerms = (t: TermDTO_S) => {
         //console.log("updating terms");
         var self = this;
-        var obj = new AuthTerm();
-        obj.LoginData = self.LoginData;
-        obj.Term = t;
         var serviceURL = '/Settings/UpdateTerms';
         $.ajax({
             type: "POST",
@@ -1578,40 +1545,4 @@ class LoginDataM_S {
 class PasswordUpdaterM_S {
     UserId: number;
     Password: string;
-}
-class AuthUserId {
-    LoginData: LoginDataM_S;
-    UserId: number;
-}
-class AuthMyUserWithPassBM {
-    LoginData: LoginDataM_S;
-    MyUserWithPass: UserM_S;
-}
-class AuthPasswordUpdater {
-    LoginData: LoginDataM_S;
-    PasswordUpdater: PasswordUpdaterM_S;
-}
-class AuthCourse {
-    LoginData: LoginDataM_S;
-    Course: CourseM_S;
-}
-class AuthCourseId {
-    LoginData: LoginDataM_S;
-    CourseId: number;
-}
-class AuthGroupDTO {
-    LoginData: LoginDataM_S;
-    Group: GroupDTO_S;
-}
-class AuthGroupId {
-    LoginData: LoginDataM_S;
-    GroupId: number;
-}
-class AuthTerm {
-    LoginData: LoginDataM_S;
-    Term: TermDTO_S;
-}
-class AuthTermId {
-    LoginData: LoginDataM_S;
-    TermId: number;
 }
