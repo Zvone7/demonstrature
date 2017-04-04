@@ -1,17 +1,25 @@
 ﻿$(document).ready(() => {
     var tableVM: TableVM = new TableVM();
-    //tableVM.LoginCheck();
-    tableVM.getAllCourses();
+    //ko.applyBindings(tableVM);
+    //tableVM.getAllCourses();
 });
 
 //patiš se sa micanjem gore dolje..zabavica
 
-class TableVM{
+class Table_VM{
+    //---------------------------------OBSERVABLES------------------------------//
+    public Terms0 = ko.observableArray<CellM_T>();
+    public Terms1 = ko.observableArray<CellM_T>();
+    public Terms2 = ko.observableArray<CellM_T>();
+    public Terms3 = ko.observableArray<CellM_T>();
+    public allTerms = ko.observableArray<CellM_T[][]>();
+    public Users = ko.observableArray<UserM_T>();
+    public YO = ko.observable<string>();
     //------------------------------------TERM----------------------------------//
-    public Terms0: CellM_T[] = new Array<CellM_T>();
-    public Terms1: CellM_T[] = new Array<CellM_T>();
-    public Terms2: CellM_T[] = new Array<CellM_T>();
-    public Terms3: CellM_T[] = new Array<CellM_T>();
+    public Terms0_no: CellM_T[] = new Array<CellM_T>();
+    public Terms1_no: CellM_T[] = new Array<CellM_T>();
+    public Terms2_no: CellM_T[] = new Array<CellM_T>();
+    public Terms3_no: CellM_T[] = new Array<CellM_T>();
     public EmptyTerms: TermDTO_T[];
     public ActiveTerms: TermM_T[] = new Array<TermM_T>();
     public AllTerms: CellM_T[][];
@@ -19,7 +27,7 @@ class TableVM{
     public ActiveUser: UserM_T;
     public ActiveUsers: UserM_T[];
     public AllUsers: UserDTO_T[] = new Array<UserDTO_T>();
-    public Users: UserM_T[];
+    public Users_no: UserM_T[];
     public UserData: UserM_T;
     public BlankUser: UserM_T = new UserM_T({ Id: '0', Username: 'blank', Name: 'Prazan', LastName:'termin', Role: 'D' });
     public BlankGroupOwner: UserM_T = new UserM_T({ Id: '0', Username: 'blank', Name: 'Nema', LastName:'vlasnika', Role: 'D' });
@@ -65,10 +73,10 @@ class TableVM{
                 }
                 else if (this.id == "selectCourse") {
                     //console.log("selectCourse changed");
-                    self.Terms0 = new Array<CellM_T>();
-                    self.Terms1 = new Array<CellM_T>();
-                    self.Terms2 = new Array<CellM_T>();
-                    self.Terms3 = new Array<CellM_T>();
+                    self.Terms0_no = new Array<CellM_T>();
+                    self.Terms1_no = new Array<CellM_T>();
+                    self.Terms2_no = new Array<CellM_T>();
+                    self.Terms3_no = new Array<CellM_T>();
                     self.position_horiz = 0;
                     self.position_verti = 0;
                     self.updateTermValuesAfterSelect();
@@ -137,7 +145,7 @@ class TableVM{
             error: errorFunc
         });
         function successFunc(data: UserM_T[], status) {
-            self.Users = data;
+            self.Users_no = data;
         }
         function errorFunc(data) {
             console.log('error getting data about all users', data);
@@ -209,6 +217,7 @@ class TableVM{
         });
         function successFunc(data: CourseDTO_T[], status) {
             self.Courses = data;
+            ko.applyBindings(self);
             //console.log(self.Courses);
             self.populateSelectStudy();
         }
@@ -317,7 +326,7 @@ class TableVM{
             }
         }
         //console.log("Active Terms", this.ActiveTerms);
-        if (this.Terms0.length > 0) {
+        if (this.Terms0_no.length > 0) {
             console.log("self.Terms0.length>0, 303 red!!");
             //self.updateTermTable();
         }
@@ -343,20 +352,20 @@ class TableVM{
                 cell.TermDate = date[0] + "." + date[1] + "." + date[2];
                 //console.log("created cell ", cell);
                 cell.Group = this.AllTerms[i][j].Group;
-                if (i == 0 + this.position_verti) this.Terms0.push(cell);
-                else if (i == 1 + this.position_verti) this.Terms1.push(cell);
-                else if (i == 2 + this.position_verti) this.Terms2.push(cell);
-                else if (i == 3 + this.position_verti) this.Terms3.push(cell);
+                if (i == 0 + this.position_verti) this.Terms0_no.push(cell);
+                else if (i == 1 + this.position_verti) this.Terms1_no.push(cell);
+                else if (i == 2 + this.position_verti) this.Terms2_no.push(cell);
+                else if (i == 3 + this.position_verti) this.Terms3_no.push(cell);
             }
         }
         //console.log("Terms0", this.Terms0); console.log("Terms1", this.Terms1); console.log("Terms2", this.Terms2); console.log("Terms3", this.Terms3);
 
         this.setInitialNavigation();
         this.updateGroupWebData();
-        this.updateTermWebData(this.Terms0, 0);
-        this.updateTermWebData(this.Terms1, 1);
-        this.updateTermWebData(this.Terms2, 2);
-        this.updateTermWebData(this.Terms3, 3);
+        this.updateTermWebData(this.Terms0_no, 0);
+        this.updateTermWebData(this.Terms1_no, 1);
+        this.updateTermWebData(this.Terms2_no, 2);
+        this.updateTermWebData(this.Terms3_no, 3);
     }
     public fillAllTerms = () => {
         //console.log("filling all terms");
@@ -501,47 +510,47 @@ class TableVM{
                 cell.x = i;
                 cell.y = j;
                 if (i == 0 + this.position_verti) {
-                    this.Terms0[j].UserPerson=cell.UserPerson;
-                    this.Terms0[j].SkipState=cell.SkipState;
-                    this.Terms0[j].TakeState = cell.SkipState;
-                    this.Terms0[j].TermDate = cell.TermDate.substring(0,9);
-                    this.Terms0[j].x = cell.x;
-                    this.Terms0[j].y = cell.y;
-                    this.Terms0[j].Group=cell.Group;
+                    this.Terms0_no[j].UserPerson=cell.UserPerson;
+                    this.Terms0_no[j].SkipState=cell.SkipState;
+                    this.Terms0_no[j].TakeState = cell.SkipState;
+                    this.Terms0_no[j].TermDate = cell.TermDate.substring(0,9);
+                    this.Terms0_no[j].x = cell.x;
+                    this.Terms0_no[j].y = cell.y;
+                    this.Terms0_no[j].Group=cell.Group;
                 }
                 else if (i == 1) {
-                    this.Terms1[j].UserPerson=cell.UserPerson;
-                    this.Terms1[j].SkipState=cell.SkipState;
-                    this.Terms1[j].TakeState=cell.SkipState;
-                    this.Terms1[j].TermDate = cell.TermDate.substring(0, 9);
-                    this.Terms1[j].x = cell.x;
-                    this.Terms1[j].y = cell.y;
-                    this.Terms1[j].Group=cell.Group;
+                    this.Terms1_no[j].UserPerson=cell.UserPerson;
+                    this.Terms1_no[j].SkipState=cell.SkipState;
+                    this.Terms1_no[j].TakeState=cell.SkipState;
+                    this.Terms1_no[j].TermDate = cell.TermDate.substring(0, 9);
+                    this.Terms1_no[j].x = cell.x;
+                    this.Terms1_no[j].y = cell.y;
+                    this.Terms1_no[j].Group=cell.Group;
                 }
                 else if (i == 2) {
-                    this.Terms2[j].UserPerson=cell.UserPerson;
-                    this.Terms2[j].SkipState=cell.SkipState;
-                    this.Terms2[j].TakeState=cell.SkipState;
-                    this.Terms2[j].TermDate = cell.TermDate.substring(0, 9);
-                    this.Terms2[j].x = cell.x;
-                    this.Terms2[j].y = cell.y;
-                    this.Terms2[j].Group=cell.Group;
+                    this.Terms2_no[j].UserPerson=cell.UserPerson;
+                    this.Terms2_no[j].SkipState=cell.SkipState;
+                    this.Terms2_no[j].TakeState=cell.SkipState;
+                    this.Terms2_no[j].TermDate = cell.TermDate.substring(0, 9);
+                    this.Terms2_no[j].x = cell.x;
+                    this.Terms2_no[j].y = cell.y;
+                    this.Terms2_no[j].Group=cell.Group;
                 }
                 else if (i == 3) {
-                    this.Terms3[j].UserPerson=cell.UserPerson;
-                    this.Terms3[j].SkipState=cell.SkipState;
-                    this.Terms3[j].TakeState=cell.SkipState;
-                    this.Terms3[j].TermDate = cell.TermDate.substring(0, 9);
-                    this.Terms3[j].x = cell.x;
-                    this.Terms3[j].y = cell.y;
-                    this.Terms3[j].Group=cell.Group;
+                    this.Terms3_no[j].UserPerson=cell.UserPerson;
+                    this.Terms3_no[j].SkipState=cell.SkipState;
+                    this.Terms3_no[j].TakeState=cell.SkipState;
+                    this.Terms3_no[j].TermDate = cell.TermDate.substring(0, 9);
+                    this.Terms3_no[j].x = cell.x;
+                    this.Terms3_no[j].y = cell.y;
+                    this.Terms3_no[j].Group=cell.Group;
                 }
             }
         }
-        this.updateTermWebData(this.Terms0, 0);
-        this.updateTermWebData(this.Terms1, 1);
-        this.updateTermWebData(this.Terms2, 2);
-        this.updateTermWebData(this.Terms3, 3);
+        this.updateTermWebData(this.Terms0_no, 0);
+        this.updateTermWebData(this.Terms1_no, 1);
+        this.updateTermWebData(this.Terms2_no, 2);
+        this.updateTermWebData(this.Terms3_no, 3);
         this.updateGroupWebData();
         //console.log("terms0 userperson:", this.Terms0[0].UserPerson);
     }
@@ -559,10 +568,10 @@ class TableVM{
                     (date.getMonth()).toString() + "." +
                     date.getFullYear().toString();
                 cell.Group=data[i][j].Group;
-                if (i == 0) this.Terms0.push(cell);
-                else if (i == 1) this.Terms1.push(cell);
-                else if (i == 2) this.Terms2.push(cell);
-                else if (i == 3) this.Terms3.push(cell);
+                if (i == 0) this.Terms0_no.push(cell);
+                else if (i == 1) this.Terms1_no.push(cell);
+                else if (i == 2) this.Terms2_no.push(cell);
+                else if (i == 3) this.Terms3_no.push(cell);
             }
         }
     }
@@ -877,23 +886,23 @@ class TableVM{
 
 
     public test = () => {
-        
-        //console.log("f", userUniqueVariable);
+        this.YO("new");
+        console.log("updating observable");
     }
 }
 class UserM_T {
-    public Id:number;
+    public Id: number;
     public Username: string;
     public Name: string;
     public LastName: string;
-    public Role : string;
+    public Role: string;
     constructor(myUser?: any) {
         if (myUser) {
-            this.Id=myUser.Id;
+            this.Id = myUser.Id;
             this.Username = myUser.Username;
             this.Name = myUser.Name;
             this.LastName = myUser.LastName;
-            this.Role=myUser.Role;
+            this.Role = myUser.Role;
         }
     }
 }
@@ -904,14 +913,14 @@ class UserDTO_T {
     public Role: string;
 }
 class TermM_T {
-    public Id:number;
+    public Id: number;
     public CourseId: number;
     public Course: CourseM_T;
     public UserId: number;
     public UserPerson: UserM_T;
     public GroupId: number;
-    public Group: GroupM_T;    
-    public TermDate: string;    
+    public Group: GroupM_T;
+    public TermDate: string;
 }
 class TermDTO_T {
     public Id: number;
@@ -921,22 +930,22 @@ class TermDTO_T {
     public TermDate: string;
 }
 class CellM_T {
-    public x :number;
-    public y :number;
-    public TakeState : boolean;
-    public SkipState : boolean;
-    public TermDate : string;
+    public x: number;
+    public y: number;
+    public TakeState: boolean;
+    public SkipState: boolean;
+    public TermDate: string;
     public Group: GroupM_T;
     public UserId: number;
-    public UserPerson : UserM_T;    
+    public UserPerson: UserM_T;
 }
 class CourseM_T {
-    public Id : number;
-    public Name : string;
-    public Study : string;
-    public Leader : string;
-    public Asistant : string;
-    public TermT : TermM_T[][]; 
+    public Id: number;
+    public Name: string;
+    public Study: string;
+    public Leader: string;
+    public Asistant: string;
+    public TermT: TermM_T[][];
 }
 class CourseDTO_T {
     public Id: number;
@@ -944,10 +953,10 @@ class CourseDTO_T {
     public Study: string;
     public Leader: string;
     public Asistant: string;
-    public TermT: TermM_T[][];    
+    public TermT: TermM_T[][];
 }
 class GroupM_T {
-    public Id : number;
+    public Id: number;
     public Name: string;
     public OwnerId: number;
     public CourseId: number;
@@ -966,4 +975,3 @@ class LoginDataM_T {
     public Username: string;
     public Password: string;
 }
-

@@ -343,8 +343,8 @@
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
-    <Content Include="Scripts\knockout-3.4.0.debug.js" />
-    <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\knockout-3.4.2.debug.js" />
+    <Content Include="Scripts\knockout-3.4.2.js" />
     <Content Include="Scripts\knockout-amd-helpers.js" />
     <Content Include="Scripts\knockout-amd-helpers.min.js" />
     <Content Include="Scripts\knockout-postbox.js" />
@@ -402,6 +402,7 @@
     <TypeScriptCompile Include="Scripts\main-config.ts" />
     <TypeScriptCompile Include="Scripts\Pages\Login.ts" />
     <TypeScriptCompile Include="Scripts\Pages\Settings.ts" />
+    <TypeScriptCompile Include="Scripts\Pages\TableKO.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.dataTables\jquery.dataTables.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jqueryUI\jqueryUI.d.ts" />

@@ -14,6 +14,7 @@ var SettingsVM = (function () {
         this.link_settings = "/Settings/Settings";
         this.link_table = "/Table/Table";
         this.link_login = "/Login/Login";
+        this.YO = ko.observable("i have an initial value");
         //---------------------------------------------------------------------------------------//
         //-------------------------------BUTTONS START-------------------------------------------//
         this.button_saveCourse = function () {
@@ -1312,9 +1313,17 @@ var SettingsVM = (function () {
             //console.log(day, month, year);
             $("#term_date").val(year + "-" + month + "-" + day);
         };
+        this.test = function () {
+            _this.YO("new");
+            console.log("updating observable");
+        };
         var self = this;
         //console.log("constructor: settings");
         $(document).ready(function () {
+            ko.applyBindings(self);
+            $('#test').on("click", function () {
+                self.test();
+            });
             if ($("#adminSettings").length >= 1) {
                 self.ActivateAdministrator();
             }
@@ -1481,4 +1490,3 @@ var PasswordUpdaterM_S = (function () {
     }
     return PasswordUpdaterM_S;
 }());
-//# sourceMappingURL=Settings.js.map

@@ -1,18 +1,26 @@
 $(document).ready(function () {
     var tableVM = new TableVM();
-    //tableVM.LoginCheck();
-    tableVM.getAllCourses();
+    //ko.applyBindings(tableVM);
+    //tableVM.getAllCourses();
 });
 //patiš se sa micanjem gore dolje..zabavica
-var TableVM = (function () {
+var Table_VM = (function () {
     //------------------------------------FUNCTIONS------------------------------------//
-    function TableVM() {
+    function Table_VM() {
         var _this = this;
+        //---------------------------------OBSERVABLES------------------------------//
+        this.Terms0 = ko.observableArray();
+        this.Terms1 = ko.observableArray();
+        this.Terms2 = ko.observableArray();
+        this.Terms3 = ko.observableArray();
+        this.allTerms = ko.observableArray();
+        this.Users = ko.observableArray();
+        this.YO = ko.observable();
         //------------------------------------TERM----------------------------------//
-        this.Terms0 = new Array();
-        this.Terms1 = new Array();
-        this.Terms2 = new Array();
-        this.Terms3 = new Array();
+        this.Terms0_no = new Array();
+        this.Terms1_no = new Array();
+        this.Terms2_no = new Array();
+        this.Terms3_no = new Array();
         this.ActiveTerms = new Array();
         this.AllUsers = new Array();
         this.BlankUser = new UserM_T({ Id: '0', Username: 'blank', Name: 'Prazan', LastName: 'termin', Role: 'D' });
@@ -53,7 +61,7 @@ var TableVM = (function () {
                 error: errorFunc
             });
             function successFunc(data, status) {
-                self.Users = data;
+                self.Users_no = data;
             }
             function errorFunc(data) {
                 console.log('error getting data about all users', data);
@@ -125,6 +133,7 @@ var TableVM = (function () {
             });
             function successFunc(data, status) {
                 self.Courses = data;
+                ko.applyBindings(self);
                 //console.log(self.Courses);
                 self.populateSelectStudy();
             }
@@ -233,7 +242,7 @@ var TableVM = (function () {
                 }
             }
             //console.log("Active Terms", this.ActiveTerms);
-            if (_this.Terms0.length > 0) {
+            if (_this.Terms0_no.length > 0) {
                 console.log("self.Terms0.length>0, 303 red!!");
             }
             else {
@@ -259,22 +268,22 @@ var TableVM = (function () {
                     //console.log("created cell ", cell);
                     cell.Group = _this.AllTerms[i][j].Group;
                     if (i == 0 + _this.position_verti)
-                        _this.Terms0.push(cell);
+                        _this.Terms0_no.push(cell);
                     else if (i == 1 + _this.position_verti)
-                        _this.Terms1.push(cell);
+                        _this.Terms1_no.push(cell);
                     else if (i == 2 + _this.position_verti)
-                        _this.Terms2.push(cell);
+                        _this.Terms2_no.push(cell);
                     else if (i == 3 + _this.position_verti)
-                        _this.Terms3.push(cell);
+                        _this.Terms3_no.push(cell);
                 }
             }
             //console.log("Terms0", this.Terms0); console.log("Terms1", this.Terms1); console.log("Terms2", this.Terms2); console.log("Terms3", this.Terms3);
             _this.setInitialNavigation();
             _this.updateGroupWebData();
-            _this.updateTermWebData(_this.Terms0, 0);
-            _this.updateTermWebData(_this.Terms1, 1);
-            _this.updateTermWebData(_this.Terms2, 2);
-            _this.updateTermWebData(_this.Terms3, 3);
+            _this.updateTermWebData(_this.Terms0_no, 0);
+            _this.updateTermWebData(_this.Terms1_no, 1);
+            _this.updateTermWebData(_this.Terms2_no, 2);
+            _this.updateTermWebData(_this.Terms3_no, 3);
         };
         this.fillAllTerms = function () {
             //console.log("filling all terms");
@@ -412,47 +421,47 @@ var TableVM = (function () {
                     cell.x = i;
                     cell.y = j;
                     if (i == 0 + _this.position_verti) {
-                        _this.Terms0[j].UserPerson = cell.UserPerson;
-                        _this.Terms0[j].SkipState = cell.SkipState;
-                        _this.Terms0[j].TakeState = cell.SkipState;
-                        _this.Terms0[j].TermDate = cell.TermDate.substring(0, 9);
-                        _this.Terms0[j].x = cell.x;
-                        _this.Terms0[j].y = cell.y;
-                        _this.Terms0[j].Group = cell.Group;
+                        _this.Terms0_no[j].UserPerson = cell.UserPerson;
+                        _this.Terms0_no[j].SkipState = cell.SkipState;
+                        _this.Terms0_no[j].TakeState = cell.SkipState;
+                        _this.Terms0_no[j].TermDate = cell.TermDate.substring(0, 9);
+                        _this.Terms0_no[j].x = cell.x;
+                        _this.Terms0_no[j].y = cell.y;
+                        _this.Terms0_no[j].Group = cell.Group;
                     }
                     else if (i == 1) {
-                        _this.Terms1[j].UserPerson = cell.UserPerson;
-                        _this.Terms1[j].SkipState = cell.SkipState;
-                        _this.Terms1[j].TakeState = cell.SkipState;
-                        _this.Terms1[j].TermDate = cell.TermDate.substring(0, 9);
-                        _this.Terms1[j].x = cell.x;
-                        _this.Terms1[j].y = cell.y;
-                        _this.Terms1[j].Group = cell.Group;
+                        _this.Terms1_no[j].UserPerson = cell.UserPerson;
+                        _this.Terms1_no[j].SkipState = cell.SkipState;
+                        _this.Terms1_no[j].TakeState = cell.SkipState;
+                        _this.Terms1_no[j].TermDate = cell.TermDate.substring(0, 9);
+                        _this.Terms1_no[j].x = cell.x;
+                        _this.Terms1_no[j].y = cell.y;
+                        _this.Terms1_no[j].Group = cell.Group;
                     }
                     else if (i == 2) {
-                        _this.Terms2[j].UserPerson = cell.UserPerson;
-                        _this.Terms2[j].SkipState = cell.SkipState;
-                        _this.Terms2[j].TakeState = cell.SkipState;
-                        _this.Terms2[j].TermDate = cell.TermDate.substring(0, 9);
-                        _this.Terms2[j].x = cell.x;
-                        _this.Terms2[j].y = cell.y;
-                        _this.Terms2[j].Group = cell.Group;
+                        _this.Terms2_no[j].UserPerson = cell.UserPerson;
+                        _this.Terms2_no[j].SkipState = cell.SkipState;
+                        _this.Terms2_no[j].TakeState = cell.SkipState;
+                        _this.Terms2_no[j].TermDate = cell.TermDate.substring(0, 9);
+                        _this.Terms2_no[j].x = cell.x;
+                        _this.Terms2_no[j].y = cell.y;
+                        _this.Terms2_no[j].Group = cell.Group;
                     }
                     else if (i == 3) {
-                        _this.Terms3[j].UserPerson = cell.UserPerson;
-                        _this.Terms3[j].SkipState = cell.SkipState;
-                        _this.Terms3[j].TakeState = cell.SkipState;
-                        _this.Terms3[j].TermDate = cell.TermDate.substring(0, 9);
-                        _this.Terms3[j].x = cell.x;
-                        _this.Terms3[j].y = cell.y;
-                        _this.Terms3[j].Group = cell.Group;
+                        _this.Terms3_no[j].UserPerson = cell.UserPerson;
+                        _this.Terms3_no[j].SkipState = cell.SkipState;
+                        _this.Terms3_no[j].TakeState = cell.SkipState;
+                        _this.Terms3_no[j].TermDate = cell.TermDate.substring(0, 9);
+                        _this.Terms3_no[j].x = cell.x;
+                        _this.Terms3_no[j].y = cell.y;
+                        _this.Terms3_no[j].Group = cell.Group;
                     }
                 }
             }
-            _this.updateTermWebData(_this.Terms0, 0);
-            _this.updateTermWebData(_this.Terms1, 1);
-            _this.updateTermWebData(_this.Terms2, 2);
-            _this.updateTermWebData(_this.Terms3, 3);
+            _this.updateTermWebData(_this.Terms0_no, 0);
+            _this.updateTermWebData(_this.Terms1_no, 1);
+            _this.updateTermWebData(_this.Terms2_no, 2);
+            _this.updateTermWebData(_this.Terms3_no, 3);
             _this.updateGroupWebData();
             //console.log("terms0 userperson:", this.Terms0[0].UserPerson);
         };
@@ -471,13 +480,13 @@ var TableVM = (function () {
                         date.getFullYear().toString();
                     cell.Group = data[i][j].Group;
                     if (i == 0)
-                        _this.Terms0.push(cell);
+                        _this.Terms0_no.push(cell);
                     else if (i == 1)
-                        _this.Terms1.push(cell);
+                        _this.Terms1_no.push(cell);
                     else if (i == 2)
-                        _this.Terms2.push(cell);
+                        _this.Terms2_no.push(cell);
                     else if (i == 3)
-                        _this.Terms3.push(cell);
+                        _this.Terms3_no.push(cell);
                 }
             }
         };
@@ -795,7 +804,8 @@ var TableVM = (function () {
         //-------------------------------EVERYTHING ELSE END----------------------------------------//
         //------------------------------------------------------------------------------------------//
         this.test = function () {
-            //console.log("f", userUniqueVariable);
+            _this.YO("new");
+            console.log("updating observable");
         };
         var self = this;
         $(document).ready(function () {
@@ -808,10 +818,10 @@ var TableVM = (function () {
                 }
                 else if (this.id == "selectCourse") {
                     //console.log("selectCourse changed");
-                    self.Terms0 = new Array();
-                    self.Terms1 = new Array();
-                    self.Terms2 = new Array();
-                    self.Terms3 = new Array();
+                    self.Terms0_no = new Array();
+                    self.Terms1_no = new Array();
+                    self.Terms2_no = new Array();
+                    self.Terms3_no = new Array();
                     self.position_horiz = 0;
                     self.position_verti = 0;
                     self.updateTermValuesAfterSelect();
@@ -864,7 +874,7 @@ var TableVM = (function () {
                     
         */
     }
-    return TableVM;
+    return Table_VM;
 }());
 var UserM_T = (function () {
     function UserM_T(myUser) {
@@ -925,4 +935,3 @@ var LoginDataM_T = (function () {
     }
     return LoginDataM_T;
 }());
-//# sourceMappingURL=Table.js.map

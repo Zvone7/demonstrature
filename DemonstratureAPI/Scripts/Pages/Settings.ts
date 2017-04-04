@@ -25,13 +25,22 @@ class SettingsVM {
     public link_main = "http://localhost:49977";
     public link_settings = "/Settings/Settings";
     public link_table= "/Table/Table";
-    public link_login= "/Login/Login";
+    public link_login = "/Login/Login";
+
+
+    public YO = ko.observable<string>("i have an initial value");
     
 
     constructor() {
         var self = this;
         //console.log("constructor: settings");
         $(document).ready(function () {
+            ko.applyBindings(self);
+
+
+            $('#test').on("click", () => {
+                self.test();
+            });
 
             if ($("#adminSettings").length >= 1) {
                 self.ActivateAdministrator();
@@ -1489,6 +1498,12 @@ class SettingsVM {
         //console.log(day, month, year);
         $("#term_date").val(year + "-" + month + "-" + day);
     }
+
+    public test = () => {
+        this.YO("new");
+        console.log("updating observable");
+    }
+
 }
 
 class UserM_S {
