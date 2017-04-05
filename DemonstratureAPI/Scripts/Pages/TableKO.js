@@ -19,12 +19,20 @@ var TableVM = (function () {
         this.CoursesAll = ko.observableArray([]);
         this.CoursesActive = ko.observableArray([]);
         this.Studies = ko.observableArray([]);
+        this.disableLeft = ko.observable(false);
+        this.disableRight = ko.observable(true);
+        this.disableUp = ko.observable(false);
+        this.disableDown = ko.observable(true);
+        //--------------------------------------primitive----------------------------------//
+        this.moveX = 0;
+        this.moveY = 0;
+        this.numberOfGroups = 10;
+        this.numberOfTerms = 7;
         this.bindingsApplied = false;
         this.link_main = "http://localhost:49977";
         this.link_settings = "/Settings/Settings";
         this.link_table = "/Table/Table";
         this.link_login = "/Login/Login";
-        this.Options = ko.observableArray([]);
         this.Allocation = function () {
             var self = _this;
             var study = ko.observable(new KoStudy());
@@ -122,6 +130,64 @@ var TableVM = (function () {
         };
         this.GetTerm = function () {
         };
+        //-------------------------------NAVIGATION START-------------------------------------------//
+        this.leftClicked = function () {
+            _this.moveY++;
+            if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
+                && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
+                //this.updateTermArrays(this.moveX, this.moveY);
+                _this.disableRight(false);
+            }
+            else {
+                _this.handleWrongMove();
+                _this.moveY--;
+                _this.disableLeft(true);
+            }
+            console.log(_this.disableLeft());
+        };
+        this.rightClicked = function () {
+            _this.moveY--;
+            if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
+                && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
+                //this.updateTermArrays(this.moveX, this.moveY);
+                _this.disableLeft(false);
+            }
+            else {
+                _this.handleWrongMove();
+                _this.moveY++;
+                _this.disableRight(true);
+            }
+        };
+        this.upClicked = function () {
+            _this.moveX++;
+            if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
+                && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
+                //this.updateTermArrays(this.moveX, this.moveY);
+                _this.disableDown(false);
+            }
+            else {
+                _this.handleWrongMove();
+                _this.moveX--;
+                _this.disableUp(true);
+            }
+        };
+        this.downClicked = function () {
+            _this.moveX--;
+            if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
+                && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
+                //this.updateTermArrays(this.moveX, this.moveY);
+                _this.disableUp(false);
+            }
+            else {
+                _this.handleWrongMove();
+                _this.moveX++;
+                _this.disableDown(true);
+            }
+        };
+        this.handleWrongMove = function () {
+            console.log("Wrong move!");
+        };
+        //-------------------------------NAVIGATION END---------------------------------------------//
         this.LogOut = function () {
             var self = _this;
             var serviceURL = '/Login/LogOff';
@@ -142,11 +208,6 @@ var TableVM = (function () {
         };
         this.test = function () {
             var self = _this;
-            var mo = ko.observable(new MyOption());
-            mo().Name("opcijica");
-            mo().Id(1);
-            self.Options.push(mo());
-            console.log("updating options", self.Options());
         };
         var self = this;
         $(document).ready(function () {
@@ -280,11 +341,4 @@ var KoGroup = (function () {
         }
     }
     return KoGroup;
-}());
-var MyOption = (function () {
-    function MyOption() {
-        this.Id = ko.observable();
-        this.Name = ko.observable();
-    }
-    return MyOption;
 }());

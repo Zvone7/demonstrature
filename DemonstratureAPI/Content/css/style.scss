@@ -19,7 +19,7 @@ $buttonTextSave: palegreen;
 //--------------------------------------------------text colors----------------------------------------------------//
 //--------------------------------------------------border colors--------------------------------------------------//
 $myBorderColor: #333333;
-$myHeadBorderColor:#737373;
+$myHeadBorderColor: #737373;
 $myHeaderBorderColor: #333333;
 $myFirstColumnBorderColor: #333333;
 $arrowBorderColor: #0d0d0d;
@@ -34,605 +34,695 @@ $fontPcXS: 10px;
 //----------------------------------------------------font sizes---------------------------------------------------//
 //------------------------------------------------------body-------------------------------------------------------//
 body {
-   font-family: 'Lato', sans-serif;
-   font-size: $fontPcS;
-   background-color: $myBackgroundColor;
-   margin: 100px 0 0 0px;
-   padding: 0 0 0 0;
+    font-family: 'Lato', sans-serif;
+    font-size: $fontPcS;
+    background-color: $myBackgroundColor;
+    margin: 100px 0 0 0px;
+    padding: 0 0 0 0;
 }
-.introPosition{    
-	top:0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	margin: auto;    
-	margin-top:5%;
-	padding: 0;
-	width:100%;
-	&.lower{
-		margin-top:0;
-	}
-	.introLogo{
-		top:0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		text-align:center;
-		/*margin: auto;*/
-		.logoImg{            
-			height: 200px;
-			&:hover{
-			cursor: pointer;
-			}
-		}
-	}
-	.introText{
-		color:ghostwhite;
-		font-size:$fontPcL;
-		text-align:center;
-		padding-top:20px;
-		&.big{
-			font-size:1.5*$fontPcXL;
-			font-weight:bold;
-		}
-		&.small{
-			font-size:$fontPcS;
-		}
-	}
+
+.introPosition {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    margin-top: 5%;
+    padding: 0;
+    width: 100%;
+
+    &.lower {
+        margin-top: 0;
+    }
+
+    .introLogo {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        /*margin: auto;*/
+        .logoImg {
+            height: 200px;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .introText {
+        color: ghostwhite;
+        font-size: $fontPcL;
+        text-align: center;
+        padding-top: 20px;
+
+        &.big {
+            font-size: 1.5*$fontPcXL;
+            font-weight: bold;
+        }
+
+        &.small {
+            font-size: $fontPcS;
+        }
+    }
 }
-.loginPosition{
-	margin-top: 40px;
-	.loginForm{
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		margin: auto; 
-		border:1px solid white;
-		border-radius:15px;
-		padding:20px;
-		width:200px;
-	}
-	.identifier-big{
-	  color:whitesmoke;
-	  font-size:$fontPcM;
-	  font-weight:bold;
-	  padding-bottom:5px;
-	  text-align: center;
-	}
+
+.loginPosition {
+    margin-top: 40px;
+
+    .loginForm {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        border: 1px solid white;
+        border-radius: 15px;
+        padding: 20px;
+        width: 200px;
+    }
+
+    .identifier-big {
+        color: whitesmoke;
+        font-size: $fontPcM;
+        font-weight: bold;
+        padding-bottom: 5px;
+        text-align: center;
+    }
 }
 //------------------------------------------------------body-------------------------------------------------------//
 //-----------------------------------------------------navbar------------------------------------------------------//
-.myNavbar{
-   background-color: $headerColor;
-   width: 100%;
-   height: 100px;
-   margin: -100px 0 0 0;
+.myNavbar {
+    background-color: $headerColor;
+    width: 100%;
+    height: 100px;
+    margin: -100px 0 0 0;
 }
-.myUl{
-   list-style-type: none;
-   margin: 0;
-   padding: 0;
-   overflow: hidden;
+
+.myUl {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
-.myLi{
+
+.myLi {
 }
-a:-webkit-any-link{
-	text-decoration:none;
-	color:inherit;
-	cursor:default;
-	&:hover{
-		/*background-color:red;*/
-		text-decoration:none;
-		cursor:inherit;
-		transform:scale(1.15);
-	}
+
+a:-webkit-any-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: default;
+
+    &:hover {
+        /*background-color:red;*/
+        text-decoration: none;
+        cursor: inherit;
+        transform: scale(1.15);
+    }
 }
-.tableLi{
-	position:absolute;
-	float:none;
-	padding-left:0px;
-	padding-top:calc(1%);
-	font-size: $fontPcM;
+
+.tableLi {
+    position: absolute;
+    float: none;
+    padding-left: 0px;
+    padding-top: calc(1%);
+    font-size: $fontPcM;
 }
-.settingLi{
-	margin-left:90%;
-	/*width:300px;*/
-	/*float:none;*/
-	/*padding-right:calc(100% - 175px);*/
-	font-size: $fontPcS;
+
+.settingLi {
+    margin-left: 90%;
+    /*width:300px;*/
+    /*float:none;*/
+    /*padding-right:calc(100% - 175px);*/
+    font-size: $fontPcS;
 }
-.tableDiv{
-	color:$myHeaderTextColor;
-	margin:20px 0 0 100px;
-	font-size:1.5*$fontPcL;    
-	&:hover{
-		cursor:pointer;
-	}
+
+.tableDiv {
+    color: $myHeaderTextColor;
+    margin: 20px 0 0 100px;
+    font-size: 1.5*$fontPcL;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
-.userControlsDiv{
-	text-decoration:none;
-	color:$myHeaderTextColor;
-	font-size:$fontPcM;
-	float:unset;
-	//padding: 25px calc(100%-20px) 0 0;
-	/*padding-top: 0px;*/
-	/*padding-right: 0px;
+
+.userControlsDiv {
+    text-decoration: none;
+    color: $myHeaderTextColor;
+    font-size: $fontPcM;
+    float: unset;
+    //padding: 25px calc(100%-20px) 0 0;
+    /*padding-top: 0px;*/
+    /*padding-right: 0px;
 	padding-left: 0px;
 	padding-bottom:15px;*/
-	&:hover{
-		cursor:pointer;
-		text-decoration:none;
-	}
+    &:hover {
+        cursor: pointer;
+        text-decoration: none;
+    }
 }
-.userNameDiv{
-	color: $myHeaderTextColor;
-	font-size: $fontPcS;
-	margin: 0 0 0 -15px;
-	padding-top:25px;
-	padding-right:360px;
-	width: 200px;
+
+.userNameDiv {
+    color: $myHeaderTextColor;
+    font-size: $fontPcS;
+    margin: 0 0 0 -15px;
+    padding-top: 25px;
+    padding-right: 360px;
+    width: 200px;
 }
 //-----------------------------------------------------navbar------------------------------------------------------//
 //------------------------------------------------------table------------------------------------------------------//
-.container{
-	padding-right: 15px;
-	padding-left: 15px;
-	margin-right: 0;
-	margin-left: 100px;
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: 0;
+    margin-left: 100px;
 }
+
 .rTable {
-   display: table;
-   margin: 50px 0 0 0;
-   padding: 20px;
+    display: table;
+    margin: 50px 0 0 0;
+    padding: 20px;
 }
+
 .rTableRow {
-   display: table-row;
+    display: table-row;
 }
+
 .rTableCell {
-   background-color: $myCellColor;
-   border: 1px solid $myBorderColor;
-   display: table-cell;
-   padding: 15px;
-   text-align: center;
+    background-color: $myCellColor;
+    border: 1px solid $myBorderColor;
+    display: table-cell;
+    padding: 15px;
+    text-align: center;
 }
+
 .firstColumn {
-   @extend .rTableCell;
-   padding: 8px 0;
-   background-color: $myFirstColumnColor;
-   border: 1px solid $myFirstColumnBorderColor;
-   border-right:1px solid $myBorderColor;
-   border-left:none;
-   color: $myFirstColumnTextColor;
-   vertical-align: middle;
+    @extend .rTableCell;
+    padding: 8px 0;
+    background-color: $myFirstColumnColor;
+    border: 1px solid $myFirstColumnBorderColor;
+    border-right: 1px solid $myBorderColor;
+    border-left: none;
+    color: $myFirstColumnTextColor;
+    vertical-align: middle;
 }
+
 .rTableHeading {
-   @extend .rTableCell;
-   background-color: $myHeaderColor;
-   border: 1px solid $myHeaderBorderColor;
-   border-top:none;
-   border-bottom:1px solid $myBorderColor;
-   font-weight: bold;
-   color: $myHeaderTextColor;
-   vertical-align: middle;
+    @extend .rTableCell;
+    background-color: $myHeaderColor;
+    border: 1px solid $myHeaderBorderColor;
+    border-top: none;
+    border-bottom: 1px solid $myBorderColor;
+    font-weight: bold;
+    color: $myHeaderTextColor;
+    vertical-align: middle;
 }
-.firstCell{
-   @extend .rTableHeading;
-   border-right: 1px solid $myBorderColor;
-   border-bottom:1px solid $myBorderColor;
-   border-left:1px solid $myHeaderColor;
+
+.firstCell {
+    @extend .rTableHeading;
+    border-right: 1px solid $myBorderColor;
+    border-bottom: 1px solid $myBorderColor;
+    border-left: 1px solid $myHeaderColor;
 }
+
 .upperNavigation {
-   text-align: center;
-   //padding: 20px 11px;
-   display: table-cell;
-   background-color: $myBackgroundColor;
-   border: none;
+    text-align: center;
+    //padding: 20px 11px;
+    display: table-cell;
+    background-color: $myBackgroundColor;
+    border: none;
 }
+
 .leftNavigation {
-   @extend .rTableCell;
-   background-color: $myBackgroundColor;
-   border: none;
+    @extend .rTableCell;
+    background-color: $myBackgroundColor;
+    border: none;
 }
-.selecter{
-	margin: 10px 0;
-	background: $myHeaderColor;
-	color: $myHeaderTextColor;
-	border:1px solid $myCellColor;
-	outline:none;
-	width: 65px;
-	option {
-		background: $myHeaderColor;
-		color:$myHeaderTextColor;
-	}
-	&.univStudies{
-		font-size:$fontPcS;
-		width:125px;
-	}
-	&.univCourse{
-		font-size:$fontPcS;
-		width:125px;
-	}
-}
-.selecter_s{
-	margin: 5px 0;
-	background: $myCellColor;
-	color: $placeholderColor;
-	border:1px solid $myHeaderBorderColor;
-	outline:none;
-	width: 200px;
-	font-weight:bold;
-	option {
-		background: darken($myCellColor,2%);
-		color:$placeholderColor;
-	}
-	&.univStudies{
 
-	}
-	&.univCourse{
+.selecter {
+    margin: 10px 0;
+    background: $myHeaderColor;
+    color: $myHeaderTextColor;
+    border: 1px solid $myCellColor;
+    outline: none;
+    width: 65px;
 
-	}
+    option {
+        background: $myHeaderColor;
+        color: $myHeaderTextColor;
+    }
+
+    &.univStudies {
+        font-size: $fontPcS;
+        width: 125px;
+    }
+
+    &.univCourse {
+        font-size: $fontPcS;
+        width: 125px;
+    }
 }
-.row_s{
-   display: table-row;  
+
+.selecter_s {
+    margin: 5px 0;
+    background: $myCellColor;
+    color: $placeholderColor;
+    border: 1px solid $myHeaderBorderColor;
+    outline: none;
+    width: 200px;
+    font-weight: bold;
+
+    option {
+        background: darken($myCellColor,2%);
+        color: $placeholderColor;
+    }
+
+    &.univStudies {
+    }
+
+    &.univCourse {
+    }
 }
-.cell_s{
-  display: table-cell;     
-  padding:10px 20px;
-  line-height:1;
-  vertical-align: top;
+
+.row_s {
+    display: table-row;
 }
-.table-cell{
-	background-color:red;
-	height:20%;
+
+.cell_s {
+    display: table-cell;
+    padding: 10px 20px;
+    line-height: 1;
+    vertical-align: top;
+}
+
+.table-cell {
+    background-color: red;
+    height: 20%;
 }
 //------------------------------------------------------table------------------------------------------------------//
 //--------------------------------------------------navigation buttons---------------------------------------------//
-.arrow{
-   background-color: $myCellColor;
-   border: 2px solid $arrowBorderColor;
-   border-radius: 10px;
-   font-size: $fontPcXL;
-   padding: 10px;
-   position: absolute;
-   vertical-align: middle;
-   transition: all .3s ease;
-   &:hover{
-	  transform:scale(1.15);
-   }
+.arrow {
+    background-color: $myCellColor;
+    border: 2px solid $arrowBorderColor;
+    border-radius: 10px;
+    font-size: $fontPcXL;
+    padding: 10px;
+    position: absolute;
+    vertical-align: middle;
+    transition: all .3s ease;
+
+    &:hover {
+        transform: scale(1.15);
+    }
 }
-.arrowLeft{
-   @extend .arrow;
-   position: absolute;
-   margin: -30px 45px 0 117px;
-   .fa-arrow-left{      
-	}
-   }
-.arrowLeftDisabled{
-   @extend .arrow;
-   position: absolute;
-   margin: -30px 45px 0 117px;
-   background-color:$disableColor;
-   &:hover{
-	  transform:scale(1);
-   }
+
+.arrowLeft {
+    @extend .arrow;
+    position: absolute;
+    margin: -60px 45px 0 117px;
+
+    .fa-arrow-left {
+    }
 }
-.arrowRight{
-   @extend .arrow;
-   position: absolute;
-   margin: -30px 45px 0 157px;   
-   .fa-arrow-right{         
-   }
+
+.arrowLeftDisabled {
+    @extend .arrow;
+    position: absolute;
+    margin: -60px 45px 0 117px;
+    background-color: $disableColor;
+
+    &:hover {
+        transform: scale(1);
+    }
 }
-.arrowRightDisabled{
-   @extend .arrow;
-   position: absolute;
-   margin: -30px 45px 0 157px;   
-   background-color:$disableColor;
-   &:hover{
-	  transform:scale(1);
-   }
+
+.arrowRight {
+    @extend .arrow;
+    position: absolute;
+    margin: -60px 45px 0 1157px;
+
+    .fa-arrow-right {
+    }
 }
-.arrowUp{
-   @extend .arrow;
-   margin: 10px 0px 0px -75px;
-   .fa-arrow-up{     
-   }
+
+.arrowRightDisabled {
+    @extend .arrow;
+    position: absolute;
+    margin: -60px 45px 0 1157px;
+    background-color: $disableColor;
+
+    &:hover {
+        transform: scale(1);
+    }
 }
-.arrowUpDisabled{
-   @extend .arrow;
-   position: absolute;
-   margin: 10px 0px 0px -75px;
-   background-color:$disableColor;
-   &:hover{
-	  transform:scale(1);
-   }
+
+.arrowUp {
+    @extend .arrow;
+    margin: 10px 0px 0px -55px;
+
+    .fa-arrow-up {
+    }
 }
-.arrowDown{
-   @extend .arrow;
-   margin: 85px 0 0 -75px;
-   .fa-arrow-down{  
-	  padding: 0 0 0 0;
-	  margin: 0 0 0 0;
-   }
+
+.arrowUpDisabled {
+    @extend .arrow;
+    position: absolute;
+    margin: 10px 0px 0px -55px;
+    background-color: $disableColor;
+
+    &:hover {
+        transform: scale(1);
+    }
 }
-.arrowDownDisabled{
-   @extend .arrow;
-   position: absolute;
-   margin: 85px 0 0 -75px;
-   background-color:$disableColor;
-   &:hover{
-	  transform:scale(1);
-   }
+
+.arrowDown {
+    @extend .arrow;
+    margin: 85px 0 0 -55px;
+
+    .fa-arrow-down {
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+    }
+}
+
+.arrowDownDisabled {
+    @extend .arrow;
+    position: absolute;
+    margin: 85px 0 0 -55px;
+    background-color: $disableColor;
+
+    &:hover {
+        transform: scale(1);
+    }
 }
 //--------------------------------------------------navigation buttons---------------------------------------------//
 //--------------------------------------------------------search---------------------------------------------------//
 .search-student {
-   background-color: lighten($searchColor,7%);
-   border:1px solid $searchBorder;
-   border-radius: 3px;
-   width: 152px;
-   margin: -9px 0 0 0;
-   outline: none;
-   padding: 2px;
-   font-size: $fontPcXS;
+    background-color: lighten($searchColor,7%);
+    border: 1px solid $searchBorder;
+    border-radius: 3px;
+    width: 152px;
+    margin: -9px 0 0 0;
+    outline: none;
+    padding: 2px;
+    font-size: $fontPcXS;
 }
+
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-	color: $placeholderColor;
+    color: $placeholderColor;
 }
 //--------------------------------------------------------search---------------------------------------------------//
 //--------------------------------------------------------labels---------------------------------------------------//
 .label_t {
-   //border: 1px solid #bbb;
-   padding: 1px 6px;
-   margin: 5px 15px;
+    //border: 1px solid #bbb;
+    padding: 1px 6px;
+    margin: 5px 15px;
+    font-size: $fontPcM;
 
-   font-size:$fontPcM;   
-   &.groupName{
-	   font-size:$fontPcM;
-   }
-   &.groupOwner{
-	   font-size:$fontPcS;
-   }
-   &.demoName{
-   padding: 12px 20px;
-   margin: 5px 15px 0 15px;
-   font-weight: bolder;
-   background-color: $demoNameColor;
-   border: 2px solid $searchBorder;
-   border-radius: 3px;
-   width: 112px;
-   word-wrap:break-word;
-	}
-   &.date{
-	   font-size:$fontPcS;
-   }
+    &.groupName {
+        font-size: $fontPcM;
+    }
+
+    &.groupOwner {
+        font-size: $fontPcS;
+    }
+
+    &.demoName {
+        padding: 12px 20px;
+        margin: 5px 15px 0 15px;
+        font-weight: bolder;
+        background-color: $demoNameColor;
+        border: 2px solid $searchBorder;
+        border-radius: 3px;
+        width: 112px;
+        word-wrap: break-word;
+    }
+
+    &.date {
+        font-size: $fontPcS;
+    }
 }
-.change-settings-label{
-  margin-top:20px;
-  color:white;
-  font-size:$fontPcM;
-  font-weight:bolder;
-  padding-left:20px;
-  padding-bottom:20px;
+
+.change-settings-label {
+    margin-top: 20px;
+    color: white;
+    font-size: $fontPcM;
+    font-weight: bolder;
+    padding-left: 20px;
+    padding-bottom: 20px;
 }
-.identifier{
-  color:white;
-  padding-top:3px;
-  font-size:$fontPcS;
+
+.identifier {
+    color: white;
+    padding-top: 3px;
+    font-size: $fontPcS;
 }
-.identifier-bold{
-  color:white;
-  padding-top:3px;
-  padding-left:5px;
-  font-size:$fontPcS;
-  font-weight:bold;
+
+.identifier-bold {
+    color: white;
+    padding-top: 3px;
+    padding-left: 5px;
+    font-size: $fontPcS;
+    font-weight: bold;
 }
-.identifier-small{
-  color:#ddd;
-  padding-top:3px;
-  padding-left:31px;
-  font-size:$fontPcXS;
-  font-style:italic;
+
+.identifier-small {
+    color: #ddd;
+    padding-top: 3px;
+    padding-left: 31px;
+    font-size: $fontPcXS;
+    font-style: italic;
 }
-.identifier-big{
-  color:ghostwhite;
-  font-size:$fontPcM;
-  font-weight:bold;
-  padding-bottom:5px;
-  float:left;
-  width:200px;
+
+.identifier-big {
+    color: ghostwhite;
+    font-size: $fontPcM;
+    font-weight: bold;
+    padding-bottom: 5px;
+    float: left;
+    width: 200px;
 }
 //--------------------------------------------------------labels---------------------------------------------------//
 //--------------------------------------------------------input----------------------------------------------------//
-input{
-	&:hover{
-		cursor:default;
-	}
+input {
+    &:hover {
+        cursor: default;
+    }
 }
-.input_s{
-  margin: 5px 0 2px 0;
-  padding-left:3px;
-  width: 199px;
-  border: 1px solid $myCellColor;
-  background: $myCellColor;
-  border-radius:2px;
-  font-weight: 700;
-  outline:none;
-  &:hover{
-	background-color: darken($myCellColor,10%);    
-  }
+
+.input_s {
+    margin: 5px 0 2px 0;
+    padding-left: 3px;
+    width: 199px;
+    border: 1px solid $myCellColor;
+    background: $myCellColor;
+    border-radius: 2px;
+    font-weight: 700;
+    outline: none;
+
+    &:hover {
+        background-color: darken($myCellColor,10%);
+    }
 }
-.input_login{
-  margin: 5px 0 2px 0;
-  padding-left:3px;
-  text-align:center;
-  width: 199px;
-  border: 1px solid $myCellColor;
-  background: $myCellColor;
-  border-radius:2px;
-  font-weight: 700;
-  outline:none;
-  &:hover{
-	background-color: darken($myCellColor,10%);    
-  }
+
+.input_login {
+    margin: 5px 0 2px 0;
+    padding-left: 3px;
+    text-align: center;
+    width: 199px;
+    border: 1px solid $myCellColor;
+    background: $myCellColor;
+    border-radius: 2px;
+    font-weight: 700;
+    outline: none;
+
+    &:hover {
+        background-color: darken($myCellColor,10%);
+    }
 }
 //--------------------------------------------------------input----------------------------------------------------//
 //--------------------------------------------------------buttons--------------------------------------------------//
-.tableButton{
-	border: 1px solid $myBorderColor;
-	border-radius: 4px;
-	color: black;
-	font-family: 'Lato', sans-serif;
-	margin: 9px 3px 20px 3px;
-	height:50px;
-	width:75px;
-	transition: all .1s ease;
-	outline:none;
-	font-size:$fontPcXS;
-	word-wrap:break-word;
-	&.takeTerm{
-		font-size:$fontPcM;
-		background-color: $buttonTakeColor;
-		color:$buttonTextSave;
-		&:hover{
-			background-color: darken($buttonTakeColor,5%);
-			cursor: pointer;
-		}
-	}    
-	&.takeTerm_disabled{
-		background-color: $disableColor;
-		&:hover{
-			background-color: darken($disableColor,5%);
-			cursor: pointer;
-		}
-	}
-	&.skipTerm{
-		font-size:$fontPcM;
-		background-color: $buttonSkipColor;    
-		font-weight:bold;   
-		&:hover{
-			background-color: darken($buttonSkipColor,1%);
-			cursor: pointer;
-		}
-	}
-} 
-.logOutButton{
-	background-color:$headerColor;
-	border:none;
-	color:$myHeaderTextColor;
-	font-size:$fontPcL;
-	&:hover{
-		cursor:pointer;
-		text-decoration:underline;
-	}
-	&:focus{
-		outline:none;
-	}
+.tableButton {
+    border: 1px solid $myBorderColor;
+    border-radius: 4px;
+    color: black;
+    font-family: 'Lato', sans-serif;
+    margin: 9px 3px 20px 3px;
+    height: 50px;
+    width: 75px;
+    transition: all .1s ease;
+    outline: none;
+    font-size: $fontPcXS;
+    word-wrap: break-word;
+
+    &.takeTerm {
+        font-size: $fontPcM;
+        background-color: $buttonTakeColor;
+        color: $buttonTextSave;
+
+        &:hover {
+            background-color: darken($buttonTakeColor,5%);
+            cursor: pointer;
+        }
+    }
+
+    &.takeTerm_disabled {
+        background-color: $disableColor;
+
+        &:hover {
+            background-color: darken($disableColor,5%);
+            cursor: pointer;
+        }
+    }
+
+    &.skipTerm {
+        font-size: $fontPcM;
+        background-color: $buttonSkipColor;
+        font-weight: bold;
+
+        &:hover {
+            background-color: darken($buttonSkipColor,1%);
+            cursor: pointer;
+        }
+    }
 }
-.cogButton{
-	background-color:$headerColor;
-	border:none;
-	color:$myHeaderTextColor;
-	font-size:$fontPcL;
-	&:hover{
-		cursor:pointer;
-		text-decoration:none;
-	}
+
+.logOutButton {
+    background-color: $headerColor;
+    border: none;
+    color: $myHeaderTextColor;
+    font-size: $fontPcL;
+
+    &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.cogButton {
+    background-color: $headerColor;
+    border: none;
+    color: $myHeaderTextColor;
+    font-size: $fontPcL;
+
+    &:hover {
+        cursor: pointer;
+        text-decoration: none;
+    }
 }
 
 //--------------------------------------------------------buttons--------------------------------------------------//
 //--------------------------------------------------------forms----------------------------------------------------//
-.allSettings{
-  //margin: 0px 0px;
-  padding: 15px;
-  width:250px;
-  border-radius: 5px;
-  .passwordSetting{
-	padding:10px;
-	//margin: 10px 20px;
-	border: 1px solid white; 
-	border-radius: 5px;     
-  }
-  .adminSettings{
-	//margin-top:50px;
-	//margin-left:0px;
-	/*visibility:collapse;*/
-	.courseSettings{
-	  padding:10px;
-	  border: 1px solid white; 
-	  border-radius: 5px; 
-	}
-	.userSettings{
-	  padding:10px;
-	  border: 1px solid white; 
-	  border-radius: 5px;   
-	}
-	.groupSettings{
-	  padding:10px;
-	  border: 1px solid white; 
-	  border-radius: 5px;
-	}
-	.termSettings{
-	  padding:10px;
-	  border: 1px solid white; 
-	  border-radius: 5px;
-	}
-  }
+.allSettings {
+    //margin: 0px 0px;
+    padding: 15px;
+    width: 250px;
+    border-radius: 5px;
+
+    .passwordSetting {
+        padding: 10px;
+        //margin: 10px 20px;
+        border: 1px solid white;
+        border-radius: 5px;
+    }
+
+    .adminSettings {
+        //margin-top:50px;
+        //margin-left:0px;
+        /*visibility:collapse;*/
+        .courseSettings {
+            padding: 10px;
+            border: 1px solid white;
+            border-radius: 5px;
+        }
+
+        .userSettings {
+            padding: 10px;
+            border: 1px solid white;
+            border-radius: 5px;
+        }
+
+        .groupSettings {
+            padding: 10px;
+            border: 1px solid white;
+            border-radius: 5px;
+        }
+
+        .termSettings {
+            padding: 10px;
+            border: 1px solid white;
+            border-radius: 5px;
+        }
+    }
 }
-.saveSetting{
-  border: none;
-  background: $buttonTakeColor; 
-  font-weight: 700;
-  padding: 7px 21px;
-  width: 199px;
-  height: 35px;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 2px;
-  font-size: $fontPcS;
-  font-family: 'Lato', sans-serif;
-  outline:none;
-  color:$buttonTextSave;
-  &:hover{
-	background-color: darken($buttonTakeColor,5%);
-	cursor: pointer;
-  }
+
+.saveSetting {
+    border: none;
+    background: $buttonTakeColor;
+    font-weight: 700;
+    padding: 7px 21px;
+    width: 199px;
+    height: 35px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 2px;
+    font-size: $fontPcS;
+    font-family: 'Lato', sans-serif;
+    outline: none;
+    color: $buttonTextSave;
+
+    &:hover {
+        background-color: darken($buttonTakeColor,5%);
+        cursor: pointer;
+    }
 }
-.saveSetting2{
-  @extend .saveSetting;
-  width:117px;
-  color:palegreen;
+
+.saveSetting2 {
+    @extend .saveSetting;
+    width: 117px;
+    color: palegreen;
 }
-.deleteSetting{
-  @extend .saveSetting;
-  background: #990000;
-  width:80px;
-  color:lightgray;
-  &:hover{
-	background-color: darken(#900,10%);    
-  }
+
+.deleteSetting {
+    @extend .saveSetting;
+    background: #990000;
+    width: 80px;
+    color: lightgray;
+
+    &:hover {
+        background-color: darken(#900,10%);
+    }
 }
 //--------------------------------------------------------forms----------------------------------------------------//
 //------------------------------------------------------checkboxes-------------------------------------------------//
-.checkbox1{    
-	-webkit-appearance: none;
-	width:20px;
-	height:20px;
-	background-color: $myBackgroundColor;
-	border: 1px solid #fff;
-	border-radius: 13px;
-	vertical-align:middle;
-	cursor:pointer;
-	color:red;
-	outline:none;
-	&:checked{
-		background-color: $myCellColor;
-		border: 1px solid #fff;
-		color: #99a1a7;
-	}
-	&:hover{
-		background-color: lighten($myBackgroundColor,20%);
-	}
+.checkbox1 {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: $myBackgroundColor;
+    border: 1px solid #fff;
+    border-radius: 13px;
+    vertical-align: middle;
+    cursor: pointer;
+    color: red;
+    outline: none;
+
+    &:checked {
+        background-color: $myCellColor;
+        border: 1px solid #fff;
+        color: #99a1a7;
+    }
+
+    &:hover {
+        background-color: lighten($myBackgroundColor,20%);
+    }
 }
 //------------------------------------------------------checkboxes-------------------------------------------------//

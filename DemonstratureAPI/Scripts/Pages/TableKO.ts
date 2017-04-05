@@ -18,13 +18,21 @@ class TableVM {
     public CoursesAll = ko.observableArray<KoCourse>([]);
     public CoursesActive = ko.observableArray<KoCourse>([]);
     public Studies = ko.observableArray<KoStudy>([]);
+    public disableLeft = ko.observable<boolean>(false);
+    public disableRight = ko.observable<boolean>(true);
+    public disableUp = ko.observable<boolean>(false);
+    public disableDown = ko.observable<boolean>(true);
+    //--------------------------------------primitive----------------------------------//
+    public moveX: number = 0;
+    public moveY: number = 0;
+    public numberOfGroups: number = 10;
+    public numberOfTerms: number = 7;
     public bindingsApplied = false;
     public link_main = "http://localhost:49977";
     public link_settings = "/Settings/Settings";
     public link_table = "/Table/Table";
     public link_login = "/Login/Login";
-
-    public Options = ko.observableArray<MyOption>([]);
+    
 
     //------------------------------------FUNCTIONS------------------------------------//
     constructor() {
@@ -209,6 +217,72 @@ class TableVM {
     }
 
 
+    //-------------------------------NAVIGATION START-------------------------------------------//
+    public leftClicked = () => {
+        this.moveY++;
+        if (this.moveX >= 0 && this.moveX + 4 <= this.numberOfTerms
+            && this.moveY >= 0 && this.moveY + 5 <= this.numberOfGroups
+        ) {
+            //this.updateTermArrays(this.moveX, this.moveY);
+            this.disableRight(false);
+        }
+        else {
+            this.handleWrongMove();
+            this.moveY--;
+            this.disableLeft(true);
+        }
+        console.log(this.disableLeft());
+    }
+    public rightClicked = () => {
+        this.moveY--;
+        if (this.moveX >= 0 && this.moveX + 4 <= this.numberOfTerms
+            && this.moveY >= 0 && this.moveY + 5 <= this.numberOfGroups
+        ) {
+            //this.updateTermArrays(this.moveX, this.moveY);
+            this.disableLeft(false);
+        }
+        else {
+            this.handleWrongMove();
+            this.moveY++;
+            this.disableRight(true);
+        }
+    }
+    public upClicked = () => {
+        this.moveX++;
+        if (this.moveX >= 0 && this.moveX + 4 <= this.numberOfTerms
+            && this.moveY >= 0 && this.moveY + 5 <= this.numberOfGroups
+        ) {
+            //this.updateTermArrays(this.moveX, this.moveY);
+            this.disableDown(false);
+        }
+        else {
+            this.handleWrongMove();
+            this.moveX--;
+            this.disableUp(true);
+        }
+    }
+    public downClicked = () => {
+        this.moveX--;
+        if (this.moveX >= 0 && this.moveX + 4 <= this.numberOfTerms
+            && this.moveY >= 0 && this.moveY + 5 <= this.numberOfGroups
+        ) {
+            //this.updateTermArrays(this.moveX, this.moveY);
+            this.disableUp(false);
+        }
+        else {
+            this.handleWrongMove();
+            this.moveX++;
+            this.disableDown(true);
+        }
+    }
+    public handleWrongMove = () => {
+        console.log("Wrong move!");
+    }
+    //-------------------------------NAVIGATION END---------------------------------------------//
+
+
+
+
     public LogOut = () => {
         var self = this;
         var serviceURL = '/Login/LogOff';
@@ -232,11 +306,6 @@ class TableVM {
 
     public test = () => {
         var self = this;
-        var mo = ko.observable<MyOption>(new MyOption());
-        mo().Name("opcijica");
-        mo().Id(1);
-        self.Options.push(mo());
-        console.log("updating options", self.Options());
     }
 }
 
@@ -309,9 +378,4 @@ class KoGroup {
             this.UserPerson = group.UserPerson;
         }
     }
-}
-
-class MyOption {
-    public Id = ko.observable<number>();
-    public Name = ko.observable<string>();
 }

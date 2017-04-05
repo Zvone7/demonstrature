@@ -20,33 +20,30 @@
 <label data-bind="text: Studies()[0].Name">aaaaa</label>*@
 <button id="test">tipka</button>
 
-<select class="selecter univStudies" id="testSelect" data-bind="options: Options,
-                                                                optionsText: 'Name',
-                                                                value: 'Id',
-                                                                optionsCaption: 'Odaberite opciju'"></select> 
 
 @*NEW TABLE - with KO*@
 <div class="rTable">
     <div class="rTableRow">
         <div class="leftNavigation"></div>
         <div class="upperNavigation">
-            <div class="arrowLeft" id="arrowLeft">
-                <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
+            <div class="upperNavigation">
+                <div class="arrowLeft" id="arrowLeft" data-bind="click: leftClicked, css:{'arrowLeftDisabled': disableLeft(), 'arrowLeft':!disableLeft()} ">
+                    <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="upperNavigation"></div>
+            <div class="upperNavigation"></div>
+            <div class="upperNavigation"></div>
+            <div class="upperNavigation"></div>
+            <div class="upperNavigation">
+                <div class="arrowRight" id="arrowRight" data-bind="click: rightClicked, css:{'arrowRightDisabled': disableRight(), 'arrowRight':!disableRight()} ">
+                    <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
+                </div>
             </div>
         </div>
-        <div class="upperNavigation"></div>
-        <div class="upperNavigation"></div>
-        <div class="upperNavigation"></div>
-        <div class="upperNavigation"></div>
-        <div class="upperNavigation">
-            <div class="arrowRight" id="arrowRight">
-                <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-            </div>
-        </div>
-    </div>
     <div class="rTableRow">
         <div class="leftNavigation">
-            <div class="arrowUp" id="arrowUp">
+            <div class="arrowUp" id="arrowUp" data-bind="click: upClicked, css:{'arrowUpDisabled': disableUp(), 'arrowUp':!disableUp()} ">
                 <i class="fa fa-arrow-up fa-lg" aria-hidden="true"></i>
             </div>
         </div>
@@ -193,7 +190,7 @@
     <div class="rTableRow">
         <div class="leftNavigation">
             <div>
-                <div class="arrowDown" id="arrowDown">
+                <div class="arrowDown" id="arrowDown" data-bind="click: downClicked, css:{'arrowDownDisabled': disableDown(), 'arrowDown':!disableDown()} ">
                     <i class="fa fa-arrow-down fa-lg" aria-hidden="true"></i>
                 </div>
             </div>

@@ -231,45 +231,45 @@ a:-webkit-any-link {
 
 .arrowLeft {
   position: absolute;
-  margin: -30px 45px 0 117px; }
+  margin: -60px 45px 0 117px; }
 
 .arrowLeftDisabled {
   position: absolute;
-  margin: -30px 45px 0 117px;
+  margin: -60px 45px 0 117px;
   background-color: #595959; }
   .arrowLeftDisabled:hover {
     transform: scale(1); }
 
 .arrowRight {
   position: absolute;
-  margin: -30px 45px 0 157px; }
+  margin: -60px 45px 0 1157px; }
 
 .arrowRightDisabled {
   position: absolute;
-  margin: -30px 45px 0 157px;
+  margin: -60px 45px 0 1157px;
   background-color: #595959; }
   .arrowRightDisabled:hover {
     transform: scale(1); }
 
 .arrowUp {
-  margin: 10px 0px 0px -75px; }
+  margin: 10px 0px 0px -55px; }
 
 .arrowUpDisabled {
   position: absolute;
-  margin: 10px 0px 0px -75px;
+  margin: 10px 0px 0px -55px;
   background-color: #595959; }
   .arrowUpDisabled:hover {
     transform: scale(1); }
 
 .arrowDown {
-  margin: 85px 0 0 -75px; }
+  margin: 85px 0 0 -55px; }
   .arrowDown .fa-arrow-down {
     padding: 0 0 0 0;
     margin: 0 0 0 0; }
 
 .arrowDownDisabled {
   position: absolute;
-  margin: 85px 0 0 -75px;
+  margin: 85px 0 0 -55px;
   background-color: #595959; }
   .arrowDownDisabled:hover {
     transform: scale(1); }
