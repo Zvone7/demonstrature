@@ -260,6 +260,62 @@ var TableVM = (function () {
             console.log("Wrong move!");
         };
         //-------------------------------NAVIGATION END---------------------------------------------//
+        //-------------------------------TERM START----------------------------------------------//
+        this.getTermsByCourseId = function () {
+            //console.log("getting term per course id");
+            var courseId = $('#term_course_select').val();
+            $("#term_name").val("");
+            //console.log(courseId);
+            var self = _this;
+            var serviceURL = '/Settings/GetTermsByCourseId';
+            $.ajax({
+                type: "GET",
+                url: serviceURL + "?courseId=" + courseId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: successFunc,
+                error: errorFunc
+            });
+            function successFunc(data, status) {
+                //console.log(data);
+                //self.Terms = data;
+                //for (var i = 0; i < self.Terms.length; i++) {
+                //    //console.log(self.Terms[i].TermDate);
+                //}
+                //self.populateSelectTerm();
+            }
+            function errorFunc(data) {
+                console.log('error getting data about all terms for course with id', courseId, "\nreason:\n", data);
+            }
+        };
+        this.getTermsByGroupId = function () {
+            //console.log("getting term per course data");
+            var groupId = $('#term_group_select').val();
+            if (groupId == "-1") {
+                _this.getTermsByCourseId();
+                return;
+            }
+            $("#term_name").val("");
+            //console.log(courseId);
+            var self = _this;
+            var serviceURL = '/Settings/GetTermsByGroupId';
+            $.ajax({
+                type: "GET",
+                url: serviceURL + "?groupId=" + groupId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: successFunc,
+                error: errorFunc
+            });
+            function successFunc(data, status) {
+                //self.Terms = data;
+                //self.populateSelectTerm();
+            }
+            function errorFunc(data) {
+                console.log('error getting data about all terms for course with id', groupId, "\nreason:\n", data);
+            }
+        };
+        //-------------------------------TERM END------------------------------------------------//
         this.LogOut = function () {
             var self = _this;
             var serviceURL = '/Login/LogOff';

@@ -347,7 +347,64 @@ class TableVM {
     }
     //-------------------------------NAVIGATION END---------------------------------------------//
 
+    //-------------------------------TERM START----------------------------------------------//
+    public getTermsByCourseId = () => {
+        //console.log("getting term per course id");
+        var courseId = $('#term_course_select').val();
+        $("#term_name").val("");
+        //console.log(courseId);
+        var self = this;
+        var serviceURL = '/Settings/GetTermsByCourseId';
+        $.ajax({
+            type: "GET",
+            url: serviceURL + "?courseId=" + courseId,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc,
+            error: errorFunc
+        });
+        function successFunc(data, status) {
+            //console.log(data);
+            //self.Terms = data;
+            //for (var i = 0; i < self.Terms.length; i++) {
+            //    //console.log(self.Terms[i].TermDate);
+            //}
+            //self.populateSelectTerm();
+        }
+        function errorFunc(data) {
+            console.log('error getting data about all terms for course with id', courseId, "\nreason:\n", data);
+        }
 
+    }
+    public getTermsByGroupId = () => {
+        //console.log("getting term per course data");
+        var groupId = $('#term_group_select').val();
+        if (groupId == "-1") {
+            this.getTermsByCourseId();
+            return;
+        }
+        $("#term_name").val("");
+        //console.log(courseId);
+        var self = this;
+        var serviceURL = '/Settings/GetTermsByGroupId';
+        $.ajax({
+            type: "GET",
+            url: serviceURL + "?groupId=" + groupId,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc,
+            error: errorFunc
+        });
+        function successFunc(data: TermDTO_S[], status) {
+            //self.Terms = data;
+            //self.populateSelectTerm();
+        }
+        function errorFunc(data) {
+            console.log('error getting data about all terms for course with id', groupId, "\nreason:\n", data);
+        }
+
+    }
+    //-------------------------------TERM END------------------------------------------------//
 
 
     public LogOut = () => {
