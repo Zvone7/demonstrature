@@ -1,6 +1,6 @@
 ﻿$(document).ready(() => {
     var tableVM: TableVM = new TableVM();
-    tableVM.Allocation();
+    tableVM.allocation();
     tableVM.getAllCourses();
     ko.applyBindings(tableVM);
 });
@@ -8,20 +8,35 @@
 
 class TableVM {
     //---------------------------------OBSERVABLES------------------------------//
-    //public Terms0 = ko.observableArray<CellM_T>();
-    //public Terms1 = ko.observableArray<CellM_T>();
-    //public Terms2 = ko.observableArray<CellM_T>();
-    //public Terms3 = ko.observableArray<CellM_T>();
+    public Terms0 = ko.observableArray<KoCell>();
+    public Terms1 = ko.observableArray<KoCell>();
+    public Terms2 = ko.observableArray<KoCell>();
+    public Terms3 = ko.observableArray<KoCell>();
     //public allTerms = ko.observableArray<CellM_T[][]>();
     //public Users = ko.observableArray<UserM_T>();
     public YO = ko.observable<string>();
     public CoursesAll = ko.observableArray<KoCourse>([]);
     public CoursesActive = ko.observableArray<KoCourse>([]);
     public Studies = ko.observableArray<KoStudy>([]);
+    public Demonstrators = ko.observableArray<KoDemonstrator>([]);
+
     public disableLeft = ko.observable<boolean>(false);
     public disableRight = ko.observable<boolean>(true);
     public disableUp = ko.observable<boolean>(false);
     public disableDown = ko.observable<boolean>(true);
+    //----------------------------------default values------------------------------//
+    public defaultTextButtonSkip = "Preskoči termin";
+    public defaultTextButtonTake = "Uzmi termin";
+    public defaultCourseName = "Kolegij";
+    public defaultDate = new Date().getDate() + "." + (new Date().getMonth() + 1) + "." + new Date().getFullYear()+".";
+    public defaultGroupName = "Grupa";
+    public defaultId = 0;
+    public defaultStudyName = "Smjer";
+    public defaultUserLastName = "Prezime";
+    public defaultUserName = "Ime";
+    public defaultUserRole = "D";
+    public defaultUserUsername = "iprezime";
+
     //--------------------------------------primitive----------------------------------//
     public moveX: number = 0;
     public moveY: number = 0;
@@ -32,7 +47,7 @@ class TableVM {
     public link_settings = "/Settings/Settings";
     public link_table = "/Table/Table";
     public link_login = "/Login/Login";
-    
+
 
     //------------------------------------FUNCTIONS------------------------------------//
     constructor() {
@@ -88,44 +103,96 @@ class TableVM {
         });
 
         function progress() {
-            /*
-                loginCheck            
+            /*      
                     getAllCourses
                         populateSelectStudy
                             populateSelectCourse
-                                updateValuesAfterSelect
-                                    getTermsByCourseId
-                                        getGroupsByCourseId
-                                            getUsersByCourseId
-                                                updateSelectUser
-                                                updateGroupData
-                                                createFullTermData
-                                                    fillAllTerms
-                                                        createTermTable
-                                                            updateGroupWebData
-                                                            updateWebData
-                                                            setInitialNavigation
-                    setInitialTermValues
-                        
             */
         }
     }
 
-    public Allocation = () => {
+    public allocation = () => {
         var self = this;
+        //console.log("allocation");
 
         var study = ko.observable<KoStudy>(new KoStudy());
-        study().Name("dummy study");
-        study().Id(1);
+        study().Name(self.defaultStudyName);
+        study().Id(self.defaultId);
         self.Studies([]);
         self.Studies().push(study());
 
         var course = ko.observable<KoCourse>(new KoCourse());
-        course().Id(1);
-        course().Name("dummy course");
-        course().Study("");
+        course().Id(self.defaultId);
+        course().Name(self.defaultCourseName);
+        course().Study(self.defaultStudyName);
         self.CoursesActive([]);
         self.CoursesActive().push(course());
+
+        var demonstrator = ko.observable<KoDemonstrator>(new KoDemonstrator(self.defaultUserName, self.defaultId));
+        self.Demonstrators([]);
+        self.Demonstrators().push(demonstrator());
+
+        var user = ko.observable<KoUser>(new KoUser());
+        user().Id(0);
+        user().LastName(self.defaultUserLastName);
+        user().Name(self.defaultUserName);
+        user().Role(self.defaultUserRole);
+        user().Username(self.defaultUserUsername);
+
+        var group = ko.observable<KoGroup>(new KoGroup());
+        group().CourseId(self.defaultId);
+        group().Id(self.defaultId);
+        group().Name(self.defaultGroupName);
+        group().OwnerId(self.defaultId);
+        group().Owner = user;
+
+        var term = ko.observable<KoTerm>(new KoTerm());
+        term().Course = course;
+        term().CourseId = course().Id;
+        term().User = user;
+        term().UserId = user().Id;
+        term().Group = group;
+        term().GroupId = group().Id;
+        term().Id(0);
+        term().Date(self.defaultDate);
+
+        //allocation for Terms arrays
+        self.allocateTermsArrays(term);
+
+    }
+
+    public allocateTermsArrays = (term: any) => {
+        var self = this;
+        self.Terms0([]);
+        self.Terms1([]);
+        self.Terms2([]);
+        self.Terms3([]);
+        for (var i = 0; i < 4; i++) {
+            for (var j = 0; j < 5; j++){
+                var cell = ko.observable<KoCell>(new KoCell());
+                cell().ButtonSkipState(true);
+                cell().ButtonTakeState(true);
+                cell().CellState(0);
+                cell().x(i);
+                cell().y(j);
+                cell().Term = term;                
+                switch (i) {
+                    case 0:
+                        self.Terms0().push(cell());
+                        break;
+                    case 1:
+                        self.Terms1().push(cell());
+                        break;
+                    case 2:
+                        self.Terms2().push(cell());
+                        break;
+                    case 3:
+                        self.Terms3().push(cell());
+                        break;
+                }
+            }
+        }
+
     }
 
     public getAllCourses = () => {
@@ -310,25 +377,27 @@ class TableVM {
 }
 
 
-class KoTermM {
+class KoTerm {
     public Id = ko.observable<number>();
     public CourseId = ko.observable<number>();
-    public Course = ko.observable<CourseM_T>();
+    public Course = ko.observable<KoCourse>();
     public UserId = ko.observable<number>();
-    public UserPerson = ko.observable<UserM_T>();
+    public User = ko.observable<KoUser>();
     public GroupId = ko.observable<number>();
-    public Group = ko.observable<GroupM_T>();
-    public TermDate = ko.observable<string>();
-    constructor(t: KoTermM) {
-        this.Id = t.Id;
-        this.CourseId = t.CourseId;
-        this.Course = t.Course;
-        this.UserId = t.Id;
-        this.UserPerson = t.UserPerson;
-        this.GroupId = t.GroupId;
-        this.Group = t.Group;
-        this.TermDate = t.TermDate;
-    }
+    public Group = ko.observable<KoGroup>();
+    public Date = ko.observable<string>();
+    //constructor(term?: any) {
+    //    if (term) {
+    //        this.Id = term.Id;
+    //        this.CourseId = term.CourseId;
+    //        this.Course = term.Course;
+    //        this.UserId = term.Id;
+    //        this.User = term.User;
+    //        this.GroupId = term.GroupId;
+    //        this.Group = term.Group;
+    //        this.TermDate = term.TermDate;
+    //    }
+    //}
 }
 class KoCell {
     public x = ko.observable<number>();
@@ -336,23 +405,23 @@ class KoCell {
     public CellState = ko.observable<number>();
     public ButtonTakeState = ko.observable<boolean>();
     public ButtonSkipState = ko.observable<boolean>();
-    public Term = ko.observable<TermM_T>();
+    public Term = ko.observable<KoTerm>();
 }
 class KoUser {
-    public Id: number;
-    public Username: string;
-    public Name: string;
-    public LastName: string;
-    public Role: string;
-    constructor(myUser?: any) {
-        if (myUser) {
-            this.Id = myUser.Id;
-            this.Username = myUser.Username;
-            this.Name = myUser.Name;
-            this.LastName = myUser.LastName;
-            this.Role = myUser.Role;
-        }
-    }
+    public Id = ko.observable<number>();
+    public Username = ko.observable<string>();
+    public Name = ko.observable<string>();
+    public LastName = ko.observable<string>();
+    public Role = ko.observable<string>();
+    //constructor(myUser?: KoUser) {
+    //    if (myUser) {
+    //        this.Id = myUser.Id;
+    //        this.Username = myUser.Username;
+    //        this.Name = myUser.Name;
+    //        this.LastName = myUser.LastName;
+    //        this.Role = myUser.Role;
+    //    }
+    //}
 }
 class KoStudy {
     public Id = ko.observable<number>();
@@ -364,18 +433,28 @@ class KoCourse {
     public Study = ko.observable<string>();
 }
 class KoGroup {
-    public Id: number;
-    public Name: string;
-    public OwnerId: number;
-    public CourseId: number;
-    public UserPerson: UserM_T;
-    constructor(group?: any) {
-        if (group) {
-            this.Id = group.Id;
-            this.Name = group.Name;
-            this.OwnerId = group.OwnerId;
-            this.CourseId = group.CourseId;
-            this.UserPerson = group.UserPerson;
+    public CourseId = ko.observable<number>();
+    public Id = ko.observable<number>();
+    public Name = ko.observable<string>();
+    public Owner = ko.observable<KoUser>();
+    public OwnerId = ko.observable<number>();
+    //constructor(group?: KoGroup) {
+    //    if (group) {
+    //        this.CourseId = group.CourseId;
+    //        this.Id = group.Id;
+    //        this.Name = group.Name;
+    //        this.Owner = group.Owner;
+    //        this.OwnerId = group.OwnerId;
+    //    }
+    //}
+}
+class KoDemonstrator {
+    public Id = ko.observable<number>();
+    public Name = ko.observable<string>();
+    constructor(name?: string, id?: number) {
+        if (name && id) {
+            this.Id(id);
+            this.Name(name);
         }
     }
 }

@@ -384,7 +384,7 @@ input:hover {
   font-size: 10px;
   word-wrap: break-word; }
   .tableButton.takeTerm {
-    font-size: 18px;
+    font-size: 14px;
     background-color: green;
     color: palegreen; }
     .tableButton.takeTerm:hover {
@@ -396,7 +396,7 @@ input:hover {
       background-color: #4c4c4c;
       cursor: pointer; }
   .tableButton.skipTerm {
-    font-size: 18px;
+    font-size: 14px;
     background-color: gray;
     font-weight: bold; }
     .tableButton.skipTerm:hover {

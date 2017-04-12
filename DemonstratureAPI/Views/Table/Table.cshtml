@@ -9,15 +9,15 @@
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="~/Scripts/jquery-2.2.3.js"></script>
-<script src="~/Scripts/knockout-3.4.2.js"></script> 
-<script src="~/Scripts/knockout.mapping-latest.js"></script> 
+<script src="~/Scripts/knockout-3.4.2.js"></script>
+<script src="~/Scripts/knockout.mapping-latest.js"></script>
 <script src="~/Scripts/require.js"></script>
 <script src="~/Scripts/Pages/TableKO.js"></script>
 @*<script src="~/Scripts/Pages/Table.js"></script>*@
 
 
 @*<label data-bind="text:YO">aaaaa</label>
-<label data-bind="text: Studies()[0].Name">aaaaa</label>*@
+    <label data-bind="text: Studies()[0].Name">aaaaa</label>*@
 <button id="test">tipka</button>
 
 
@@ -41,6 +41,7 @@
                 </div>
             </div>
         </div>
+    </div>
     <div class="rTableRow">
         <div class="leftNavigation">
             <div class="arrowUp" id="arrowUp" data-bind="click: upClicked, css:{'arrowUpDisabled': disableUp(), 'arrowUp':!disableUp()} ">
@@ -51,140 +52,185 @@
             <select class="selecter univStudies" id="selectStudy" data-bind="options: Studies,
                                                                              optionsText: 'Name',
                                                                              value: 'Id',
-                                                                             optionsCaption: 'Odaberite studij'"></select> 
+                                                                             optionsCaption: 'Odaberite studij'"></select>
             <br />
             <select class="selecter univCourse" id="selectCourse" data-bind="options: CoursesActive,
                                                                              optionsText: 'Name',
                                                                              value: 'Id',
-                                                                             optionsCaption: 'Odaberite kolegij'"></select> 
+                                                                             optionsCaption: 'Odaberite kolegij'"></select>
         </div>
         <div class="rTableHeading">
-            <label class="label_t groupName" id="groupName0" data-bind="">grupa</label><br>
-            <label class="label_t groupOwner" id="groupOwner0">demonstrator</label><br>
+            <label class="label_t groupName" id="groupName0" data-bind="text: Terms0()[0].Term().Group().Name">grupa</label><br>
+            <label class="label_t groupOwner" id="groupOwner0" data-bind="text: Terms0()[0].Term().Group().Owner().Name">demonstrator</label><br>
         </div>
         <div class="rTableHeading">
-            <label class="label_t groupName" id="groupName1">grupa</label><br>
-            <label class="label_t groupOwner" id="groupOwner1">demonstrator</label><br>
+            <label class="label_t groupName" id="groupName1" data-bind="text: Terms0()[1].Term().Group().Name">grupa</label><br>
+            <label class="label_t groupOwner" id="groupOwner1" data-bind="text: Terms0()[1].Term().Group().Owner().Name">demonstrator</label><br>
         </div>
         <div class="rTableHeading">
-            <label class="label_t groupName" id="groupName2">grupa</label><br>
-            <label class="label_t groupOwner" id="groupOwner2">demonstrator</label><br>
+            <label class="label_t groupName" id="groupName2" data-bind="text: Terms0()[2].Term().Group().Name">grupa</label><br>
+            <label class="label_t groupOwner" id="groupOwner2" data-bind="text: Terms0()[2].Term().Group().Owner().Name">demonstrator</label><br>
         </div>
         <div class="rTableHeading">
-            <label class="label_t groupName" id="groupName3">grupa</label><br>
-            <label class="label_t groupOwner" id="groupOwner3">demonstrator</label><br>
+            <label class="label_t groupName" id="groupName3" data-bind="text: Terms0()[3].Term().Group().Name">grupa</label><br>
+            <label class="label_t groupOwner" id="groupOwner3" data-bind="text: Terms0()[3].Term().Group().Owner().Name">demonstrator</label><br>
         </div>
         <div class="rTableHeading">
-            <label class="label_t groupName" id="groupName4">grupa</label><br>
-            <label class="label_t groupOwner" id="groupOwner4">demonstrator</label><br>
+            <label class="label_t groupName" id="groupName4" data-bind="text: Terms0()[4].Term().Group().Name">grupa</label><br>
+            <label class="label_t groupOwner" id="groupOwner4" data-bind="text: Terms0()[4].Term().Group().Owner().Name">demonstrator</label><br>
         </div>
     </div>
     <div class="rTableRow">
         <div class="leftNavigation"></div>
         <div class="firstColumn">
-            <label class="label_t date" id="date0">datum</label>
+            <label class="label_t date" id="date0" data-bind="text: Terms0()[0].Term().Date">datum</label>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner00">demonstrator</div><br>
-            <button id="buttonTakeTerm00" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm00" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search00"></select>
+            <div class="label_t demoName" id="termOwner00" data-bind="text: Terms0()[0].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm00" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm00" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search00" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner01">demonstrator</div><br>
-            <button id="buttonTakeTerm01" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm01" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search01"></select>
+            <div class="label_t demoName" id="termOwner01" data-bind="text: Terms0()[1].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm01" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm01" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search01" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner02">demonstrator</div><br>
-            <button id="buttonTakeTerm02" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm02" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search02"></select>
+            <div class="label_t demoName" id="termOwner02" data-bind="text: Terms0()[2].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm02" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm02" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search02" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner03">demonstrator</div><br>
-            <button id="buttonTakeTerm03" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm03" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search03"></select>
+            <div class="label_t demoName" id="termOwner03" data-bind="text: Terms0()[3].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm03" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm03" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search03" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner04">demonstrator</div><br>
-            <button id="buttonTakeTerm04" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm04" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search04"></select>
+            <div class="label_t demoName" id="termOwner04" data-bind="text: Terms0()[4].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm04" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm04" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search04" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
     </div>
     <div class="rTableRow">
         <div class="leftNavigation"></div>
         <div class="firstColumn">
-            <label class="label_t date" id="date1">datum</label>
+            <label class="label_t date" id="date1" data-bind="text: Terms1()[0].Term().Date">datum</label>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner10">demonstrator</div><br>
-            <button id="buttonTakeTerm10" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm10" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search10"></select>
+            <div class="label_t demoName" id="termOwner10" data-bind="text: Terms1()[0].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm10" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm10" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search10" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner11">demonstrator</div><br>
-            <button id="buttonTakeTerm11" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm11" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search11"></select>
+            <div class="label_t demoName" id="termOwner11" data-bind="text: Terms1()[1].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm11" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm11" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search11" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner12">demonstrator</div><br>
-            <button id="buttonTakeTerm12" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm12" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search12"></select>
+            <div class="label_t demoName" id="termOwner12" data-bind="text: Terms1()[2].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm12" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm12" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search12" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner13">demonstrator</div><br>
-            <button id="buttonTakeTerm13" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm13" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search13"></select>
+            <div class="label_t demoName" id="termOwner13" data-bind="text: Terms1()[3].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm13" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm13" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search13" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner14">demonstrator</div><br>
-            <button id="buttonTakeTerm14" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm14" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search14"></select>
+            <div class="label_t demoName" id="termOwner14" data-bind="text: Terms1()[4].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm14" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm14" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search14" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
     </div>
     <div class="rTableRow">
         <div class="leftNavigation"></div>
         <div class="firstColumn">
-            <label class="label_t date" id="date2">datum</label>
+            <label class="label_t date" id="date2" data-bind="text: Terms2()[0].Term().Date">datum</label>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner20">demonstrator</div><br>
-            <button id="buttonTakeTerm20" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm20" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search20"></select>
+            <div class="label_t demoName" id="termOwner20" data-bind="text: Terms2()[0].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm20" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm20" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search20" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner21">demonstrator</div><br>
-            <button id="buttonTakeTerm21" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm21" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search21"></select>
+            <div class="label_t demoName" id="termOwner21" data-bind="text: Terms2()[1].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm21" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm21" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search21" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner22">demonstrator</div><br>
-            <button id="buttonTakeTerm22" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm22" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search22"></select>
+            <div class="label_t demoName" id="termOwner22" data-bind="text: Terms2()[2].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm22" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm22" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search22" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner23">demonstrator</div><br>
-            <button id="buttonTakeTerm23" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm23" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search23"></select>
+            <div class="label_t demoName" id="termOwner23" data-bind="text: Terms2()[3].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm23" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm23" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search23" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner24">demonstrator</div><br>
-            <button id="buttonTakeTerm24" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm24" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search24"></select>
+            <div class="label_t demoName" id="termOwner24" data-bind="text: Terms2()[4].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm24" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm24" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search24" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
     </div>
     <div class="rTableRow">
@@ -196,37 +242,52 @@
             </div>
         </div>
         <div class="firstColumn">
-            <label class="label_t date" id="date3">datum</label>
+            <label class="label_t date" id="date3"  data-bind="text: Terms3()[0].Term().Date">datum</label>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner30">demonstrator</div><br>
-            <button id="buttonTakeTerm30" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm30" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search30"></select>
+            <div class="label_t demoName" id="termOwner30" data-bind="text: Terms3()[0].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm30" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm30" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search30" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner31">demonstrator</div><br>
-            <button id="buttonTakeTerm31" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm31" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search31"></select>
+            <div class="label_t demoName" id="termOwner31" data-bind="text: Terms3()[1].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm31" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm31" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search31" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner32">demonstrator</div><br>
-            <button id="buttonTakeTerm32" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm32" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search32"></select>
+            <div class="label_t demoName" id="termOwner32" data-bind="text: Terms3()[2].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm32" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm32" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search32" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner33">demonstrator</div><br>
-            <button id="buttonTakeTerm33" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm33" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search33"></select>
+            <div class="label_t demoName" id="termOwner33" data-bind="text: Terms3()[3].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm33" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm33" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search33" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
         <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner34">demonstrator</div><br>
-            <button id="buttonTakeTerm34" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm34" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search34"></select>
+            <div class="label_t demoName" id="termOwner34" data-bind="text: Terms3()[4].Term().User().Name">demonstrator</div><br>
+            <button id="buttonTakeTerm34" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+            <button id="buttonSkipTerm34" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+            <select class="search-student" id="search34" data-bind="options: Demonstrators,
+                                                                             optionsText: 'Name',
+                                                                             value: 'Id',
+                                                                             optionsCaption: 'Odaberite demonstratora'"></select>
         </div>
     </div>
 </div>
@@ -234,204 +295,204 @@
 
 @*OLD TABLE - without KO*@
 @*<div class="rTable">
-    <div class="rTableRow">
-        <div class="leftNavigation"></div>
-        <div class="upperNavigation">
-            <div class="arrowLeft" id="arrowLeft">
-                <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
+        <div class="rTableRow">
+            <div class="leftNavigation"></div>
+            <div class="upperNavigation">
+                <div class="arrowLeft" id="arrowLeft">
+                    <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
+                </div>
             </div>
-        </div>
-        <div class="upperNavigation"></div>
-        <div class="upperNavigation"></div>
-        <div class="upperNavigation"></div>
-        <div class="upperNavigation"></div>
-        <div class="upperNavigation">
-            <div class="arrowRight" id="arrowRight">
-                <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-            </div>
-        </div>
-    </div>
-    <div class="rTableRow">
-        <div class="leftNavigation">
-            <div class="arrowUp" id="arrowUp">
-                <i class="fa fa-arrow-up fa-lg" aria-hidden="true"></i>
-            </div>
-        </div>
-        <div class="firstCell">
-            <select class="selecter univStudies" id="selectStudy"></select> <br />
-            <select class="selecter univCourse" id="selectCourse">
-                <option>Please select a course</option>
-            </select>
-        </div>
-        <div class="rTableHeading">
-            <label class="label_t groupName" id="groupName0">grupa</label><br>
-            <label class="label_t groupOwner" id="groupOwner0">demonstrator</label><br>
-        </div>
-        <div class="rTableHeading">
-            <label class="label_t groupName" id="groupName1">grupa</label><br>
-            <label class="label_t groupOwner" id="groupOwner1">demonstrator</label><br>
-        </div>
-        <div class="rTableHeading">
-            <label class="label_t groupName" id="groupName2">grupa</label><br>
-            <label class="label_t groupOwner" id="groupOwner2">demonstrator</label><br>
-        </div>
-        <div class="rTableHeading">
-            <label class="label_t groupName" id="groupName3">grupa</label><br>
-            <label class="label_t groupOwner" id="groupOwner3">demonstrator</label><br>
-        </div>
-        <div class="rTableHeading">
-            <label class="label_t groupName" id="groupName4">grupa</label><br>
-            <label class="label_t groupOwner" id="groupOwner4">demonstrator</label><br>
-        </div>
-    </div>
-    <div class="rTableRow">
-        <div class="leftNavigation"></div>
-        <div class="firstColumn">
-            <label class="label_t date" id="date0">datum</label>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner00">demonstrator</div><br>
-            <button id="buttonTakeTerm00" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm00" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search00"></select>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner01">demonstrator</div><br>
-            <button id="buttonTakeTerm01" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm01" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search01"></select>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner02">demonstrator</div><br>
-            <button id="buttonTakeTerm02" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm02" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search02"></select>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner03">demonstrator</div><br>
-            <button id="buttonTakeTerm03" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm03" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search03"></select>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner04">demonstrator</div><br>
-            <button id="buttonTakeTerm04" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm04" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search04"></select>
-        </div>
-    </div>
-    <div class="rTableRow">
-        <div class="leftNavigation"></div>
-        <div class="firstColumn">
-            <label class="label_t date" id="date1">datum</label>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner10">demonstrator</div><br>
-            <button id="buttonTakeTerm10" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm10" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search10"></select>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner11">demonstrator</div><br>
-            <button id="buttonTakeTerm11" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm11" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search11"></select>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner12">demonstrator</div><br>
-            <button id="buttonTakeTerm12" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm12" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search12"></select>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner13">demonstrator</div><br>
-            <button id="buttonTakeTerm13" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm13" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search13"></select>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner14">demonstrator</div><br>
-            <button id="buttonTakeTerm14" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm14" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search14"></select>
-        </div>
-    </div>
-    <div class="rTableRow">
-        <div class="leftNavigation"></div>
-        <div class="firstColumn">
-            <label class="label_t date" id="date2">datum</label>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner20">demonstrator</div><br>
-            <button id="buttonTakeTerm20" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm20" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search20"></select>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner21">demonstrator</div><br>
-            <button id="buttonTakeTerm21" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm21" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search21"></select>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner22">demonstrator</div><br>
-            <button id="buttonTakeTerm22" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm22" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search22"></select>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner23">demonstrator</div><br>
-            <button id="buttonTakeTerm23" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm23" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search23"></select>
-        </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner24">demonstrator</div><br>
-            <button id="buttonTakeTerm24" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm24" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search24"></select>
-        </div>
-    </div>
-    <div class="rTableRow">
-        <div class="leftNavigation">
-            <div>
-                <div class="arrowDown" id="arrowDown">
-                    <i class="fa fa-arrow-down fa-lg" aria-hidden="true"></i>
+            <div class="upperNavigation"></div>
+            <div class="upperNavigation"></div>
+            <div class="upperNavigation"></div>
+            <div class="upperNavigation"></div>
+            <div class="upperNavigation">
+                <div class="arrowRight" id="arrowRight">
+                    <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
-        <div class="firstColumn">
-            <label class="label_t date" id="date3">datum</label>
+        <div class="rTableRow">
+            <div class="leftNavigation">
+                <div class="arrowUp" id="arrowUp">
+                    <i class="fa fa-arrow-up fa-lg" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="firstCell">
+                <select class="selecter univStudies" id="selectStudy"></select> <br />
+                <select class="selecter univCourse" id="selectCourse">
+                    <option>Please select a course</option>
+                </select>
+            </div>
+            <div class="rTableHeading">
+                <label class="label_t groupName" id="groupName0">grupa</label><br>
+                <label class="label_t groupOwner" id="groupOwner0">demonstrator</label><br>
+            </div>
+            <div class="rTableHeading">
+                <label class="label_t groupName" id="groupName1">grupa</label><br>
+                <label class="label_t groupOwner" id="groupOwner1">demonstrator</label><br>
+            </div>
+            <div class="rTableHeading">
+                <label class="label_t groupName" id="groupName2">grupa</label><br>
+                <label class="label_t groupOwner" id="groupOwner2">demonstrator</label><br>
+            </div>
+            <div class="rTableHeading">
+                <label class="label_t groupName" id="groupName3">grupa</label><br>
+                <label class="label_t groupOwner" id="groupOwner3">demonstrator</label><br>
+            </div>
+            <div class="rTableHeading">
+                <label class="label_t groupName" id="groupName4">grupa</label><br>
+                <label class="label_t groupOwner" id="groupOwner4">demonstrator</label><br>
+            </div>
         </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner30">demonstrator</div><br>
-            <button id="buttonTakeTerm30" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm30" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search30"></select>
+        <div class="rTableRow">
+            <div class="leftNavigation"></div>
+            <div class="firstColumn">
+                <label class="label_t date" id="date0">datum</label>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner00">demonstrator</div><br>
+                <button id="buttonTakeTerm00" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm00" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search00"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner01">demonstrator</div><br>
+                <button id="buttonTakeTerm01" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm01" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search01"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner02">demonstrator</div><br>
+                <button id="buttonTakeTerm02" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm02" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search02"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner03">demonstrator</div><br>
+                <button id="buttonTakeTerm03" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm03" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search03"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner04">demonstrator</div><br>
+                <button id="buttonTakeTerm04" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm04" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search04"></select>
+            </div>
         </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner31">demonstrator</div><br>
-            <button id="buttonTakeTerm31" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm31" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search31"></select>
+        <div class="rTableRow">
+            <div class="leftNavigation"></div>
+            <div class="firstColumn">
+                <label class="label_t date" id="date1">datum</label>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner10">demonstrator</div><br>
+                <button id="buttonTakeTerm10" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm10" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search10"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner11">demonstrator</div><br>
+                <button id="buttonTakeTerm11" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm11" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search11"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner12">demonstrator</div><br>
+                <button id="buttonTakeTerm12" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm12" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search12"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner13">demonstrator</div><br>
+                <button id="buttonTakeTerm13" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm13" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search13"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner14">demonstrator</div><br>
+                <button id="buttonTakeTerm14" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm14" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search14"></select>
+            </div>
         </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner32">demonstrator</div><br>
-            <button id="buttonTakeTerm32" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm32" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search32"></select>
+        <div class="rTableRow">
+            <div class="leftNavigation"></div>
+            <div class="firstColumn">
+                <label class="label_t date" id="date2">datum</label>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner20">demonstrator</div><br>
+                <button id="buttonTakeTerm20" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm20" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search20"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner21">demonstrator</div><br>
+                <button id="buttonTakeTerm21" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm21" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search21"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner22">demonstrator</div><br>
+                <button id="buttonTakeTerm22" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm22" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search22"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner23">demonstrator</div><br>
+                <button id="buttonTakeTerm23" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm23" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search23"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner24">demonstrator</div><br>
+                <button id="buttonTakeTerm24" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm24" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search24"></select>
+            </div>
         </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner33">demonstrator</div><br>
-            <button id="buttonTakeTerm33" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm33" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search33"></select>
+        <div class="rTableRow">
+            <div class="leftNavigation">
+                <div>
+                    <div class="arrowDown" id="arrowDown">
+                        <i class="fa fa-arrow-down fa-lg" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="firstColumn">
+                <label class="label_t date" id="date3">datum</label>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner30">demonstrator</div><br>
+                <button id="buttonTakeTerm30" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm30" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search30"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner31">demonstrator</div><br>
+                <button id="buttonTakeTerm31" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm31" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search31"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner32">demonstrator</div><br>
+                <button id="buttonTakeTerm32" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm32" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search32"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner33">demonstrator</div><br>
+                <button id="buttonTakeTerm33" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm33" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search33"></select>
+            </div>
+            <div class="rTableCell">
+                <div class="label_t demoName" id="termOwner34">demonstrator</div><br>
+                <button id="buttonTakeTerm34" class="tableButton takeTerm" data-bind="text: defaultTextButtonTake"></button>
+                <button id="buttonSkipTerm34" class="tableButton skipTerm" data-bind="text: defaultTextButtonSkip"></button><br>
+                <select class="search-student" id="search34"></select>
+            </div>
         </div>
-        <div class="rTableCell">
-            <div class="label_t demoName" id="termOwner34">demonstrator</div><br>
-            <button id="buttonTakeTerm34" class="tableButton takeTerm"></button>
-            <button id="buttonSkipTerm34" class="tableButton skipTerm"></button><br>
-            <select class="search-student" id="search34"></select>
-        </div>
-    </div>
-</div>*@
+    </div>*@

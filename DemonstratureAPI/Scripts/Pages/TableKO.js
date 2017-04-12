@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var tableVM = new TableVM();
-    tableVM.Allocation();
+    tableVM.allocation();
     tableVM.getAllCourses();
     ko.applyBindings(tableVM);
 });
@@ -9,20 +9,33 @@ var TableVM = (function () {
     function TableVM() {
         var _this = this;
         //---------------------------------OBSERVABLES------------------------------//
-        //public Terms0 = ko.observableArray<CellM_T>();
-        //public Terms1 = ko.observableArray<CellM_T>();
-        //public Terms2 = ko.observableArray<CellM_T>();
-        //public Terms3 = ko.observableArray<CellM_T>();
+        this.Terms0 = ko.observableArray();
+        this.Terms1 = ko.observableArray();
+        this.Terms2 = ko.observableArray();
+        this.Terms3 = ko.observableArray();
         //public allTerms = ko.observableArray<CellM_T[][]>();
         //public Users = ko.observableArray<UserM_T>();
         this.YO = ko.observable();
         this.CoursesAll = ko.observableArray([]);
         this.CoursesActive = ko.observableArray([]);
         this.Studies = ko.observableArray([]);
+        this.Demonstrators = ko.observableArray([]);
         this.disableLeft = ko.observable(false);
         this.disableRight = ko.observable(true);
         this.disableUp = ko.observable(false);
         this.disableDown = ko.observable(true);
+        //----------------------------------default values------------------------------//
+        this.defaultTextButtonSkip = "Preskoči termin";
+        this.defaultTextButtonTake = "Uzmi termin";
+        this.defaultCourseName = "Kolegij";
+        this.defaultDate = new Date().getDate() + "." + (new Date().getMonth() + 1) + "." + new Date().getFullYear() + ".";
+        this.defaultGroupName = "Grupa";
+        this.defaultId = 0;
+        this.defaultStudyName = "Smjer";
+        this.defaultUserLastName = "Prezime";
+        this.defaultUserName = "Ime";
+        this.defaultUserRole = "D";
+        this.defaultUserUsername = "iprezime";
         //--------------------------------------primitive----------------------------------//
         this.moveX = 0;
         this.moveY = 0;
@@ -33,19 +46,78 @@ var TableVM = (function () {
         this.link_settings = "/Settings/Settings";
         this.link_table = "/Table/Table";
         this.link_login = "/Login/Login";
-        this.Allocation = function () {
+        this.allocation = function () {
             var self = _this;
+            //console.log("allocation");
             var study = ko.observable(new KoStudy());
-            study().Name("dummy study");
-            study().Id(1);
+            study().Name(self.defaultStudyName);
+            study().Id(self.defaultId);
             self.Studies([]);
             self.Studies().push(study());
             var course = ko.observable(new KoCourse());
-            course().Id(1);
-            course().Name("dummy course");
-            course().Study("");
+            course().Id(self.defaultId);
+            course().Name(self.defaultCourseName);
+            course().Study(self.defaultStudyName);
             self.CoursesActive([]);
             self.CoursesActive().push(course());
+            var demonstrator = ko.observable(new KoDemonstrator(self.defaultUserName, self.defaultId));
+            self.Demonstrators([]);
+            self.Demonstrators().push(demonstrator());
+            var user = ko.observable(new KoUser());
+            user().Id(0);
+            user().LastName(self.defaultUserLastName);
+            user().Name(self.defaultUserName);
+            user().Role(self.defaultUserRole);
+            user().Username(self.defaultUserUsername);
+            var group = ko.observable(new KoGroup());
+            group().CourseId(self.defaultId);
+            group().Id(self.defaultId);
+            group().Name(self.defaultGroupName);
+            group().OwnerId(self.defaultId);
+            group().Owner = user;
+            var term = ko.observable(new KoTerm());
+            term().Course = course;
+            term().CourseId = course().Id;
+            term().User = user;
+            term().UserId = user().Id;
+            term().Group = group;
+            term().GroupId = group().Id;
+            term().Id(0);
+            term().Date(self.defaultDate);
+            //allocation for Terms arrays
+            self.allocateTermsArrays(term);
+        };
+        this.allocateTermsArrays = function (term) {
+            var self = _this;
+            self.Terms0([]);
+            self.Terms1([]);
+            self.Terms2([]);
+            self.Terms3([]);
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 5; j++) {
+                    var cell = ko.observable(new KoCell());
+                    cell().ButtonSkipState(true);
+                    cell().ButtonTakeState(true);
+                    cell().CellState(0);
+                    cell().x(i);
+                    cell().y(j);
+                    cell().Term = term;
+                    switch (i) {
+                        case 0:
+                            self.Terms0().push(cell());
+                            break;
+                        case 1:
+                            self.Terms1().push(cell());
+                            break;
+                        case 2:
+                            self.Terms2().push(cell());
+                            break;
+                        case 3:
+                            self.Terms3().push(cell());
+                            break;
+                    }
+                }
+            }
         };
         this.getAllCourses = function () {
             //console.log("gettingAllCourses");
@@ -248,49 +320,26 @@ var TableVM = (function () {
         });
         function progress() {
             /*
-                loginCheck
                     getAllCourses
                         populateSelectStudy
                             populateSelectCourse
-                                updateValuesAfterSelect
-                                    getTermsByCourseId
-                                        getGroupsByCourseId
-                                            getUsersByCourseId
-                                                updateSelectUser
-                                                updateGroupData
-                                                createFullTermData
-                                                    fillAllTerms
-                                                        createTermTable
-                                                            updateGroupWebData
-                                                            updateWebData
-                                                            setInitialNavigation
-                    setInitialTermValues
-                        
             */
         }
     }
     return TableVM;
 }());
-var KoTermM = (function () {
-    function KoTermM(t) {
+var KoTerm = (function () {
+    function KoTerm() {
         this.Id = ko.observable();
         this.CourseId = ko.observable();
         this.Course = ko.observable();
         this.UserId = ko.observable();
-        this.UserPerson = ko.observable();
+        this.User = ko.observable();
         this.GroupId = ko.observable();
         this.Group = ko.observable();
-        this.TermDate = ko.observable();
-        this.Id = t.Id;
-        this.CourseId = t.CourseId;
-        this.Course = t.Course;
-        this.UserId = t.Id;
-        this.UserPerson = t.UserPerson;
-        this.GroupId = t.GroupId;
-        this.Group = t.Group;
-        this.TermDate = t.TermDate;
+        this.Date = ko.observable();
     }
-    return KoTermM;
+    return KoTerm;
 }());
 var KoCell = (function () {
     function KoCell() {
@@ -304,14 +353,12 @@ var KoCell = (function () {
     return KoCell;
 }());
 var KoUser = (function () {
-    function KoUser(myUser) {
-        if (myUser) {
-            this.Id = myUser.Id;
-            this.Username = myUser.Username;
-            this.Name = myUser.Name;
-            this.LastName = myUser.LastName;
-            this.Role = myUser.Role;
-        }
+    function KoUser() {
+        this.Id = ko.observable();
+        this.Username = ko.observable();
+        this.Name = ko.observable();
+        this.LastName = ko.observable();
+        this.Role = ko.observable();
     }
     return KoUser;
 }());
@@ -331,14 +378,23 @@ var KoCourse = (function () {
     return KoCourse;
 }());
 var KoGroup = (function () {
-    function KoGroup(group) {
-        if (group) {
-            this.Id = group.Id;
-            this.Name = group.Name;
-            this.OwnerId = group.OwnerId;
-            this.CourseId = group.CourseId;
-            this.UserPerson = group.UserPerson;
-        }
+    function KoGroup() {
+        this.CourseId = ko.observable();
+        this.Id = ko.observable();
+        this.Name = ko.observable();
+        this.Owner = ko.observable();
+        this.OwnerId = ko.observable();
     }
     return KoGroup;
+}());
+var KoDemonstrator = (function () {
+    function KoDemonstrator(name, id) {
+        this.Id = ko.observable();
+        this.Name = ko.observable();
+        if (name && id) {
+            this.Id(id);
+            this.Name(name);
+        }
+    }
+    return KoDemonstrator;
 }());

@@ -560,7 +560,7 @@ input {
     word-wrap: break-word;
 
     &.takeTerm {
-        font-size: $fontPcM;
+        font-size: $fontPcS;
         background-color: $buttonTakeColor;
         color: $buttonTextSave;
 
@@ -580,7 +580,7 @@ input {
     }
 
     &.skipTerm {
-        font-size: $fontPcM;
+        font-size: $fontPcS;
         background-color: $buttonSkipColor;
         font-weight: bold;
 
