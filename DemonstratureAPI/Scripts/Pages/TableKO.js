@@ -454,3 +454,4 @@ var KoDemonstrator = (function () {
     }
     return KoDemonstrator;
 }());
+//# sourceMappingURL=TableKO.js.map
