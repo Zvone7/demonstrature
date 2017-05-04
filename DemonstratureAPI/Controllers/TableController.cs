@@ -38,15 +38,6 @@ namespace DemonstratureAPI.Controllers
         {
             return Json("chamara", JsonRequestBehavior.AllowGet);
         }
-        
-        
-        [System.Web.Mvc.HttpGet]
-        public ActionResult AllCollegeCourses()
-        {
-            var instance = new CourseLogic();
-            var result = instance.GetAllCourses();
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
-        }
+
     }
 }

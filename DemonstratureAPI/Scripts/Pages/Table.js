@@ -244,6 +244,7 @@ var Table_VM = (function () {
             //console.log("Active Terms", this.ActiveTerms);
             if (_this.Terms0_no.length > 0) {
                 console.log("self.Terms0.length>0, 303 red!!");
+                //self.updateTermTable();
             }
             else {
                 console.log("self.Terms0.length=0");

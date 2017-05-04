@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var MyUserM = (function () {
     function MyUserM(myUser) {
         this.Id = ko.observable(0);

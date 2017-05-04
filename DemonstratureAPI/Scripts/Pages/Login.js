@@ -81,10 +81,12 @@ var LoginVM = (function () {
         });
         $('#login_username').on("keypress", function (event) {
             if (event.which == 13) {
+                //self.button_tryLogin();
             }
         });
         $('#login_password').on("keypress", function (event) {
             if (event.which == 13) {
+                //self.button_tryLogin();
             }
         });
         //$('#myUl').css("visibility", "hidden");

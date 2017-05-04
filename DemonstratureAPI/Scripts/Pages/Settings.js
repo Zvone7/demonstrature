@@ -75,6 +75,7 @@ var SettingsVM = (function () {
             if (password != "" || passwordAgain != "") {
                 //this means that administrator is trying to change the password
                 changingPassword = true;
+                //console.log("u be tryin to change password");
             }
             var userCoursesHelper = new Array();
             // add courses
@@ -292,7 +293,7 @@ var SettingsVM = (function () {
         //-------------------------------COURSES START-------------------------------------------//
         this.createCourse = function (c) {
             var self = _this;
-            var serviceURL = '/Settings/CreateCourse';
+            var serviceURL = '/Course/CreateCourse';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
@@ -369,9 +370,9 @@ var SettingsVM = (function () {
         };
         this.deleteCourse = function (courseId) {
             var self = _this;
-            var serviceURL = '/Settings/DeleteCourse';
+            var serviceURL = '/Course/Delete';
             $.ajax({
-                type: "POST",
+                type: "DELETE",
                 url: serviceURL,
                 data: courseId,
                 success: successFunc,
@@ -388,7 +389,7 @@ var SettingsVM = (function () {
         this.getAllCourses = function () {
             //console.log("gettingAllCourses");
             var self = _this;
-            var serviceURL = '/Table/AllCollegeCourses';
+            var serviceURL = '/Course/All';
             $.ajax({
                 type: "GET",
                 url: serviceURL,
@@ -412,7 +413,7 @@ var SettingsVM = (function () {
         };
         this.updateCourse = function (c) {
             var self = _this;
-            var serviceURL = '/Settings/UpdateCourse';
+            var serviceURL = '/Course/Update';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
@@ -457,7 +458,7 @@ var SettingsVM = (function () {
         //-------------------------------USER START----------------------------------------------//
         this.createUser = function (nu) {
             var self = _this;
-            var serviceURL = '/Settings/CreateUser';
+            var serviceURL = '/User/Create';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
@@ -476,11 +477,10 @@ var SettingsVM = (function () {
         };
         this.deleteUser = function (userId) {
             var self = _this;
-            var serviceURL = '/Settings/DeleteUser';
+            var serviceURL = '/User/Delete';
             $.ajax({
-                type: "POST",
-                url: serviceURL,
-                data: userId,
+                type: "DELETE",
+                url: serviceURL + "?userId=" + userId,
                 success: successFunc,
                 error: errorFunc
             });
@@ -496,7 +496,7 @@ var SettingsVM = (function () {
         this.getAllUsers = function () {
             //console.log("getting all users");
             var self = _this;
-            var serviceURL = '/Settings/GetUsers';
+            var serviceURL = '/User/All';
             $.ajax({
                 type: "GET",
                 url: serviceURL,
@@ -515,7 +515,7 @@ var SettingsVM = (function () {
         };
         this.getUser = function (username) {
             var self = _this;
-            var serviceURL = '/Settings/UserByUsername';
+            var serviceURL = '/User/ByUsername';
             $.ajax({
                 type: "GET",
                 url: serviceURL + "?username=" + username,
@@ -539,7 +539,7 @@ var SettingsVM = (function () {
         };
         this.getUserCourses = function (userId) {
             var self = _this;
-            var serviceURL = '/Settings/GetUserCourses';
+            var serviceURL = '/User/Courses';
             $.ajax({
                 type: "GET",
                 url: serviceURL + "?userId=" + userId,
@@ -572,7 +572,7 @@ var SettingsVM = (function () {
             //console.log("updating user", nu);
             var self = _this;
             //console.log(obj);
-            var serviceURL = '/Settings/UpdateUser';
+            var serviceURL = '/User/Update';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
@@ -631,7 +631,7 @@ var SettingsVM = (function () {
         };
         this.updateUserPassword = function (pu) {
             var self = _this;
-            var serviceURL = '/Settings/UpdateUserPassword';
+            var serviceURL = '/User/UpdatePass';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
@@ -668,7 +668,7 @@ var SettingsVM = (function () {
             //console.log("creating group");
             var self = _this;
             //console.log(obj);
-            var serviceURL = '/Settings/CreateGroup';
+            var serviceURL = '/Group/Create';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
@@ -693,11 +693,10 @@ var SettingsVM = (function () {
             //console.log("deleting group");
             var self = _this;
             //console.log(obj);
-            var serviceURL = '/Settings/DeleteGroup';
+            var serviceURL = '/Group/Delete';
             $.ajax({
-                type: "POST",
-                url: serviceURL,
-                data: groupId,
+                type: "DELETE",
+                url: serviceURL + "?groupId=" + groupId,
                 success: successFunc,
                 error: errorFunc
             });
@@ -717,7 +716,7 @@ var SettingsVM = (function () {
         this.getGroupData = function (groupId) {
             //console.log("getting group data");
             var self = _this;
-            var serviceURL = '/Settings/GetGroup';
+            var serviceURL = '/Group/Get';
             $.ajax({
                 type: "GET",
                 url: serviceURL + "?groupId=" + groupId,
@@ -741,7 +740,7 @@ var SettingsVM = (function () {
                 $("#group_name").val("");
             }
             var self = _this;
-            var serviceURL = '/Settings/GetGroupsByCourseId';
+            var serviceURL = '/Group/ByCourseId';
             $.ajax({
                 type: "GET",
                 url: serviceURL + "?courseId=" + courseId,
@@ -763,7 +762,7 @@ var SettingsVM = (function () {
             //console.log("getting groups possible owners");
             var courseId = $('#group_course_select').val();
             var self = _this;
-            var serviceURL = '/Settings/GetUsersByCourseId';
+            var serviceURL = '/User/ByCourseId';
             $.ajax({
                 type: "GET",
                 url: serviceURL + "?courseId=" + courseId,
@@ -820,7 +819,7 @@ var SettingsVM = (function () {
         };
         this.updateGroup = function (g) {
             var self = _this;
-            var serviceURL = '/Settings/UpdateGroup';
+            var serviceURL = '/Group/Update';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
@@ -869,7 +868,7 @@ var SettingsVM = (function () {
         this.createTerm = function (t) {
             //console.log("creating term");
             var self = _this;
-            var serviceURL = '/Settings/CreateTerm';
+            var serviceURL = '/Term/Create';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
@@ -890,7 +889,7 @@ var SettingsVM = (function () {
             //return;
             //nešto s datumima nešto ne znam
             var self = _this;
-            var serviceURL = '/Settings/CreateTerms';
+            var serviceURL = '/Term/CreateMany';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
@@ -909,10 +908,10 @@ var SettingsVM = (function () {
         this.deleteTerm = function (termId) {
             //console.log("deleting term");
             var self = _this;
-            var serviceURL = '/Settings/DeleteTerm';
+            var serviceURL = '/Term/Delete';
             $.ajax({
-                type: "POST",
-                data: termId,
+                type: "DELETE",
+                url: serviceURL + "?termId=" + termId,
                 success: successFunc,
                 error: errorFunc
             });
@@ -928,7 +927,7 @@ var SettingsVM = (function () {
             //console.log("deleting terms");
             //console.log(t);
             var self = _this;
-            var serviceURL = '/Settings/DeleteTerms';
+            var serviceURL = '/Term/DeleteMany';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
@@ -946,7 +945,7 @@ var SettingsVM = (function () {
         this.getTermData = function (termId) {
             //console.log("getting term data");
             var self = _this;
-            var serviceURL = '/Settings/GetTerm';
+            var serviceURL = '/Term/Get';
             $.ajax({
                 type: "GET",
                 url: serviceURL + "?termId=" + termId,
@@ -968,7 +967,7 @@ var SettingsVM = (function () {
             $("#term_name").val("");
             //console.log(courseId);
             var self = _this;
-            var serviceURL = '/Settings/GetTermsByCourseId';
+            var serviceURL = '/Term/ByCourseId';
             $.ajax({
                 type: "GET",
                 url: serviceURL + "?courseId=" + courseId,
@@ -981,6 +980,7 @@ var SettingsVM = (function () {
                 //console.log(data);
                 self.Terms = data;
                 for (var i = 0; i < self.Terms.length; i++) {
+                    //console.log(self.Terms[i].TermDate);
                 }
                 self.populateSelectTerm();
             }
@@ -998,7 +998,7 @@ var SettingsVM = (function () {
             $("#term_name").val("");
             //console.log(courseId);
             var self = _this;
-            var serviceURL = '/Settings/GetTermsByGroupId';
+            var serviceURL = '/Term/ByGroupId';
             $.ajax({
                 type: "GET",
                 url: serviceURL + "?groupId=" + groupId,
@@ -1022,6 +1022,7 @@ var SettingsVM = (function () {
             var moreGroupsMode = false;
             if ($("#term_group_select").val() == "-1") {
                 moreGroupsMode = true;
+                //console.log("more groups mode!");
             }
             var output = [];
             var outputDates = [];
@@ -1058,6 +1059,8 @@ var SettingsVM = (function () {
                         output.push(outputMember);
                         outputDates.push(date);
                     }
+                    //console.log("option for term", this.Terms[i], "is:\n", outputMember);
+                    //console.log("Id", this.Terms[i].Id, "\nid", id);
                 }
             }
             //console.log(output);
@@ -1068,7 +1071,7 @@ var SettingsVM = (function () {
         this.updateTerm = function (t) {
             //console.log("updating term");
             var self = _this;
-            var serviceURL = '/Settings/UpdateTerm';
+            var serviceURL = '/Term/Update';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
@@ -1093,7 +1096,7 @@ var SettingsVM = (function () {
         this.updateTerms = function (t) {
             //console.log("updating terms");
             var self = _this;
-            var serviceURL = '/Settings/UpdateTerms';
+            var serviceURL = '/Term/UpdateMany';
             $.ajax({
                 type: "POST",
                 url: serviceURL,
@@ -1417,7 +1420,7 @@ var SettingsVM = (function () {
         var pu = new PasswordUpdaterM_S();
         pu.Password = oldPassword;
         pu.UserId = userId;
-        var serviceURL = '/Settings/CheckIfCorrectPassword';
+        var serviceURL = '/User/CheckCorrectPass';
         $.ajax({
             type: "POST",
             url: serviceURL,
