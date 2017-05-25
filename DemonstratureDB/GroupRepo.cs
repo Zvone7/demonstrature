@@ -71,7 +71,7 @@ namespace DemonstratureDB
         }
         public List<GroupT> GetGroupsByCourseId(int courseId)
         {
-            return dbase.GroupT.Where(g => g.CourseId == courseId).ToList();
+            return dbase.GroupT.Where(g => g.CourseId == courseId).OrderBy(g=>g.Name).ToList();
         }
     }
 }

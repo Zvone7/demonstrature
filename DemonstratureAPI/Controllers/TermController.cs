@@ -35,6 +35,16 @@ namespace DemonstratureAPI.Controllers
             //return null;
         }
 
+
+        [System.Web.Mvc.HttpGet]
+        public ActionResult ByCourseId2([FromUri]int courseId,int movedRight, int movedDown)
+        {
+            var instance = new TermLogic();
+            var result = instance.GetTerms(courseId, movedRight, movedDown);
+            return Json(result, JsonRequestBehavior.AllowGet);
+            //return null;
+        }
+
         [System.Web.Mvc.HttpGet]
         public ActionResult ByGroupId([FromUri]int groupId)
         {

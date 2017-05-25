@@ -4,9 +4,6 @@ $(document).ready(function () {
     tableVM.getAllCourses();
     ko.applyBindings(tableVM);
 });
-// stao na sortiranju i dohvaćanju podataka
-// razmišljaš o tome da ipak ide preko backenda
-// jer je dosta logike na frontu
 var TableVM = (function () {
     //------------------------------------FUNCTIONS------------------------------------//
     function TableVM() {
@@ -32,27 +29,26 @@ var TableVM = (function () {
         this.TermsSorted = ko.observableArray();
         this.TermsSortedByDate = ko.observableArray();
         this.YO = ko.observable();
+        this.ActiveCourse = ko.observable();
         this.CoursesAll = ko.observableArray([]);
         this.CoursesActive = ko.observableArray([]);
         this.Studies = ko.observableArray([]);
         this.Demonstrators = ko.observableArray([]);
-        this.disableLeft = ko.observable(false);
-        this.disableRight = ko.observable(true);
-        this.disableUp = ko.observable(false);
-        this.disableDown = ko.observable(true);
+        this.disableLeft = ko.observable(true);
+        this.disableRight = ko.observable(false);
+        this.disableUp = ko.observable(true);
+        this.disableDown = ko.observable(false);
         //--------------------------------------my types----------------------------------//
-        this.RawTermDataWithDate = new Array();
+        this.RawTermPackage = new TermPackage();
         this.RawTermData = new Array();
         this.RawGroupData = new Array();
         this.RawUserData = new Array();
         this.AllDates = new Array();
         //--------------------------------------primitive----------------------------------//
-        this.moveX = 0;
-        this.moveY = 0;
         this.posHor = 0;
         this.posVer = 0;
-        this.numberOfGroups = 10;
-        this.numberOfTerms = 7;
+        this.columnNum = 5;
+        this.rowNum = 4;
         this.bindingsApplied = false;
         this.link_main = "http://localhost:49977";
         this.link_settings = "/Settings/Settings";
@@ -214,58 +210,79 @@ var TableVM = (function () {
             }
             return -1;
         };
+        this.GetActiveCourse = function (name) {
+            var self = _this;
+            //console.log("Getting course Id from course name");
+            if (self.CoursesActive().length == 0) {
+                return null;
+            }
+            for (var i = 0; i < self.CoursesActive().length; i++) {
+                //console.log(self.CoursesActive()[i].Name());
+                if (self.CoursesActive()[i].Name == name) {
+                    return self.CoursesActive()[i];
+                }
+            }
+            return null;
+        };
         //-------------------------------NAVIGATION------------------------------------------------//
         this.leftClicked = function () {
-            _this.moveY++;
-            if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
-                && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
-                //this.updateTermArrays(this.moveX, this.moveY);
-                _this.disableRight(false);
+            var self = _this;
+            if (self.disableLeft()) {
+                self.handleWrongMove();
+            }
+            else if (self.posHor == 0) {
+                self.handleWrongMove();
+                self.disableLeft(true);
             }
             else {
-                _this.handleWrongMove();
-                _this.moveY--;
-                _this.disableLeft(true);
+                self.posHor--;
+                self.disableRight(false);
+                self.getTerms();
             }
-            console.log(_this.disableLeft());
         };
         this.rightClicked = function () {
-            _this.moveY--;
-            if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
-                && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
-                //this.updateTermArrays(this.moveX, this.moveY);
-                _this.disableLeft(false);
+            var self = _this;
+            if (self.disableRight()) {
+                self.handleWrongMove();
+            }
+            else if (self.posHor == self.columnNum) {
+                self.handleWrongMove();
+                self.disableRight(true);
             }
             else {
-                _this.handleWrongMove();
-                _this.moveY++;
-                _this.disableRight(true);
+                self.posHor++;
+                self.disableLeft(false);
+                self.getTerms();
             }
         };
         this.upClicked = function () {
-            _this.moveX++;
-            if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
-                && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
-                //this.updateTermArrays(this.moveX, this.moveY);
-                _this.disableDown(false);
+            var self = _this;
+            if (self.disableUp()) {
+                self.handleWrongMove();
+            }
+            else if (self.posHor == 0) {
+                self.handleWrongMove();
+                self.disableUp(true);
             }
             else {
-                _this.handleWrongMove();
-                _this.moveX--;
-                _this.disableUp(true);
+                self.posHor++;
+                self.disableDown(false);
+                self.getTerms();
             }
         };
         this.downClicked = function () {
-            _this.moveX--;
-            if (_this.moveX >= 0 && _this.moveX + 4 <= _this.numberOfTerms
-                && _this.moveY >= 0 && _this.moveY + 5 <= _this.numberOfGroups) {
-                //this.updateTermArrays(this.moveX, this.moveY);
-                _this.disableUp(false);
+            var self = _this;
+            if (self.disableDown()) {
+                self.handleWrongMove();
+            }
+            else if (self.posHor == self.rowNum) {
+                self.handleWrongMove();
+                self.disableDown(true);
             }
             else {
-                _this.handleWrongMove();
-                _this.moveX++;
-                _this.disableDown(true);
+                self.posHor++;
+                self.disableUp(false);
+                self.getTerms();
             }
         };
         this.handleWrongMove = function () {
@@ -281,149 +298,38 @@ var TableVM = (function () {
                 return;
             }
             //console.log(courseId);
-            self.getTermsByCourseId(courseId);
+            //self.getTermsByCourseId(courseId);
         };
         this.convertRawTermData = function () {
             var self = _this;
-            //console.log("Converting raw term data", self.RawTermDataWithDate);
-            if (self.RawTermDataWithDate.length == 0) {
-                console.log("Error with raw term data with dates. - no Terms");
-                return;
-            }
-            //convert raw term data with Date object to raw term data with string instead of date object
-            for (var i = 0; i < self.RawTermDataWithDate.length; i++) {
-                var t0 = new KoTerm();
-                t0.CourseId(self.RawTermDataWithDate[i].CourseId);
-                t0.GroupId(self.RawTermDataWithDate[i].GroupId);
-                t0.Id(self.RawTermDataWithDate[i].Id);
-                t0.UserId(self.RawTermDataWithDate[i].UserId);
-                //var dateString = self.RawTermDataWithDate[i].TermDate.toString();
-                //var date = dateString.split('.')[0];
-                //var month = dateString.split('.')[1];
-                //var fYear = dateString.split('.')[2];
-                //t0.TermDate(date + "." + month + "." + fYear + ".");
-                t0.TermDate(self.dateToString(self.RawTermDataWithDate[i].TermDate));
-                self.RawTermData.push(t0);
-            }
-            //console.log("RawTermData", self.RawTermData);
-            //create an observable array with all the complete data
-            if (self.RawTermData.length == 0) {
-                console.log("Error with raw term data. - no Terms");
-                return;
-            }
-            if (self.RawGroupData.length == 0) {
-                console.log("Error with raw group data. - no Groups");
-                return;
-            }
-            if (self.RawUserData.length == 0) {
-                console.log("Error with raw user data. - no Users");
-                return;
-            }
-            self.TermsUnsorted([]);
-            for (var j = 0; j < self.RawTermData.length; j++) {
-                var t1 = ko.observable(new KoTerm());
-                t1().CourseId = self.RawTermData[j].CourseId;
-                t1().TermDate = self.RawTermData[j].TermDate;
-                t1().GroupId = self.RawTermData[j].GroupId;
-                t1().Id = self.RawTermData[j].Id;
-                t1().UserId = self.RawTermData[j].UserId;
-                self.TermsUnsorted().push(t1());
-            }
-            if (self.TermsUnsorted().length == 0) {
-                console.log("Error after converting RawTermData to TermsUnsorted. - no Terms");
-            }
-            for (var i = 0; i < self.TermsUnsorted().length; i++) {
-                for (var j = 0; j < self.RawGroupData.length; j++) {
-                    if (self.TermsUnsorted()[i].GroupId == self.RawGroupData[j].Id) {
-                        var g = ko.observable(new KoGroup());
-                        g().CourseId = self.RawGroupData[j].CourseId;
-                        g().Id = self.RawGroupData[j].Id;
-                        g().Name = self.RawGroupData[j].Name;
-                        g().Owner = self.RawGroupData[j].Owner;
-                        g().OwnerId = self.RawGroupData[j].OwnerId;
-                        self.TermsUnsorted()[i].Group = g;
-                    }
-                }
-                for (var j = 0; j < self.RawUserData.length; j++) {
-                    if (self.TermsUnsorted()[i].UserId == self.RawUserData[j].Id) {
-                        var u = ko.observable(new KoUser());
-                        u().Id = self.RawUserData[j].Id;
-                        u().LastName = self.RawUserData[j].LastName;
-                        u().Username = self.RawUserData[j].Username;
-                        u().Name = self.RawUserData[j].Name;
-                        u().Role = self.RawUserData[j].Role;
-                        self.TermsUnsorted()[i].User = u;
-                    }
-                }
-            }
-            //console.log("TermsUnsorted:", self.TermsUnsorted());
-            self.sortTerms();
+            console.log("Converting raw term data", self.RawTermPackage);
+            self.Terms0(self.convertRowOfTerms(self.RawTermPackage.row0, self.Terms0(), 0));
+            //self.convertRowOfTerms(self.RawTermPackage.row1, self.Terms1(), 1);
+            //self.convertRowOfTerms(self.RawTermPackage.row2, self.Terms2(), 2);
+            //self.convertRowOfTerms(self.RawTermPackage.row3, self.Terms3(), 3);
         };
-        this.sortTerms = function () {
+        this.convertRowOfTerms = function (row, row2, order) {
             var self = _this;
-            //console.log("sorting terms");
-            var dates = [];
-            for (var i = 0; i < self.TermsUnsorted().length; i++) {
-                var d = self.TermsUnsorted()[i].TermDate();
-                if (dates.length == 0) {
-                    dates.push(d);
-                }
-                else {
-                    var alreadyExists = false;
-                    for (var j = 0; j < dates.length; j++) {
-                        if (dates[j] == d) {
-                            alreadyExists = true;
-                        }
-                    }
-                    if (!alreadyExists) {
-                        dates.push(d);
-                    }
-                }
+            console.log("Converting row of terms, ", order);
+            console.log(row2);
+            for (var i = 0; i < row.length; i++) {
+                var cell = new KoCell();
+                var term = ko.observable(new KoTerm());
+                term().CourseId = row[i].CourseId;
+                term().GroupId = row[i].GroupId;
+                term().Id = row[i].Id;
+                term().TermDate = row[i].TermDate;
+                term().UserId = row[i].UserId;
+                //TO DO - join groups and users
+                row2[i].Term(term());
+                row2[i].ButtonSkipState(false);
+                row2[i].ButtonTakeState(false);
+                row2[i].CellState(0);
+                row2[i].x(i);
+                row2[i].y(order);
             }
-            if (dates.length == 0) {
-                console.log("Error sorting terms - no dates");
-                return;
-            }
-            for (var i = 0; i < dates.length; i++) {
-                self.TermsSortedByDate()[i] = new Array();
-                self.TermsSorted()[i] = new Array();
-                for (var j = 0; j < self.TermsUnsorted().length; j++) {
-                    //console.log("dates ", dates[i], "\nTermsUnsorted ", self.TermsUnsorted()[j].TermDate());
-                    if (dates[i].trim() == self.TermsUnsorted()[j].TermDate().trim()) {
-                        //console.log("la");
-                        self.TermsSortedByDate()[i].push(self.TermsUnsorted()[j]);
-                    }
-                }
-            }
-            //console.log("Terms sorted by date:", self.TermsSortedByDate());
-            //sort sub-arrays by group name
-            function compare(a, b) {
-                if (a.Group().Name() < b.Group().Name())
-                    return -1;
-                if (a.Group().Name() > b.Group().Name())
-                    return 1;
-                return 0;
-            }
-            for (var i = 0; i < dates.length; i++) {
-                //self.TermsSortedByDate()[i].sort(compare);
-                self.TermsSorted()[i] = self.TermsSortedByDate()[i];
-            }
-            console.log("Terms sorted:", self.TermsSorted());
-            self.createDateArray(dates);
-        };
-        this.createDateArray = function (dates) {
-            var self = _this;
-            //console.log("creating date array");
-            if (dates.length == 0) {
-                console.log("Error creating a date array - no dates.");
-                return;
-            }
-            for (var i = 0; i < dates.length; i++) {
-                self.AllDates.push(self.stringToDate(dates[i]));
-                self.AllDates[i].setMilliseconds(0);
-            }
-            //console.log(self.AllDates);
-            self.updateTermArrays(0, 0);
+            console.log(row2);
+            return row2;
         };
         this.updateTermArrays = function (moveX, moveY) {
             var self = _this;
@@ -507,62 +413,10 @@ var TableVM = (function () {
                 alert('error');
             }
         };
-        this.getTermsByCourseId = function (courseId) {
-            //console.log("getting term per course id ", courseId);
-            //var courseId = $('#term_course_select').val();
-            //$("#term_name").val("");
-            //console.log(courseId);
-            var self = _this;
-            var serviceURL = '/Term/ByCourseId';
-            $.ajax({
-                type: "GET",
-                url: serviceURL + "?courseId=" + courseId,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: successFunc,
-                error: errorFunc
-            });
-            function successFunc(data, status) {
-                //console.log(data);
-                self.RawTermDataWithDate = new Array();
-                self.RawTermDataWithDate = data;
-                //console.log(self.RawTermDataWithDate);
-                self.getGroupsByCourseId(courseId);
-            }
-            function errorFunc(data) {
-                console.log('error getting data about all terms for course with id', courseId, "\nreason:\n", data);
-            }
-        };
-        this.getTermsByGroupId = function () {
-            //console.log("getting term per course data");
-            var groupId = $('#term_group_select').val();
-            if (groupId == "-1") {
-                //this.getTermsByCourseId();
-                return;
-            }
-            $("#term_name").val("");
-            //console.log(courseId);
-            var self = _this;
-            var serviceURL = '/Term/ByGroupId';
-            $.ajax({
-                type: "GET",
-                url: serviceURL + "?groupId=" + groupId,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: successFunc,
-                error: errorFunc
-            });
-            function successFunc(data, status) {
-                //self.Terms = data;
-                //self.populateSelectTerm();
-            }
-            function errorFunc(data) {
-                console.log('error getting data about all terms for course with id', groupId, "\nreason:\n", data);
-            }
-        };
-        this.getGroupsByCourseId = function (courseId) {
+        this.getGroupsByCourseId = function () {
             //console.log("getting groups for", courseId);
             var self = _this;
+            var courseId = self.ActiveCourse().Id;
             var serviceURL = '/Group/ByCourseId';
             $.ajax({
                 type: "GET",
@@ -575,15 +429,16 @@ var TableVM = (function () {
             function successFunc(data, status) {
                 self.RawGroupData = data;
                 //console.log("RawGroupData:", self.RawGroupData);
-                self.getUsersByCourseId(courseId);
+                self.getUsersByCourseId();
             }
             function errorFunc(data) {
                 console.log('error getting data about all groups for course with id', courseId, "\nreason:\n", data);
             }
         };
-        this.getUsersByCourseId = function (courseId) {
+        this.getUsersByCourseId = function () {
             //console.log("getting users by course Id");
             var self = _this;
+            var courseId = self.ActiveCourse().Id;
             var serviceURL = '/User/ByCourseId';
             $.ajax({
                 type: "GET",
@@ -600,6 +455,32 @@ var TableVM = (function () {
             }
             function errorFunc(data) {
                 console.log('error getting data about all groups for course with id', courseId, "\nreason:\n", data);
+            }
+        };
+        this.getTerms = function () {
+            var self = _this;
+            var courseId = self.ActiveCourse().Id;
+            var movedRight = self.posHor;
+            var movedDown = self.posVer;
+            console.log("getting terms by courseId ", courseId);
+            var self = _this;
+            var serviceURL = '/Term/ByCourseId2';
+            $.ajax({
+                type: "GET",
+                url: serviceURL + "?courseId=" + courseId + "&movedRight=" + movedRight + "&movedDown=" + movedDown,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: successFunc,
+                error: errorFunc
+            });
+            function successFunc(data, status) {
+                //console.log(data);
+                self.RawTermPackage = data;
+                console.log("RawTermDataWithDate ", self.RawTermPackage);
+                self.getGroupsByCourseId();
+            }
+            function errorFunc(status) {
+                console.log('error', status);
             }
         };
         this.LogOut = function () {
@@ -661,6 +542,26 @@ var TableVM = (function () {
         };
         this.test = function () {
             var self = _this;
+            var courseId = 2;
+            var movedRight = 0;
+            var movedDown = 0;
+            console.log("getting Courses by courseId ", courseId);
+            var self = _this;
+            var serviceURL = '/Term/ByCourseId2';
+            $.ajax({
+                type: "GET",
+                url: serviceURL + "?courseId=" + courseId + "&movedRight=" + movedRight + "&movedDown=" + movedDown,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: successFunc,
+                error: errorFunc
+            });
+            function successFunc(data, status) {
+                console.log(data);
+            }
+            function errorFunc() {
+                alert('error');
+            }
         };
         var self = this;
         $(document).ready(function () {
@@ -674,11 +575,14 @@ var TableVM = (function () {
                 }
                 else if (this.id == "selectCourse") {
                     var value = $("#selectCourse option:selected").text();
-                    //console.log("selectCourse changed, ", value);
+                    var courseId = self.GetCourseId(value);
+                    self.ActiveCourse(self.GetActiveCourse(value));
+                    console.log("selectCourse changed, ", self.ActiveCourse());
                     //self.allocateTermsArrays();
                     self.posHor = 0;
                     self.posVer = 0;
-                    self.getRawData(value);
+                    //self.getRawData(value);
+                    self.getTerms();
                 }
                 //else if (this.id.lastIndexOf("search") != '-1') {
                 //    var i = parseInt(this.id.substring(6, 7));
@@ -826,4 +730,16 @@ var KoDemonstrator = (function () {
     }
     return KoDemonstrator;
 }());
-//# sourceMappingURL=TableKO.js.map
+var TermPackage = (function () {
+    function TermPackage() {
+        this.row0 = Array();
+        this.row1 = Array();
+        this.row2 = Array();
+        this.row3 = Array();
+        this.row0 = [];
+        this.row1 = [];
+        this.row2 = [];
+        this.row3 = [];
+    }
+    return TermPackage;
+}());

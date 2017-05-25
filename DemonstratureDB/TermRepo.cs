@@ -75,6 +75,23 @@ namespace DemonstratureDB
                 return null;
             }
         }
+
+        public List<TermT> GetTerms(int courseId)
+        {
+            List<TermT> terms = new List<TermT>();
+            try
+            {
+                terms = dbase.TermT.Where(t => t.CourseId == courseId)
+                    .OrderBy(t=>t.TermDate)
+                    //.OrderBy(t=>t.GroupT.Name)
+                    .ToList();
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
+            return terms;
+        }
         public List<TermT> GetTerms(DateTime d, int courseId)
         {
             try

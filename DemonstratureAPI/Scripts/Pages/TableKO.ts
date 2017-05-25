@@ -5,9 +5,6 @@
     ko.applyBindings(tableVM);
 });
 
-// stao na sortiranju i dohvaćanju podataka
-// razmišljaš o tome da ipak ide preko backenda
-// jer je dosta logike na frontu
 
 class TableVM {
     //----------------------------------default values------------------------------//
@@ -31,28 +28,27 @@ class TableVM {
     public TermsSorted = ko.observableArray<KoTerm[]>();
     public TermsSortedByDate = ko.observableArray<KoTerm[]>();
     public YO = ko.observable<string>();
+    public ActiveCourse = ko.observable<KoCourse>();
     public CoursesAll = ko.observableArray<KoCourse>([]);
     public CoursesActive = ko.observableArray<KoCourse>([]);
     public Studies = ko.observableArray<KoStudy>([]);
     public Demonstrators = ko.observableArray<KoDemonstrator>([]);
-    public disableLeft = ko.observable<boolean>(false);
-    public disableRight = ko.observable<boolean>(true);
-    public disableUp = ko.observable<boolean>(false);
-    public disableDown = ko.observable<boolean>(true);
+    public disableLeft = ko.observable<boolean>(true);
+    public disableRight = ko.observable<boolean>(false);
+    public disableUp = ko.observable<boolean>(true);
+    public disableDown = ko.observable<boolean>(false);
 
     //--------------------------------------my types----------------------------------//
-    public RawTermDataWithDate = new Array<RawTerm>();
+    public RawTermPackage = new TermPackage();
     public RawTermData = new Array<KoTerm>();
     public RawGroupData = new Array<KoGroup>();
     public RawUserData = new Array<KoUser>();
     public AllDates = new Array<Date>();
     //--------------------------------------primitive----------------------------------//
-    public moveX: number = 0;
-    public moveY: number = 0;
     public posHor: number = 0;
     public posVer: number = 0;
-    public numberOfGroups: number = 10;
-    public numberOfTerms: number = 7;
+    public columnNum: number = 5;
+    public rowNum: number = 4;
     public bindingsApplied = false;
     public link_main = "http://localhost:49977";
     public link_settings = "/Settings/Settings";
@@ -75,11 +71,14 @@ class TableVM {
                 }
                 else if (this.id == "selectCourse") {
                     var value = $("#selectCourse option:selected").text();
-                    //console.log("selectCourse changed, ", value);
+                    var courseId = self.GetCourseId(value);
+                    self.ActiveCourse(self.GetActiveCourse(value));
+                    console.log("selectCourse changed, ", self.ActiveCourse());
                     //self.allocateTermsArrays();
                     self.posHor = 0;
                     self.posVer = 0;
-                    self.getRawData(value);
+                    //self.getRawData(value);
+                    self.getTerms();
                 }
                 //else if (this.id.lastIndexOf("search") != '-1') {
                 //    var i = parseInt(this.id.substring(6, 7));
@@ -283,66 +282,84 @@ class TableVM {
         return -1;
     }
 
+    public GetActiveCourse = (name) => {
+        var self = this;
+        //console.log("Getting course Id from course name");
+        if (self.CoursesActive().length == 0) {
+            return null;
+        }
+        for (var i = 0; i < self.CoursesActive().length; i++) {
+            //console.log(self.CoursesActive()[i].Name());
+            if (self.CoursesActive()[i].Name == name) {
+                return self.CoursesActive()[i];
+            }
+        }
+        return null;
+    }
+
 
     //-------------------------------NAVIGATION------------------------------------------------//
     public leftClicked = () => {
-        this.moveY++;
-        if (this.moveX >= 0 && this.moveX + 4 <= this.numberOfTerms
-            && this.moveY >= 0 && this.moveY + 5 <= this.numberOfGroups
-        ) {
-            //this.updateTermArrays(this.moveX, this.moveY);
-            this.disableRight(false);
+        var self = this;
+        if (self.disableLeft()) {
+            self.handleWrongMove();
+        }
+        else if (self.posHor == 0) {
+            self.handleWrongMove();
+            self.disableLeft(true);
         }
         else {
-            this.handleWrongMove();
-            this.moveY--;
-            this.disableLeft(true);
+            self.posHor--;
+            self.disableRight(false);
+            self.getTerms();
         }
-        console.log(this.disableLeft());
     }
 
     public rightClicked = () => {
-        this.moveY--;
-        if (this.moveX >= 0 && this.moveX + 4 <= this.numberOfTerms
-            && this.moveY >= 0 && this.moveY + 5 <= this.numberOfGroups
-        ) {
-            //this.updateTermArrays(this.moveX, this.moveY);
-            this.disableLeft(false);
+        var self = this;
+        if (self.disableRight()) {
+            self.handleWrongMove();
+        }
+        else if (self.posHor == self.columnNum) {
+            self.handleWrongMove();
+            self.disableRight(true);
         }
         else {
-            this.handleWrongMove();
-            this.moveY++;
-            this.disableRight(true);
+            self.posHor++;
+            self.disableLeft(false);
+            self.getTerms();
         }
     }
 
     public upClicked = () => {
-        this.moveX++;
-        if (this.moveX >= 0 && this.moveX + 4 <= this.numberOfTerms
-            && this.moveY >= 0 && this.moveY + 5 <= this.numberOfGroups
-        ) {
-            //this.updateTermArrays(this.moveX, this.moveY);
-            this.disableDown(false);
+        var self = this;
+        if (self.disableUp()) {
+            self.handleWrongMove();
+        }
+        else if (self.posHor == 0) {
+            self.handleWrongMove();
+            self.disableUp(true);
         }
         else {
-            this.handleWrongMove();
-            this.moveX--;
-            this.disableUp(true);
+            self.posHor++;
+            self.disableDown(false);
+            self.getTerms();
         }
     }
 
     public downClicked = () => {
-        this.moveX--;
-        if (this.moveX >= 0 && this.moveX + 4 <= this.numberOfTerms
-            && this.moveY >= 0 && this.moveY + 5 <= this.numberOfGroups
-        ) {
-            //this.updateTermArrays(this.moveX, this.moveY);
-            this.disableUp(false);
+        var self = this;
+        if (self.disableDown()) {
+            self.handleWrongMove();
+        }
+        else if (self.posHor == self.rowNum) {
+            self.handleWrongMove();
+            self.disableDown(true);
         }
         else {
-            this.handleWrongMove();
-            this.moveX++;
-            this.disableDown(true);
+            self.posHor++;
+            self.disableUp(false);
+            self.getTerms();
         }
     }
 
@@ -360,159 +377,45 @@ class TableVM {
             return;
         }
         //console.log(courseId);
-        self.getTermsByCourseId(courseId);
+        //self.getTermsByCourseId(courseId);
     }
 
     public convertRawTermData = () => {
         var self = this;
-        //console.log("Converting raw term data", self.RawTermDataWithDate);
-        if (self.RawTermDataWithDate.length == 0) {
-            console.log("Error with raw term data with dates. - no Terms");
-            return;
-        }
-        //convert raw term data with Date object to raw term data with string instead of date object
-        for (var i = 0; i < self.RawTermDataWithDate.length; i++) {
-            var t0 = new KoTerm();
-            t0.CourseId(self.RawTermDataWithDate[i].CourseId);
-            t0.GroupId(self.RawTermDataWithDate[i].GroupId);
-            t0.Id(self.RawTermDataWithDate[i].Id);
-            t0.UserId(self.RawTermDataWithDate[i].UserId);
-            //var dateString = self.RawTermDataWithDate[i].TermDate.toString();
-            //var date = dateString.split('.')[0];
-            //var month = dateString.split('.')[1];
-            //var fYear = dateString.split('.')[2];
-            //t0.TermDate(date + "." + month + "." + fYear + ".");
-            t0.TermDate(self.dateToString(self.RawTermDataWithDate[i].TermDate));
-            self.RawTermData.push(t0);
-        }
-        //console.log("RawTermData", self.RawTermData);
+        console.log("Converting raw term data", self.RawTermPackage);
+
+        self.Terms0(self.convertRowOfTerms(self.RawTermPackage.row0, self.Terms0(), 0));
+        //self.convertRowOfTerms(self.RawTermPackage.row1, self.Terms1(), 1);
+        //self.convertRowOfTerms(self.RawTermPackage.row2, self.Terms2(), 2);
+        //self.convertRowOfTerms(self.RawTermPackage.row3, self.Terms3(), 3);
 
 
-        //create an observable array with all the complete data
-        if (self.RawTermData.length == 0) {
-            console.log("Error with raw term data. - no Terms");
-            return;
-        }
-        if (self.RawGroupData.length == 0) {
-            console.log("Error with raw group data. - no Groups");
-            return;
-        }
-        if (self.RawUserData.length == 0) {
-            console.log("Error with raw user data. - no Users");
-            return;
-        }
-        self.TermsUnsorted([]);
-        for (var j = 0; j < self.RawTermData.length; j++) {
-            var t1 = ko.observable<KoTerm>(new KoTerm());
-            t1().CourseId = self.RawTermData[j].CourseId;
-            t1().TermDate = self.RawTermData[j].TermDate;
-            t1().GroupId = self.RawTermData[j].GroupId;
-            t1().Id = self.RawTermData[j].Id;
-            t1().UserId = self.RawTermData[j].UserId;
-            self.TermsUnsorted().push(t1());
-        }
-        if (self.TermsUnsorted().length == 0) {
-            console.log("Error after converting RawTermData to TermsUnsorted. - no Terms");
-        }
-        for (var i = 0; i < self.TermsUnsorted().length; i++) {
-            for (var j = 0; j < self.RawGroupData.length; j++) {
-                if (self.TermsUnsorted()[i].GroupId == self.RawGroupData[j].Id) {
-                    var g = ko.observable<KoGroup>(new KoGroup());
-                    g().CourseId = self.RawGroupData[j].CourseId;
-                    g().Id = self.RawGroupData[j].Id;
-                    g().Name = self.RawGroupData[j].Name;
-                    g().Owner = self.RawGroupData[j].Owner;
-                    g().OwnerId = self.RawGroupData[j].OwnerId;
-                    self.TermsUnsorted()[i].Group = g;
-                }
-            }
-            for (var j = 0; j < self.RawUserData.length; j++) {
-                if (self.TermsUnsorted()[i].UserId == self.RawUserData[j].Id) {
-                    var u = ko.observable<KoUser>(new KoUser());
-                    u().Id = self.RawUserData[j].Id;
-                    u().LastName = self.RawUserData[j].LastName;
-                    u().Username = self.RawUserData[j].Username;
-                    u().Name = self.RawUserData[j].Name;
-                    u().Role = self.RawUserData[j].Role;
-                    self.TermsUnsorted()[i].User = u;
-                }
-            }
-        }
-        //console.log("TermsUnsorted:", self.TermsUnsorted());
-        self.sortTerms();
     }
 
-    public sortTerms = () => {
+    public convertRowOfTerms = (row: Array<KoTerm>, row2: any, order: number) => {
         var self = this;
-        //console.log("sorting terms");
-        var dates = [];
-        for (var i = 0; i < self.TermsUnsorted().length; i++) {
-            var d = self.TermsUnsorted()[i].TermDate();
-            if (dates.length == 0) {
-                dates.push(d);
-            }
-            else {
-                var alreadyExists = false;
-                for (var j = 0; j < dates.length; j++) {
-                    if (dates[j] == d) {
-                        alreadyExists = true;
-                    }
-                }
-                if (!alreadyExists) {
-                    dates.push(d);
-                }
-            }
-        }
-        if (dates.length == 0) {
-            console.log("Error sorting terms - no dates");
-            return;
-        }
-        for (var i = 0; i < dates.length; i++) {
-            self.TermsSortedByDate()[i] = new Array<KoTerm>();
-            self.TermsSorted()[i] = new Array<KoTerm>();
-            for (var j = 0; j < self.TermsUnsorted().length; j++) {
-                //console.log("dates ", dates[i], "\nTermsUnsorted ", self.TermsUnsorted()[j].TermDate());
-                if (dates[i].trim() == self.TermsUnsorted()[j].TermDate().trim()) {
-                    //console.log("la");
-                    self.TermsSortedByDate()[i].push(self.TermsUnsorted()[j]);
-                }
-            }
-        }
-        //console.log("Terms sorted by date:", self.TermsSortedByDate());
+        console.log("Converting row of terms, ", order);
+        console.log(row2);
 
-        //sort sub-arrays by group name
-        function compare(a: KoTerm, b: KoTerm) {
-            if (a.Group().Name() < b.Group().Name())
-                return -1;
-            if (a.Group().Name() > b.Group().Name())
-                return 1;
-            return 0;
+        for (var i = 0; i < row.length; i++) {
+            var cell = new KoCell();
+            var term = ko.observable<KoTerm>(new KoTerm());
+            term().CourseId = row[i].CourseId;
+            term().GroupId = row[i].GroupId;
+            term().Id = row[i].Id;
+            term().TermDate = row[i].TermDate;
+            term().UserId = row[i].UserId;
+
+            //TO DO - join groups and users
+            row2[i].Term(term());
+            row2[i].ButtonSkipState(false);
+            row2[i].ButtonTakeState(false);
+            row2[i].CellState(0);
+            row2[i].x(i);
+            row2[i].y(order);
         }
-
-        for (var i = 0; i < dates.length; i++) {
-            //self.TermsSortedByDate()[i].sort(compare);
-            self.TermsSorted()[i] = self.TermsSortedByDate()[i];
-        }
-
-        console.log("Terms sorted:", self.TermsSorted());
-
-
-        self.createDateArray(dates);
-    }
-
-    public createDateArray = (dates: Array<string>) => {
-        var self = this;
-        //console.log("creating date array");
-        if (dates.length == 0) {
-            console.log("Error creating a date array - no dates.");
-            return;
-        }
-        for (var i = 0; i < dates.length; i++) {
-            self.AllDates.push(self.stringToDate(dates[i]));
-            self.AllDates[i].setMilliseconds(0);
-        }
-        //console.log(self.AllDates);
-        self.updateTermArrays(0, 0);
+        console.log(row2);
+        return row2;
     }
 
     public updateTermArrays = (moveX: number, moveY: number) => {
@@ -522,7 +425,7 @@ class TableVM {
             console.log("Error updating term arrays - no dates");
             return;
         }
-        if (moveY == 0 && moveX==0) {
+        if (moveY == 0 && moveX == 0) {
             self.posHor = 0;
             var beginDate = "";
             var today = new Date();
@@ -601,66 +504,10 @@ class TableVM {
         }
     }
 
-    public getTermsByCourseId = (courseId) => {
-        //console.log("getting term per course id ", courseId);
-        //var courseId = $('#term_course_select').val();
-        //$("#term_name").val("");
-        //console.log(courseId);
-        var self = this;
-        var serviceURL = '/Term/ByCourseId';
-        $.ajax({
-            type: "GET",
-            url: serviceURL + "?courseId=" + courseId,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: successFunc,
-            error: errorFunc
-        });
-        function successFunc(data: Array<RawTerm>, status) {
-            //console.log(data);
-            self.RawTermDataWithDate = new Array<RawTerm>();
-            self.RawTermDataWithDate = data;
-            //console.log(self.RawTermDataWithDate);
-            self.getGroupsByCourseId(courseId);
-        }
-        function errorFunc(data) {
-            console.log('error getting data about all terms for course with id', courseId, "\nreason:\n", data);
-        }
-
-    }
-
-    public getTermsByGroupId = () => {
-        //console.log("getting term per course data");
-        var groupId = $('#term_group_select').val();
-        if (groupId == "-1") {
-            //this.getTermsByCourseId();
-            return;
-        }
-        $("#term_name").val("");
-        //console.log(courseId);
-        var self = this;
-        var serviceURL = '/Term/ByGroupId';
-        $.ajax({
-            type: "GET",
-            url: serviceURL + "?groupId=" + groupId,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: successFunc,
-            error: errorFunc
-        });
-        function successFunc(data: TermDTO_S[], status) {
-            //self.Terms = data;
-            //self.populateSelectTerm();
-        }
-        function errorFunc(data) {
-            console.log('error getting data about all terms for course with id', groupId, "\nreason:\n", data);
-        }
-
-    }
-
-    public getGroupsByCourseId = (courseId: number) => {
+    public getGroupsByCourseId = () => {
         //console.log("getting groups for", courseId);
         var self = this;
+        var courseId = self.ActiveCourse().Id;
         var serviceURL = '/Group/ByCourseId';
         $.ajax({
             type: "GET",
@@ -673,7 +520,7 @@ class TableVM {
         function successFunc(data: KoGroup[], status) {
             self.RawGroupData = data;
             //console.log("RawGroupData:", self.RawGroupData);
-            self.getUsersByCourseId(courseId);
+            self.getUsersByCourseId();
         }
         function errorFunc(data) {
             console.log('error getting data about all groups for course with id', courseId, "\nreason:\n", data);
@@ -681,9 +528,10 @@ class TableVM {
 
     }
 
-    public getUsersByCourseId = (courseId: number) => {
+    public getUsersByCourseId = () => {
         //console.log("getting users by course Id");
         var self = this;
+        var courseId = self.ActiveCourse().Id;
         var serviceURL = '/User/ByCourseId';
         $.ajax({
             type: "GET",
@@ -700,6 +548,33 @@ class TableVM {
         }
         function errorFunc(data) {
             console.log('error getting data about all groups for course with id', courseId, "\nreason:\n", data);
+        }
+    }
+
+    public getTerms = () => {
+        var self = this;
+        var courseId = self.ActiveCourse().Id;
+        var movedRight = self.posHor;
+        var movedDown = self.posVer;
+        console.log("getting terms by courseId ", courseId);
+        var self = this;
+        var serviceURL = '/Term/ByCourseId2';
+        $.ajax({
+            type: "GET",
+            url: serviceURL + "?courseId=" + courseId + "&movedRight=" + movedRight + "&movedDown=" + movedDown,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc,
+            error: errorFunc
+        });
+        function successFunc(data: TermPackage, status) {
+            //console.log(data);
+            self.RawTermPackage = data;
+            console.log("RawTermDataWithDate ", self.RawTermPackage);
+            self.getGroupsByCourseId();
+        }
+        function errorFunc(status) {
+            console.log('error', status);
         }
     }
 
@@ -776,6 +651,27 @@ class TableVM {
 
     public test = () => {
         var self = this;
+        var courseId = 2;
+        var movedRight = 0;
+        var movedDown = 0;
+        console.log("getting Courses by courseId ", courseId);
+        var self = this;
+        var serviceURL = '/Term/ByCourseId2';
+        $.ajax({
+            type: "GET",
+            url: serviceURL + "?courseId=" + courseId + "&movedRight=" + movedRight + "&movedDown=" + movedDown,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc,
+            error: errorFunc
+        });
+        function successFunc(data, status) {
+            console.log(data);
+
+        }
+        function errorFunc() {
+            alert('error');
+        }
     }
 }
 
@@ -881,5 +777,17 @@ class KoDemonstrator {
             this.Id(id);
             this.Name(name);
         }
+    }
+}
+class TermPackage {
+    public row0 = Array<KoTerm>();
+    public row1 = Array<KoTerm>();
+    public row2 = Array<KoTerm>();
+    public row3 = Array<KoTerm>();
+    constructor() {
+        this.row0 = [];
+        this.row1 = [];
+        this.row2 = [];
+        this.row3 = [];
     }
 }

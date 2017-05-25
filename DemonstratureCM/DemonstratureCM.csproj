@@ -59,6 +59,7 @@
     <Compile Include="DTO\MyUserDTO.cs" />
     <Compile Include="DTO\TermDTO.cs" />
     <Compile Include="DTO\CourseUserDTO.cs" />
+    <Compile Include="DTO\TermPackageDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
