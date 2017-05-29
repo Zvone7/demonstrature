@@ -132,7 +132,7 @@ namespace DemonstratureDB
                     return null; 
                 }
             }
-            catch
+            catch(Exception e)
             {
                 return null;
             }

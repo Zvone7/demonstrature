@@ -37,6 +37,7 @@ class TableVM {
     public disableRight = ko.observable<boolean>(false);
     public disableUp = ko.observable<boolean>(true);
     public disableDown = ko.observable<boolean>(false);
+    public zeroValue = ko.observable<number>(0);
 
     //--------------------------------------my types----------------------------------//
     public RawTermPackage = new TermPackage();
@@ -73,7 +74,7 @@ class TableVM {
                     var value = $("#selectCourse option:selected").text();
                     var courseId = self.GetCourseId(value);
                     self.ActiveCourse(self.GetActiveCourse(value));
-                    console.log("selectCourse changed, ", self.ActiveCourse());
+                    //console.log("selectCourse changed, ", self.ActiveCourse());
                     //self.allocateTermsArrays();
                     self.posHor = 0;
                     self.posVer = 0;
@@ -297,7 +298,6 @@ class TableVM {
         return null;
     }
 
-
     //-------------------------------NAVIGATION------------------------------------------------//
     public leftClicked = () => {
         var self = this;
@@ -385,36 +385,115 @@ class TableVM {
         console.log("Converting raw term data", self.RawTermPackage);
 
         self.Terms0(self.convertRowOfTerms(self.RawTermPackage.row0, self.Terms0(), 0));
-        //self.convertRowOfTerms(self.RawTermPackage.row1, self.Terms1(), 1);
-        //self.convertRowOfTerms(self.RawTermPackage.row2, self.Terms2(), 2);
-        //self.convertRowOfTerms(self.RawTermPackage.row3, self.Terms3(), 3);
+        self.Terms1(self.convertRowOfTerms(self.RawTermPackage.row1, self.Terms1(), 1));
+        self.Terms2(self.convertRowOfTerms(self.RawTermPackage.row2, self.Terms2(), 2));
+        self.Terms3(self.convertRowOfTerms(self.RawTermPackage.row3, self.Terms3(), 3));
 
 
     }
 
-    public convertRowOfTerms = (row: Array<KoTerm>, row2: any, order: number) => {
+    public convertRowOfTerms = (row: any, row2: any, order: number) => {
         var self = this;
-        console.log("Converting row of terms, ", order);
-        console.log(row2);
+        console.log("Converting row of terms, ", order, row2);
 
         for (var i = 0; i < row.length; i++) {
             var cell = new KoCell();
             var term = ko.observable<KoTerm>(new KoTerm());
-            term().CourseId = row[i].CourseId;
-            term().GroupId = row[i].GroupId;
-            term().Id = row[i].Id;
-            term().TermDate = row[i].TermDate;
-            term().UserId = row[i].UserId;
 
-            //TO DO - join groups and users
-            row2[i].Term(term());
+            //console.log("[", i, "]", row[i]);
+            //console.log("[", i, "] Id", row[i].Id);
+            term().Id = row[i].Id;
+            //console.log("[", i, "] TermDate", row[i].TermDate);
+            term().TermDate = row[i].TermDate;
+
+
+            //find course
+            //console.log("[", i, "] CourseId", row[i].CourseId);
+            term().CourseId = row[i].CourseId;
+            term().Course = self.ActiveCourse;
+
+            //find group
+            //console.log("[", i, "] GroupId", row[i].GroupId);
+            term().GroupId = row[i].GroupId;
+            for (var j = 0; j < self.RawGroupData.length; j++) {
+                if (self.RawGroupData[i].Id == term().GroupId) {
+                    term().Group(new KoGroup());
+                    term().Group().CourseId = self.RawGroupData[i].CourseId;
+                    term().Group().Name = self.RawGroupData[i].Name;
+                    term().Group().OwnerId == self.RawGroupData[i].OwnerId;
+                    if (term().Group().OwnerId() == undefined) {
+                        term().Group().OwnerId(0);
+                    }
+                    term().Group().Owner(new KoUser());
+                    if (term().Group().OwnerId() == 0) {
+                        //console.log("option one");
+                        term().Group().Owner().Id(0);
+                        term().Group().Owner().Name(self.defaultUserName);
+                        term().Group().Owner().LastName(self.defaultUserLastName);
+                        term().Group().Owner().Username(self.defaultUserUsername);
+                        term().Group().Owner().Role(self.defaultUserRole);
+                        continue;
+                    }
+                    else {
+                        //console.log("option two");
+                        for (var k = 0; k < self.RawUserData.length; k++) {
+                            if (term().Group().OwnerId() == k) {
+                                term().Group().Owner().Id = self.RawUserData[k].Id;
+                                term().Group().Owner().Name = self.RawUserData[k].Name;
+                                term().Group().Owner().LastName = self.RawUserData[k].LastName;
+                                term().Group().Owner().Username = self.RawUserData[k].Username;
+                                term().Group().Owner().Role = self.RawUserData[k].Role;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            //find user
+            //console.log("[", i, "] UserId", row[i].UserId);
+            term().UserId = row[i].UserId;
+            if (row[i].UserId == 0) {
+                //console.log("It's a blank, cowboy!");
+                term().User(new KoUser());
+                if (term().User().Id() == 0) {
+                    term().User().Id(0);
+                    term().User().Name(self.defaultUserName);
+                    term().User().LastName(self.defaultUserLastName);
+                    term().User().Username(self.defaultUserUsername);
+                    term().User().Role(self.defaultUserRole);
+                    continue;
+                }
+            }
+            else {
+                //console.log("It's not-a-blank, cowboy!");
+                for (var j = 0; j < self.RawUserData.length; j++) {
+                    //if (self.RawUserData[i] == null) {
+                    //    console.log("this be null");
+                    //}
+                    //else if (term() == null) {
+                    //    console.log("that be null");
+                    //}
+                    if (self.RawUserData[j].Id == term().UserId) {
+                        term().User(new KoUser());
+                        term().User().Username == self.RawUserData[j].Username;
+                        term().User().Name = self.RawUserData[j].Name;
+                        term().User().LastName = self.RawUserData[j].LastName;
+                        term().User().Role = self.RawUserData[j].Role;
+                    }
+                }
+            }
+
+            //console.log("[", i, "] ", row2[i]);
+
+            row2[i].Term = term;
             row2[i].ButtonSkipState(false);
             row2[i].ButtonTakeState(false);
             row2[i].CellState(0);
             row2[i].x(i);
             row2[i].y(order);
         }
-        console.log(row2);
+        //console.log("converted:", row2);
         return row2;
     }
 
@@ -543,7 +622,7 @@ class TableVM {
         });
         function successFunc(data: KoUser[], status) {
             self.RawUserData = data;
-            //console.log("Raw User Data", self.RawUserData);
+            console.log("Raw User Data", self.RawUserData);
             self.convertRawTermData();
         }
         function errorFunc(data) {
@@ -556,7 +635,7 @@ class TableVM {
         var courseId = self.ActiveCourse().Id;
         var movedRight = self.posHor;
         var movedDown = self.posVer;
-        console.log("getting terms by courseId ", courseId);
+        //console.log("getting terms by courseId ", courseId);
         var self = this;
         var serviceURL = '/Term/ByCourseId2';
         $.ajax({
@@ -570,7 +649,7 @@ class TableVM {
         function successFunc(data: TermPackage, status) {
             //console.log(data);
             self.RawTermPackage = data;
-            console.log("RawTermDataWithDate ", self.RawTermPackage);
+            //console.log("RawTermDataWithDate ", self.RawTermPackage);
             self.getGroupsByCourseId();
         }
         function errorFunc(status) {

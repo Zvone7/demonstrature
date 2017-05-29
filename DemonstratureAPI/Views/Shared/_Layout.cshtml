@@ -23,37 +23,47 @@
 </head>
 <body>
     @{
-        if (Model.Id != -1)
+        if (Model != null)
         {
-            <div class="myNavbar">
-                <ul id="myUl" class="myUl">
-                    <li class="myLi tableLi">
-                        <div class="">
-                            <a href="@Url.Action("Table", "Table")">
-                                <div class="tableDiv">
-                                    <i class="fa fa-table" aria-hidden="true"></i> Tablica
-                                </div>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="myLi settingLi">
-                        <div class="">
-                            <div class="userNameDiv">@Model.Name</div>
-                            <div class="userControlsDiv">
-                                <a href="@Url.Action("Settings", "Settings")">
-                                    <i class="fa fa-cog cogButton" aria-hidden="true"></i>
-                                    @*Postavke*@
+            if (Model.Id != -1)
+            {
+                <div class="myNavbar">
+                    <ul id="myUl" class="myUl">
+                        <li class="myLi tableLi">
+                            <div class="">
+                                <a href="@Url.Action("Table", "Table")">
+                                    <div class="tableDiv">
+                                        <i class="fa fa-table" aria-hidden="true"></i> Tablica
+                                    </div>
                                 </a>
-                                <button id="logout" class="logOutButton">
-                                    @*Odjava*@
-                                    <i class="fa fa-sign-out" aria-hidden="true"></i>
-                                </button>
                             </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+                        </li>
+                        <li class="myLi settingLi">
+                            <div class="">
+                                <div class="userNameDiv">@Model.Name</div>
+                                <div class="userControlsDiv">
+                                    <a href="@Url.Action("Settings", "Settings")">
+                                        <i class="fa fa-cog cogButton" aria-hidden="true"></i>
+                                        @*Postavke*@
+                                    </a>
+                                    <button id="logout" class="logOutButton">
+                                        @*Odjava*@
+                                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
+            }
+            else
+            {
+            }
+        }
+        else
+        {
+            <span>No model found.</span>
         }
     }
     <div class="container body-content">

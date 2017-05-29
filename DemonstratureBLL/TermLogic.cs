@@ -286,7 +286,7 @@ namespace DemonstratureBLL
                     x++;
                     continue;
                 }
-                if (newTerms.Count() > 5)
+                if (newTerms.Count() >= 5)
                 {
                     break;
                 }
