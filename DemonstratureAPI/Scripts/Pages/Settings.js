@@ -3,6 +3,8 @@ $(document).ready(function () {
     //s.LoginCheck();
     //s.populateSelectStudy();
 });
+//possible bugs:
+// adding term to already same date
 var SettingsVM = (function () {
     function SettingsVM() {
         var _this = this;
@@ -1493,3 +1495,4 @@ var PasswordUpdaterM_S = (function () {
     }
     return PasswordUpdaterM_S;
 }());
+//# sourceMappingURL=Settings.js.map

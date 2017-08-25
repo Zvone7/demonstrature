@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DemonstratureBLL.Mappings;
 using DemonstratureCM.DTO;
+using DemonstratureCM.Settings;
 using DemonstratureDB;
 using DemonstratureDB.Data;
 using System;
@@ -14,6 +15,7 @@ namespace DemonstratureBLL
         private IMapper _mapper;
         private TermRepo _termRepo = new TermRepo();
         private GroupRepo _groupRepo = new GroupRepo();
+
         public TermLogic()
         {
             AutoMapperConfiguration.RegisterMappings();
@@ -154,16 +156,28 @@ namespace DemonstratureBLL
             }
         }
 
-        public TermPackageDTO GetTerms(int courseId, int movedRight, int movedDown)
+        public int GetNumberOfTermDates(int courseId)
+        {
+            return GetTermsByCourseId(courseId)
+                .GroupBy(t => t.TermDate)
+                .Select(t => t.FirstOrDefault())
+                .Select(t => t.TermDate)
+                .Count();
+        }
+
+        public TermPackageDTO GetTerms(int courseId, int moveOnX, int moveOnY)
         {
             List<TermDTO> terms = new List<TermDTO>();
             TermPackageDTO termPackage = new TermPackageDTO();
             List<GroupDTO> groups = new List<GroupDTO>();
+            int numGroup = 0;
+            int numDate = 0;
 
             //get all the groups
             try
             {
                 groups = _mapper.Map<List<GroupDTO>>(_groupRepo.GetGroupsByCourseId(courseId));
+                numGroup = groups.Count();
             }
             catch (Exception e)
             {
@@ -182,32 +196,129 @@ namespace DemonstratureBLL
                 {
                     term.Group = groups.Where(g => g.Id == term.GroupId).FirstOrDefault();
                 }
-                
-                //get how many dates are there
-                var dates = terms.GroupBy(t => t.TermDate).Select(t => t.FirstOrDefault()).Select(t => t.TermDate).ToList();
 
-                int x = 0;
+                var dates = terms.GroupBy(t => t.TermDate).Select(t => t.FirstOrDefault()).Select(t => t.TermDate).ToList();
+                //get how many dates are there
                 //get them in a special object with 4 arrays
+                numDate = dates.Count();
+                int x = 0;
                 int y = 0;
+                // movement check
+                // check if there is enough groups for table
+                if (numGroup <= Gas.numCol)
+                {
+                    termPackage.disableLeft = true;
+                    termPackage.disableRight = true;
+                }
+                //if there is, check 'where' the user is on X coordinate
+                else
+                {
+                    // user SHOULDN'T be here
+                    // user is TOO MUCH right
+                    // exit immediately - out of table borders
+                    if (moveOnX > (numGroup - Gas.numCol))
+                    {
+                        termPackage.disableRight = true;
+                        termPackage.disableLeft = false;
+                        return null;
+                    }
+                    // user SHOULDN'T be here
+                    // user is TOO MUCH left
+                    // exit immediately - out of table borders
+                    else if (moveOnX < 0)
+                    {
+                        termPackage.disableLeft = true;
+                        termPackage.disableRight = false;
+                        return null;
+                    }
+                    // user COULD be here
+                    // user is on right edge
+                    else if (moveOnX == (numGroup - Gas.numCol))
+                    {
+                        termPackage.disableRight = true;
+                        termPackage.disableLeft = false;
+                    }
+                    // user COULD be here
+                    // user is on left edge
+                    else if (moveOnX == 0)
+                    {
+                        termPackage.disableRight = false;
+                        termPackage.disableLeft = true;
+
+                    }
+                    // user COULD be here
+                    // user is between edges
+                    else
+                    {
+                        termPackage.disableLeft = false;
+                        termPackage.disableRight = false;
+
+                    }                        
+
+                }
+
+                // movement check
+                // check if there is enough dates for table
+                if (numDate <= Gas.numRow)
+                {
+                    termPackage.disableUp = true;
+                    termPackage.disableDown = true;
+                }
+                //if there is, check 'where' the user is on Y coordinate
+                else
+                {
+                    // user SHOULDN'T be here
+                    // user is TOO MUCH down
+                    // exit immediately - out of table borders
+                    if (moveOnY > (numDate - Gas.numRow))
+                    {
+                        termPackage.disableDown = true;
+                        termPackage.disableUp = false;
+                        return null;
+                    }
+                    // user SHOULDN'T be here
+                    // user is TOO MUCH up
+                    // exit immediately - out of table borders
+                    else if (moveOnY < 0)
+                    {
+                        termPackage.disableUp = true;
+                        termPackage.disableDown = false;
+                        return null;
+                    }
+                    // user COULD be here
+                    // user is on down edge
+                    else if (moveOnY == (numDate - Gas.numRow))
+                    {
+                        termPackage.disableDown = true;
+                        termPackage.disableUp = false;
+                    }
+                    // user COULD be here
+                    // user is on up edge
+                    else if (moveOnY == 0)
+                    {
+                        termPackage.disableDown = false;
+                        termPackage.disableUp = true;
+
+                    }
+                    // user COULD be here
+                    // user is between edges
+                    else
+                    {
+                        termPackage.disableUp = false;
+                        termPackage.disableDown = false;
+
+                    }
+
+                }
                 foreach (var date in dates)
                 {
-                    //check if it's illegal move down
-                    if (movedDown == dates.Count() - 4)
-                    {
-                        // TODO return somthing else to know to gray the arrow
-                        return null;
-                    }
-                    if (movedRight == groups.Count() - 5)
-                    {
-                        // TODO return somthing else to know to gray the arrow
-                        return null;
-                    }
-                    //move down to wanted date
-                    if (movedDown != y)
+                    //move down!
+                    if (y != moveOnY)
                     {
                         y++;
                         continue;
                     }
+                    
                     if (termPackage.row0.Count == 0)
                     {
                         termPackage.row0 = terms.Where(t => t.TermDate == date)
@@ -245,10 +356,10 @@ namespace DemonstratureBLL
 
                 // TODO - fixed ?
                 //fix term package rows so that it shows only 5 groups
-                termPackage.row0 = CropTermRow(termPackage.row0, groups.Count(), movedRight);
-                termPackage.row1 = CropTermRow(termPackage.row1, groups.Count(), movedRight);
-                termPackage.row2 = CropTermRow(termPackage.row2, groups.Count(), movedRight);
-                termPackage.row3 = CropTermRow(termPackage.row3, groups.Count(), movedRight);
+                termPackage.row0 = CropTermRow(termPackage.row0, groups.Count(), moveOnX);
+                termPackage.row1 = CropTermRow(termPackage.row1, groups.Count(), moveOnX);
+                termPackage.row2 = CropTermRow(termPackage.row2, groups.Count(), moveOnX);
+                termPackage.row3 = CropTermRow(termPackage.row3, groups.Count(), moveOnX);
             }
             catch (Exception e)
             {
@@ -279,14 +390,14 @@ namespace DemonstratureBLL
         {
             List<TermDTO> newTerms = new List<TermDTO>();
             int x = 0;
-            foreach(var term in terms)
+            foreach (var term in terms)
             {
                 if (moveX != x)
                 {
                     x++;
                     continue;
                 }
-                if (newTerms.Count() >= 5)
+                if (newTerms.Count() >= Gas.numCol)
                 {
                     break;
                 }

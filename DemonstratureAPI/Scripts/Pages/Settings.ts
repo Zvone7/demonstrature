@@ -5,6 +5,9 @@
 
 });
 
+//possible bugs:
+// adding term to already same date
+
 class SettingsVM {
     //-------------------------------------primitive-----------------------------------//
     public Courses: CourseDTO_S[];

@@ -37,6 +37,15 @@ namespace DemonstratureAPI.Controllers
 
 
         [System.Web.Mvc.HttpGet]
+        public ActionResult NumberOfTermDates([FromUri]int courseId)
+        {
+            var instance = new TermLogic();
+            var result = instance.GetNumberOfTermDates(courseId);
+            return Json(result, JsonRequestBehavior.AllowGet);
+            //return null;
+        }
+
+        [System.Web.Mvc.HttpGet]
         public ActionResult ByCourseId2([FromUri]int courseId,int movedRight, int movedDown)
         {
             var instance = new TermLogic();

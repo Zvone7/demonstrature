@@ -5,7 +5,6 @@
     ko.applyBindings(tableVM);
 });
 
-
 class TableVM {
     //----------------------------------default values------------------------------//
     public defaultTextButtonSkip = "Preskoči termin";
@@ -46,10 +45,10 @@ class TableVM {
     public RawUserData = new Array<KoUser>();
     public AllDates = new Array<Date>();
     //--------------------------------------primitive----------------------------------//
-    public posHor: number = 0;
-    public posVer: number = 0;
-    public columnNum: number = 5;
-    public rowNum: number = 4;
+    public posOnX: number = 0; // 'where' the table is on X coordinate
+    public posOnY: number = 0; // 'where' the table is on Y coordinate
+    public numCol: number = 5;
+    public numRow: number = 4;
     public bindingsApplied = false;
     public link_main = "http://localhost:49977";
     public link_settings = "/Settings/Settings";
@@ -61,9 +60,7 @@ class TableVM {
     constructor() {
         var self = this;
         $(document).ready(function () {
-            $('#test').on("click", function () {
-                self.test;
-            })
+
 
             $('select').on("change", function () {
                 if (this.id == "selectStudy") {
@@ -76,8 +73,8 @@ class TableVM {
                     self.ActiveCourse(self.GetActiveCourse(value));
                     //console.log("selectCourse changed, ", self.ActiveCourse());
                     //self.allocateTermsArrays();
-                    self.posHor = 0;
-                    self.posVer = 0;
+                    self.posOnX = 0;
+                    self.posOnY = 0;
                     //self.getRawData(value);
                     self.getTerms();
                 }
@@ -97,18 +94,6 @@ class TableVM {
                 self.test();
             });
 
-            $('#arrowLeft').on("click", () => {
-                //self.leftClicked();
-            });
-            $('#arrowRight').on("click", () => {
-                //self.rightClicked();
-            });
-            $('#arrowUp').on("click", () => {
-                //self.upClicked();
-            });
-            $('#arrowDown').on("click", () => {
-                //self.downClicked();
-            });
         });
 
     }
@@ -122,14 +107,11 @@ class TableVM {
                 populateSelectCourse
 
         *selectCourseChange
-            getRawData
-                getTermsByCourseId
-                    getUsersByCourseId
-                        getGroupsByCourseId
+            getTerms
+                getGroupsByCourseId
+                    getNumberOfTermDates
+                        getUsersByCourseId
                             convertRawTermData
-                                sortTerms
-                                    createDateArray
-                                        updateTermArrays(0,0)
         */
     }
 
@@ -304,13 +286,11 @@ class TableVM {
         if (self.disableLeft()) {
             self.handleWrongMove();
         }
-        else if (self.posHor == 0) {
+        else if (self.posOnX == 0) {
             self.handleWrongMove();
-            self.disableLeft(true);
         }
         else {
-            self.posHor--;
-            self.disableRight(false);
+            self.posOnX--;
             self.getTerms();
         }
     }
@@ -320,13 +300,11 @@ class TableVM {
         if (self.disableRight()) {
             self.handleWrongMove();
         }
-        else if (self.posHor == self.columnNum) {
+        else if (self.posOnX == self.numCol) {
             self.handleWrongMove();
-            self.disableRight(true);
         }
         else {
-            self.posHor++;
-            self.disableLeft(false);
+            self.posOnX++;
             self.getTerms();
         }
     }
@@ -336,13 +314,11 @@ class TableVM {
         if (self.disableUp()) {
             self.handleWrongMove();
         }
-        else if (self.posHor == 0) {
+        else if (self.posOnY == 0) {
             self.handleWrongMove();
-            self.disableUp(true);
         }
         else {
-            self.posHor++;
-            self.disableDown(false);
+            self.posOnY--;
             self.getTerms();
         }
     }
@@ -352,13 +328,11 @@ class TableVM {
         if (self.disableDown()) {
             self.handleWrongMove();
         }
-        else if (self.posHor == self.rowNum) {
+        else if (self.posOnY == self.numRow) {
             self.handleWrongMove();
-            self.disableDown(true);
         }
         else {
-            self.posHor++;
-            self.disableUp(false);
+            self.posOnY++;
             self.getTerms();
         }
     }
@@ -368,59 +342,59 @@ class TableVM {
     }
 
     //-------------------------------SITE FLOW--------------------------------------------------//
-    public getRawData = (courseName: string) => {
-        var self = this;
-        //console.log("Getting raw term data");
-        var courseId = self.GetCourseId(courseName);
-        if (courseId == -1) {
-            console.log("Error getting course by name!");
-            return;
-        }
-        //console.log(courseId);
-        //self.getTermsByCourseId(courseId);
-    }
 
     public convertRawTermData = () => {
         var self = this;
-        console.log("Converting raw term data", self.RawTermPackage);
+        //console.log("Converting raw term data", self.RawTermPackage);
+
+        self.disableLeft(true);
+        if (self.RawGroupData.length <= self.numCol) {
+            self.disableRight(true);
+        }
+        //self.disableUp(true);
+        //self.disableDown(true);
 
         self.Terms0(self.convertRowOfTerms(self.RawTermPackage.row0, self.Terms0(), 0));
         self.Terms1(self.convertRowOfTerms(self.RawTermPackage.row1, self.Terms1(), 1));
         self.Terms2(self.convertRowOfTerms(self.RawTermPackage.row2, self.Terms2(), 2));
         self.Terms3(self.convertRowOfTerms(self.RawTermPackage.row3, self.Terms3(), 3));
 
-
+        self.disableLeft(self.RawTermPackage.disableLeft);
+        self.disableRight(self.RawTermPackage.disableRight);
+        self.disableUp(self.RawTermPackage.disableUp);
+        self.disableDown(self.RawTermPackage.disableDown);
     }
 
-    public convertRowOfTerms = (row: any, row2: any, order: number) => {
+    public convertRowOfTerms = (oldRow: any, newRow: any, order: number) => {
         var self = this;
-        console.log("Converting row of terms, ", order, row2);
+        //console.log("Converting row of terms, ", order, oldRow);
+        //console.log("Converting row of terms, ", order);
 
-        for (var i = 0; i < row.length; i++) {
+        for (var i = 0; i < oldRow.length; i++) {
             var cell = new KoCell();
             var term = ko.observable<KoTerm>(new KoTerm());
 
-            //console.log("[", i, "]", row[i]);
-            //console.log("[", i, "] Id", row[i].Id);
-            term().Id = row[i].Id;
-            //console.log("[", i, "] TermDate", row[i].TermDate);
-            term().TermDate = row[i].TermDate;
+            //console.log("[", i, "]", oldRow[i]);
+            //console.log("[", i, "] Id", oldRow[i].Id);
+            term().Id = oldRow[i].Id;
+            //console.log("[", i, "] TermDate", oldRow[i].TermDate);
+            term().TermDate = oldRow[i].TermDate;
 
 
             //find course
-            //console.log("[", i, "] CourseId", row[i].CourseId);
-            term().CourseId = row[i].CourseId;
+            //console.log("[", i, "] CourseId", oldRow[i].CourseId);
+            term().CourseId = oldRow[i].CourseId;
             term().Course = self.ActiveCourse;
 
             //find group
-            //console.log("[", i, "] GroupId", row[i].GroupId);
-            term().GroupId = row[i].GroupId;
+            //console.log("[", i, "]  GroupId", oldRow[i].GroupId);
+            term().GroupId = oldRow[i].GroupId;
             for (var j = 0; j < self.RawGroupData.length; j++) {
-                if (self.RawGroupData[i].Id == term().GroupId) {
+                if (self.RawGroupData[j].Id == term().GroupId) {
                     term().Group(new KoGroup());
-                    term().Group().CourseId = self.RawGroupData[i].CourseId;
-                    term().Group().Name = self.RawGroupData[i].Name;
-                    term().Group().OwnerId == self.RawGroupData[i].OwnerId;
+                    term().Group().CourseId = self.RawGroupData[j].CourseId;
+                    term().Group().Name = self.RawGroupData[j].Name;
+                    term().Group().OwnerId == self.RawGroupData[j].OwnerId;
                     if (term().Group().OwnerId() == undefined) {
                         term().Group().OwnerId(0);
                     }
@@ -451,9 +425,9 @@ class TableVM {
 
 
             //find user
-            //console.log("[", i, "] UserId", row[i].UserId);
-            term().UserId = row[i].UserId;
-            if (row[i].UserId == 0) {
+            //console.log("[", i, "] UserId", oldRow[i].UserId);
+            term().UserId = oldRow[i].UserId;
+            if (oldRow[i].UserId == 0) {
                 //console.log("It's a blank, cowboy!");
                 term().User(new KoUser());
                 if (term().User().Id() == 0) {
@@ -474,6 +448,7 @@ class TableVM {
                     //else if (term() == null) {
                     //    console.log("that be null");
                     //}
+                    //console.log("comparing user with userId ", oldRow[i].UserId, " with ", self.RawUserData[j]);
                     if (self.RawUserData[j].Id == term().UserId) {
                         term().User(new KoUser());
                         term().User().Username == self.RawUserData[j].Username;
@@ -484,71 +459,46 @@ class TableVM {
                 }
             }
 
-            //console.log("[", i, "] ", row2[i]);
+            //console.log("[", i, "] ", newRow[i]);
 
-            row2[i].Term = term;
-            row2[i].ButtonSkipState(false);
-            row2[i].ButtonTakeState(false);
-            row2[i].CellState(0);
-            row2[i].x(i);
-            row2[i].y(order);
+            newRow[i].Term = term;
+            newRow[i].ButtonSkipState(false);
+            newRow[i].ButtonTakeState(false);
+            newRow[i].CellState(0);
+            newRow[i].x(i);
+            newRow[i].y(order);
         }
-        //console.log("converted:", row2);
-        return row2;
-    }
-
-    public updateTermArrays = (moveX: number, moveY: number) => {
-        var self = this;
-        console.log("Updating term arrays: ", moveX, ",", moveY);
-        if (self.AllDates.length == 0) {
-            console.log("Error updating term arrays - no dates");
-            return;
-        }
-        if (moveY == 0 && moveX == 0) {
-            self.posHor = 0;
-            var beginDate = "";
-            var today = new Date();
-            today.setHours(0);
-            today.setMinutes(0);
-            today.setSeconds(0);
-            today.setMilliseconds(0);
-            //find which date is the closest to today
-            for (var i = 0; i < self.AllDates.length; i++) {
-                //console.log(self.AllDates[i], today);
-                if (self.AllDates[i].getTime() < today.getTime()) {
-                    //console.log("manji");
-                    continue;
-                }
-                else if (self.AllDates[i].getTime() == today.getTime()) {
-                    //console.log("isti");
-                    self.posHor = i;
-                    break;
-                }
-                else {
-                    //console.log("veci");
-                    self.posHor = i;
-                    break;
-                }
-            }
-            if (self.posHor == 0 && self.AllDates[0] != today) {
-                console.log("All the dates are before today - there are no newer dates.\n Leaving empty arrays");
-                return;
-            }
-            else {
-                //console.log("Begin date:\n", self.AllDates[self.posHor]);
-                beginDate = self.dateObjToString(self.AllDates[self.posHor]);
-                console.log("Begin date:\n", beginDate);
-
-            }
-
-            for (var i = 0; i < 5; i++) {
-                //self.Terms0()[i] = self.TermsSorted[self.posHor][i];
-                console.log(self.TermsSorted[0][i]);
-            }
-        }
+        //console.log("converted:", newRow);
+        return newRow;
     }
 
     //-------------------------------REQUESTS---------------------------------------------------//
+
+    public getTerms = () => {
+        var self = this;
+        var courseId = self.ActiveCourse().Id;
+        console.log("getting terms\nmoveX=", self.posOnX, "\nmoveY=", self.posOnY);
+        var self = this;
+        var serviceURL = '/Term/ByCourseId2';
+        $.ajax({
+            type: "GET",
+            url: serviceURL + "?courseId=" + courseId + "&movedRight=" + self.posOnX + "&movedDown=" + self.posOnY,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc,
+            error: errorFunc
+        });
+        function successFunc(data: TermPackage, status) {
+            //console.log(data);
+            self.RawTermPackage = data;
+            //console.log("RawTermDataWithDate ", self.RawTermPackage);
+            self.getGroupsByCourseId();
+        }
+        function errorFunc(status) {
+            console.log('error', status);
+        }
+    }
+
     public getAllCourses = () => {
         //console.log("getting All Courses");
         var self = this;
@@ -599,12 +549,37 @@ class TableVM {
         function successFunc(data: KoGroup[], status) {
             self.RawGroupData = data;
             //console.log("RawGroupData:", self.RawGroupData);
-            self.getUsersByCourseId();
+            self.getNumberOfTermDates();
         }
         function errorFunc(data) {
             console.log('error getting data about all groups for course with id', courseId, "\nreason:\n", data);
         }
 
+    }
+
+    public getNumberOfTermDates = () => {
+        //console.log("getting number of terms by course Id");
+        var self = this;
+        var courseId = self.ActiveCourse().Id;
+        var serviceURL = '/Term/NumberOfTermDates';
+        $.ajax({
+            type: "GET",
+            url: serviceURL + "?courseId=" + courseId,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc,
+            error: errorFunc
+        });
+        function successFunc(numberOfDates, status) {
+            self.disableUp(true);
+            if (numberOfDates <= self.numRow) {
+                self.disableDown(true);
+            }
+            self.getUsersByCourseId();
+        }
+        function errorFunc(data) {
+            console.log('error getting data number of term dates course with id', courseId);
+        }
     }
 
     public getUsersByCourseId = () => {
@@ -622,38 +597,11 @@ class TableVM {
         });
         function successFunc(data: KoUser[], status) {
             self.RawUserData = data;
-            console.log("Raw User Data", self.RawUserData);
+            //console.log("Raw User Data", self.RawUserData);
             self.convertRawTermData();
         }
         function errorFunc(data) {
             console.log('error getting data about all groups for course with id', courseId, "\nreason:\n", data);
-        }
-    }
-
-    public getTerms = () => {
-        var self = this;
-        var courseId = self.ActiveCourse().Id;
-        var movedRight = self.posHor;
-        var movedDown = self.posVer;
-        //console.log("getting terms by courseId ", courseId);
-        var self = this;
-        var serviceURL = '/Term/ByCourseId2';
-        $.ajax({
-            type: "GET",
-            url: serviceURL + "?courseId=" + courseId + "&movedRight=" + movedRight + "&movedDown=" + movedDown,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: successFunc,
-            error: errorFunc
-        });
-        function successFunc(data: TermPackage, status) {
-            //console.log(data);
-            self.RawTermPackage = data;
-            //console.log("RawTermDataWithDate ", self.RawTermPackage);
-            self.getGroupsByCourseId();
-        }
-        function errorFunc(status) {
-            console.log('error', status);
         }
     }
 
@@ -863,10 +811,18 @@ class TermPackage {
     public row1 = Array<KoTerm>();
     public row2 = Array<KoTerm>();
     public row3 = Array<KoTerm>();
+    public disableLeft;
+    public disableRight;
+    public disableUp;
+    public disableDown;
     constructor() {
         this.row0 = [];
         this.row1 = [];
         this.row2 = [];
         this.row3 = [];
+        this.disableLeft = false;
+        this.disableRight = false;
+        this.disableUp = false;
+        this.disableDown = false;
     }
 }
