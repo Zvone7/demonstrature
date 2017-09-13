@@ -1,6 +1,11 @@
-﻿body {
+﻿/*$fontPcXL: 26px;
+$fontPcL: 22px;
+$fontPcM: 18px;
+$fontPcS: 14px;
+$fontPcXS: 10px;*/
+body {
   font-family: 'Lato', sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   background-color: #333333;
   margin: 100px 0 0 0px;
   padding: 0 0 0 0; }
@@ -29,14 +34,14 @@
         cursor: pointer; }
   .introPosition .introText {
     color: ghostwhite;
-    font-size: 22px;
+    font-size: 16px;
     text-align: center;
     padding-top: 20px; }
     .introPosition .introText.big {
-      font-size: 39px;
+      font-size: 27px;
       font-weight: bold; }
     .introPosition .introText.small {
-      font-size: 14px; }
+      font-size: 12px; }
 
 .loginPosition {
   margin-top: 40px; }
@@ -52,7 +57,7 @@
     width: 200px; }
   .loginPosition .identifier-big {
     color: whitesmoke;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
     padding-bottom: 5px;
     text-align: center; }
@@ -60,7 +65,7 @@
 .myNavbar {
   background-color: #004E99;
   width: 100%;
-  height: 100px;
+  height: 70px;
   margin: -100px 0 0 0; }
 
 .myUl {
@@ -84,26 +89,26 @@ a:-webkit-any-link {
   float: none;
   padding-left: 0px;
   padding-top: calc(1%);
-  font-size: 18px; }
+  font-size: 14px; }
 
 .settingLi {
   margin-left: 90%;
   /*width:300px;*/
   /*float:none;*/
   /*padding-right:calc(100% - 175px);*/
-  font-size: 14px; }
+  font-size: 12px; }
 
 .tableDiv {
   color: #e6e6ff;
-  margin: 20px 0 0 100px;
-  font-size: 33px; }
+  margin: 10px 0 0 100px;
+  font-size: 24px; }
   .tableDiv:hover {
     cursor: pointer; }
 
 .userControlsDiv {
   text-decoration: none;
   color: #e6e6ff;
-  font-size: 18px;
+  font-size: 14px;
   float: unset;
   /*padding-top: 0px;*/
   /*padding-right: 0px;
@@ -115,9 +120,9 @@ a:-webkit-any-link {
 
 .userNameDiv {
   color: #e6e6ff;
-  font-size: 14px;
+  font-size: 12px;
   margin: 0 0 0 -15px;
-  padding-top: 25px;
+  padding-top: 20px;
   padding-right: 360px;
   width: 200px; }
 
@@ -139,7 +144,7 @@ a:-webkit-any-link {
   background-color: #cce5ff;
   border: 1px solid #333333;
   display: table-cell;
-  padding: 15px;
+  padding: 10px;
   text-align: center; }
 
 .firstColumn {
@@ -186,11 +191,17 @@ a:-webkit-any-link {
     background: #003D78;
     color: #e6e6ff; }
   .selecter.univStudies {
-    font-size: 14px;
-    width: 125px; }
+    font-size: 12px;
+    width: 125px;
+    cursor: pointer; }
+    .selecter.univStudies:hover {
+      background: #0071de; }
   .selecter.univCourse {
-    font-size: 14px;
-    width: 125px; }
+    font-size: 12px;
+    width: 125px;
+    cursor: pointer; }
+    .selecter.univCourse:hover {
+      background: #0071de; }
 
 .selecter_s {
   margin: 5px 0;
@@ -221,13 +232,16 @@ a:-webkit-any-link {
   background-color: #cce5ff;
   border: 2px solid #0d0d0d;
   border-radius: 10px;
-  font-size: 26px;
+  font-size: 18px;
   padding: 10px;
   position: absolute;
   vertical-align: middle;
-  transition: all .3s ease; }
+  transition: transform .3s ease, background-color .1s; }
   .arrow:hover, .arrowLeft:hover, .arrowLeftDisabled:hover, .arrowRight:hover, .arrowRightDisabled:hover, .arrowUp:hover, .arrowUpDisabled:hover, .arrowDown:hover, .arrowDownDisabled:hover {
-    transform: scale(1.15); }
+    transform: scale(1.15);
+    cursor: pointer; }
+  .arrow:active, .arrowLeft:active, .arrowLeftDisabled:active, .arrowRight:active, .arrowRightDisabled:active, .arrowUp:active, .arrowUpDisabled:active, .arrowDown:active, .arrowDownDisabled:active {
+    background-color: #0064cc; }
 
 .arrowLeft {
   position: absolute;
@@ -238,7 +252,10 @@ a:-webkit-any-link {
   margin: -60px 45px 0 117px;
   background-color: #595959; }
   .arrowLeftDisabled:hover {
-    transform: scale(1); }
+    transform: scale(1);
+    cursor: auto; }
+  .arrowLeftDisabled:active {
+    background-color: #8e1000; }
 
 .arrowRight {
   position: absolute;
@@ -249,7 +266,10 @@ a:-webkit-any-link {
   margin: -60px 45px 0 1157px;
   background-color: #595959; }
   .arrowRightDisabled:hover {
-    transform: scale(1); }
+    transform: scale(1);
+    cursor: auto; }
+  .arrowRightDisabled:active {
+    background-color: #8e1000; }
 
 .arrowUp {
   margin: 10px 0px 0px -55px; }
@@ -259,7 +279,10 @@ a:-webkit-any-link {
   margin: 10px 0px 0px -55px;
   background-color: #595959; }
   .arrowUpDisabled:hover {
-    transform: scale(1); }
+    transform: scale(1);
+    cursor: auto; }
+  .arrowUpDisabled:active {
+    background-color: #8e1000; }
 
 .arrowDown {
   margin: 85px 0 0 -55px; }
@@ -272,7 +295,10 @@ a:-webkit-any-link {
   margin: 85px 0 0 -55px;
   background-color: #595959; }
   .arrowDownDisabled:hover {
-    transform: scale(1); }
+    transform: scale(1);
+    cursor: auto; }
+  .arrowDownDisabled:active {
+    background-color: #8e1000; }
 
 .search-student {
   background-color: #f0f7ff;
@@ -291,27 +317,28 @@ a:-webkit-any-link {
 .label_t {
   padding: 1px 6px;
   margin: 5px 15px;
-  font-size: 18px; }
+  font-size: 14px; }
   .label_t.groupName {
-    font-size: 18px; }
-  .label_t.groupOwner {
     font-size: 14px; }
+  .label_t.groupOwner {
+    font-size: 12px; }
   .label_t.demoName {
-    padding: 12px 20px;
+    padding: 6px 20px;
     margin: 5px 15px 0 15px;
     font-weight: bolder;
     background-color: #e6eeff;
     border: 2px solid #333333;
     border-radius: 3px;
     width: 112px;
+    height: 15px;
     word-wrap: break-word; }
   .label_t.date {
-    font-size: 14px; }
+    font-size: 12px; }
 
 .change-settings-label {
   margin-top: 20px;
   color: white;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bolder;
   padding-left: 20px;
   padding-bottom: 20px; }
@@ -319,13 +346,13 @@ a:-webkit-any-link {
 .identifier {
   color: white;
   padding-top: 3px;
-  font-size: 14px; }
+  font-size: 12px; }
 
 .identifier-bold {
   color: white;
   padding-top: 3px;
   padding-left: 5px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold; }
 
 .identifier-small {
@@ -337,7 +364,7 @@ a:-webkit-any-link {
 
 .identifier-big {
   color: ghostwhite;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
   padding-bottom: 5px;
   float: left;
@@ -377,14 +404,15 @@ input:hover {
   color: black;
   font-family: 'Lato', sans-serif;
   margin: 9px 3px 20px 3px;
-  height: 50px;
+  height: 35px;
   width: 75px;
   transition: all .1s ease;
   outline: none;
   font-size: 10px;
-  word-wrap: break-word; }
+  word-wrap: break-word;
+  /*padding:2px;*/ }
   .tableButton.takeTerm {
-    font-size: 14px;
+    font-size: 12px;
     background-color: green;
     color: palegreen; }
     .tableButton.takeTerm:hover {
@@ -396,7 +424,7 @@ input:hover {
       background-color: #4c4c4c;
       cursor: pointer; }
   .tableButton.skipTerm {
-    font-size: 14px;
+    font-size: 12px;
     background-color: gray;
     font-weight: bold; }
     .tableButton.skipTerm:hover {
@@ -407,7 +435,7 @@ input:hover {
   background-color: #004E99;
   border: none;
   color: #e6e6ff;
-  font-size: 22px; }
+  font-size: 16px; }
   .logOutButton:hover {
     cursor: pointer;
     text-decoration: underline; }
@@ -418,7 +446,7 @@ input:hover {
   background-color: #004E99;
   border: none;
   color: #e6e6ff;
-  font-size: 22px; }
+  font-size: 16px; }
   .cogButton:hover {
     cursor: pointer;
     text-decoration: none; }
@@ -460,7 +488,7 @@ input:hover {
   text-align: center;
   text-decoration: none;
   border-radius: 2px;
-  font-size: 14px;
+  font-size: 12px;
   font-family: 'Lato', sans-serif;
   outline: none;
   color: palegreen; }

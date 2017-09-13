@@ -10,6 +10,7 @@ $searchColor: #cce5ff;
 $buttonTakeColor: green;
 $buttonSkipColor: gray;
 $disableColor: #595959;
+$redDisabled: #8e1000;
 //-------------------------------------------------background colors-----------------------------------------------//
 //--------------------------------------------------text colors----------------------------------------------------//
 $myHeaderTextColor: #e6e6ff;
@@ -26,10 +27,15 @@ $arrowBorderColor: #0d0d0d;
 $searchBorder: #333333;
 //--------------------------------------------------border colors--------------------------------------------------//
 //----------------------------------------------------font sizes---------------------------------------------------//
-$fontPcXL: 26px;
+/*$fontPcXL: 26px;
 $fontPcL: 22px;
 $fontPcM: 18px;
 $fontPcS: 14px;
+$fontPcXS: 10px;*/
+$fontPcXL: 18px;
+$fontPcL: 16px;
+$fontPcM: 14px;
+$fontPcS: 12px;
 $fontPcXS: 10px;
 //----------------------------------------------------font sizes---------------------------------------------------//
 //------------------------------------------------------body-------------------------------------------------------//
@@ -116,7 +122,7 @@ body {
 .myNavbar {
     background-color: $headerColor;
     width: 100%;
-    height: 100px;
+    height: 70px;
     margin: -100px 0 0 0;
 }
 
@@ -161,7 +167,7 @@ a:-webkit-any-link {
 
 .tableDiv {
     color: $myHeaderTextColor;
-    margin: 20px 0 0 100px;
+    margin: 10px 0 0 100px;
     font-size: 1.5*$fontPcL;
 
     &:hover {
@@ -189,7 +195,7 @@ a:-webkit-any-link {
     color: $myHeaderTextColor;
     font-size: $fontPcS;
     margin: 0 0 0 -15px;
-    padding-top: 25px;
+    padding-top: 20px;
     padding-right: 360px;
     width: 200px;
 }
@@ -216,7 +222,7 @@ a:-webkit-any-link {
     background-color: $myCellColor;
     border: 1px solid $myBorderColor;
     display: table-cell;
-    padding: 15px;
+    padding: 10px;
     text-align: center;
 }
 
@@ -279,11 +285,21 @@ a:-webkit-any-link {
     &.univStudies {
         font-size: $fontPcS;
         width: 125px;
+        cursor: pointer;
+
+        &:hover {
+            background: lighten($myHeaderColor,20%);
+        }
     }
 
     &.univCourse {
         font-size: $fontPcS;
         width: 125px;
+        cursor: pointer;
+
+        &:hover {
+            background: lighten($myHeaderColor,20%);
+        }
     }
 }
 
@@ -333,10 +349,15 @@ a:-webkit-any-link {
     padding: 10px;
     position: absolute;
     vertical-align: middle;
-    transition: all .3s ease;
+    transition: transform .3s ease, background-color .1s;
 
     &:hover {
         transform: scale(1.15);
+        cursor:pointer;
+    }
+
+    &:active {
+        background-color: darken($myCellColor,50%);
     }
 }
 
@@ -357,6 +378,11 @@ a:-webkit-any-link {
 
     &:hover {
         transform: scale(1);
+        cursor: auto;
+    }
+
+    &:active {
+        background-color: $redDisabled;
     }
 }
 
@@ -377,6 +403,11 @@ a:-webkit-any-link {
 
     &:hover {
         transform: scale(1);
+        cursor: auto;
+    }
+
+    &:active {
+        background-color: $redDisabled;
     }
 }
 
@@ -396,6 +427,11 @@ a:-webkit-any-link {
 
     &:hover {
         transform: scale(1);
+        cursor: auto;
+    }
+
+    &:active {
+        background-color: $redDisabled;
     }
 }
 
@@ -417,6 +453,11 @@ a:-webkit-any-link {
 
     &:hover {
         transform: scale(1);
+        cursor: auto;
+    }
+
+    &:active {
+        background-color: $redDisabled;
     }
 }
 //--------------------------------------------------navigation buttons---------------------------------------------//
@@ -442,7 +483,6 @@ a:-webkit-any-link {
     padding: 1px 6px;
     margin: 5px 15px;
     font-size: $fontPcM;
-
     &.groupName {
         font-size: $fontPcM;
     }
@@ -452,13 +492,14 @@ a:-webkit-any-link {
     }
 
     &.demoName {
-        padding: 12px 20px;
+        padding: 6px 20px;
         margin: 5px 15px 0 15px;
         font-weight: bolder;
         background-color: $demoNameColor;
         border: 2px solid $searchBorder;
         border-radius: 3px;
         width: 112px;
+        height:15px;
         word-wrap: break-word;
     }
 
@@ -552,12 +593,13 @@ input {
     color: black;
     font-family: 'Lato', sans-serif;
     margin: 9px 3px 20px 3px;
-    height: 50px;
+    height: 35px;
     width: 75px;
     transition: all .1s ease;
     outline: none;
     font-size: $fontPcXS;
     word-wrap: break-word;
+    /*padding:2px;*/
 
     &.takeTerm {
         font-size: $fontPcS;

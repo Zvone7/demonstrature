@@ -13,10 +13,10 @@ namespace DemonstratureDB.Data
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DemonstratureEntities_L : DbContext
+    public partial class DemonstratureEntities : DbContext
     {
-        public DemonstratureEntities_L()
-            : base("name=DemonstratureEntities_L")
+        public DemonstratureEntities()
+            : base("name=DemonstratureEntities")
         {
         }
     

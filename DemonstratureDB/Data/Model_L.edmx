@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DemonstratureModel_L.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DemonstratureModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CourseT">
           <Key>
             <PropertyRef Name="Id" />
@@ -42,6 +42,7 @@
           <Property Name="UserId" Type="int" />
           <Property Name="GroupId" Type="int" Nullable="false" />
           <Property Name="TermDate" Type="date" />
+          <Property Name="SuggestedUserId" Type="int" />
         </EntityType>
         <EntityType Name="UserT">
           <Key>
@@ -139,7 +140,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DemonstratureModel_LStoreContainer">
+        <EntityContainer Name="DemonstratureModelStoreContainer">
           <EntitySet Name="CourseT" EntityType="Self.CourseT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseUserT" EntityType="Self.CourseUserT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupT" EntityType="Self.GroupT" Schema="dbo" store:Type="Tables" />
@@ -178,7 +179,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="DemonstratureModel_L" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="DemonstratureModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="CourseT">
           <Key>
             <PropertyRef Name="Id" />
@@ -224,6 +225,7 @@
           <Property Name="UserId" Type="Int32" />
           <Property Name="GroupId" Type="Int32" Nullable="false" />
           <Property Name="TermDate" Type="DateTime" Precision="0" />
+          <Property Name="SuggestedUserId" Type="Int32" />
           <NavigationProperty Name="CourseT" Relationship="Self.FkTermCourse" FromRole="TermT" ToRole="CourseT" />
           <NavigationProperty Name="GroupT" Relationship="Self.FkTermGroup" FromRole="TermT" ToRole="GroupT" />
           <NavigationProperty Name="UserT" Relationship="Self.FkTermUser" FromRole="TermT" ToRole="UserT" />
@@ -327,7 +329,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DemonstratureEntities_L" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DemonstratureEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CourseT" EntityType="Self.CourseT" />
           <EntitySet Name="CourseUserT" EntityType="Self.CourseUserT" />
           <EntitySet Name="GroupT" EntityType="Self.GroupT" />
@@ -367,9 +369,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DemonstratureModel_LStoreContainer" CdmEntityContainer="DemonstratureEntities_L">
+        <EntityContainerMapping StorageEntityContainer="DemonstratureModelStoreContainer" CdmEntityContainer="DemonstratureEntities">
           <EntitySetMapping Name="CourseT">
-            <EntityTypeMapping TypeName="DemonstratureModel_L.CourseT">
+            <EntityTypeMapping TypeName="DemonstratureModel.CourseT">
               <MappingFragment StoreEntitySet="CourseT">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -381,7 +383,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CourseUserT">
-            <EntityTypeMapping TypeName="DemonstratureModel_L.CourseUserT">
+            <EntityTypeMapping TypeName="DemonstratureModel.CourseUserT">
               <MappingFragment StoreEntitySet="CourseUserT">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CourseId" ColumnName="CourseId" />
@@ -390,7 +392,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GroupT">
-            <EntityTypeMapping TypeName="DemonstratureModel_L.GroupT">
+            <EntityTypeMapping TypeName="DemonstratureModel.GroupT">
               <MappingFragment StoreEntitySet="GroupT">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -400,18 +402,19 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TermT">
-            <EntityTypeMapping TypeName="DemonstratureModel_L.TermT">
+            <EntityTypeMapping TypeName="DemonstratureModel.TermT">
               <MappingFragment StoreEntitySet="TermT">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CourseId" ColumnName="CourseId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="GroupId" ColumnName="GroupId" />
                 <ScalarProperty Name="TermDate" ColumnName="TermDate" />
+                <ScalarProperty Name="SuggestedUserId" ColumnName="SuggestedUserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserT">
-            <EntityTypeMapping TypeName="DemonstratureModel_L.UserT">
+            <EntityTypeMapping TypeName="DemonstratureModel.UserT">
               <MappingFragment StoreEntitySet="UserT">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Username" ColumnName="Username" />

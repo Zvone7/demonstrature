@@ -15,6 +15,7 @@ namespace DemonstratureBLL
         private IMapper _mapper;
         private TermRepo _termRepo = new TermRepo();
         private GroupRepo _groupRepo = new GroupRepo();
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public TermLogic()
         {
@@ -168,10 +169,18 @@ namespace DemonstratureBLL
         public TermPackageDTO GetTerms(int courseId, int moveOnX, int moveOnY)
         {
             List<TermDTO> terms = new List<TermDTO>();
-            TermPackageDTO termPackage = new TermPackageDTO();
             List<GroupDTO> groups = new List<GroupDTO>();
+            List<string> dates = new List<string>();
+            TermPackageDTO termPackage = new TermPackageDTO();
             int numGroup = 0;
             int numDate = 0;
+            string termWithDate = "";
+
+
+            termPackage.row0 = new List<TermDTO>();
+            termPackage.row1 = new List<TermDTO>();
+            termPackage.row2 = new List<TermDTO>();
+            termPackage.row3 = new List<TermDTO>();
 
             //get all the groups
             try
@@ -197,12 +206,13 @@ namespace DemonstratureBLL
                     term.Group = groups.Where(g => g.Id == term.GroupId).FirstOrDefault();
                 }
 
-                var dates = terms.GroupBy(t => t.TermDate).Select(t => t.FirstOrDefault()).Select(t => t.TermDate).ToList();
+                dates = terms.GroupBy(t => t.TermDate).Select(t => t.FirstOrDefault()).Select(t => t.TermDate).ToList();
                 //get how many dates are there
                 //get them in a special object with 4 arrays
                 numDate = dates.Count();
-                int x = 0;
                 int y = 0;
+
+
                 // movement check
                 // check if there is enough groups for table
                 if (numGroup <= Gas.numCol)
@@ -253,7 +263,7 @@ namespace DemonstratureBLL
                         termPackage.disableLeft = false;
                         termPackage.disableRight = false;
 
-                    }                        
+                    }
 
                 }
 
@@ -306,10 +316,11 @@ namespace DemonstratureBLL
                     {
                         termPackage.disableUp = false;
                         termPackage.disableDown = false;
-
                     }
 
                 }
+
+
                 foreach (var date in dates)
                 {
                     //move down!
@@ -318,7 +329,7 @@ namespace DemonstratureBLL
                         y++;
                         continue;
                     }
-                    
+
                     if (termPackage.row0.Count == 0)
                     {
                         termPackage.row0 = terms.Where(t => t.TermDate == date)
@@ -347,27 +358,75 @@ namespace DemonstratureBLL
                             .ToList();
                         continue;
                     }
+                    break;
                 }
-                //fix term package rows in case there isn't a term for a specific group on a specific date
-                termPackage.row0 = FixTermRow(termPackage.row0, groups);
-                termPackage.row1 = FixTermRow(termPackage.row1, groups);
-                termPackage.row2 = FixTermRow(termPackage.row2, groups);
-                termPackage.row3 = FixTermRow(termPackage.row3, groups);
 
-                // TODO - fixed ?
-                //fix term package rows so that it shows only 5 groups
-                termPackage.row0 = CropTermRow(termPackage.row0, groups.Count(), moveOnX);
-                termPackage.row1 = CropTermRow(termPackage.row1, groups.Count(), moveOnX);
-                termPackage.row2 = CropTermRow(termPackage.row2, groups.Count(), moveOnX);
-                termPackage.row3 = CropTermRow(termPackage.row3, groups.Count(), moveOnX);
+                //fix term package rows in case there isn't a term for a specific group on a specific date
+
+                try
+                {
+                    termWithDate = termPackage.row0.Where(t => t.TermDate != null).FirstOrDefault().TermDate;
+                    termPackage.row0Dt = termWithDate;
+                    termPackage.row0 = FixTermRow(termPackage.row0, groups);
+                    termPackage.row0 = CropTermRow(termPackage.row0, groups.Count(), moveOnX);
+                }
+                catch (Exception e)
+                {
+                    termPackage.row0Dt = Gas.noDateString;
+                    termPackage.row0 = new List<TermDTO>();
+                }
+
+
+                try
+                {
+                    termWithDate = termPackage.row1.Where(t => t.TermDate != null).FirstOrDefault().TermDate;
+                    termPackage.row1Dt = termWithDate;
+                    termPackage.row1 = FixTermRow(termPackage.row1, groups);
+                    termPackage.row1 = CropTermRow(termPackage.row1, groups.Count(), moveOnX);
+                }
+                catch (Exception e)
+                {
+                    termPackage.row1Dt = Gas.noDateString;
+                    termPackage.row1 = new List<TermDTO>();
+                }
+
+                try
+                {
+                    termWithDate = termPackage.row2.Where(t => t.TermDate != null).FirstOrDefault().TermDate;
+                    termPackage.row2Dt = termWithDate;
+                    termPackage.row2 = FixTermRow(termPackage.row2, groups);
+                    termPackage.row2 = CropTermRow(termPackage.row2, groups.Count(), moveOnX);
+                }
+                catch (Exception e)
+                {
+                    termPackage.row2Dt = Gas.noDateString;
+                    termPackage.row2 = new List<TermDTO>();
+                }
+
+                try
+                {
+                    termWithDate = termPackage.row3.Where(t => t.TermDate != null).FirstOrDefault().TermDate;
+                    termPackage.row3Dt = termWithDate;
+                    termPackage.row3 = FixTermRow(termPackage.row3, groups);
+                    termPackage.row3 = CropTermRow(termPackage.row3, groups.Count(), moveOnX);
+                }
+                catch (Exception e)
+                {
+                    termPackage.row3Dt = Gas.noDateString;
+                    termPackage.row3 = new List<TermDTO>();
+                }
             }
             catch (Exception e)
             {
+                _logger.Info(e);
                 return null;
             }
             return termPackage;
         }
 
+        /// <summary>
+        /// Expand every row so that it has blank terms for number of groups
+        /// </summary>
         public List<TermDTO> FixTermRow(List<TermDTO> terms, List<GroupDTO> groups)
         {
             List<TermDTO> newTerms = new List<TermDTO>();
@@ -385,7 +444,9 @@ namespace DemonstratureBLL
             }
             return newTerms;
         }
-
+        /// <summary>
+        /// fix term package rows so that it shows only 5 groups
+        /// </summary>
         public List<TermDTO> CropTermRow(List<TermDTO> terms, int groupCount, int moveX)
         {
             List<TermDTO> newTerms = new List<TermDTO>();

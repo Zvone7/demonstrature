@@ -12,6 +12,10 @@ namespace DemonstratureCM.DTO
         public List<TermDTO> row1 { get; set; }
         public List<TermDTO> row2 { get; set; }
         public List<TermDTO> row3 { get; set; }
+        public string row0Dt { get; set; }
+        public string row1Dt { get; set; }
+        public string row2Dt { get; set; }
+        public string row3Dt { get; set; }
         public bool disableLeft { get; set; }
         public bool disableRight   { get; set; }
         public bool disableUp { get; set; }
