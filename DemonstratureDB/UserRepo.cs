@@ -12,6 +12,8 @@ namespace DemonstratureDB
     public class UserRepo
     {
         DemonstratureEntities dbase = new DemonstratureEntities();
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public List<UserT> GetUser()
         {
             try
@@ -66,9 +68,11 @@ namespace DemonstratureDB
             var allUserCourses = new List<CourseUserDTO>();
             foreach(var uci in userCoursesIds)
             {
-                CourseUserDTO x = new CourseUserDTO();
-                x.UserId = uci.UserId;
-                x.CourseId = uci.CourseId;
+                CourseUserDTO x = new CourseUserDTO
+                {
+                    UserId = uci.UserId,
+                    CourseId = uci.CourseId
+                };
                 var course = new CourseRepo().GetCourse(x.CourseId);
                 if (course != null)
                 {
@@ -134,6 +138,7 @@ namespace DemonstratureDB
             }
             catch(Exception e)
             {
+                _logger.Info(e);
                 return null;
             }
         }

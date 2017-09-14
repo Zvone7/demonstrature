@@ -226,6 +226,26 @@ a:-webkit-any-link {
     text-align: center;
 }
 
+.rTableCell0{
+    @extend .rTableCell;
+    background-color:$myCellColor;
+}
+
+.rTableCell1 {
+    @extend .rTableCell;
+    background-color: yellow;
+}
+
+.rTableCell2 {
+    @extend .rTableCell;
+    background-color: green;
+}
+
+.rTableCellX {
+    @extend .rTableCell;
+    background-color: red;
+}
+
 .firstColumn {
     @extend .rTableCell;
     padding: 8px 0;
@@ -364,7 +384,7 @@ a:-webkit-any-link {
 .arrowLeft {
     @extend .arrow;
     position: absolute;
-    margin: -60px 45px 0 117px;
+    margin: -60px 45px 0 50px;
 
     .fa-arrow-left {
     }
@@ -373,7 +393,7 @@ a:-webkit-any-link {
 .arrowLeftDisabled {
     @extend .arrow;
     position: absolute;
-    margin: -60px 45px 0 117px;
+    margin: -60px 45px 0 50px;
     background-color: $disableColor;
 
     &:hover {
@@ -389,7 +409,7 @@ a:-webkit-any-link {
 .arrowRight {
     @extend .arrow;
     position: absolute;
-    margin: -60px 45px 0 1157px;
+    margin: -60px 45px 0 80px;
 
     .fa-arrow-right {
     }
@@ -398,7 +418,7 @@ a:-webkit-any-link {
 .arrowRightDisabled {
     @extend .arrow;
     position: absolute;
-    margin: -60px 45px 0 1157px;
+    margin: -60px 45px 0 80px;
     background-color: $disableColor;
 
     &:hover {
@@ -437,7 +457,7 @@ a:-webkit-any-link {
 
 .arrowDown {
     @extend .arrow;
-    margin: 85px 0 0 -55px;
+    margin: 55px 0 0 -55px;
 
     .fa-arrow-down {
         padding: 0 0 0 0;
@@ -448,7 +468,7 @@ a:-webkit-any-link {
 .arrowDownDisabled {
     @extend .arrow;
     position: absolute;
-    margin: 85px 0 0 -55px;
+    margin: 55px 0 0 -55px;
     background-color: $disableColor;
 
     &:hover {
@@ -460,6 +480,7 @@ a:-webkit-any-link {
         background-color: $redDisabled;
     }
 }
+
 //--------------------------------------------------navigation buttons---------------------------------------------//
 //--------------------------------------------------------search---------------------------------------------------//
 .search-student {

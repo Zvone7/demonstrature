@@ -10,6 +10,8 @@ namespace DemonstratureDB
     public class GroupRepo
     {
         DemonstratureEntities dbase = new DemonstratureEntities();
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public GroupT CreateGroup(GroupT g)
         {
             try
@@ -24,6 +26,7 @@ namespace DemonstratureDB
             }
             catch(Exception e)
             {
+                _logger.Info(e);
                 return null;
             }
         }

@@ -51,11 +51,13 @@ namespace DemonstratureBLL
                 {
                     foreach (var g in existingGroups)
                     {
-                        var newTerm = new TermDTO();
-                        newTerm.CourseId = t.CourseId;
-                        newTerm.GroupId = g.Id;
-                        newTerm.UserId = t.UserId;
-                        newTerm.TermDate = t.TermDate;
+                        TermDTO newTerm = new TermDTO
+                        {
+                            CourseId = t.CourseId,
+                            GroupId = g.Id,
+                            UserId = t.UserId,
+                            TermDate = t.TermDate
+                        };
                         termsToCreate.Add(newTerm);
                     }
                     foreach (var t2 in termsToCreate)
@@ -190,6 +192,7 @@ namespace DemonstratureBLL
             }
             catch (Exception e)
             {
+                _logger.Info(e);
                 return null;
             }
 
@@ -372,8 +375,9 @@ namespace DemonstratureBLL
                 }
                 catch (Exception e)
                 {
+                    _logger.Info(e);
                     termPackage.row0Dt = Gas.noDateString;
-                    termPackage.row0 = new List<TermDTO>();
+                    termPackage.row0 = MakeBlankTerms();
                 }
 
 
@@ -386,8 +390,9 @@ namespace DemonstratureBLL
                 }
                 catch (Exception e)
                 {
+                    _logger.Info(e);
                     termPackage.row1Dt = Gas.noDateString;
-                    termPackage.row1 = new List<TermDTO>();
+                    termPackage.row1 = MakeBlankTerms();
                 }
 
                 try
@@ -399,8 +404,9 @@ namespace DemonstratureBLL
                 }
                 catch (Exception e)
                 {
+                    _logger.Info(e);
                     termPackage.row2Dt = Gas.noDateString;
-                    termPackage.row2 = new List<TermDTO>();
+                    termPackage.row2 = MakeBlankTerms();
                 }
 
                 try
@@ -412,8 +418,9 @@ namespace DemonstratureBLL
                 }
                 catch (Exception e)
                 {
+                    _logger.Info(e);
                     termPackage.row3Dt = Gas.noDateString;
-                    termPackage.row3 = new List<TermDTO>();
+                    termPackage.row3 = MakeBlankTerms();
                 }
             }
             catch (Exception e)
@@ -444,6 +451,13 @@ namespace DemonstratureBLL
             }
             return newTerms;
         }
+
+        public List<TermDTO> CalculateTermRow(List<TermDTO> terms, List<GroupDTO> groups)
+        {
+
+            return null;
+        }
+
         /// <summary>
         /// fix term package rows so that it shows only 5 groups
         /// </summary>
@@ -470,6 +484,25 @@ namespace DemonstratureBLL
             return newTerms;
         }
 
+        /// <summary>
+        /// Create list of blank terms for case when there isnt enough terms in DB
+        /// </summary>
+        public List<TermDTO> MakeBlankTerms()
+        {
+            List<TermDTO> terms = new List<TermDTO>();
+            for (int i = 0; i < Gas.numCol; i++)
+            {
+                var term = new TermDTO
+                {
+                    CourseId = 0,
+                    GroupId = 0,
+                    TermDate = Gas.noDateString,
+                    UserId = 0
+                };
+                terms.Add(term);
+            }
+            return terms;
+        }
 
         public List<TermDTO> GetTerms(DateTime d, int courseId)
         {

@@ -23,6 +23,8 @@ const defaultUserUsername = "...";
 */
 
 class TableVM {
+    public cellState = ko.observable<number>(0);
+
     //----------------------------------default values------------------------------//
     public defaultTextButtonSkip = defaultTextButtonSkip;
     public defaultTextButtonTake = defaultTextButtonTake;
@@ -163,6 +165,13 @@ class TableVM {
         user().Role(self.defaultUserRole);
         user().Username(self.defaultUserUsername);
 
+        var suggestedUser = ko.observable<KoUser>(new KoUser());
+        suggestedUser().Id(0);
+        suggestedUser().LastName(self.defaultUserLastName);
+        suggestedUser().Name(self.defaultUserName);
+        suggestedUser().Role(self.defaultUserRole);
+        suggestedUser().Username(self.defaultUserUsername);
+
         var group = ko.observable<KoGroup>(new KoGroup());
         group().CourseId(self.defaultId);
         group().Id(self.defaultId);
@@ -179,6 +188,8 @@ class TableVM {
         self.dummyTerm().GroupId = group().Id;
         self.dummyTerm().Id(0);
         self.dummyTerm().TermDate(self.defaultDate);
+        self.dummyTerm().SuggestedUser = suggestedUser;
+        self.dummyTerm().SuggestedUserId = suggestedUser().Id;
 
         //allocation for Terms arrays
         self.allocateTermsArrays(self.dummyTerm);
@@ -300,10 +311,6 @@ class TableVM {
         return null;
     }
 
-    public SetFirstValues = () => {
-
-    }
-
     //-------------------------------NAVIGATION------------------------------------------------//
     public leftClicked = () => {
         var self = this;
@@ -349,7 +356,7 @@ class TableVM {
 
     public downClicked = () => {
         var self = this;
-        console.log("arrowDown:", self.disableDown());
+        //console.log("arrowDown:", self.disableDown());
         if (self.disableDown()) {
             self.handleWrongMove();
         }
@@ -460,7 +467,7 @@ class TableVM {
                         }
                     }
                 }
-                
+
                 //console.log(term().Group().Name);
 
                 //find user
@@ -523,7 +530,7 @@ class TableVM {
                 //console.log("[", i, "]  GroupId", oldRow[i].GroupId);
                 if (oldRow[i].GroupId == 0) {
                     term().GroupId(0);
-                    term().Group(new KoGroup());                    
+                    term().Group(new KoGroup());
                     term().Group().Name(this.defaultGroupName);
                     term().Group().Owner(new KoUser());
                     term().Group().Owner().Name(this.defaultUserName);
@@ -565,6 +572,7 @@ class TableVM {
                 newRow[i].Term = term;
                 newRow[i].ButtonSkipState(false);
                 newRow[i].ButtonTakeState(false);
+                //newRow[i].CellState(oldRow[i].cellState);
                 newRow[i].CellState(0);
                 newRow[i].x(i);
                 newRow[i].y(order);
@@ -823,27 +831,8 @@ class TableVM {
 
     public test = () => {
         var self = this;
-        var courseId = 2;
-        var movedRight = 0;
-        var movedDown = 0;
-        console.log("getting Courses by courseId ", courseId);
-        var self = this;
-        var serviceURL = '/Term/ByCourseId2';
-        $.ajax({
-            type: "GET",
-            url: serviceURL + "?courseId=" + courseId + "&movedRight=" + movedRight + "&movedDown=" + movedDown,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: successFunc,
-            error: errorFunc
-        });
-        function successFunc(data, status) {
-            console.log(data);
-
-        }
-        function errorFunc() {
-            alert('error');
-        }
+        self.cellState(self.cellState()+1);
+        console.log(self.cellState());
     }
 }
 
@@ -857,6 +846,13 @@ class KoTerm {
     public GroupId = ko.observable<number>();
     public Group = ko.observable<KoGroup>();
     public TermDate = ko.observable<string>();
+    public SuggestedUserId = ko.observable<number>();
+    public SuggestedUser = ko.observable<KoUser>();
+    public CellState = ko.observable<number>();
+    public ButtonTakeState = ko.observable<boolean>();
+    public ButtonSkipState = ko.observable<boolean>();
+    public x = ko.observable<number>();
+    public y = ko.observable<number>();
     //constructor(term?: any) {
     //    if (term) {
     //        this.Id = term.Id;
@@ -876,6 +872,7 @@ class RawTerm {
     public UserId: number;
     public GroupId: number;
     public TermDate: Date;
+    public CellState: number;
     //constructor(term?: any) {
     //    if (term) {
     //        this.Id = term.Id;

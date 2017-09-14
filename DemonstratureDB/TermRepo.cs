@@ -10,6 +10,8 @@ namespace DemonstratureDB
     public class TermRepo
     {
         DemonstratureEntities dbase = new DemonstratureEntities();
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public TermT CreateTerm(TermT t)
         {
             try
@@ -29,6 +31,7 @@ namespace DemonstratureDB
             }
             catch(Exception e)
             {
+                _logger.Info(e);
                 return null;
             }
         }
@@ -88,6 +91,7 @@ namespace DemonstratureDB
             }
             catch(Exception e)
             {
+                _logger.Info(e);
                 return null;
             }
             return terms;

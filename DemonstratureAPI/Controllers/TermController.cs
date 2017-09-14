@@ -3,6 +3,7 @@ using DemonstratureCM.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -46,9 +47,12 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        public ActionResult ByCourseId2([FromUri]int courseId,int movedRight, int movedDown)
+        public ActionResult ByCourseId2([FromUri]int courseId, int movedRight, int movedDown)
         {
             var instance = new TermLogic();
+            var identity = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identity.Claims;
+            // TO DO get claims because you need userId for determining CellState on TermController
             var result = instance.GetTerms(courseId, movedRight, movedDown);
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;

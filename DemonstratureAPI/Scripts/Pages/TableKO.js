@@ -23,6 +23,7 @@ var TableVM = (function () {
     //------------------------------------FUNCTIONS------------------------------------//
     function TableVM() {
         var _this = this;
+        this.cellState = ko.observable(0);
         //----------------------------------default values------------------------------//
         this.defaultTextButtonSkip = defaultTextButtonSkip;
         this.defaultTextButtonTake = defaultTextButtonTake;
@@ -112,6 +113,12 @@ var TableVM = (function () {
             user().Name(self.defaultUserName);
             user().Role(self.defaultUserRole);
             user().Username(self.defaultUserUsername);
+            var suggestedUser = ko.observable(new KoUser());
+            suggestedUser().Id(0);
+            suggestedUser().LastName(self.defaultUserLastName);
+            suggestedUser().Name(self.defaultUserName);
+            suggestedUser().Role(self.defaultUserRole);
+            suggestedUser().Username(self.defaultUserUsername);
             var group = ko.observable(new KoGroup());
             group().CourseId(self.defaultId);
             group().Id(self.defaultId);
@@ -127,6 +134,8 @@ var TableVM = (function () {
             self.dummyTerm().GroupId = group().Id;
             self.dummyTerm().Id(0);
             self.dummyTerm().TermDate(self.defaultDate);
+            self.dummyTerm().SuggestedUser = suggestedUser;
+            self.dummyTerm().SuggestedUserId = suggestedUser().Id;
             //allocation for Terms arrays
             self.allocateTermsArrays(self.dummyTerm);
         };
@@ -239,8 +248,6 @@ var TableVM = (function () {
             }
             return null;
         };
-        this.SetFirstValues = function () {
-        };
         //-------------------------------NAVIGATION------------------------------------------------//
         this.leftClicked = function () {
             var self = _this;
@@ -283,7 +290,7 @@ var TableVM = (function () {
         };
         this.downClicked = function () {
             var self = _this;
-            console.log("arrowDown:", self.disableDown());
+            //console.log("arrowDown:", self.disableDown());
             if (self.disableDown()) {
                 self.handleWrongMove();
             }
@@ -470,6 +477,7 @@ var TableVM = (function () {
                     newRow[i].Term = term;
                     newRow[i].ButtonSkipState(false);
                     newRow[i].ButtonTakeState(false);
+                    //newRow[i].CellState(oldRow[i].cellState);
                     newRow[i].CellState(0);
                     newRow[i].x(i);
                     newRow[i].y(order);
@@ -701,26 +709,8 @@ var TableVM = (function () {
         };
         this.test = function () {
             var self = _this;
-            var courseId = 2;
-            var movedRight = 0;
-            var movedDown = 0;
-            console.log("getting Courses by courseId ", courseId);
-            var self = _this;
-            var serviceURL = '/Term/ByCourseId2';
-            $.ajax({
-                type: "GET",
-                url: serviceURL + "?courseId=" + courseId + "&movedRight=" + movedRight + "&movedDown=" + movedDown,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: successFunc,
-                error: errorFunc
-            });
-            function successFunc(data, status) {
-                console.log(data);
-            }
-            function errorFunc() {
-                alert('error');
-            }
+            self.cellState(self.cellState() + 1);
+            console.log(self.cellState());
         };
         var self = this;
         $(document).ready(function () {
@@ -767,6 +757,13 @@ var KoTerm = (function () {
         this.GroupId = ko.observable();
         this.Group = ko.observable();
         this.TermDate = ko.observable();
+        this.SuggestedUserId = ko.observable();
+        this.SuggestedUser = ko.observable();
+        this.CellState = ko.observable();
+        this.ButtonTakeState = ko.observable();
+        this.ButtonSkipState = ko.observable();
+        this.x = ko.observable();
+        this.y = ko.observable();
         //constructor(term?: any) {
         //    if (term) {
         //        this.Id = term.Id;

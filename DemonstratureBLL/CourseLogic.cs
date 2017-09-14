@@ -17,6 +17,8 @@ namespace DemonstratureBLL
         private IMapper _mapper;
         private CourseRepo _courseRepo = new CourseRepo();
         private CourseUserRepo _courseUserRepo = new CourseUserRepo();
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public CourseLogic()
         {
             AutoMapperConfiguration.RegisterMappings();
@@ -35,6 +37,7 @@ namespace DemonstratureBLL
             }
             catch(Exception e)
             {
+                _logger.Info(e);
                 return null;
             }
         }
@@ -44,13 +47,15 @@ namespace DemonstratureBLL
             try
             {
                 CourseRepo courseRepo = new CourseRepo();
-                CourseDTO c2 = new CourseDTO();
-                c2.Id = c.Id;
-                c2.Asistant = c.Asistant;
-                c2.Name = c.Name;
-                c2.Professor = c.Professor;
-                c2.Study = c.Study;
-                c2.IsActive = true;
+                CourseDTO c2 = new CourseDTO
+                {
+                    Id = c.Id,
+                    Asistant = c.Asistant,
+                    Name = c.Name,
+                    Professor = c.Professor,
+                    Study = c.Study,
+                    IsActive = true
+                };
                 CourseT c3 = _mapper.Map<CourseT>(c2);
                 //check that under the same study
                 //there isn't already a course with that name
@@ -96,13 +101,15 @@ namespace DemonstratureBLL
             try
             {
                 CourseRepo courseRepo = new CourseRepo();
-                CourseDTO c2 = new CourseDTO();
-                c2.Id = c.Id;
-                c2.Asistant = c.Asistant;
-                c2.Name = c.Name;
-                c2.Professor = c.Professor;
-                c2.Study = c.Study;
-                c2.IsActive = true;
+                CourseDTO c2 = new CourseDTO
+                {
+                    Id = c.Id,
+                    Asistant = c.Asistant,
+                    Name = c.Name,
+                    Professor = c.Professor,
+                    Study = c.Study,
+                    IsActive = true
+                };
                 CourseT c3 = _mapper.Map<CourseT>(c2);
                 //check that under the same study
                 //there isn't already a course with that name
