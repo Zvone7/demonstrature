@@ -140,7 +140,7 @@ a:-webkit-any-link {
 .rTableRow {
   display: table-row; }
 
-.rTableCell, .rTableCell0, .rTableCell1, .rTableCell2, .rTableCellX, .firstColumn, .rTableHeading, .firstCell, .leftNavigation {
+.rTableCell, .rTableCell0, .rTableCell1, .rTableCell2, .rTableCell3, .rTableCellX, .firstColumn, .rTableHeading, .firstCell, .leftNavigation {
   background-color: #cce5ff;
   border: 1px solid #333333;
   display: table-cell;
@@ -151,13 +151,16 @@ a:-webkit-any-link {
   background-color: #cce5ff; }
 
 .rTableCell1 {
-  background-color: yellow; }
+  background-color: #ffff30; }
 
 .rTableCell2 {
-  background-color: green; }
+  background-color: #ffff30; }
+
+.rTableCell3 {
+  background-color: #53d134; }
 
 .rTableCellX {
-  background-color: red; }
+  background-color: #3a3838; }
 
 .firstColumn {
   padding: 8px 0;
@@ -312,7 +315,7 @@ a:-webkit-any-link {
   .arrowDownDisabled:active {
     background-color: #8e1000; }
 
-.search-student {
+.searchStudent, .searchStudentDisabled {
   background-color: #f0f7ff;
   border: 1px solid #333333;
   border-radius: 3px;
@@ -321,6 +324,9 @@ a:-webkit-any-link {
   outline: none;
   padding: 2px;
   font-size: 10px; }
+
+.searchStudentDisabled {
+  visibility: hidden; }
 
 ::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
@@ -423,24 +429,36 @@ input:hover {
   font-size: 10px;
   word-wrap: break-word;
   /*padding:2px;*/ }
-  .tableButton.takeTerm {
+  .tableButton.takeTerm, .tableButton.takeTermDisabled {
     font-size: 12px;
-    background-color: green;
-    color: palegreen; }
-    .tableButton.takeTerm:hover {
-      background-color: #006700;
+    background-color: #226d0f;
+    color: palegreen;
+    /*font-weight: bold;*/ }
+    .tableButton.takeTerm:hover, .tableButton.takeTermDisabled:hover {
+      background-color: #1b570c;
       cursor: pointer; }
-  .tableButton.takeTerm_disabled {
-    background-color: #595959; }
-    .tableButton.takeTerm_disabled:hover {
+  .tableButton.takeTermDisabled {
+    background-color: #595959;
+    color: black;
+    visibility: hidden; }
+    .tableButton.takeTermDisabled:hover {
       background-color: #4c4c4c;
       cursor: pointer; }
-  .tableButton.skipTerm {
+  .tableButton.skipTerm, .tableButton.skipTermDisabled {
     font-size: 12px;
-    background-color: gray;
-    font-weight: bold; }
-    .tableButton.skipTerm:hover {
-      background-color: #7d7d7d;
+    background-color: #8e1000;
+    /*font-weight: bold;*/
+    color: #ffd1d1;
+    /*visibility: hidden;*/ }
+    .tableButton.skipTerm:hover, .tableButton.skipTermDisabled:hover {
+      background-color: #890f00;
+      cursor: pointer; }
+  .tableButton.skipTermDisabled {
+    background-color: #595959;
+    /*color: $buttonSkipColor;*/
+    visibility: hidden; }
+    .tableButton.skipTermDisabled:hover {
+      background-color: #4c4c4c;
       cursor: pointer; }
 
 .logOutButton {
@@ -492,7 +510,7 @@ input:hover {
 
 .saveSetting, .saveSetting2, .deleteSetting {
   border: none;
-  background: green;
+  background: #226d0f;
   font-weight: 700;
   padding: 7px 21px;
   width: 199px;
@@ -505,7 +523,7 @@ input:hover {
   outline: none;
   color: palegreen; }
   .saveSetting:hover, .saveSetting2:hover, .deleteSetting:hover {
-    background-color: #006700;
+    background-color: #1b570c;
     cursor: pointer; }
 
 .saveSetting2 {
@@ -515,7 +533,7 @@ input:hover {
 .deleteSetting {
   background: #990000;
   width: 80px;
-  color: lightgray; }
+  color: #ffd1d1; }
   .deleteSetting:hover {
     background-color: #660000; }
 

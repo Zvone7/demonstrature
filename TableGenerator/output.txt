@@ -1,0 +1,267 @@
+<div class="rTable">
+	<div class="rTableRow">
+		<div class="leftNavigation"></div>
+			<div class="upperNavigation">
+				<div class="arrowLeft" id="arrowLeft" data-bind="click: leftClicked, css:{'arrowLeftDisabled': disableLeft(), 'arrowLeft':!disableLeft()} ">
+					<i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
+				</div>
+			</div>
+			<div class="upperNavigation">			</div>
+			<div class="upperNavigation">			</div>
+			<div class="upperNavigation">			</div>
+			<div class="upperNavigation">			</div>
+			<div class="upperNavigation">
+				<div class="arrowRight" id="arrowRight" data-bind="click: rightClicked, css:{'arrowRightDisabled': disableRight(), 'arrowRight':!disableRight()} ">
+					<i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
+				</div>
+			</div>
+	</div>
+	<div class="rTableRow">
+			<div class="leftNavigation">
+				<div class="arrowUp" id="arrowUp" data-bind="click: upClicked, css:{'arrowUpDisabled': disableUp(), 'arrowUp':!disableUp()} ">
+					<i class="fa fa-arrow-up fa-lg" aria-hidden="true"></i>
+				</div>
+			</div>
+			<div class="firstCell">
+				<select class="selecter univStudies" id="selectStudy" data-bind="options: Studies,
+					optionsText: 'Name',
+					value: 'Id',
+				optionsCaption: 'Odaberite studij'"></select>
+				<br />
+				<select class="selecter univCourse" id="selectCourse" data-bind="options: CoursesActive,
+					optionsText: 'Name',
+					value: 'Id',
+				optionsCaption: 'Odaberite kolegij'"></select>
+			</div>
+			<div class="rTableHeading">
+				<label class="label_t groupName" id="groupName0" data-bind="text: Terms0()[0].Term().Group().Name">grupa</label><br>
+				<label class="label_t groupOwner" id="groupOwner0" data-bind="text: Terms0()[0].Term().Group().Owner().Name">demonstrator</label><br>
+			</div>
+			<div class="rTableHeading">
+				<label class="label_t groupName" id="groupName1" data-bind="text: Terms0()[1].Term().Group().Name">grupa</label><br>
+				<label class="label_t groupOwner" id="groupOwner1" data-bind="text: Terms0()[1].Term().Group().Owner().Name">demonstrator</label><br>
+			</div>
+			<div class="rTableHeading">
+				<label class="label_t groupName" id="groupName2" data-bind="text: Terms0()[2].Term().Group().Name">grupa</label><br>
+				<label class="label_t groupOwner" id="groupOwner2" data-bind="text: Terms0()[2].Term().Group().Owner().Name">demonstrator</label><br>
+			</div>
+			<div class="rTableHeading">
+				<label class="label_t groupName" id="groupName3" data-bind="text: Terms0()[3].Term().Group().Name">grupa</label><br>
+				<label class="label_t groupOwner" id="groupOwner3" data-bind="text: Terms0()[3].Term().Group().Owner().Name">demonstrator</label><br>
+			</div>
+			<div class="rTableHeading">
+				<label class="label_t groupName" id="groupName4" data-bind="text: Terms0()[4].Term().Group().Name">grupa</label><br>
+				<label class="label_t groupOwner" id="groupOwner4" data-bind="text: Terms0()[4].Term().Group().Owner().Name">demonstrator</label><br>
+			</div>
+	</div>
+	<div class="rTableRow">
+			<div class="leftNavigation"></div>
+			<div class="firstColumn">
+				<label class="label_t date" id="date0" data-bind="text: Terms0()[0].Term().TermDate">datum</label>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms0()[0].CellState()==0, 'rTableCell1':  Terms0()[0].CellState()==1, 'rTableCell2':  Terms0()[0].CellState()==2,  'rTableCell3':  Terms0()[0].CellState()==3, 'rTableCellX':  Terms0()[0].CellState()!=0 && Terms0()[0].CellState()!=1 && Terms0()[0].CellState()!=2 && Terms0()[0].CellState()!=3 }">
+				<div    id="termOwner00"      class="label_t demoName" 	data-bind="text: Terms0()[0].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm00" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms0()[0].ButtonTakeState(), 'takeTermDisabled': !Terms0()[0].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm00" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms0()[0].ButtonSkipState(), 'skipTermDisabled': !Terms0()[0].ButtonSkipState()}"></button>
+				<select id="search00"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms0()[0].DemoPickerState(), 'searchStudentDisabled':!Terms0()[0].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms0()[1].CellState()==0, 'rTableCell1':  Terms0()[1].CellState()==1, 'rTableCell2':  Terms0()[1].CellState()==2,  'rTableCell3':  Terms0()[1].CellState()==3, 'rTableCellX':  Terms0()[1].CellState()!=0 && Terms0()[1].CellState()!=1 && Terms0()[1].CellState()!=2 && Terms0()[1].CellState()!=3 }">
+				<div    id="termOwner01"      class="label_t demoName" 	data-bind="text: Terms0()[1].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm01" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms0()[1].ButtonTakeState(), 'takeTermDisabled': !Terms0()[1].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm01" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms0()[1].ButtonSkipState(), 'skipTermDisabled': !Terms0()[1].ButtonSkipState()}"></button>
+				<select id="search01"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms0()[1].DemoPickerState(), 'searchStudentDisabled':!Terms0()[1].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms0()[2].CellState()==0, 'rTableCell1':  Terms0()[2].CellState()==1, 'rTableCell2':  Terms0()[2].CellState()==2,  'rTableCell3':  Terms0()[2].CellState()==3, 'rTableCellX':  Terms0()[2].CellState()!=0 && Terms0()[2].CellState()!=1 && Terms0()[2].CellState()!=2 && Terms0()[2].CellState()!=3 }">
+				<div    id="termOwner02"      class="label_t demoName" 	data-bind="text: Terms0()[2].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm02" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms0()[2].ButtonTakeState(), 'takeTermDisabled': !Terms0()[2].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm02" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms0()[2].ButtonSkipState(), 'skipTermDisabled': !Terms0()[2].ButtonSkipState()}"></button>
+				<select id="search02"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms0()[2].DemoPickerState(), 'searchStudentDisabled':!Terms0()[2].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms0()[3].CellState()==0, 'rTableCell1':  Terms0()[3].CellState()==1, 'rTableCell2':  Terms0()[3].CellState()==2,  'rTableCell3':  Terms0()[3].CellState()==3, 'rTableCellX':  Terms0()[3].CellState()!=0 && Terms0()[3].CellState()!=1 && Terms0()[3].CellState()!=2 && Terms0()[3].CellState()!=3 }">
+				<div    id="termOwner03"      class="label_t demoName" 	data-bind="text: Terms0()[3].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm03" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms0()[3].ButtonTakeState(), 'takeTermDisabled': !Terms0()[3].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm03" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms0()[3].ButtonSkipState(), 'skipTermDisabled': !Terms0()[3].ButtonSkipState()}"></button>
+				<select id="search03"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms0()[3].DemoPickerState(), 'searchStudentDisabled':!Terms0()[3].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms0()[4].CellState()==0, 'rTableCell1':  Terms0()[4].CellState()==1, 'rTableCell2':  Terms0()[4].CellState()==2,  'rTableCell3':  Terms0()[4].CellState()==3, 'rTableCellX':  Terms0()[4].CellState()!=0 && Terms0()[4].CellState()!=1 && Terms0()[4].CellState()!=2 && Terms0()[4].CellState()!=3 }">
+				<div    id="termOwner04"      class="label_t demoName" 	data-bind="text: Terms0()[4].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm04" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms0()[4].ButtonTakeState(), 'takeTermDisabled': !Terms0()[4].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm04" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms0()[4].ButtonSkipState(), 'skipTermDisabled': !Terms0()[4].ButtonSkipState()}"></button>
+				<select id="search04"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms0()[4].DemoPickerState(), 'searchStudentDisabled':!Terms0()[4].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+	</div>
+	<div class="rTableRow">
+			<div class="leftNavigation"></div>
+			<div class="firstColumn">
+				<label class="label_t date" id="date1" data-bind="text: Terms1()[0].Term().TermDate">datum</label>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms1()[0].CellState()==0, 'rTableCell1':  Terms1()[0].CellState()==1, 'rTableCell2':  Terms1()[0].CellState()==2,  'rTableCell3':  Terms1()[0].CellState()==3, 'rTableCellX':  Terms1()[0].CellState()!=0 && Terms1()[0].CellState()!=1 && Terms1()[0].CellState()!=2 && Terms1()[0].CellState()!=3 }">
+				<div    id="termOwner10"      class="label_t demoName" 	data-bind="text: Terms1()[0].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm10" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms1()[0].ButtonTakeState(), 'takeTermDisabled': !Terms1()[0].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm10" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms1()[0].ButtonSkipState(), 'skipTermDisabled': !Terms1()[0].ButtonSkipState()}"></button>
+				<select id="search10"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms1()[0].DemoPickerState(), 'searchStudentDisabled':!Terms1()[0].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms1()[1].CellState()==0, 'rTableCell1':  Terms1()[1].CellState()==1, 'rTableCell2':  Terms1()[1].CellState()==2,  'rTableCell3':  Terms1()[1].CellState()==3, 'rTableCellX':  Terms1()[1].CellState()!=0 && Terms1()[1].CellState()!=1 && Terms1()[1].CellState()!=2 && Terms1()[1].CellState()!=3 }">
+				<div    id="termOwner11"      class="label_t demoName" 	data-bind="text: Terms1()[1].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm11" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms1()[1].ButtonTakeState(), 'takeTermDisabled': !Terms1()[1].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm11" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms1()[1].ButtonSkipState(), 'skipTermDisabled': !Terms1()[1].ButtonSkipState()}"></button>
+				<select id="search11"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms1()[1].DemoPickerState(), 'searchStudentDisabled':!Terms1()[1].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms1()[2].CellState()==0, 'rTableCell1':  Terms1()[2].CellState()==1, 'rTableCell2':  Terms1()[2].CellState()==2,  'rTableCell3':  Terms1()[2].CellState()==3, 'rTableCellX':  Terms1()[2].CellState()!=0 && Terms1()[2].CellState()!=1 && Terms1()[2].CellState()!=2 && Terms1()[2].CellState()!=3 }">
+				<div    id="termOwner12"      class="label_t demoName" 	data-bind="text: Terms1()[2].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm12" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms1()[2].ButtonTakeState(), 'takeTermDisabled': !Terms1()[2].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm12" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms1()[2].ButtonSkipState(), 'skipTermDisabled': !Terms1()[2].ButtonSkipState()}"></button>
+				<select id="search12"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms1()[2].DemoPickerState(), 'searchStudentDisabled':!Terms1()[2].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms1()[3].CellState()==0, 'rTableCell1':  Terms1()[3].CellState()==1, 'rTableCell2':  Terms1()[3].CellState()==2,  'rTableCell3':  Terms1()[3].CellState()==3, 'rTableCellX':  Terms1()[3].CellState()!=0 && Terms1()[3].CellState()!=1 && Terms1()[3].CellState()!=2 && Terms1()[3].CellState()!=3 }">
+				<div    id="termOwner13"      class="label_t demoName" 	data-bind="text: Terms1()[3].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm13" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms1()[3].ButtonTakeState(), 'takeTermDisabled': !Terms1()[3].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm13" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms1()[3].ButtonSkipState(), 'skipTermDisabled': !Terms1()[3].ButtonSkipState()}"></button>
+				<select id="search13"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms1()[3].DemoPickerState(), 'searchStudentDisabled':!Terms1()[3].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms1()[4].CellState()==0, 'rTableCell1':  Terms1()[4].CellState()==1, 'rTableCell2':  Terms1()[4].CellState()==2,  'rTableCell3':  Terms1()[4].CellState()==3, 'rTableCellX':  Terms1()[4].CellState()!=0 && Terms1()[4].CellState()!=1 && Terms1()[4].CellState()!=2 && Terms1()[4].CellState()!=3 }">
+				<div    id="termOwner14"      class="label_t demoName" 	data-bind="text: Terms1()[4].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm14" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms1()[4].ButtonTakeState(), 'takeTermDisabled': !Terms1()[4].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm14" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms1()[4].ButtonSkipState(), 'skipTermDisabled': !Terms1()[4].ButtonSkipState()}"></button>
+				<select id="search14"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms1()[4].DemoPickerState(), 'searchStudentDisabled':!Terms1()[4].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+	</div>
+	<div class="rTableRow">
+			<div class="leftNavigation"></div>
+			<div class="firstColumn">
+				<label class="label_t date" id="date2" data-bind="text: Terms2()[0].Term().TermDate">datum</label>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms2()[0].CellState()==0, 'rTableCell1':  Terms2()[0].CellState()==1, 'rTableCell2':  Terms2()[0].CellState()==2,  'rTableCell3':  Terms2()[0].CellState()==3, 'rTableCellX':  Terms2()[0].CellState()!=0 && Terms2()[0].CellState()!=1 && Terms2()[0].CellState()!=2 && Terms2()[0].CellState()!=3 }">
+				<div    id="termOwner20"      class="label_t demoName" 	data-bind="text: Terms2()[0].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm20" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms2()[0].ButtonTakeState(), 'takeTermDisabled': !Terms2()[0].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm20" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms2()[0].ButtonSkipState(), 'skipTermDisabled': !Terms2()[0].ButtonSkipState()}"></button>
+				<select id="search20"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms2()[0].DemoPickerState(), 'searchStudentDisabled':!Terms2()[0].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms2()[1].CellState()==0, 'rTableCell1':  Terms2()[1].CellState()==1, 'rTableCell2':  Terms2()[1].CellState()==2,  'rTableCell3':  Terms2()[1].CellState()==3, 'rTableCellX':  Terms2()[1].CellState()!=0 && Terms2()[1].CellState()!=1 && Terms2()[1].CellState()!=2 && Terms2()[1].CellState()!=3 }">
+				<div    id="termOwner21"      class="label_t demoName" 	data-bind="text: Terms2()[1].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm21" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms2()[1].ButtonTakeState(), 'takeTermDisabled': !Terms2()[1].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm21" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms2()[1].ButtonSkipState(), 'skipTermDisabled': !Terms2()[1].ButtonSkipState()}"></button>
+				<select id="search21"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms2()[1].DemoPickerState(), 'searchStudentDisabled':!Terms2()[1].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms2()[2].CellState()==0, 'rTableCell1':  Terms2()[2].CellState()==1, 'rTableCell2':  Terms2()[2].CellState()==2,  'rTableCell3':  Terms2()[2].CellState()==3, 'rTableCellX':  Terms2()[2].CellState()!=0 && Terms2()[2].CellState()!=1 && Terms2()[2].CellState()!=2 && Terms2()[2].CellState()!=3 }">
+				<div    id="termOwner22"      class="label_t demoName" 	data-bind="text: Terms2()[2].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm22" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms2()[2].ButtonTakeState(), 'takeTermDisabled': !Terms2()[2].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm22" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms2()[2].ButtonSkipState(), 'skipTermDisabled': !Terms2()[2].ButtonSkipState()}"></button>
+				<select id="search22"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms2()[2].DemoPickerState(), 'searchStudentDisabled':!Terms2()[2].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms2()[3].CellState()==0, 'rTableCell1':  Terms2()[3].CellState()==1, 'rTableCell2':  Terms2()[3].CellState()==2,  'rTableCell3':  Terms2()[3].CellState()==3, 'rTableCellX':  Terms2()[3].CellState()!=0 && Terms2()[3].CellState()!=1 && Terms2()[3].CellState()!=2 && Terms2()[3].CellState()!=3 }">
+				<div    id="termOwner23"      class="label_t demoName" 	data-bind="text: Terms2()[3].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm23" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms2()[3].ButtonTakeState(), 'takeTermDisabled': !Terms2()[3].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm23" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms2()[3].ButtonSkipState(), 'skipTermDisabled': !Terms2()[3].ButtonSkipState()}"></button>
+				<select id="search23"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms2()[3].DemoPickerState(), 'searchStudentDisabled':!Terms2()[3].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms2()[4].CellState()==0, 'rTableCell1':  Terms2()[4].CellState()==1, 'rTableCell2':  Terms2()[4].CellState()==2,  'rTableCell3':  Terms2()[4].CellState()==3, 'rTableCellX':  Terms2()[4].CellState()!=0 && Terms2()[4].CellState()!=1 && Terms2()[4].CellState()!=2 && Terms2()[4].CellState()!=3 }">
+				<div    id="termOwner24"      class="label_t demoName" 	data-bind="text: Terms2()[4].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm24" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms2()[4].ButtonTakeState(), 'takeTermDisabled': !Terms2()[4].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm24" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms2()[4].ButtonSkipState(), 'skipTermDisabled': !Terms2()[4].ButtonSkipState()}"></button>
+				<select id="search24"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms2()[4].DemoPickerState(), 'searchStudentDisabled':!Terms2()[4].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+	</div>
+	<div class="rTableRow">
+			<div class="leftNavigation">
+				<div>
+				<div class="arrowDown" id="arrowDown" data-bind="click: downClicked, css:{'arrowDownDisabled': disableDown(), 'arrowDown':!disableDown()} ">
+					<i class="fa fa-arrow-down fa-lg" aria-hidden="true"></i>
+				</div>
+			</div>
+			</div>
+			<div class="firstColumn">
+				<label class="label_t date" id="date3" data-bind="text: Terms3()[0].Term().TermDate">datum</label>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms3()[0].CellState()==0, 'rTableCell1':  Terms3()[0].CellState()==1, 'rTableCell2':  Terms3()[0].CellState()==2,  'rTableCell3':  Terms3()[0].CellState()==3, 'rTableCellX':  Terms3()[0].CellState()!=0 && Terms3()[0].CellState()!=1 && Terms3()[0].CellState()!=2 && Terms3()[0].CellState()!=3 }">
+				<div    id="termOwner30"      class="label_t demoName" 	data-bind="text: Terms3()[0].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm30" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms3()[0].ButtonTakeState(), 'takeTermDisabled': !Terms3()[0].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm30" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms3()[0].ButtonSkipState(), 'skipTermDisabled': !Terms3()[0].ButtonSkipState()}"></button>
+				<select id="search30"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms3()[0].DemoPickerState(), 'searchStudentDisabled':!Terms3()[0].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms3()[1].CellState()==0, 'rTableCell1':  Terms3()[1].CellState()==1, 'rTableCell2':  Terms3()[1].CellState()==2,  'rTableCell3':  Terms3()[1].CellState()==3, 'rTableCellX':  Terms3()[1].CellState()!=0 && Terms3()[1].CellState()!=1 && Terms3()[1].CellState()!=2 && Terms3()[1].CellState()!=3 }">
+				<div    id="termOwner31"      class="label_t demoName" 	data-bind="text: Terms3()[1].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm31" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms3()[1].ButtonTakeState(), 'takeTermDisabled': !Terms3()[1].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm31" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms3()[1].ButtonSkipState(), 'skipTermDisabled': !Terms3()[1].ButtonSkipState()}"></button>
+				<select id="search31"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms3()[1].DemoPickerState(), 'searchStudentDisabled':!Terms3()[1].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms3()[2].CellState()==0, 'rTableCell1':  Terms3()[2].CellState()==1, 'rTableCell2':  Terms3()[2].CellState()==2,  'rTableCell3':  Terms3()[2].CellState()==3, 'rTableCellX':  Terms3()[2].CellState()!=0 && Terms3()[2].CellState()!=1 && Terms3()[2].CellState()!=2 && Terms3()[2].CellState()!=3 }">
+				<div    id="termOwner32"      class="label_t demoName" 	data-bind="text: Terms3()[2].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm32" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms3()[2].ButtonTakeState(), 'takeTermDisabled': !Terms3()[2].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm32" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms3()[2].ButtonSkipState(), 'skipTermDisabled': !Terms3()[2].ButtonSkipState()}"></button>
+				<select id="search32"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms3()[2].DemoPickerState(), 'searchStudentDisabled':!Terms3()[2].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms3()[3].CellState()==0, 'rTableCell1':  Terms3()[3].CellState()==1, 'rTableCell2':  Terms3()[3].CellState()==2,  'rTableCell3':  Terms3()[3].CellState()==3, 'rTableCellX':  Terms3()[3].CellState()!=0 && Terms3()[3].CellState()!=1 && Terms3()[3].CellState()!=2 && Terms3()[3].CellState()!=3 }">
+				<div    id="termOwner33"      class="label_t demoName" 	data-bind="text: Terms3()[3].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm33" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms3()[3].ButtonTakeState(), 'takeTermDisabled': !Terms3()[3].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm33" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms3()[3].ButtonSkipState(), 'skipTermDisabled': !Terms3()[3].ButtonSkipState()}"></button>
+				<select id="search33"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms3()[3].DemoPickerState(), 'searchStudentDisabled':!Terms3()[3].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+			<div                                class="rTableCell"  			data-bind="								css: { 'rTableCell0' :  Terms3()[4].CellState()==0, 'rTableCell1':  Terms3()[4].CellState()==1, 'rTableCell2':  Terms3()[4].CellState()==2,  'rTableCell3':  Terms3()[4].CellState()==3, 'rTableCellX':  Terms3()[4].CellState()!=0 && Terms3()[4].CellState()!=1 && Terms3()[4].CellState()!=2 && Terms3()[4].CellState()!=3 }">
+				<div    id="termOwner34"      class="label_t demoName" 	data-bind="text: Terms3()[4].Term().User().Name">demonstrator</div><br>
+				<button id="buttonTakeTerm34" class="tableButton" 			data-bind="text: defaultTextButtonTake, 	css:{'takeTerm':Terms3()[4].ButtonTakeState(), 'takeTermDisabled': !Terms3()[4].ButtonTakeState()}"></button>
+				<button id="buttonSkipTerm34" class="tableButton" 			data-bind="text: defaultTextButtonSkip, 	css:{'skipTerm':Terms3()[4].ButtonSkipState(), 'skipTermDisabled': !Terms3()[4].ButtonSkipState()}"></button>
+				<select id="search34"         class=""  			  		data-bind="options: Demonstrators,			css:{'searchStudent':Terms3()[4].DemoPickerState(), 'searchStudentDisabled':!Terms3()[4].DemoPickerState()}
+				optionsText: 'Name',
+				value: 'Id',
+				optionsCaption: 'Odaberite demonstratora'"></select>
+			</div>
+	</div>
+</div>

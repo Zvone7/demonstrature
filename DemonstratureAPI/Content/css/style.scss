@@ -5,10 +5,15 @@ $headerColor: #004E99;
 $myHeaderColor: #003D78;
 $myFirstColumnColor: #004E99;
 $myCellColor: #cce5ff;
+$cell0Color: $myCellColor;
+$cell1Color: #ffff30;
+$cell2Color: #ffff30;
+$cell3Color: #53d134;
+$cellXColor:#3a3838;
 $demoNameColor: #e6eeff;
 $searchColor: #cce5ff;
-$buttonTakeColor: green;
-$buttonSkipColor: gray;
+$buttonTakeColor: #226d0f;
+$buttonSkipColor: #8e1000;
 $disableColor: #595959;
 $redDisabled: #8e1000;
 //-------------------------------------------------background colors-----------------------------------------------//
@@ -17,6 +22,7 @@ $myHeaderTextColor: #e6e6ff;
 $myFirstColumnTextColor: #e6e6ff;
 $placeholderColor: #000;
 $buttonTextSave: palegreen;
+$buttonTextCancel: #ffd1d1;
 //--------------------------------------------------text colors----------------------------------------------------//
 //--------------------------------------------------border colors--------------------------------------------------//
 $myBorderColor: #333333;
@@ -226,24 +232,29 @@ a:-webkit-any-link {
     text-align: center;
 }
 
-.rTableCell0{
+.rTableCell0 {
     @extend .rTableCell;
-    background-color:$myCellColor;
+    background-color: $cell0Color;
 }
 
 .rTableCell1 {
     @extend .rTableCell;
-    background-color: yellow;
+    background-color: $cell1Color;
 }
 
 .rTableCell2 {
     @extend .rTableCell;
-    background-color: green;
+    background-color: $cell2Color;
+}
+
+.rTableCell3 {
+    @extend .rTableCell;
+    background-color: $cell3Color;
 }
 
 .rTableCellX {
     @extend .rTableCell;
-    background-color: red;
+    background-color: $cellXColor;
 }
 
 .firstColumn {
@@ -483,7 +494,7 @@ a:-webkit-any-link {
 
 //--------------------------------------------------navigation buttons---------------------------------------------//
 //--------------------------------------------------------search---------------------------------------------------//
-.search-student {
+.searchStudent {
     background-color: lighten($searchColor,7%);
     border: 1px solid $searchBorder;
     border-radius: 3px;
@@ -492,6 +503,11 @@ a:-webkit-any-link {
     outline: none;
     padding: 2px;
     font-size: $fontPcXS;
+}
+
+.searchStudentDisabled {
+    @extend .searchStudent;
+    visibility:hidden;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
@@ -621,11 +637,11 @@ input {
     font-size: $fontPcXS;
     word-wrap: break-word;
     /*padding:2px;*/
-
     &.takeTerm {
         font-size: $fontPcS;
         background-color: $buttonTakeColor;
         color: $buttonTextSave;
+        /*font-weight: bold;*/
 
         &:hover {
             background-color: darken($buttonTakeColor,5%);
@@ -633,8 +649,11 @@ input {
         }
     }
 
-    &.takeTerm_disabled {
+    &.takeTermDisabled {
+        @extend .takeTerm;
         background-color: $disableColor;
+        color: black;
+        visibility: hidden;
 
         &:hover {
             background-color: darken($disableColor,5%);
@@ -645,10 +664,23 @@ input {
     &.skipTerm {
         font-size: $fontPcS;
         background-color: $buttonSkipColor;
-        font-weight: bold;
-
+        /*font-weight: bold;*/
+        color: $buttonTextCancel;
+        /*visibility: hidden;*/
         &:hover {
             background-color: darken($buttonSkipColor,1%);
+            cursor: pointer;
+        }
+    }
+
+    &.skipTermDisabled {
+        @extend .skipTerm;
+        background-color: $disableColor;
+        /*color: $buttonSkipColor;*/
+        visibility: hidden;
+
+        &:hover {
+            background-color: darken($disableColor,5%);
             cursor: pointer;
         }
     }
@@ -758,7 +790,7 @@ input {
     @extend .saveSetting;
     background: #990000;
     width: 80px;
-    color: lightgray;
+    color: $buttonTextCancel;
 
     &:hover {
         background-color: darken(#900,10%);

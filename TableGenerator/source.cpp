@@ -88,9 +88,28 @@ int main(){
 		//fourth row
 		//fifth row
 		//sixth row
-		else if(i>1 && i<5){
+		//seventh row
+		else{
 			// leftNavigation
-			fprintf(f,"\t\t\t<div class=\"leftNavigation\"></div>\n");
+			
+			if(i==5){			
+				fprintf(f,"\t\t\t");
+				fprintf(f,"<div class=\"leftNavigation\">\n");
+				fprintf(f,"\t\t\t\t<div>\n");
+				fprintf(f,"\t\t\t\t");
+				fprintf(f,"<div class=\"arrowDown\" id=\"arrowDown\" data-bind=\"click: downClicked, css:{'arrowDownDisabled': disableDown(), 'arrowDown':!disableDown()} \">\n");
+				fprintf(f,"\t");fprintf(f,"\t");fprintf(f,"\t");fprintf(f,"\t");fprintf(f,"\t");
+				fprintf(f,"<i class=\"fa fa-arrow-down fa-lg\" aria-hidden=\"true\"></i>\n");
+				fprintf(f,"\t");fprintf(f,"\t");fprintf(f,"\t");fprintf(f,"\t");
+				fprintf(f,"</div>\n");			
+				fprintf(f,"\t\t\t");
+				fprintf(f,"</div>\n");							
+				fprintf(f,"\t\t\t");
+				fprintf(f,"</div>\n");	
+			}
+			else{
+				fprintf(f,"\t\t\t<div class=\"leftNavigation\"></div>\n");				
+			}
 			
 			// date
 			fprintf(f,"\t\t\t<div class=\"firstColumn\">\n");
@@ -99,53 +118,17 @@ int main(){
 				
 			//cells
         	for(int j=0;j<5;j++){
-		        fprintf(f,"\t\t\t<div class=\"rTableCell\"  data-bind=\"css: { 'rTableCell0' :  Terms%d()[%d].CellState()==0, 'rTableCell1':  Terms%d()[%d].CellState()==1, 'rTableCell2':  Terms%d()[%d].CellState()==2, 'rTableCellX':  Terms%d()[%d].CellState()!=0 && Terms%d()[%d].CellState()!=1 && Terms%d()[%d].CellState()!=2 }\">\n", i-2, j, i-2, j, i-2, j, i-2, j, i-2, j, i-2, j);
-				fprintf(f,"\t\t\t\t<div class=\"label_t demoName\" id=\"termOwner%d%d\" data-bind=\"text: Terms%d()[%d].Term().User().Name\">demonstrator</div><br>\n",i-2,j,i-2,j);
-				fprintf(f,"\t\t\t\t<button id=\"buttonTakeTerm%d%d\" class=\"tableButton takeTerm\" data-bind=\"text: defaultTextButtonTake\"></button>\n",i-2,j);
-				fprintf(f,"\t\t\t\t<button id=\"buttonSkipTerm%d%d\" class=\"tableButton skipTerm\" data-bind=\"text: defaultTextButtonSkip\"></button><br>\n",i-2,j);
-				fprintf(f,"\t\t\t\t<select class=\"search-student\" id=\"search%d%d\" data-bind=\"options: Demonstrators,\n",i-2,j);
+		        fprintf(f,"\t\t\t<div                                class=\"rTableCell\"  			data-bind=\"								css: { 'rTableCell0' :  Terms%d()[%d].CellState()==0, 'rTableCell1':  Terms%d()[%d].CellState()==1, 'rTableCell2':  Terms%d()[%d].CellState()==2,  'rTableCell3':  Terms%d()[%d].CellState()==3, 'rTableCellX':  Terms%d()[%d].CellState()!=0 && Terms%d()[%d].CellState()!=1 && Terms%d()[%d].CellState()!=2 && Terms%d()[%d].CellState()!=3 }\">\n", i-2, j, i-2, j, i-2, j, i-2, j, i-2, j, i-2, j, i-2, j, i-2, j);
+				fprintf(f,"\t\t\t\t<div    id=\"termOwner%d%d\"      class=\"label_t demoName\" 	data-bind=\"text: Terms%d()[%d].Term().User().Name\">demonstrator</div><br>\n",i-2,j,i-2,j);
+				fprintf(f,"\t\t\t\t<button id=\"buttonTakeTerm%d%d\" class=\"tableButton\" 			data-bind=\"text: defaultTextButtonTake, 	css:{'takeTerm':Terms%d()[%d].ButtonTakeState(), 'takeTermDisabled': !Terms%d()[%d].ButtonTakeState()}\"></button>\n",i-2, j, i-2, j);
+				fprintf(f,"\t\t\t\t<button id=\"buttonSkipTerm%d%d\" class=\"tableButton\" 			data-bind=\"text: defaultTextButtonSkip, 	css:{'skipTerm':Terms%d()[%d].ButtonSkipState(), 'skipTermDisabled': !Terms%d()[%d].ButtonSkipState()}\"></button>\n",i-2, j, i-2, j);
+				fprintf(f,"\t\t\t\t<select id=\"search%d%d\"         class=\"\"  			  		data-bind=\"options: Demonstrators,			css:{'searchStudent':Terms%d()[%d].DemoPickerState(), 'searchStudentDisabled':!Terms%d()[%d].DemoPickerState()}\n",i-2,j,i-2,j,i-2,j);
 				fprintf(f,"\t\t\t\toptionsText: 'Name',\n");
 				fprintf(f,"\t\t\t\tvalue: 'Id',\n");
 				fprintf(f,"\t\t\t\toptionsCaption: 'Odaberite demonstratora'\"></select>\n");
 		        fprintf(f,"\t\t\t</div>\n");        		
         	}			
-		}
-		//seventh row
-		else if(i==5){	
-			// leftNavigation		
-			fprintf(f,"\t\t\t");
-			fprintf(f,"<div class=\"leftNavigation\">\n");
-			fprintf(f,"\t\t\t\t<div>\n");
-			fprintf(f,"\t\t\t\t");
-			fprintf(f,"<div class=\"arrowDown\" id=\"arrowDown\" data-bind=\"click: downClicked, css:{'arrowDownDisabled': disableDown(), 'arrowDown':!disableDown()} \">\n");
-			fprintf(f,"\t");fprintf(f,"\t");fprintf(f,"\t");fprintf(f,"\t");fprintf(f,"\t");
-			fprintf(f,"<i class=\"fa fa-arrow-down fa-lg\" aria-hidden=\"true\"></i>\n");
-			fprintf(f,"\t");fprintf(f,"\t");fprintf(f,"\t");fprintf(f,"\t");
-			fprintf(f,"</div>\n");			
-			fprintf(f,"\t\t\t");
-			fprintf(f,"</div>\n");							
-			fprintf(f,"\t\t\t");
-			fprintf(f,"</div>\n");					
-			
-			// date
-			fprintf(f,"\t\t\t<div class=\"firstColumn\">\n");
-			 fprintf(f,"\t\t\t\t<label class=\"label_t date\" id=\"date%d\" data-bind=\"text: Terms%d()[0].Term().TermDate\">datum</label>\n",i-2,i-2);
-			fprintf(f,"\t\t\t</div>\n");		
-			
-			// cells
-        	for(int j=0;j<5;j++){
-        		fprintf(f,"\t\t\t<div class=\"rTableCell\"  data-bind=\"css: { 'rTableCell0' :  Terms%d()[%d].CellState()==0, 'rTableCell1':  Terms%d()[%d].CellState()==1, 'rTableCell2':  Terms%d()[%d].CellState()==2, 'rTableCellX':  Terms%d()[%d].CellState()!=0 && Terms%d()[%d].CellState()!=1 && Terms%d()[%d].CellState()!=2 }\">\n", i-2, j, i-2, j, i-2, j, i-2, j, i-2, j, i-2, j);
-				fprintf(f,"\t\t\t\t<div class=\"label_t demoName\" id=\"termOwner%d%d\" data-bind=\"text: Terms%d()[%d].Term().User().Name\">demonstrator</div><br>\n",i-2,j,i-2,j);
-				fprintf(f,"\t\t\t\t<button id=\"buttonTakeTerm%d%d\" class=\"tableButton takeTerm\" data-bind=\"text: defaultTextButtonTake\"></button>\n",i-2,j);
-				fprintf(f,"\t\t\t\t<button id=\"buttonSkipTerm%d%d\" class=\"tableButton skipTerm\" data-bind=\"text: defaultTextButtonSkip\"></button><br>\n",i-2,j);
-				fprintf(f,"\t\t\t\t<select class=\"search-student\" id=\"search%d%d\" data-bind=\"options: Demonstrators,\n",i-2,j);
-				fprintf(f,"\t\t\t\toptionsText: 'Name',\n");
-				fprintf(f,"\t\t\t\tvalue: 'Id',\n");
-				fprintf(f,"\t\t\t\toptionsCaption: 'Odaberite demonstratora'\"></select>\n");
-		        fprintf(f,"\t\t\t</div>\n");        		
-        	}
-			
-		}
+		}		
 		fprintf(f,"\t");
 		fprintf(f,"</div>\n");
 	}

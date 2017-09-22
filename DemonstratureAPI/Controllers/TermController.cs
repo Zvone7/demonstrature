@@ -12,6 +12,8 @@ namespace DemonstratureAPI.Controllers
 {
     public class TermController : Controller
     {
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         // GET: Term
         public ActionResult Index()
         {
@@ -50,10 +52,19 @@ namespace DemonstratureAPI.Controllers
         public ActionResult ByCourseId2([FromUri]int courseId, int movedRight, int movedDown)
         {
             var instance = new TermLogic();
-            var identity = (ClaimsIdentity)User.Identity;
-            IEnumerable<Claim> claims = identity.Claims;
-            // TO DO get claims because you need userId for determining CellState on TermController
-            var result = instance.GetTerms(courseId, movedRight, movedDown);
+            int userId = 0;
+            try
+            {
+                var identity = (ClaimsIdentity)User.Identity;
+                IEnumerable<Claim> claims = identity.Claims;
+                // get claims because you need userId for determining CellState on TermController
+                Int32.TryParse( claims.ToList()[1].Value, out userId);
+            }
+            catch(Exception e)
+            {
+                _logger.Info(e);
+            }
+            var result = instance.GetTerms(courseId, movedRight, movedDown, userId);
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
         }

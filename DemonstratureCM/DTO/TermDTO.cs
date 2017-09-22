@@ -15,6 +15,7 @@ namespace DemonstratureCM.DTO
         public int SuggestedUserId { get; set; }
         public bool ButtonTakeState { get; set; }
         public bool ButtonSkipState { get; set; }
+        public bool DemoPickerState { get; set; }
         public int CellState { get; set; }
     }
 }

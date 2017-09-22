@@ -1089,8 +1089,8 @@ class SettingsVM {
         var self = this;
         var serviceURL = '/Term/Delete';
         $.ajax({
-            type: "DELETE",
-            url: serviceURL + "?termId=" + termId,
+            type: "POST",
+            url: serviceURL + "?id=" + termId,
             success: successFunc,
             error: errorFunc
         });

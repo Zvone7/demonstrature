@@ -8,8 +8,13 @@ defaultna plava
 1 - slobodna/predlozena za uzeti
 zuta
 
-2 - rezervirana za uzeti
+2 - slobodna/predlozena za uzeti - u grupi korisnika
+zuta
+
+3 - uzeta
 zelena
 
 x - UNKNOWN
 crvena
+
+bugovi:

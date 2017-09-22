@@ -5,7 +5,7 @@
     ko.applyBindings(tableVM);
 });
 
-const defaultTextButtonSkip = "Preskoči termin";
+const defaultTextButtonSkip = "Otkaži termin";
 const defaultTextButtonTake = "Uzmi termin";
 const defaultCourseName = "Kolegij";
 const defaultDate = new Date().getDate() + "." + (new Date().getMonth() + 1) + "." + new Date().getFullYear() + ".";
@@ -37,6 +37,7 @@ class TableVM {
     public defaultUserName = defaultUserName;
     public defaultUserRole = defaultUserRole;
     public defaultUserUsername = defaultUserUsername;
+    public messageNoDataAvailable = "Nema dostupnih podataka";
     //---------------------------------OBSERVABLES------------------------------//
     public Terms0 = ko.observableArray<KoCell>();
     public Terms1 = ko.observableArray<KoCell>();
@@ -119,6 +120,7 @@ class TableVM {
         });
 
     }
+
     public stack = () => {
         /*
 
@@ -143,12 +145,12 @@ class TableVM {
 
         var study = ko.observable<KoStudy>(new KoStudy());
         study().Name(self.defaultStudyName);
-        study().Id(self.defaultId);
+        study().Id=self.defaultId;
         self.Studies([]);
         self.Studies().push(study());
 
         var course = ko.observable<KoCourse>(new KoCourse());
-        course().Id(self.defaultId);
+        course().Id=self.defaultId;
         course().Name(self.defaultCourseName);
         course().Study(self.defaultStudyName);
         self.CoursesActive([]);
@@ -159,37 +161,38 @@ class TableVM {
         self.Demonstrators().push(demonstrator());
 
         var user = ko.observable<KoUser>(new KoUser());
-        user().Id(0);
+        user().Id=0;
         user().LastName(self.defaultUserLastName);
         user().Name(self.defaultUserName);
         user().Role(self.defaultUserRole);
         user().Username(self.defaultUserUsername);
 
         var suggestedUser = ko.observable<KoUser>(new KoUser());
-        suggestedUser().Id(0);
+        suggestedUser().Id=0;
         suggestedUser().LastName(self.defaultUserLastName);
         suggestedUser().Name(self.defaultUserName);
         suggestedUser().Role(self.defaultUserRole);
         suggestedUser().Username(self.defaultUserUsername);
 
         var group = ko.observable<KoGroup>(new KoGroup());
-        group().CourseId(self.defaultId);
-        group().Id(self.defaultId);
+        group().CourseId=self.defaultId;
+        group().Id=self.defaultId;
         group().Name(self.defaultGroupName);
-        group().OwnerId(self.defaultId);
+        //group().OwnerId(self.defaultId);
+        group().OwnerId=self.defaultId;
         group().Owner = user;
 
         self.dummyTerm = ko.observable<KoTerm>(new KoTerm());
         self.dummyTerm().Course = course;
         self.dummyTerm().CourseId = course().Id;
         self.dummyTerm().User = user;
-        self.dummyTerm().UserId = user().Id;
+        self.dummyTerm().UserId =user().Id;
         self.dummyTerm().Group = group;
         self.dummyTerm().GroupId = group().Id;
-        self.dummyTerm().Id(0);
+        self.dummyTerm().Id=0;
         self.dummyTerm().TermDate(self.defaultDate);
         self.dummyTerm().SuggestedUser = suggestedUser;
-        self.dummyTerm().SuggestedUserId = suggestedUser().Id;
+        self.dummyTerm().SuggestedUserId(suggestedUser().Id);
 
         //allocation for Terms arrays
         self.allocateTermsArrays(self.dummyTerm);
@@ -205,9 +208,10 @@ class TableVM {
         for (var i = 0; i < 4; i++) {
             for (var j = 0; j < 5; j++) {
                 var cell = ko.observable<KoCell>(new KoCell());
-                cell().ButtonSkipState(true);
-                cell().ButtonTakeState(true);
+                cell().ButtonSkipState(false);
+                cell().ButtonTakeState(false);
                 cell().CellState(0);
+                cell().DemoPickerState(false);
                 cell().x(i);
                 cell().y(j);
                 cell().Term = term;
@@ -241,7 +245,7 @@ class TableVM {
             if (self.Studies().length == 0) {
                 var study = ko.observable<KoStudy>(new KoStudy());
                 study().Name = self.CoursesAll()[i].Study;
-                study().Id(studyId);
+                study().Id=studyId;
                 self.Studies.push(study());
                 studyId++;
             }
@@ -255,7 +259,7 @@ class TableVM {
                 if (!alreadyPushed) {
                     var study = ko.observable<KoStudy>(new KoStudy());
                     study().Name = self.CoursesAll()[i].Study;
-                    study().Id(studyId);
+                    study().Id=studyId;
                     self.Studies.push(study());
                     studyId++;
                 }
@@ -439,14 +443,11 @@ class TableVM {
                         term().Group(new KoGroup());
                         term().Group().CourseId = self.RawGroupData[j].CourseId;
                         term().Group().Name = self.RawGroupData[j].Name;
-                        term().Group().OwnerId == self.RawGroupData[j].OwnerId;
-                        if (term().Group().OwnerId() == undefined) {
-                            term().Group().OwnerId(0);
-                        }
+                        term().Group().OwnerId = self.RawGroupData[j].OwnerId;
                         term().Group().Owner(new KoUser());
-                        if (term().Group().OwnerId() == 0) {
+                        if (!term().Group().OwnerId) {
                             //console.log("option one");
-                            term().Group().Owner().Id(0);
+                            term().Group().Owner().Id=0;
                             term().Group().Owner().Name(self.defaultUserName);
                             term().Group().Owner().LastName(self.defaultUserLastName);
                             term().Group().Owner().Username(self.defaultUserUsername);
@@ -454,14 +455,15 @@ class TableVM {
                             continue;
                         }
                         else {
-                            //console.log("option two");
-                            for (var k = 0; k < self.RawUserData.length; k++) {
-                                if (term().Group().OwnerId() == k) {
+                            //console.log("option two", term().Group().OwnerId);
+                            for (var k=0; k < self.RawUserData.length; k++) {
+                                if (term().Group().OwnerId == self.RawUserData[k].Id) {
                                     term().Group().Owner().Id = self.RawUserData[k].Id;
                                     term().Group().Owner().Name = self.RawUserData[k].Name;
                                     term().Group().Owner().LastName = self.RawUserData[k].LastName;
                                     term().Group().Owner().Username = self.RawUserData[k].Username;
                                     term().Group().Owner().Role = self.RawUserData[k].Role;
+                                    break;
                                 }
                             }
                         }
@@ -496,15 +498,22 @@ class TableVM {
                 //console.log("[", i, "] ", newRow[i]);
 
                 newRow[i].Term = term;
-                newRow[i].ButtonSkipState(false);
-                newRow[i].ButtonTakeState(false);
-                newRow[i].CellState(0);
+                newRow[i].ButtonSkipState(oldRow[i].ButtonSkipState);
+                newRow[i].ButtonTakeState(oldRow[i].ButtonTakeState);
+                newRow[i].CellState(oldRow[i].CellState);
+                newRow[i].DemoPickerState(oldRow[i].DemoPickerState);
                 newRow[i].x(i);
                 newRow[i].y(order);
-
-                termDateFix = newRow[i].Term().TermDate;
-                parts = termDateFix.split("0:00:00");
-                newRow[i].Term().TermDate = parts[0];
+                try {
+                    termDateFix = newRow[i].Term().TermDate;
+                    parts = termDateFix.split("0:00:00");
+                    newRow[i].Term().TermDate = parts[0];
+                }
+                catch (e) {
+                    newRow[i].Term().TermDate = self.messageNoDataAvailable;
+                }
+                //newRow[i].Term().TermDate = parts[0];
+                //console.log(newRow[i].Term().TermDate);
                 //console.log("convertRowOfTerms end");
             }
             else {
@@ -520,7 +529,7 @@ class TableVM {
                     }
                 }
 
-                term().Id(0);
+                term().Id=0;
 
                 //find course
                 //term().CourseId = oldRow[memPos].CourseId; // fix - get any course from row
@@ -529,12 +538,12 @@ class TableVM {
                 //find group
                 //console.log("[", i, "]  GroupId", oldRow[i].GroupId);
                 if (oldRow[i].GroupId == 0) {
-                    term().GroupId(0);
+                    term().GroupId=0;
                     term().Group(new KoGroup());
                     term().Group().Name(this.defaultGroupName);
                     term().Group().Owner(new KoUser());
                     term().Group().Owner().Name(this.defaultUserName);
-                    term().Group().Owner().Id(0);
+                    term().Group().Owner().Id=0;
                 }
                 else {
                     for (var j = 0; j < self.RawGroupData.length; j++) {
@@ -543,16 +552,17 @@ class TableVM {
                             term().Group().Name = self.RawGroupData[j].Name;
                             term().Group().OwnerId = self.RawGroupData[j].OwnerId;
                             term().Group().Owner(new KoUser());
-                            for (var k = 0; k < self.RawUserData.length; k++) {
+                            for (var k=0; k < self.RawUserData.length; k++) {
                                 if (term().Group().OwnerId == self.RawUserData[k].Id) {
                                     term().Group().Owner().Name = self.RawUserData[k].Name;
                                     term().Group().Owner().Username = self.RawUserData[k].Username;
                                     term().Group().Owner().LastName = self.RawUserData[k].LastName;
                                     term().Group().Owner().Id = self.RawUserData[k].Id;
                                     term().Group().Owner().Role = self.RawUserData[k].Role;
+                                    break;
                                 }
-
                             }
+                            break;
                         }
                     }
 
@@ -562,7 +572,7 @@ class TableVM {
 
                 //find user
                 //console.log("[", i, "] UserId", oldRow[i].UserId);
-                term().UserId(0);
+                term().UserId=0;
                 term().User(new KoUser());
                 term().User().Name(this.defaultUserName);
                 //console.log("*",term().User().Name());
@@ -570,10 +580,10 @@ class TableVM {
                 //console.log("[", i, "] ", newRow[i]);
 
                 newRow[i].Term = term;
-                newRow[i].ButtonSkipState(false);
-                newRow[i].ButtonTakeState(false);
-                //newRow[i].CellState(oldRow[i].cellState);
-                newRow[i].CellState(0);
+                newRow[i].ButtonSkipState(oldRow[i].ButtonSkipState);
+                newRow[i].ButtonTakeState(oldRow[i].ButtonTakeState);
+                newRow[i].CellState(oldRow[i].CellState);
+                newRow[i].DemoPickerState(oldRow[i].DemoPickerState);
                 newRow[i].x(i);
                 newRow[i].y(order);
 
@@ -586,6 +596,11 @@ class TableVM {
 
         }
         //console.log("converted:", newRow);
+        console.log(newRow[0].CellState(), newRow[1].CellState(), newRow[2].CellState(), newRow[3].CellState(), newRow[4].CellState() );
+        //console.log("take");
+        //console.log(newRow[0].ButtonTakeState(), newRow[1].ButtonTakeState(), newRow[2].ButtonTakeState(), newRow[3].ButtonTakeState(), newRow[4].ButtonTakeState() );
+        //console.log("skip");
+        //console.log(newRow[0].ButtonSkipState(), newRow[1].ButtonSkipState(), newRow[2].ButtonSkipState(), newRow[3].ButtonSkipState(), newRow[4].ButtonSkipState() );
         return newRow;
     }
 
@@ -664,10 +679,6 @@ class TableVM {
         });
         function successFunc(data: KoCourse[], status) {
             //console.log(data);
-            var study = ko.observable<KoStudy>(new KoStudy());
-            study().Name("ja ne zelim raditi");
-            study().Id(1);
-            self.Studies().push(study());
             //console.log("_Studies:",self.Studies());
             for (var i = 0; i < data.length; i++) {
                 var course = ko.observable<KoCourse>(new KoCourse());
@@ -838,12 +849,12 @@ class TableVM {
 
 
 class KoTerm {
-    public Id = ko.observable<number>();
-    public CourseId = ko.observable<number>();
+    public Id:number;
+    public CourseId: number;
     public Course = ko.observable<KoCourse>();
-    public UserId = ko.observable<number>();
+    public UserId: number;
     public User = ko.observable<KoUser>();
-    public GroupId = ko.observable<number>();
+    public GroupId: number;
     public Group = ko.observable<KoGroup>();
     public TermDate = ko.observable<string>();
     public SuggestedUserId = ko.observable<number>();
@@ -851,6 +862,7 @@ class KoTerm {
     public CellState = ko.observable<number>();
     public ButtonTakeState = ko.observable<boolean>();
     public ButtonSkipState = ko.observable<boolean>();
+    public DemoPickerState = ko.observable<boolean>();
     public x = ko.observable<number>();
     public y = ko.observable<number>();
     //constructor(term?: any) {
@@ -895,10 +907,11 @@ class KoCell {
     public CellState = ko.observable<number>();
     public ButtonTakeState = ko.observable<boolean>();
     public ButtonSkipState = ko.observable<boolean>();
+    public DemoPickerState = ko.observable<boolean>();
     public Term = ko.observable<KoTerm>();
 }
 class KoUser {
-    public Id = ko.observable<number>();
+    public Id :number;
     public Username = ko.observable<string>();
     public Name = ko.observable<string>();
     public LastName = ko.observable<string>();
@@ -915,7 +928,7 @@ class KoUser {
             this.Name(name);
         }
         else {
-            this.Id(defaultId);
+            this.Id=defaultId;
             this.Name(defaultUserName);
             this.Username(defaultUserUsername);
             this.LastName(defaultUserLastName);
@@ -924,20 +937,21 @@ class KoUser {
     }
 }
 class KoStudy {
-    public Id = ko.observable<number>();
+    public Id :number;
     public Name = ko.observable<string>();
 }
 class KoCourse {
-    public Id = ko.observable<number>();
+    public Id :number;
     public Name = ko.observable<string>();
     public Study = ko.observable<string>();
 }
 class KoGroup {
-    public CourseId = ko.observable<number>();
-    public Id = ko.observable<number>();
+    public Id :number;
+    public CourseId :number;
     public Name = ko.observable<string>();
     public Owner = ko.observable<KoUser>();
-    public OwnerId = ko.observable<number>();
+    public OwnerId :number;
+    //public OwnerId = ko.observable<number>();
     //constructor(group?: KoGroup) {
     //    if (group) {
     //        this.CourseId = group.CourseId;
@@ -949,11 +963,11 @@ class KoGroup {
     //}
 }
 class KoDemonstrator {
-    public Id = ko.observable<number>();
+    public Id:number;
     public Name = ko.observable<string>();
     constructor(name?: string, id?: number) {
         if (name && id) {
-            this.Id(id);
+            this.Id=id;
             this.Name(name);
         }
     }
