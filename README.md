@@ -18,3 +18,5 @@ x - UNKNOWN
 crvena
 
 bugovi:
+vrijeme kad je drugi format se ne parsira dobro
+bootstrap na većim rezolucijama popizdi

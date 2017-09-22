@@ -451,7 +451,7 @@ input:hover {
     color: #ffd1d1;
     /*visibility: hidden;*/ }
     .tableButton.skipTerm:hover, .tableButton.skipTermDisabled:hover {
-      background-color: #890f00;
+      background-color: #5b0a00;
       cursor: pointer; }
   .tableButton.skipTermDisabled {
     background-color: #595959;

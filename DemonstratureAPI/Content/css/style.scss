@@ -668,7 +668,7 @@ input {
         color: $buttonTextCancel;
         /*visibility: hidden;*/
         &:hover {
-            background-color: darken($buttonSkipColor,1%);
+            background-color: darken($buttonSkipColor,10%);
             cursor: pointer;
         }
     }
