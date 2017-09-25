@@ -9,7 +9,7 @@ $cell0Color: $myCellColor;
 $cell1Color: #ffff30;
 $cell2Color: #ffff30;
 $cell3Color: #53d134;
-$cellXColor:#3a3838;
+$cellXColor: #3a3838;
 $demoNameColor: #e6eeff;
 $searchColor: #cce5ff;
 $buttonTakeColor: #226d0f;
@@ -142,7 +142,8 @@ body {
 .myLi {
 }
 
-a:-webkit-any-link {
+a {
+    /*a:-webkit-any-link {*/
     text-decoration: none;
     color: inherit;
     cursor: default;
@@ -230,6 +231,7 @@ a:-webkit-any-link {
     display: table-cell;
     padding: 10px;
     text-align: center;
+    max-width:200px;
 }
 
 .rTableCell0 {
@@ -384,7 +386,7 @@ a:-webkit-any-link {
 
     &:hover {
         transform: scale(1.15);
-        cursor:pointer;
+        cursor: pointer;
     }
 
     &:active {
@@ -491,7 +493,6 @@ a:-webkit-any-link {
         background-color: $redDisabled;
     }
 }
-
 //--------------------------------------------------navigation buttons---------------------------------------------//
 //--------------------------------------------------------search---------------------------------------------------//
 .searchStudent {
@@ -507,7 +508,7 @@ a:-webkit-any-link {
 
 .searchStudentDisabled {
     @extend .searchStudent;
-    visibility:hidden;
+    visibility: hidden;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
@@ -520,6 +521,7 @@ a:-webkit-any-link {
     padding: 1px 6px;
     margin: 5px 15px;
     font-size: $fontPcM;
+
     &.groupName {
         font-size: $fontPcM;
     }
@@ -536,7 +538,7 @@ a:-webkit-any-link {
         border: 2px solid $searchBorder;
         border-radius: 3px;
         width: 112px;
-        height:15px;
+        height: 15px;
         word-wrap: break-word;
     }
 
@@ -642,7 +644,6 @@ input {
         background-color: $buttonTakeColor;
         color: $buttonTextSave;
         /*font-weight: bold;*/
-
         &:hover {
             background-color: darken($buttonTakeColor,5%);
             cursor: pointer;
@@ -713,7 +714,6 @@ input {
         text-decoration: none;
     }
 }
-
 //--------------------------------------------------------buttons--------------------------------------------------//
 //--------------------------------------------------------forms----------------------------------------------------//
 .allSettings {

@@ -74,11 +74,12 @@ body {
   padding: 0;
   overflow: hidden; }
 
-a:-webkit-any-link {
+a {
+  /*a:-webkit-any-link {*/
   text-decoration: none;
   color: inherit;
   cursor: default; }
-  a:-webkit-any-link:hover {
+  a:hover {
     /*background-color:red;*/
     text-decoration: none;
     cursor: inherit;
@@ -145,7 +146,8 @@ a:-webkit-any-link {
   border: 1px solid #333333;
   display: table-cell;
   padding: 10px;
-  text-align: center; }
+  text-align: center;
+  max-width: 200px; }
 
 .rTableCell0 {
   background-color: #cce5ff; }

@@ -746,15 +746,20 @@ namespace DemonstratureBLL
 
         public DateTime CreateDateFromString(string date)
         {
-            if (date == null)
+            DateTime dateToReturn;
+            
+            try
             {
-                return new DateTime(1, 1, 1);
+                var date2 = DateTime.Parse(date);
+                dateToReturn = new DateTime(date2.Year, date2.Month, date2.Day);
+
             }
-            var day = Int32.Parse(date.Split('.')[0]);
-            var month = Int32.Parse(date.Split('.')[1]);
-            var year = Int32.Parse(date.Split('.')[2]);
-            var dateToReturn = new DateTime(year, month, day);
-            return dateToReturn;
+            catch (Exception e)
+            {
+                _logger.Info(e);
+                dateToReturn = new DateTime(1,1,1);
+            }
+           return dateToReturn;
         }
 
         /// <summary>

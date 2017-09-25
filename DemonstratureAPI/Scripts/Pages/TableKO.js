@@ -12,7 +12,7 @@ var defaultGroupName = "Grupa";
 var defaultId = 0;
 var defaultStudyName = "Smjer";
 var defaultUserLastName = "...";
-var defaultUserName = "...";
+var defaultUserName = "-";
 var defaultUserRole = "D";
 var defaultUserUsername = "...";
 /*
@@ -419,14 +419,7 @@ var TableVM = (function () {
                     newRow[i].DemoPickerState(oldRow[i].DemoPickerState);
                     newRow[i].x(i);
                     newRow[i].y(order);
-                    try {
-                        termDateFix = newRow[i].Term().TermDate;
-                        parts = termDateFix.split("0:00:00");
-                        newRow[i].Term().TermDate = parts[0];
-                    }
-                    catch (e) {
-                        newRow[i].Term().TermDate = self.messageNoDataAvailable;
-                    }
+                    newRow[i].Term().TermDate = self.dateToString(newRow[i].Term().TermDate);
                     //newRow[i].Term().TermDate = parts[0];
                     //console.log(newRow[i].Term().TermDate);
                     //console.log("convertRowOfTerms end");
@@ -492,15 +485,13 @@ var TableVM = (function () {
                     newRow[i].DemoPickerState(oldRow[i].DemoPickerState);
                     newRow[i].x(i);
                     newRow[i].y(order);
-                    termDateFix = termDate;
-                    parts = termDateFix.split("0:00:00");
-                    newRow[i].Term().TermDate = parts[0];
+                    newRow[i].Term().TermDate = self.dateToString(newRow[i].Term().TermDate);
                     //console.log(newRow[i].Term().User().Name());
                     //console.log("***convertRowOfTerms end");
                 }
             }
             //console.log("converted:", newRow);
-            console.log(newRow[0].CellState(), newRow[1].CellState(), newRow[2].CellState(), newRow[3].CellState(), newRow[4].CellState());
+            //console.log(newRow[0].CellState(), newRow[1].CellState(), newRow[2].CellState(), newRow[3].CellState(), newRow[4].CellState());
             //console.log("take");
             //console.log(newRow[0].ButtonTakeState(), newRow[1].ButtonTakeState(), newRow[2].ButtonTakeState(), newRow[3].ButtonTakeState(), newRow[4].ButtonTakeState() );
             //console.log("skip");
@@ -682,17 +673,30 @@ var TableVM = (function () {
         };
         //-------------------------------HELPERS---------------------------------------------------//
         this.dateToString = function (dateObj) {
+            var self = _this;
+            var dateStringToReturn = self.messageNoDataAvailable;
             try {
+                if (dateObj == null) {
+                    return dateStringToReturn;
+                }
                 var dateString = dateObj.toString();
-                var date = dateString.split('.')[0];
-                var month = dateString.split('.')[1];
-                var fYear = dateString.split('.')[2];
-                var dateString2 = date + "." + month + "." + fYear + ".";
-                return dateString2;
+                console.log(dateString);
+                if (dateString.indexOf('A') == -1) {
+                    var date = dateString.split('.')[0];
+                    var month = dateString.split('.')[1];
+                    var fYear = dateString.split('.')[2];
+                    dateStringToReturn = date + "." + month + "." + fYear + ".";
+                }
+                else {
+                    var date = dateString.split('/')[1];
+                    var month = dateString.split('/')[0];
+                    var fYear = dateString.split('/')[2].substring(0, 4);
+                    dateStringToReturn = date + "." + month + "." + fYear + ".";
+                }
             }
             catch (err) {
                 console.log("Error date object to string - ", err);
-                return null;
+                return dateStringToReturn;
             }
         };
         this.dateObjToString = function (dateObj) {

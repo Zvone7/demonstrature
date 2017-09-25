@@ -65,13 +65,13 @@
     <Compile Include="CourseRepo.cs" />
     <Compile Include="CourseUserRepo.cs" />
     <Compile Include="Data\CourseT.cs">
-      <DependentUpon>Model_PC.tt</DependentUpon>
+      <DependentUpon>Model_L.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\CourseUserT.cs">
-      <DependentUpon>Model_PC.tt</DependentUpon>
+      <DependentUpon>Model_L.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\GroupT.cs">
-      <DependentUpon>Model_PC.tt</DependentUpon>
+      <DependentUpon>Model_L.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Model_L.Context.cs">
       <AutoGen>True</AutoGen>
@@ -104,10 +104,10 @@
       <DependentUpon>Model_PC.edmx</DependentUpon>
     </Compile>
     <Compile Include="Data\TermT.cs">
-      <DependentUpon>Model_PC.tt</DependentUpon>
+      <DependentUpon>Model_L.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\UserT.cs">
-      <DependentUpon>Model_PC.tt</DependentUpon>
+      <DependentUpon>Model_L.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

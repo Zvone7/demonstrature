@@ -113,15 +113,17 @@ namespace DemonstratureBLL
         {
             try
             {
-                MyUserWithPassDTO u2 = new MyUserWithPassDTO();
-                u2.Id = u.Id;
-                u2.Name = u.Name;
-                u2.LastName = u.LastName;
-                u2.Username = u.Username;
-                u2.Role = u.Role;
-                u2.IsActive = true;
-                u2.Password = u.Password;
-                u2.Courses = u.Courses;
+                MyUserWithPassDTO u2 = new MyUserWithPassDTO
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    LastName = u.LastName,
+                    Username = u.Username,
+                    Role = u.Role,
+                    IsActive = true,
+                    Password = u.Password,
+                    Courses = u.Courses
+                };
                 UserT u3 = _mapper.Map<UserT>(u2);
                 //can't have two users with same usernames
                 var allUsers = _userRepo.GetUser();
@@ -157,14 +159,16 @@ namespace DemonstratureBLL
         {
             try
             {
-                MyUserWithPassDTO u2 = new MyUserWithPassDTO();
-                u2.Id = u.Id;
-                u2.Name = u.Name;
-                u2.LastName = u.LastName;
-                u2.Username = u.Username;
-                u2.Role = u.Role;
-                u2.IsActive = true;
-                u2.Courses = u.Courses;
+                MyUserWithPassDTO u2 = new MyUserWithPassDTO
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    LastName = u.LastName,
+                    Username = u.Username,
+                    Role = u.Role,
+                    IsActive = true,
+                    Courses = u.Courses
+                };
                 if (u.Password != null && u.Password!="")
                 {
                     u2.Password = u.Password;
@@ -235,10 +239,12 @@ namespace DemonstratureBLL
                     }
                     foreach (var c in u.Courses)
                     {
-                        var uc = new CourseUserDTO();
-                        uc.CourseId = c.Id;
-                        uc.CourseName = c.Name;
-                        uc.UserId = u.Id;
+                        var uc = new CourseUserDTO
+                        {
+                            CourseId = c.Id,
+                            CourseName = c.Name,
+                            UserId = u.Id
+                        };
                         var uc2 = _mapper.Map<CourseUserT>(uc);
                         _courseUserRepo.CreateCourseUser(uc2);
                     }
