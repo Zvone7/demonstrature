@@ -56,12 +56,12 @@
 				<select class="selecter univStudies" id="selectStudy" data-bind="	options: Studies,
 																					optionsText: 'Name',
 																					value: 'Id',
-				optionsCaption: 'Odaberite studij'"></select>
+																					optionsCaption: 'Odaberite studij'"></select>
 				<br />
 				<select class="selecter univCourse" id="selectCourse" data-bind="	options: CoursesActive,
 																					optionsText: 'Name',
 																					value: 'Id',
-				optionsCaption: 'Odaberite kolegij'"></select>
+																					optionsCaption: 'Odaberite kolegij'"></select>
 			</div>
 			<div class="rTableHeading">
 				<label class="label_t groupName" 	id="groupName0" 	data-bind="text: Terms0()[0].Term().Group().Name">grupa</label><br>
@@ -108,10 +108,13 @@
 																											'skipTerm':Terms0()[0].ButtonSkipState(),
 																											'skipTermDisabled': !Terms0()[0].ButtonSkipState()
 																											}"></button>
-			<select id="search00" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms0()[0].DemoPickerState(), 'searchStudentDisabled':!Terms0()[0].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search00" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms0()[0].DemoPickerState(),
+																				'searchStudentDisabled':!Terms0()[0].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms0()[1].CellState()==0, 
@@ -132,10 +135,13 @@
 																											'skipTerm':Terms0()[1].ButtonSkipState(),
 																											'skipTermDisabled': !Terms0()[1].ButtonSkipState()
 																											}"></button>
-			<select id="search01" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms0()[1].DemoPickerState(), 'searchStudentDisabled':!Terms0()[1].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search01" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms0()[1].DemoPickerState(),
+																				'searchStudentDisabled':!Terms0()[1].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms0()[2].CellState()==0, 
@@ -156,10 +162,13 @@
 																											'skipTerm':Terms0()[2].ButtonSkipState(),
 																											'skipTermDisabled': !Terms0()[2].ButtonSkipState()
 																											}"></button>
-			<select id="search02" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms0()[2].DemoPickerState(), 'searchStudentDisabled':!Terms0()[2].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search02" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms0()[2].DemoPickerState(),
+																				'searchStudentDisabled':!Terms0()[2].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms0()[3].CellState()==0, 
@@ -180,10 +189,13 @@
 																											'skipTerm':Terms0()[3].ButtonSkipState(),
 																											'skipTermDisabled': !Terms0()[3].ButtonSkipState()
 																											}"></button>
-			<select id="search03" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms0()[3].DemoPickerState(), 'searchStudentDisabled':!Terms0()[3].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search03" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms0()[3].DemoPickerState(),
+																				'searchStudentDisabled':!Terms0()[3].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms0()[4].CellState()==0, 
@@ -204,10 +216,13 @@
 																											'skipTerm':Terms0()[4].ButtonSkipState(),
 																											'skipTermDisabled': !Terms0()[4].ButtonSkipState()
 																											}"></button>
-			<select id="search04" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms0()[4].DemoPickerState(), 'searchStudentDisabled':!Terms0()[4].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search04" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms0()[4].DemoPickerState(),
+																				'searchStudentDisabled':!Terms0()[4].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 	</div>
 	<div class="rTableRow">
@@ -234,10 +249,13 @@
 																											'skipTerm':Terms1()[0].ButtonSkipState(),
 																											'skipTermDisabled': !Terms1()[0].ButtonSkipState()
 																											}"></button>
-			<select id="search10" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms1()[0].DemoPickerState(), 'searchStudentDisabled':!Terms1()[0].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search10" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms1()[0].DemoPickerState(),
+																				'searchStudentDisabled':!Terms1()[0].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms1()[1].CellState()==0, 
@@ -258,10 +276,13 @@
 																											'skipTerm':Terms1()[1].ButtonSkipState(),
 																											'skipTermDisabled': !Terms1()[1].ButtonSkipState()
 																											}"></button>
-			<select id="search11" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms1()[1].DemoPickerState(), 'searchStudentDisabled':!Terms1()[1].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search11" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms1()[1].DemoPickerState(),
+																				'searchStudentDisabled':!Terms1()[1].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms1()[2].CellState()==0, 
@@ -282,10 +303,13 @@
 																											'skipTerm':Terms1()[2].ButtonSkipState(),
 																											'skipTermDisabled': !Terms1()[2].ButtonSkipState()
 																											}"></button>
-			<select id="search12" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms1()[2].DemoPickerState(), 'searchStudentDisabled':!Terms1()[2].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search12" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms1()[2].DemoPickerState(),
+																				'searchStudentDisabled':!Terms1()[2].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms1()[3].CellState()==0, 
@@ -306,10 +330,13 @@
 																											'skipTerm':Terms1()[3].ButtonSkipState(),
 																											'skipTermDisabled': !Terms1()[3].ButtonSkipState()
 																											}"></button>
-			<select id="search13" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms1()[3].DemoPickerState(), 'searchStudentDisabled':!Terms1()[3].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search13" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms1()[3].DemoPickerState(),
+																				'searchStudentDisabled':!Terms1()[3].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms1()[4].CellState()==0, 
@@ -330,10 +357,13 @@
 																											'skipTerm':Terms1()[4].ButtonSkipState(),
 																											'skipTermDisabled': !Terms1()[4].ButtonSkipState()
 																											}"></button>
-			<select id="search14" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms1()[4].DemoPickerState(), 'searchStudentDisabled':!Terms1()[4].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search14" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms1()[4].DemoPickerState(),
+																				'searchStudentDisabled':!Terms1()[4].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 	</div>
 	<div class="rTableRow">
@@ -360,10 +390,13 @@
 																											'skipTerm':Terms2()[0].ButtonSkipState(),
 																											'skipTermDisabled': !Terms2()[0].ButtonSkipState()
 																											}"></button>
-			<select id="search20" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms2()[0].DemoPickerState(), 'searchStudentDisabled':!Terms2()[0].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search20" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms2()[0].DemoPickerState(),
+																				'searchStudentDisabled':!Terms2()[0].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms2()[1].CellState()==0, 
@@ -384,10 +417,13 @@
 																											'skipTerm':Terms2()[1].ButtonSkipState(),
 																											'skipTermDisabled': !Terms2()[1].ButtonSkipState()
 																											}"></button>
-			<select id="search21" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms2()[1].DemoPickerState(), 'searchStudentDisabled':!Terms2()[1].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search21" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms2()[1].DemoPickerState(),
+																				'searchStudentDisabled':!Terms2()[1].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms2()[2].CellState()==0, 
@@ -408,10 +444,13 @@
 																											'skipTerm':Terms2()[2].ButtonSkipState(),
 																											'skipTermDisabled': !Terms2()[2].ButtonSkipState()
 																											}"></button>
-			<select id="search22" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms2()[2].DemoPickerState(), 'searchStudentDisabled':!Terms2()[2].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search22" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms2()[2].DemoPickerState(),
+																				'searchStudentDisabled':!Terms2()[2].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms2()[3].CellState()==0, 
@@ -432,10 +471,13 @@
 																											'skipTerm':Terms2()[3].ButtonSkipState(),
 																											'skipTermDisabled': !Terms2()[3].ButtonSkipState()
 																											}"></button>
-			<select id="search23" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms2()[3].DemoPickerState(), 'searchStudentDisabled':!Terms2()[3].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search23" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms2()[3].DemoPickerState(),
+																				'searchStudentDisabled':!Terms2()[3].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms2()[4].CellState()==0, 
@@ -456,10 +498,13 @@
 																											'skipTerm':Terms2()[4].ButtonSkipState(),
 																											'skipTermDisabled': !Terms2()[4].ButtonSkipState()
 																											}"></button>
-			<select id="search24" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms2()[4].DemoPickerState(), 'searchStudentDisabled':!Terms2()[4].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search24" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms2()[4].DemoPickerState(),
+																				'searchStudentDisabled':!Terms2()[4].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 	</div>
 	<div class="rTableRow">
@@ -497,10 +542,13 @@
 																											'skipTerm':Terms3()[0].ButtonSkipState(),
 																											'skipTermDisabled': !Terms3()[0].ButtonSkipState()
 																											}"></button>
-			<select id="search30" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms3()[0].DemoPickerState(), 'searchStudentDisabled':!Terms3()[0].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search30" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms3()[0].DemoPickerState(),
+																				'searchStudentDisabled':!Terms3()[0].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms3()[1].CellState()==0, 
@@ -521,10 +569,13 @@
 																											'skipTerm':Terms3()[1].ButtonSkipState(),
 																											'skipTermDisabled': !Terms3()[1].ButtonSkipState()
 																											}"></button>
-			<select id="search31" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms3()[1].DemoPickerState(), 'searchStudentDisabled':!Terms3()[1].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search31" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms3()[1].DemoPickerState(),
+																				'searchStudentDisabled':!Terms3()[1].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms3()[2].CellState()==0, 
@@ -545,10 +596,13 @@
 																											'skipTerm':Terms3()[2].ButtonSkipState(),
 																											'skipTermDisabled': !Terms3()[2].ButtonSkipState()
 																											}"></button>
-			<select id="search32" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms3()[2].DemoPickerState(), 'searchStudentDisabled':!Terms3()[2].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search32" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms3()[2].DemoPickerState(),
+																				'searchStudentDisabled':!Terms3()[2].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms3()[3].CellState()==0, 
@@ -569,10 +623,13 @@
 																											'skipTerm':Terms3()[3].ButtonSkipState(),
 																											'skipTermDisabled': !Terms3()[3].ButtonSkipState()
 																											}"></button>
-			<select id="search33" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms3()[3].DemoPickerState(), 'searchStudentDisabled':!Terms3()[3].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search33" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms3()[3].DemoPickerState(),
+																				'searchStudentDisabled':!Terms3()[3].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms3()[4].CellState()==0, 
@@ -593,10 +650,13 @@
 																											'skipTerm':Terms3()[4].ButtonSkipState(),
 																											'skipTermDisabled': !Terms3()[4].ButtonSkipState()
 																											}"></button>
-			<select id="search34" class="" data-bind="options: Demonstrators, css:{'searchStudent':Terms3()[4].DemoPickerState(), 'searchStudentDisabled':!Terms3()[4].DemoPickerState()}
-			optionsText: 'Name',
-			value: 'Id',
-			optionsCaption: 'Odaberite demonstratora'"></select>
+			<select id="search34" class="" data-bind="options: Demonstrators, css:{
+																				'searchStudent':Terms3()[4].DemoPickerState(),
+																				'searchStudentDisabled':!Terms3()[4].DemoPickerState()
+																				}
+																		optionsText: 'Name',
+																		value: 'Id',
+																		optionsCaption: 'Odaberite demonstratora'"></select>
 		</div>
 	</div>
 </div>

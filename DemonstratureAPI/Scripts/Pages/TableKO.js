@@ -318,7 +318,6 @@ var TableVM = (function () {
             }
             //arrow up/down are being disabled in getNumberOfTermDates.succesFunction
             self.convertDemonstratorsData();
-            // faila negdje u convertrowofterms
             //console.log("0 started");
             self.Terms0(self.convertRowOfTerms(self.RawTermPackage.row0, self.Terms0(), self.RawTermPackage.row0Dt, 0));
             //console.log("0 finished");
@@ -498,6 +497,48 @@ var TableVM = (function () {
             //console.log(newRow[0].ButtonSkipState(), newRow[1].ButtonSkipState(), newRow[2].ButtonSkipState(), newRow[3].ButtonSkipState(), newRow[4].ButtonSkipState() );
             return newRow;
         };
+        // TO DO - simpler Convert
+        this.convertRowOfTerms2 = function (oldRow, newRow, termDate, order) {
+            //console.log("convertRowOfTerms2");
+            var self = _this;
+            var cell = new KoCell();
+            var term = ko.observable(new KoTerm());
+            var memPos = 0;
+            var validTerm = false;
+            for (var i = 0; i < oldRow.length; i++) {
+                // check if it's a valid term or is it a dummy term
+                validTerm = true;
+                if (oldRow[i].Id == 0) {
+                    validTerm = false;
+                    // find position of !dummyTerm
+                    for (var j = 0; j < oldRow.length; j++) {
+                        if (oldRow[j].Id != 0) {
+                            memPos = j;
+                            break;
+                        }
+                    }
+                }
+                // term ID
+                if (validTerm) {
+                    term().Id = oldRow[i].Id;
+                }
+                else {
+                    term().Id = 0;
+                }
+                // term COURSE
+                if (validTerm) {
+                    term().CourseId = oldRow[i].CourseId;
+                }
+                else {
+                    term().CourseId = oldRow[memPos].CourseId;
+                }
+                term().Course = self.ActiveCourse;
+                // term GROUP
+                term().GroupId = oldRow[i].GroupId();
+                for (var j = 0; j < self.RawGroupData.length; j++) {
+                }
+            }
+        };
         this.convertDemonstratorsData = function () {
             var self = _this;
             //self.Demonstrators = ko.observableArray<KoDemonstrator>();
@@ -514,6 +555,7 @@ var TableVM = (function () {
                     demo.Name(self.RawUserData[i].LastName + " " + self.RawUserData[i].Name);
                     self.Demonstrators.push(demo);
                 }
+                console.log(self.Demonstrators());
             }
             catch (e) {
                 console.log("convertDemonstratorsData exception:", e);
@@ -677,10 +719,9 @@ var TableVM = (function () {
             var dateStringToReturn = self.messageNoDataAvailable;
             try {
                 if (dateObj == null) {
-                    return dateStringToReturn;
+                    throw "null";
                 }
                 var dateString = dateObj.toString();
-                console.log(dateString);
                 if (dateString.indexOf('A') == -1) {
                     var date = dateString.split('.')[0];
                     var month = dateString.split('.')[1];
@@ -695,9 +736,9 @@ var TableVM = (function () {
                 }
             }
             catch (err) {
-                console.log("Error date object to string - ", err);
-                return dateStringToReturn;
+                //console.log("Error date object to string - ", err);
             }
+            return dateStringToReturn;
         };
         this.dateObjToString = function (dateObj) {
             try {

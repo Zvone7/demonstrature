@@ -391,8 +391,6 @@ class TableVM {
 
         self.convertDemonstratorsData();
 
-        // faila negdje u convertrowofterms
-
         //console.log("0 started");
         self.Terms0(self.convertRowOfTerms(self.RawTermPackage.row0, self.Terms0(), self.RawTermPackage.row0Dt, 0));
         //console.log("0 finished");
@@ -579,7 +577,6 @@ class TableVM {
                 newRow[i].DemoPickerState(oldRow[i].DemoPickerState);
                 newRow[i].x(i);
                 newRow[i].y(order);
-
                 newRow[i].Term().TermDate = self.dateToString(newRow[i].Term().TermDate);
                 //console.log(newRow[i].Term().User().Name());
                 //console.log("***convertRowOfTerms end");
@@ -587,12 +584,61 @@ class TableVM {
 
         }
         //console.log("converted:", newRow);
-       //console.log(newRow[0].CellState(), newRow[1].CellState(), newRow[2].CellState(), newRow[3].CellState(), newRow[4].CellState());
+        //console.log(newRow[0].CellState(), newRow[1].CellState(), newRow[2].CellState(), newRow[3].CellState(), newRow[4].CellState());
         //console.log("take");
         //console.log(newRow[0].ButtonTakeState(), newRow[1].ButtonTakeState(), newRow[2].ButtonTakeState(), newRow[3].ButtonTakeState(), newRow[4].ButtonTakeState() );
         //console.log("skip");
         //console.log(newRow[0].ButtonSkipState(), newRow[1].ButtonSkipState(), newRow[2].ButtonSkipState(), newRow[3].ButtonSkipState(), newRow[4].ButtonSkipState() );
         return newRow;
+    }
+
+    // TO DO - simpler Convert
+    public convertRowOfTerms2 = (oldRow: any, newRow: any, termDate: string, order: number) => {
+        //console.log("convertRowOfTerms2");
+        var self = this;
+        var cell = new KoCell();
+        var term = ko.observable<KoTerm>(new KoTerm());
+        var memPos = 0;
+        var validTerm = false;
+
+        for (var i = 0; i < oldRow.length; i++) {
+            // check if it's a valid term or is it a dummy term
+            validTerm = true;
+            if (oldRow[i].Id == 0) {
+                validTerm = false;
+                // find position of !dummyTerm
+                for (var j = 0; j < oldRow.length; j++) {
+                    if (oldRow[j].Id != 0) {
+                        memPos = j;
+                        break;
+                    }
+                }
+            }
+
+            // term ID
+            if (validTerm) {
+                term().Id = oldRow[i].Id;
+            }
+            else {
+                term().Id = 0;
+            }
+
+            // term COURSE
+            if (validTerm) {
+                term().CourseId = oldRow[i].CourseId;
+            }
+            else {
+                term().CourseId = oldRow[memPos].CourseId;
+            }
+            term().Course = self.ActiveCourse;
+
+            // term GROUP
+            term().GroupId = oldRow[i].GroupId();
+            for (var j = 0; j < self.RawGroupData.length; j++) {
+                
+            }
+        }
+
     }
 
     public convertDemonstratorsData = () => {
@@ -611,7 +657,7 @@ class TableVM {
                 demo.Name(self.RawUserData[i].LastName + " " + self.RawUserData[i].Name);
                 self.Demonstrators.push(demo);
             }
-
+            console.log(self.Demonstrators());
         }
         catch (e) {
             console.log("convertDemonstratorsData exception:", e);
@@ -787,10 +833,9 @@ class TableVM {
         var dateStringToReturn = self.messageNoDataAvailable;
         try {
             if (dateObj == null) {
-                return dateStringToReturn;
+                throw "null";
             }
             var dateString = dateObj.toString();
-            console.log(dateString);
             if (dateString.indexOf('A') == -1) {
 
                 var date = dateString.split('.')[0];
@@ -806,11 +851,9 @@ class TableVM {
             }
         }
         catch (err) {
-            console.log("Error date object to string - ", err);
-            return dateStringToReturn;
+            //console.log("Error date object to string - ", err);
         }
-
-
+        return dateStringToReturn;
     }
 
     public dateObjToString = (dateObj: Date) => {
@@ -826,8 +869,6 @@ class TableVM {
             console.log("Error date object to string - ", err);
             return null;
         }
-
-
     }
 
 

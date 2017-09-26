@@ -104,7 +104,7 @@ int main(){
 			fprintf(f,"\t\t\t\t\t");
 			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvalue: 'Id',\n");
 			fprintf(f,"\t\t\t\t");
-			fprintf(f,"optionsCaption: 'Odaberite studij'\"></select>\n");
+			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsCaption: 'Odaberite studij'\"></select>\n");
 			fprintf(f,"\t\t\t\t");
             fprintf(f,"<br />\n");
 			fprintf(f,"\t\t\t\t");
@@ -114,7 +114,7 @@ int main(){
 			fprintf(f,"\t\t\t\t\t");
 			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvalue: 'Id',\n");
 			fprintf(f,"\t\t\t\t");
-			fprintf(f,"optionsCaption: 'Odaberite kolegij'\"></select>\n");
+			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsCaption: 'Odaberite kolegij'\"></select>\n");
 			fprintf(f,"\t\t\t");
         	fprintf(f,"</div>\n");
         	// tableHeading        	
@@ -163,6 +163,7 @@ int main(){
 				
 			//cells
         	for(int j=0;j<5;j++){
+        		// div tableCell
 		        fprintf(f,"\t\t<div class=\"rTableCell\" data-bind=\" css: { ");
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t 'rTableCell0':  Terms%d()[%d].CellState()==0, ", i-2, j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t 'rTableCell1':  Terms%d()[%d].CellState()==1, ", i-2, j);
@@ -173,23 +174,30 @@ int main(){
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Terms%d()[%d].CellState()!=2 && ", i-2, j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Terms%d()[%d].CellState()!=3 ", i-2, j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t }\">\n");
-
+				
+				// label demoName
 				fprintf(f,"\t\t\t<div id=\"termOwner%d%d\" class=\"label_t demoName\" data-bind=\"text: Terms%d()[%d].Term().User().Name\">demonstrator</div><br>\n",i-2,j,i-2,j);
 				
+				// button takeTerm
 				fprintf(f,"\t\t\t<button id=\"buttonTakeTerm%d%d\" class=\"tableButton\" data-bind=\"text: defaultTextButtonTake, css:\t{ ", i-2, j, i-2, j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'takeTerm':Terms%d()[%d].ButtonTakeState(),", i-2,j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'takeTermDisabled': !Terms%d()[%d].ButtonTakeState()",i-2,j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\"></button>\n");
-
+				
+				// button skipTerm
 				fprintf(f,"\t\t\t<button id=\"buttonSkipTerm%d%d\" class=\"tableButton\" data-bind=\"text: defaultTextButtonSkip, css:\t{ ", i-2, j, i-2, j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'skipTerm':Terms%d()[%d].ButtonSkipState(),", i-2,j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'skipTermDisabled': !Terms%d()[%d].ButtonSkipState()",i-2,j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\"></button>\n");
-
-				fprintf(f,"\t\t\t<select id=\"search%d%d\" class=\"\" data-bind=\"options: Demonstrators, css:{'searchStudent':Terms%d()[%d].DemoPickerState(), 'searchStudentDisabled':!Terms%d()[%d].DemoPickerState()}\n",i-2,j,i-2,j,i-2,j);
-				fprintf(f,"\t\t\toptionsText: 'Name',\n");
-				fprintf(f,"\t\t\tvalue: 'Id',\n");
-				fprintf(f,"\t\t\toptionsCaption: 'Odaberite demonstratora'\"></select>\n");
+				
+				// select searchDemonstrator
+				fprintf(f,"\t\t\t<select id=\"search%d%d\" class=\"\" data-bind=\"options: Demonstrators, css:{\n",i-2,j);
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'searchStudent':Terms%d()[%d].DemoPickerState(),\n",i-2,j);
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'searchStudentDisabled':!Terms%d()[%d].DemoPickerState()\n",i-2,j);
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\n");
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsText: 'Name',\n");
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvalue: 'Id',\n");
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsCaption: 'Odaberite demonstratora'\"></select>\n");
 		        fprintf(f,"\t\t</div>\n");        		
         	}			
 		}		
