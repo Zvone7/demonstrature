@@ -4,20 +4,6 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="09cf6cf2380549f2beeb87300de09736" Name="Diagram1">
-        <EntityTypeShape EntityType="DemonstratureModel.CourseT" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DemonstratureModel.CourseUserT" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="DemonstratureModel.GroupT" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DemonstratureModel.TermT" Width="1.5" PointX="5.25" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DemonstratureModel.UserT" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
-        <AssociationConnector Association="DemonstratureModel.FkCourseUserCourse" ManuallyRouted="false" />
-        <AssociationConnector Association="DemonstratureModel.FkGroupCourse" ManuallyRouted="false" />
-        <AssociationConnector Association="DemonstratureModel.FkTermCourse" ManuallyRouted="false" />
-        <AssociationConnector Association="DemonstratureModel.FkCourseUserUser" ManuallyRouted="false" />
-        <AssociationConnector Association="DemonstratureModel.FkGroupOwner" ManuallyRouted="false" />
-        <AssociationConnector Association="DemonstratureModel.FkTermGroup" ManuallyRouted="false" />
-        <AssociationConnector Association="DemonstratureModel.FkTermUser" ManuallyRouted="false" />
-      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
