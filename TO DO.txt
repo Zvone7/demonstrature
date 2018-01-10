@@ -1,0 +1,4 @@
+add function to takeTerm skipTerm buttons and select - reserve term, free term
+refactory of gettermsbycourseid on terms controller - called from settingsKO.ts and tableKO.ts
+refactory to support throw catching so that you can send messages to be displayed in notifications
+refactory settings - implement Knockout

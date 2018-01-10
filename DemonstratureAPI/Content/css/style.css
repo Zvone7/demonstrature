@@ -147,7 +147,8 @@ a {
   display: table-cell;
   padding: 10px;
   text-align: center;
-  max-width: 200px; }
+  max-width: 200px;
+  transition: background-color 0.3s ease; }
 
 .rTableCell0 {
   background-color: #cce5ff; }
@@ -430,7 +431,8 @@ input:hover {
   outline: none;
   font-size: 10px;
   word-wrap: break-word;
-  /*padding:2px;*/ }
+  /*padding:2px;*/
+  transition: background-color 0.3s ease; }
   .tableButton.takeTerm, .tableButton.takeTermDisabled {
     font-size: 12px;
     background-color: #226d0f;

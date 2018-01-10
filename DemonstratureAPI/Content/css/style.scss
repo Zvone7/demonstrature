@@ -231,7 +231,8 @@ a {
     display: table-cell;
     padding: 10px;
     text-align: center;
-    max-width:200px;
+    max-width: 200px;
+    transition: background-color 0.3s ease;
 }
 
 .rTableCell0 {
@@ -639,6 +640,8 @@ input {
     font-size: $fontPcXS;
     word-wrap: break-word;
     /*padding:2px;*/
+    transition: background-color 0.3s ease;
+
     &.takeTerm {
         font-size: $fontPcS;
         background-color: $buttonTakeColor;
@@ -655,7 +658,6 @@ input {
         background-color: $disableColor;
         color: black;
         visibility: hidden;
-
         &:hover {
             background-color: darken($disableColor,5%);
             cursor: pointer;
@@ -679,7 +681,6 @@ input {
         background-color: $disableColor;
         /*color: $buttonSkipColor;*/
         visibility: hidden;
-
         &:hover {
             background-color: darken($disableColor,5%);
             cursor: pointer;

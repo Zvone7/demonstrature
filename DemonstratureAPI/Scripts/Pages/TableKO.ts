@@ -101,12 +101,26 @@ class TableVM {
                     //self.getRawData(value);
                     self.getTerms();
                 }
-                //else if (this.id.lastIndexOf("search") != '-1') {
-                //    var i = parseInt(this.id.substring(6, 7));
-                //    var j = parseInt(this.id.substring(7, 8));
-                //}
+                else if (this.id.lastIndexOf("search") != '-1') {
+                    var i = parseInt(this.id.substring(6, 7));
+                    var j = parseInt(this.id.substring(7, 8));
+                    var valuex = $(this).val();
+                    console.log("search", i, j, valuex, 5);
+                }
             })
             //navigation
+            $('button').on("click", function () {
+                if (this.id.lastIndexOf("TakeTerm") != '-1') {
+                    var i = parseInt(this.id.substring(14, 15));
+                    var j = parseInt(this.id.substring(15, 16));
+                    console.log("button", i, j, this.id);
+                }
+                else if (this.id.lastIndexOf("SkipTerm") != '-1') {
+                    var i = parseInt(this.id.substring(14, 15));
+                    var j = parseInt(this.id.substring(15, 16));
+                    console.log("button", i, j, this.id);
+                }
+            });
 
             $('#logout').on("click", () => {
                 self.LogOut();
@@ -390,19 +404,15 @@ class TableVM {
 
         self.convertDemonstratorsData();
 
-        //self.Terms0(self.convertRowOfTermsUNOPTIMISED(self.RawTermPackage.row0, self.Terms0(), self.RawTermPackage.row0Dt, 0));
         self.Terms0(self.convertRowOfTerms(self.RawTermPackage.row0, self.Terms0(), self.RawTermPackage.row0Dt, 0));
-        console.log("0 finished", self.Terms0());
+        //console.log("0 finished", self.Terms0());
 
-        //self.Terms1(self.convertRowOfTermsUNOPTIMISED(self.RawTermPackage.row1, self.Terms1(), self.RawTermPackage.row1Dt, 1));
         self.Terms1(self.convertRowOfTerms(self.RawTermPackage.row1, self.Terms1(), self.RawTermPackage.row1Dt, 1));
         //console.log("1 finished");
 
-        //self.Terms2(self.convertRowOfTermsUNOPTIMISED(self.RawTermPackage.row2, self.Terms2(), self.RawTermPackage.row2Dt, 2));
         self.Terms2(self.convertRowOfTerms(self.RawTermPackage.row2, self.Terms2(), self.RawTermPackage.row2Dt, 2));
         //console.log("2 finished");
 
-        //self.Terms3(self.convertRowOfTermsUNOPTIMISED(self.RawTermPackage.row3, self.Terms3(), self.RawTermPackage.row3Dt, 3));
         self.Terms3(self.convertRowOfTerms(self.RawTermPackage.row3, self.Terms3(), self.RawTermPackage.row3Dt, 3));
         //console.log("3 finished");
 
@@ -411,8 +421,7 @@ class TableVM {
         self.disableUp(self.RawTermPackage.disableUp);
         self.disableDown(self.RawTermPackage.disableDown);
     }
-    
-    // TO DO - simpler Convert
+
     public convertRowOfTerms = (oldRow: any, newRow: any, termDate: string, order: number) => {
         //console.log("convertRowOfTerms_");
         var self = this;
@@ -539,7 +548,7 @@ class TableVM {
         var courseId = self.ActiveCourse().Id;
         //console.log("getting terms: ", courseId, "\nmoveX=", self.posOnX, "\nmoveY=", self.posOnY);
         var self = this;
-        var serviceURL = '/Term/ByCourseId2';
+        var serviceURL = '/Term/ByCourseIdNavigation';
         $.ajax({
             type: "GET",
             url: serviceURL + "?courseId=" + courseId + "&movedRight=" + self.posOnX + "&movedDown=" + self.posOnY,

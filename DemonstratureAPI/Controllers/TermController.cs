@@ -1,4 +1,5 @@
 ﻿using DemonstratureBLL;
+using DemonstratureCM.BM;
 using DemonstratureCM.DTO;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        public ActionResult ByCourseId2([FromUri]int courseId, int movedRight, int movedDown)
+        public ActionResult ByCourseIdNavigation([FromUri]int courseId, int movedRight, int movedDown)
         {
             var instance = new TermLogic();
             int userId = 0;
@@ -58,9 +59,9 @@ namespace DemonstratureAPI.Controllers
                 var identity = (ClaimsIdentity)User.Identity;
                 IEnumerable<Claim> claims = identity.Claims;
                 // get claims because you need userId for determining CellState on TermController
-                Int32.TryParse( claims.ToList()[1].Value, out userId);
+                Int32.TryParse(claims.ToList()[1].Value, out userId);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.Info(e);
             }
@@ -124,6 +125,22 @@ namespace DemonstratureAPI.Controllers
         {
             var instance = new TermLogic();
             var result = instance.UpdateTerms(t);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [System.Web.Mvc.HttpPost]
+        public ActionResult ReserveTerm(TermReservationBM termReservation)
+        {
+            var instance = new TermLogic();
+            var result = instance.ReserveTerm(termReservation);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [System.Web.Mvc.HttpGet]
+        public ActionResult FreeTerm([FromUri]int termId, [FromUri] int userId)
+        {
+            var instance = new TermLogic();
+            var result = instance.FreeTerm(termId,userId);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DemonstratureBLL.Mappings;
+using DemonstratureCM.BM;
 using DemonstratureCM.DTO;
 using DemonstratureCM.Settings;
 using DemonstratureDB;
@@ -13,14 +14,18 @@ namespace DemonstratureBLL
     public class TermLogic
     {
         private IMapper _mapper;
-        private TermRepo _termRepo = new TermRepo();
-        private GroupRepo _groupRepo = new GroupRepo();
+        private TermRepo _termRepo;
+        private GroupRepo _groupRepo;
+        private UserRepo _userRepo;
         private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public TermLogic()
         {
             AutoMapperConfiguration.RegisterMappings();
             _mapper = AutoMapperConfiguration.Instance;
+            _termRepo = new TermRepo();
+            _groupRepo = new GroupRepo();
+            _userRepo = new UserRepo();
         }
 
         public TermDTO CreateTerm(TermDTO t)
@@ -469,8 +474,8 @@ namespace DemonstratureBLL
             {
                 foreach (TermDTO t in terms)
                 {
-                    //DateTime today = DateTime.Now.Date;
-                    DateTime today = new DateTime(2017, 9, 24);
+                    DateTime today = DateTime.Now.Date;
+                    //DateTime today = new DateTime(2017, 9, 24);
                     var termDate = CreateDateFromString(t.TermDate);
 
                     // it's a fake term.
@@ -747,7 +752,7 @@ namespace DemonstratureBLL
         public DateTime CreateDateFromString(string date)
         {
             DateTime dateToReturn;
-            
+
             try
             {
                 var date2 = DateTime.Parse(date);
@@ -757,9 +762,9 @@ namespace DemonstratureBLL
             catch (Exception e)
             {
                 _logger.Info(e);
-                dateToReturn = new DateTime(1,1,1);
+                dateToReturn = new DateTime(1, 1, 1);
             }
-           return dateToReturn;
+            return dateToReturn;
         }
 
         /// <summary>
@@ -814,6 +819,96 @@ namespace DemonstratureBLL
                     t.ButtonSkipState = false;
                     t.DemoPickerState = false;
                     break;
+            }
+        }
+
+        public bool ReserveTerm(TermReservationBM termReservation)
+        {
+            try
+            {
+                DateTime today = DateTime.Now.Date;
+                TermDTO term = GetTerm(termReservation.TermId);
+                GroupDTO group = _mapper.Map<GroupDTO>(_groupRepo.GetGroup(term.GroupId));
+                // term is available
+                if (term.UserId == 0)
+                {
+                    // user is making a reservation for himself
+                    if (termReservation.SuggestedId == 0)
+                    {
+                        // it's term from users group
+                        if (group.OwnerId == termReservation.MakerId)
+                        {
+                            term.UserId = termReservation.MakerId;
+                        }
+                        else
+                        {
+                            // it's reserved for this user
+                            if (term.SuggestedUserId == termReservation.MakerId)
+                            {
+                                term.UserId = termReservation.MakerId;
+                            }
+                            // it's past deadline
+                            if (IsPastDeadLine(CreateDateFromString(term.TermDate), today))
+                            {
+                                term.UserId = termReservation.MakerId;
+                            }
+                        }
+                    }
+                    // user is giving his term to someone else
+                    else
+                    {
+                        // term must be available or belong to the user
+                        if (term.UserId == 0 || term.UserId == termReservation.MakerId)
+                        {
+                            term.UserId = 0;
+                            term.SuggestedUserId = termReservation.SuggestedId;
+                        }
+                        else
+                        {
+                            // return wrong request;
+                            return false;
+                        }
+                    }
+                }
+                TermT termDb = _mapper.Map<TermT>(term);
+                if (_termRepo.UpdateTerm(termDb))
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool FreeTerm(int termId, int userId)
+        {
+            try
+            {
+                TermDTO term = GetTerm(termId);
+                MyUserDTO user = _mapper.Map<MyUserDTO>(_userRepo.GetUser(userId));
+                if (term.UserId == user.Id || user.Role==Gas.RoleAdministrator)
+                {
+                    term.UserId = 0;
+                }
+                else
+                {
+                    // invalid request - unathorized
+                    return false;
+                }
+                TermT termDb = _mapper.Map<TermT>(term);
+                if (_termRepo.UpdateTerm(termDb))
+                {
+                    return true;
+                }
+                return false;
+
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

@@ -8,7 +8,7 @@ namespace DemonstratureCM.DTO
         public int CourseId { get; set; }
         public CourseDTO Course { get; set; }
         public int UserId { get; set; }
-        public MyUserDTO UserPerson { get; set; }
+        public MyUserDTO MyUser { get; set; }
         public int GroupId { get; set; }
         public GroupDTO Group { get; set; }
         public string TermDate { get; set; }

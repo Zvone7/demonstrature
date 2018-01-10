@@ -14,5 +14,7 @@ namespace DemonstratureCM.Settings
         public const int numCol = 5;
         public const int numRow = 4;
         public const string noDateString = "Nema podataka0:00:00";
+        public const string RoleAdministrator = "A";
+        public const string RoleDemonstrator = "A";
     }
 }

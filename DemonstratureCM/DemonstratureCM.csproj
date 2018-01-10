@@ -56,6 +56,7 @@
     <Compile Include="BM\MyUserBM.cs" />
     <Compile Include="BM\MyUserWithPassBM.cs" />
     <Compile Include="BM\PasswordUpdaterBM.cs" />
+    <Compile Include="BM\TermReservationBM.cs" />
     <Compile Include="DTO\CourseDTO.cs" />
     <Compile Include="DTO\GroupDTO.cs" />
     <Compile Include="DTO\MyUserWithPassDTO.cs" />
