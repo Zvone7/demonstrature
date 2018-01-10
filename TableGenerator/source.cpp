@@ -191,13 +191,15 @@ int main(){
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\"></button>\n");
 				
 				// select searchDemonstrator
-				fprintf(f,"\t\t\t<select id=\"search%d%d\" class=\"\" data-bind=\"options: Demonstrators, css:{\n",i-2,j);
-				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'searchStudent':Terms%d()[%d].DemoPickerState(),\n",i-2,j);
-				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t'searchStudentDisabled':!Terms%d()[%d].DemoPickerState()\n",i-2,j);
-				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\n");
-				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsText: 'Name',\n");
-				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvalue: 'Id',\n");
-				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsCaption: 'Odaberite demonstratora'\"></select>\n");
+				fprintf(f,"\t\t\t<select id=\"search%d%d\" class=\"\" data-bind=\"\toptions: Demonstrators,\n",i-2,j);
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsText: 'Name',\n");
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\tvalue: 'Id',\n");
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsCaption: 'Odaberite demonstratora',\n");
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\tcss:{\n",i-2,j);
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t'searchStudent':Terms%d()[%d].DemoPickerState(),\n",i-2,j);
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t'searchStudentDisabled':!Terms%d()[%d].DemoPickerState()\n",i-2,j);
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t}\">\n");
+				fprintf(f,"\t\t\t</select>\n");
 		        fprintf(f,"\t\t</div>\n");        		
         	}			
 		}		
