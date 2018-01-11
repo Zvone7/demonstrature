@@ -193,6 +193,7 @@ int main(){
 				// select searchDemonstrator
 				fprintf(f,"\t\t\t<select id=\"search%d%d\" class=\"\" data-bind=\"\toptions: Demonstrators,\n",i-2,j);
 				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsText: 'Name',\n");
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsValue: 'Id',\n");
 				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\tvalue: 'Id',\n");
 				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsCaption: 'Odaberite demonstratora',\n");
 				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\tcss:{\n",i-2,j);

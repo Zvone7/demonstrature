@@ -326,7 +326,8 @@ a {
   margin: -9px 0 0 0;
   outline: none;
   padding: 2px;
-  font-size: 10px; }
+  font-size: 10px;
+  transition: visibility 0.1s ease; }
 
 .searchStudentDisabled {
   visibility: hidden; }
@@ -352,7 +353,8 @@ a {
     border-radius: 3px;
     width: 112px;
     height: 15px;
-    word-wrap: break-word; }
+    word-wrap: break-word;
+    transform: scale(1.1); }
   .label_t.date {
     font-size: 12px; }
 

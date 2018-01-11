@@ -56,7 +56,6 @@
     <Compile Include="BM\MyUserBM.cs" />
     <Compile Include="BM\MyUserWithPassBM.cs" />
     <Compile Include="BM\PasswordUpdaterBM.cs" />
-    <Compile Include="BM\TermReservationBM.cs" />
     <Compile Include="DTO\CourseDTO.cs" />
     <Compile Include="DTO\GroupDTO.cs" />
     <Compile Include="DTO\MyUserWithPassDTO.cs" />
@@ -65,7 +64,7 @@
     <Compile Include="DTO\CourseUserDTO.cs" />
     <Compile Include="DTO\TermPackageDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\Gas.cs" />
+    <Compile Include="Settings\GlobalAppSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\bootstrap-theme.css.map" />

@@ -250,6 +250,82 @@ var TableVM = (function () {
             }
             return null;
         };
+        this.tryReserveTerm = function (suggestedUserId_, i, j) {
+            //console.log("try reserve");
+            var self = _this;
+            try {
+                var suggestedUserId = 0;
+                suggestedUserId = parseInt(suggestedUserId_);
+                if (isNaN(suggestedUserId)) {
+                    suggestedUserId = -1;
+                }
+                //console.log(suggestedUserId);
+                //console.log(self.Demonstrators());
+                if (suggestedUserId > 0) {
+                    var name;
+                    for (var k = 0; k < self.Demonstrators().length; k++) {
+                        if (self.Demonstrators()[k].Id == suggestedUserId) {
+                            name = self.Demonstrators()[k].Name();
+                        }
+                    }
+                    confirm("Sigurno želite prepustiti vaš termin " + name + " ?");
+                }
+                var term = self.FindTermByPosition(i, j);
+                if (term != null) {
+                    self.reserveTerm(term.Id, suggestedUserId);
+                }
+                else {
+                    // TO DO notification
+                }
+            }
+            catch (err) {
+                console.log("TO DO notification", err);
+            }
+        };
+        this.tryFreeTerm = function (i, j) {
+            //console.log("try free");
+            var self = _this;
+            try {
+                var term = self.FindTermByPosition(i, j);
+                if (term != null) {
+                    self.freeTerm(term.Id);
+                }
+                else {
+                    // TO DO notification
+                }
+            }
+            catch (err) {
+                console.log("TO DO notification", err);
+            }
+        };
+        this.FindTermByPosition = function (i_, j_) {
+            //console.log("findtermbyposition", i_, j_);
+            var self = _this;
+            var i = parseInt(i_);
+            var j = parseInt(j_);
+            if (i < 0 || i > 3 || j < 0 || j > 4) {
+                return null;
+            }
+            var cells;
+            switch (i) {
+                case 0:
+                    cells = self.Terms0;
+                    break;
+                case 1:
+                    cells = self.Terms1;
+                    break;
+                case 2:
+                    cells = self.Terms2;
+                    break;
+                case 3:
+                    cells = self.Terms3;
+                    break;
+                default:
+                    break;
+            }
+            var term = cells()[j].Term();
+            return term;
+        };
         //-------------------------------NAVIGATION------------------------------------------------//
         this.leftClicked = function () {
             var self = _this;
@@ -438,7 +514,7 @@ var TableVM = (function () {
                 console.log("convertDemonstratorsData exception:", e);
             }
         };
-        //-------------------------------REQUESTS---------------------------------------------------//
+        //-------------------------------REQUESTS - GET----------------------------------------------//
         this.getTerms = function () {
             var self = _this;
             var courseId = self.ActiveCourse().Id;
@@ -451,27 +527,13 @@ var TableVM = (function () {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data, status) {
-                    //console.log(data);
                     self.RawTermPackage = data;
-                    //console.log("RawTermDataWithDate ", self.RawTermPackage);
                     self.getGroupsByCourseId();
                 },
                 error: function (status) {
                     console.log('error getting Terms', status);
-                    //self.allocation();
-                    //self.allocateTermsArrays(self.dummyTerm);
                 }
             });
-            //function successFunc(data: TermPackage, status) {
-            //    //console.log(data);
-            //    self.RawTermPackage = data;
-            //    //console.log("RawTermDataWithDate ", self.RawTermPackage);
-            //    self.getGroupsByCourseId();
-            //}
-            //function errorFunc(status) {
-            //    console.log('error getting Terms', status);
-            //    self.allocation();
-            //}
         };
         this.getAllCourses = function () {
             //console.log("getting All Courses");
@@ -590,6 +652,53 @@ var TableVM = (function () {
                 console.log("Fail logoff");
             }
         };
+        this.reserveTerm = function (termId, suggestedUserId) {
+            //console.log("freeing term");
+            var self = _this;
+            // TO DO
+            //var userId
+            var serviceURL = '/Term/ReserveTerm';
+            $.ajax({
+                type: "GET",
+                url: serviceURL + "?termId=" + termId + "&suggestedUserId=" + suggestedUserId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: successFunc,
+                error: errorFunc
+            });
+            function successFunc(data, status) {
+                if (data) {
+                    self.getTerms();
+                }
+            }
+            function errorFunc(data) {
+                console.log('error reserving term with id', termId, "\nreason:\n", data);
+            }
+        };
+        this.freeTerm = function (termId) {
+            //console.log("freeing term");
+            var self = _this;
+            // TO DO
+            //var userId
+            var serviceURL = '/Term/FreeTerm';
+            $.ajax({
+                type: "GET",
+                url: serviceURL + "?termId=" + termId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: successFunc,
+                error: errorFunc
+            });
+            function successFunc(data, status) {
+                if (data) {
+                    self.getTerms();
+                }
+            }
+            function errorFunc(data) {
+                console.log('error freeing term with id', termId, "\nreason:\n", data);
+            }
+        };
+        //-------------------------------REQUESTS - POST ------------------------------------------//
         //-------------------------------HELPERS---------------------------------------------------//
         this.dateToString = function (dateObj) {
             var self = _this;
@@ -656,33 +765,33 @@ var TableVM = (function () {
                 else if (this.id == "selectCourse") {
                     var value = $("#selectCourse option:selected").text();
                     var courseId = self.GetCourseId(value);
-                    //console.log(courseId);
                     self.ActiveCourse(self.GetActiveCourse(value));
-                    //console.log("selectCourse changed, ", self.ActiveCourse());
-                    //self.allocateTermsArrays();
                     self.posOnX = 0;
                     self.posOnY = 0;
-                    //self.getRawData(value);
                     self.getTerms();
                 }
                 else if (this.id.lastIndexOf("search") != '-1') {
                     var i = parseInt(this.id.substring(6, 7));
                     var j = parseInt(this.id.substring(7, 8));
-                    var valuex = $(this).val();
-                    console.log("search", i, j, valuex, 5);
+                    var suggestedUserId = this.value;
+                    if (suggestedUserId != "") {
+                        self.tryReserveTerm(suggestedUserId, i, j);
+                    }
                 }
             });
-            //navigation
+            //$('select').on("click","change", function () {
+            //});
+            // terms
             $('button').on("click", function () {
                 if (this.id.lastIndexOf("TakeTerm") != '-1') {
                     var i = parseInt(this.id.substring(14, 15));
                     var j = parseInt(this.id.substring(15, 16));
-                    console.log("button", i, j, this.id);
+                    self.tryReserveTerm(0, i, j);
                 }
                 else if (this.id.lastIndexOf("SkipTerm") != '-1') {
                     var i = parseInt(this.id.substring(14, 15));
                     var j = parseInt(this.id.substring(15, 16));
-                    console.log("button", i, j, this.id);
+                    self.tryFreeTerm(i, j);
                 }
             });
             $('#logout').on("click", function () {

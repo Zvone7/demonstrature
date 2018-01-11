@@ -692,13 +692,13 @@ var SettingsVM = (function () {
             }
         };
         this.deleteGroup = function (groupId) {
-            //console.log("deleting group");
+            console.log("deleting group");
             var self = _this;
             //console.log(obj);
             var serviceURL = '/Group/Delete';
             $.ajax({
                 type: "DELETE",
-                url: serviceURL + "?groupId=" + groupId,
+                url: serviceURL + "?id=" + groupId,
                 success: successFunc,
                 error: errorFunc
             });

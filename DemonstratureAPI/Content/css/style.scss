@@ -505,6 +505,7 @@ a {
     outline: none;
     padding: 2px;
     font-size: $fontPcXS;
+    transition: visibility 0.1s ease;
 }
 
 .searchStudentDisabled {
@@ -541,6 +542,7 @@ a {
         width: 112px;
         height: 15px;
         word-wrap: break-word;
+        transform: scale(1.1);
     }
 
     &.date {

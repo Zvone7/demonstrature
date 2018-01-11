@@ -14,7 +14,6 @@ namespace DemonstratureAPI.Controllers
     public class TermController : Controller
     {
         private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         // GET: Term
         public ActionResult Index()
         {
@@ -38,7 +37,6 @@ namespace DemonstratureAPI.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
         }
-
 
         [System.Web.Mvc.HttpGet]
         public ActionResult NumberOfTermDates([FromUri]int courseId)
@@ -128,19 +126,27 @@ namespace DemonstratureAPI.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        [System.Web.Mvc.HttpPost]
-        public ActionResult ReserveTerm(TermReservationBM termReservation)
+        [System.Web.Mvc.HttpGet]
+        public ActionResult ReserveTerm([FromUri]int termId, [FromUri] int suggestedUserId)
         {
             var instance = new TermLogic();
-            var result = instance.ReserveTerm(termReservation);
+            var user = User.Identity as ClaimsIdentity;
+            var userIdClaim = user.Claims.FirstOrDefault(a => a.Type.Equals(ClaimTypes.NameIdentifier)).Value;
+            int userId = 0;
+            Int32.TryParse(userIdClaim, out userId);
+            var result = instance.ReserveTerm(termId, userId, suggestedUserId);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [System.Web.Mvc.HttpGet]
-        public ActionResult FreeTerm([FromUri]int termId, [FromUri] int userId)
+        public ActionResult FreeTerm([FromUri]int termId)
         {
             var instance = new TermLogic();
-            var result = instance.FreeTerm(termId,userId);
+            var user = User.Identity as ClaimsIdentity;
+            var userIdClaim = user.Claims.FirstOrDefault(a => a.Type.Equals(ClaimTypes.NameIdentifier)).Value;
+            int userId = 0;
+            Int32.TryParse(userIdClaim, out userId);
+            var result = instance.FreeTerm(termId, userId);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

@@ -223,7 +223,7 @@ namespace DemonstratureBLL
 
                 // movement check
                 // check if there is enough groups for table
-                if (numGroup <= Gas.numCol)
+                if (numGroup <= GlobalAppSettings.NumCol)
                 {
                     termPackage.disableLeft = true;
                     termPackage.disableRight = true;
@@ -234,7 +234,7 @@ namespace DemonstratureBLL
                     // user SHOULDN'T be here
                     // user is TOO MUCH right
                     // exit immediately - out of table borders
-                    if (moveOnX > (numGroup - Gas.numCol))
+                    if (moveOnX > (numGroup - GlobalAppSettings.NumCol))
                     {
                         termPackage.disableRight = true;
                         termPackage.disableLeft = false;
@@ -251,7 +251,7 @@ namespace DemonstratureBLL
                     }
                     // user COULD be here
                     // user is on right edge
-                    else if (moveOnX == (numGroup - Gas.numCol))
+                    else if (moveOnX == (numGroup - GlobalAppSettings.NumCol))
                     {
                         termPackage.disableRight = true;
                         termPackage.disableLeft = false;
@@ -277,7 +277,7 @@ namespace DemonstratureBLL
 
                 // movement check
                 // check if there is enough dates for table
-                if (numDate <= Gas.numRow)
+                if (numDate <= GlobalAppSettings.NumRow)
                 {
                     termPackage.disableUp = true;
                     termPackage.disableDown = true;
@@ -288,7 +288,7 @@ namespace DemonstratureBLL
                     // user SHOULDN'T be here
                     // user is TOO MUCH down
                     // exit immediately - out of table borders
-                    if (moveOnY > (numDate - Gas.numRow))
+                    if (moveOnY > (numDate - GlobalAppSettings.NumRow))
                     {
                         termPackage.disableDown = true;
                         termPackage.disableUp = false;
@@ -305,7 +305,7 @@ namespace DemonstratureBLL
                     }
                     // user COULD be here
                     // user is on down edge
-                    else if (moveOnY == (numDate - Gas.numRow))
+                    else if (moveOnY == (numDate - GlobalAppSettings.NumRow))
                     {
                         termPackage.disableDown = true;
                         termPackage.disableUp = false;
@@ -376,13 +376,13 @@ namespace DemonstratureBLL
                     termWithDate = termPackage.row0.Where(t => t.TermDate != null).FirstOrDefault().TermDate;
                     termPackage.row0Dt = termWithDate;
                     termPackage.row0 = FixTermRow(termPackage.row0, groups);
-                    termPackage.row0 = CalculateTermRow(termPackage.row0, groups, userId);
+                    termPackage.row0 = CalculateTermRow(termPackage.row0, userId);
                     termPackage.row0 = CropTermRow(termPackage.row0, groups.Count(), moveOnX);
                 }
                 catch (Exception e)
                 {
                     _logger.Info(e);
-                    termPackage.row0Dt = Gas.noDateString;
+                    termPackage.row0Dt = GlobalAppSettings.NoDateString;
                     termPackage.row0 = MakeBlankTerms();
                 }
 
@@ -392,13 +392,13 @@ namespace DemonstratureBLL
                     termWithDate = termPackage.row1.Where(t => t.TermDate != null).FirstOrDefault().TermDate;
                     termPackage.row1Dt = termWithDate;
                     termPackage.row1 = FixTermRow(termPackage.row1, groups);
-                    termPackage.row1 = CalculateTermRow(termPackage.row1, groups, userId);
+                    termPackage.row1 = CalculateTermRow(termPackage.row1, userId);
                     termPackage.row1 = CropTermRow(termPackage.row1, groups.Count(), moveOnX);
                 }
                 catch (Exception e)
                 {
                     _logger.Info(e);
-                    termPackage.row1Dt = Gas.noDateString;
+                    termPackage.row1Dt = GlobalAppSettings.NoDateString;
                     termPackage.row1 = MakeBlankTerms();
                 }
 
@@ -407,13 +407,13 @@ namespace DemonstratureBLL
                     termWithDate = termPackage.row2.Where(t => t.TermDate != null).FirstOrDefault().TermDate;
                     termPackage.row2Dt = termWithDate;
                     termPackage.row2 = FixTermRow(termPackage.row2, groups);
-                    termPackage.row2 = CalculateTermRow(termPackage.row2, groups, userId);
+                    termPackage.row2 = CalculateTermRow(termPackage.row2, userId);
                     termPackage.row2 = CropTermRow(termPackage.row2, groups.Count(), moveOnX);
                 }
                 catch (Exception e)
                 {
                     _logger.Info(e);
-                    termPackage.row2Dt = Gas.noDateString;
+                    termPackage.row2Dt = GlobalAppSettings.NoDateString;
                     termPackage.row2 = MakeBlankTerms();
                 }
 
@@ -422,13 +422,13 @@ namespace DemonstratureBLL
                     termWithDate = termPackage.row3.Where(t => t.TermDate != null).FirstOrDefault().TermDate;
                     termPackage.row3Dt = termWithDate;
                     termPackage.row3 = FixTermRow(termPackage.row3, groups);
-                    termPackage.row3 = CalculateTermRow(termPackage.row3, groups, userId);
+                    termPackage.row3 = CalculateTermRow(termPackage.row3, userId);
                     termPackage.row3 = CropTermRow(termPackage.row3, groups.Count(), moveOnX);
                 }
                 catch (Exception e)
                 {
                     _logger.Info(e);
-                    termPackage.row3Dt = Gas.noDateString;
+                    termPackage.row3Dt = GlobalAppSettings.NoDateString;
                     termPackage.row3 = MakeBlankTerms();
                 }
             }
@@ -468,137 +468,13 @@ namespace DemonstratureBLL
         /// <summary>
         /// Determines cellstate, takebuttonstate and skipbuttonstate
         /// </summary>
-        public List<TermDTO> CalculateTermRow(List<TermDTO> terms, List<GroupDTO> groups, int userId)
+        public List<TermDTO> CalculateTermRow(List<TermDTO> terms, int userId)
         {
             try
             {
                 foreach (TermDTO t in terms)
                 {
-                    DateTime today = DateTime.Now.Date;
-                    //DateTime today = new DateTime(2017, 9, 24);
-                    var termDate = CreateDateFromString(t.TermDate);
-
-                    // it's a fake term.
-                    if (t.Id == -1)
-                    {
-                        ApplyCellState(t, 0);
-                    }
-                    // it's a real term
-                    else
-                    {
-                        // it's a real term
-                        // it's non existent term.
-                        if (termDate < today)
-                        {
-                            ApplyCellState(t, 0);
-                        }
-                        // it's a real term
-                        // it's an existing term
-                        else
-                        {
-                            // it's a real term
-                            // it's an existing term
-                            // it belongs to user.
-                            if (t.UserId == userId)
-                            {
-                                ApplyCellState(t, 3);
-                            }
-                            // it's a real term
-                            // it's an existing term
-                            // it doesn't belong to user
-                            else
-                            {
-                                // it's a real term
-                                // it's an existing term
-                                // it doesn't belong to user
-                                // it does belong to users group
-                                if (t.Group.OwnerId == userId)
-                                {
-                                    // it's a real term
-                                    // it's an existing term
-                                    // it doesn't belong to user
-                                    // it does belong to users group
-                                    // it's empty.
-                                    if (t.UserId == 0)
-                                    {
-                                        ApplyCellState(t, 2);
-                                    }
-                                    // it's a real term
-                                    // it's an existing term
-                                    // it doesn't belong to user
-                                    // it does belong to users group
-                                    // it's not empty
-                                    else
-                                    {
-                                        // it's a real term
-                                        // it's an existing term
-                                        // it doesn't belong to user
-                                        // it does belong to users group
-                                        // it's not empty
-                                        // it's not past deadline yet.
-                                        if (!IsPastDeadLine(termDate, today))
-                                        {
-                                            ApplyCellState(t, 0);
-                                        }
-                                        // it's a real term
-                                        // it's an existing term
-                                        // it doesn't belong to user
-                                        // it does belong to users group
-                                        // it's not empty
-                                        // it's past deadline.
-                                        else
-                                        {
-                                            ApplyCellState(t, 1);
-                                        }
-                                    }
-                                }
-                                // it's a real term
-                                // it's a relevant term
-                                // it doesn't belong to user
-                                // it doesn't belong to users group
-                                else
-                                {
-                                    // it's a real term
-                                    // it's an existing term
-                                    // it doesn't belong to user
-                                    // it doesn't belong to users group
-                                    // it's empty.
-                                    if (t.UserId == 0)
-                                    {
-                                        // it's a real term
-                                        // it's an existing term
-                                        // it doesn't belong to user
-                                        // it doesn't belong to users group
-                                        // it's empty
-                                        // it's not past deadline yet.
-                                        if (!IsPastDeadLine(termDate, today))
-                                        {
-                                            ApplyCellState(t, 0);
-                                        }
-                                        // it's a real term
-                                        // it's an existing term
-                                        // it doesn't belong to user
-                                        // it doesn't belong to users group
-                                        // it's empty
-                                        // it's past deadline.
-                                        else
-                                        {
-                                            ApplyCellState(t, 1);
-                                        }
-                                    }
-                                    // it's a real term
-                                    // it's an existing term
-                                    // it doesn't belong to user
-                                    // it doesn't belong to users group
-                                    // it's not empty
-                                    else
-                                    {
-                                        ApplyCellState(t, 0);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    CalculateCellState(t, userId);
                 }
                 return terms;
             }
@@ -608,6 +484,158 @@ namespace DemonstratureBLL
                 _logger.Info(e);
                 return terms;
             }
+        }
+
+        public int CalculateCellState(TermDTO t, int userId)
+        {
+            DateTime today = DateTime.Now.Date;
+            //DateTime today = new DateTime(2017, 9, 24);
+            var termDate = CreateDateFromString(t.TermDate);
+
+            // it's a fake term.
+            if (t.Id == -1)
+            {
+                ApplyCellState(t, 0);
+            }
+            // it's a real term
+            else
+            {
+                // it's a real term
+                // it's non existent term.
+                if (termDate < today)
+                {
+                    ApplyCellState(t, 0);
+                }
+                // it's a real term
+                // it's an existing term
+                else
+                {
+                    // it's a real term
+                    // it's an existing term
+                    // it belongs to user.
+                    if (t.UserId == userId)
+                    {
+                        ApplyCellState(t, 3);
+                    }
+                    // it's a real term
+                    // it's an existing term
+                    // it doesn't belong to user
+                    else
+                    {
+                        // it's a real term
+                        // it's an existing term
+                        // it doesn't belong to user
+                        // it does belong to users group
+                        if (t.Group.OwnerId == userId)
+                        {
+                            // it's a real term
+                            // it's an existing term
+                            // it doesn't belong to user
+                            // it does belong to users group
+                            // it's empty.
+                            if (t.UserId == 0)
+                            {
+                                ApplyCellState(t, 2);
+                            }
+                            // it's a real term
+                            // it's an existing term
+                            // it doesn't belong to user
+                            // it does belong to users group
+                            // it's not empty
+                            else
+                            {
+                                // it's a real term
+                                // it's an existing term
+                                // it doesn't belong to user
+                                // it does belong to users group
+                                // it's not empty
+                                // it's not past deadline yet.
+                                //if (!IsPastDeadLine(termDate, today))
+                                //{
+                                //    ApplyCellState(t, 0);
+                                //}
+
+                                // it's a real term
+                                // it's an existing term
+                                // it doesn't belong to user
+                                // it does belong to users group
+                                // it's not empty
+                                // it's past deadline.
+                                //else
+                                //{
+                                    ApplyCellState(t, 1);
+                                //}
+                            }
+                        }
+                        // it's a real term
+                        // it's a relevant term
+                        // it doesn't belong to user
+                        // it doesn't belong to users group
+                        else
+                        {
+                            // it's a real term
+                            // it's an existing term
+                            // it doesn't belong to user
+                            // it doesn't belong to users group
+                            // it's empty.
+                            if (t.UserId == 0)
+                            {
+                                // it's a real term
+                                // it's an existing term
+                                // it doesn't belong to user
+                                // it doesn't belong to users group
+                                // it's empty
+                                // it's not past deadline yet.
+                                if (!IsPastDeadLine(termDate, today))
+                                {
+                                    // it's a real term
+                                    // it's an existing term
+                                    // it doesn't belong to user
+                                    // it doesn't belong to users group
+                                    // it's empty
+                                    // it's not past deadline yet
+                                    // it's suggested to user
+                                    if (t.SuggestedUserId == userId)
+                                    {
+                                        ApplyCellState(t, 2);
+                                    }
+                                    // it's a real term
+                                    // it's an existing term
+                                    // it doesn't belong to user
+                                    // it doesn't belong to users group
+                                    // it's empty
+                                    // it's not past deadline yet
+                                    // it's suggested to user
+                                    else
+                                    {
+                                        ApplyCellState(t, 0);
+                                    }
+                                }
+                                // it's a real term
+                                // it's an existing term
+                                // it doesn't belong to user
+                                // it doesn't belong to users group
+                                // it's empty
+                                // it's past deadline.
+                                else
+                                {
+                                    ApplyCellState(t, 1);
+                                }
+                            }
+                            // it's a real term
+                            // it's an existing term
+                            // it doesn't belong to user
+                            // it doesn't belong to users group
+                            // it's not empty
+                            else
+                            {
+                                ApplyCellState(t, 0);
+                            }
+                        }
+                    }
+                }
+            }
+            return 0;
         }
 
         /// <summary>
@@ -624,7 +652,7 @@ namespace DemonstratureBLL
                     x++;
                     continue;
                 }
-                if (newTerms.Count() >= Gas.numCol)
+                if (newTerms.Count() >= GlobalAppSettings.NumCol)
                 {
                     break;
                 }
@@ -642,13 +670,13 @@ namespace DemonstratureBLL
         public List<TermDTO> MakeBlankTerms()
         {
             List<TermDTO> terms = new List<TermDTO>();
-            for (int i = 0; i < Gas.numCol; i++)
+            for (int i = 0; i < GlobalAppSettings.NumCol; i++)
             {
                 var term = new TermDTO
                 {
                     CourseId = 0,
                     GroupId = 0,
-                    TermDate = Gas.noDateString,
+                    TermDate = GlobalAppSettings.NoDateString,
                     UserId = 0
                 };
                 terms.Add(term);
@@ -768,24 +796,19 @@ namespace DemonstratureBLL
         }
 
         /// <summary>
-        /// is it last saturday before deadline
+        /// is it last GlobalAppSettings.DayForDeadline before deadline
         /// </summary>
         public bool IsPastDeadLine(DateTime termDate, DateTime today)
         {
-            int dayOfWeek = (int)termDate.DayOfWeek;
-            int daysToDeadline = 5 - dayOfWeek;
-            if (daysToDeadline == 5)
+            DateTime StartOfWeek = termDate.AddDays(-(int)termDate.DayOfWeek);
+            DateTime deadLine = StartOfWeek.AddDays(-1 * (7 - GlobalAppSettings.DayForDeadline));
+            if (today > deadLine)
             {
-                daysToDeadline = -1;
-            }
-            DateTime deadLine = termDate.AddDays(daysToDeadline);
-            if (today < deadLine)
-            {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
 
@@ -822,35 +845,39 @@ namespace DemonstratureBLL
             }
         }
 
-        public bool ReserveTerm(TermReservationBM termReservation)
+        public bool ReserveTerm(int termId, int userId, int suggestedUserId)
         {
             try
             {
                 DateTime today = DateTime.Now.Date;
-                TermDTO term = GetTerm(termReservation.TermId);
+                TermDTO term = GetTerm(termId);
                 GroupDTO group = _mapper.Map<GroupDTO>(_groupRepo.GetGroup(term.GroupId));
+                if (suggestedUserId == -1)
+                {
+                    return false;
+                }
                 // term is available
                 if (term.UserId == 0)
                 {
                     // user is making a reservation for himself
-                    if (termReservation.SuggestedId == 0)
+                    if (suggestedUserId == 0)
                     {
                         // it's term from users group
-                        if (group.OwnerId == termReservation.MakerId)
+                        if (group.OwnerId == userId)
                         {
-                            term.UserId = termReservation.MakerId;
+                            term.UserId = userId;
                         }
                         else
                         {
                             // it's reserved for this user
-                            if (term.SuggestedUserId == termReservation.MakerId)
+                            if (term.SuggestedUserId == userId)
                             {
-                                term.UserId = termReservation.MakerId;
+                                term.UserId = userId;
                             }
                             // it's past deadline
                             if (IsPastDeadLine(CreateDateFromString(term.TermDate), today))
                             {
-                                term.UserId = termReservation.MakerId;
+                                term.UserId = userId;
                             }
                         }
                     }
@@ -858,10 +885,10 @@ namespace DemonstratureBLL
                     else
                     {
                         // term must be available or belong to the user
-                        if (term.UserId == 0 || term.UserId == termReservation.MakerId)
+                        if (term.UserId == 0 || term.UserId == userId)
                         {
                             term.UserId = 0;
-                            term.SuggestedUserId = termReservation.SuggestedId;
+                            term.SuggestedUserId = suggestedUserId;
                         }
                         else
                         {
@@ -889,7 +916,7 @@ namespace DemonstratureBLL
             {
                 TermDTO term = GetTerm(termId);
                 MyUserDTO user = _mapper.Map<MyUserDTO>(_userRepo.GetUser(userId));
-                if (term.UserId == user.Id || user.Role==Gas.RoleAdministrator)
+                if (term.UserId == user.Id || user.Role == GlobalAppSettings.RoleAdministrator)
                 {
                     term.UserId = 0;
                 }

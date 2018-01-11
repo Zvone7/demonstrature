@@ -29,7 +29,7 @@ namespace DemonstratureDB
                                                 te.UserId == t.UserId).FirstOrDefault();
                 return termInDb;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.Info(e);
                 return null;
@@ -55,13 +55,21 @@ namespace DemonstratureDB
             {
                 var termInDB = GetTerm(t.Id);
                 dbase.TermT.Where(te => te.Id == t.Id).FirstOrDefault().CourseId = t.CourseId;
-                dbase.TermT.Where(te => te.Id == t.Id).FirstOrDefault().UserId = t.UserId;
+                if (t.UserId == 0)
+                {
+                    dbase.TermT.Where(te => te.Id == t.Id).FirstOrDefault().UserId = null;
+                }
+                else
+                {
+                    dbase.TermT.Where(te => te.Id == t.Id).FirstOrDefault().UserId = t.UserId;
+                }
                 dbase.TermT.Where(te => te.Id == t.Id).FirstOrDefault().GroupId = t.GroupId;
                 dbase.TermT.Where(te => te.Id == t.Id).FirstOrDefault().TermDate = t.TermDate;
+                dbase.TermT.Where(te => te.Id == t.Id).FirstOrDefault().SuggestedUserId = t.SuggestedUserId;
                 dbase.SaveChanges();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
                 return false;
             }
@@ -85,11 +93,11 @@ namespace DemonstratureDB
             try
             {
                 terms = dbase.TermT.Where(t => t.CourseId == courseId)
-                    .OrderBy(t=>t.TermDate)
+                    .OrderBy(t => t.TermDate)
                     //.OrderBy(t=>t.GroupT.Name)
                     .ToList();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.Info(e);
                 return null;
