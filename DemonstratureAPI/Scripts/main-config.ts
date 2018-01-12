@@ -11,7 +11,8 @@ require.config({
         "bootstrap": "bootstrap.min",
         "koMapping": "knockout.mapping-latest",
         "toastr": "toastr.min",
-        "jqueryUI": "jquery-ui-1.12.0.min"
+        "jqueryUI": "jquery-ui-1.12.0.min",
+        "notify": "notify.min"
     },
 
     shim: {
@@ -20,7 +21,8 @@ require.config({
         "knockout": {"deps":["require.js"]},
         "koMapping": { "deps": ["knockout"] },
         "toastr": { "deps": ["jquery"] },
-        "jqueryUI": { "deps": ["jquery"] }
+        "jqueryUI": { "deps": ["jquery"] },
+        "notify" : {"deps":["jquery"] }
 
     },
     //  urlArgs: "v=" + gSiteVersion

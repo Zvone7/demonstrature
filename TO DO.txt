@@ -1,11 +1,8 @@
 FIX:
-delete group doesnt work
 
 
 IMPLEMENT:
-get userId in ts files ?
-
-add notifications
+add notifications - added notify, but MAKE it work
 
 refactory - single out requests in one file
 

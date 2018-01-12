@@ -14,6 +14,9 @@ zuta
 3 - uzeta
 zelena
 
+4 - admin mode
+defaultna plava
+
 x - UNKNOWN
 crvena
 

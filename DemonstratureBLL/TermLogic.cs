@@ -486,7 +486,7 @@ namespace DemonstratureBLL
             }
         }
 
-        public int CalculateCellState(TermDTO t, int userId)
+        public void CalculateCellState(TermDTO t, int userId)
         {
             DateTime today = DateTime.Now.Date;
             //DateTime today = new DateTime(2017, 9, 24);
@@ -501,141 +501,169 @@ namespace DemonstratureBLL
             else
             {
                 // it's a real term
-                // it's non existent term.
-                if (termDate < today)
+                // is admin user
+                var user = _userRepo.GetUser(userId);
+                if (user.Role == GlobalAppSettings.RoleAdministrator)
                 {
-                    ApplyCellState(t, 0);
+                    ApplyCellState(t, 4);
                 }
                 // it's a real term
-                // it's an existing term
+                // isn't admin user
                 else
                 {
                     // it's a real term
-                    // it's an existing term
-                    // it belongs to user.
-                    if (t.UserId == userId)
+                    // isn't admin user
+                    // it's non existent term.
+                    if (termDate < today)
                     {
-                        ApplyCellState(t, 3);
+                        ApplyCellState(t, 0);
                     }
                     // it's a real term
+                    // isn't admin user
                     // it's an existing term
-                    // it doesn't belong to user
                     else
                     {
                         // it's a real term
+                        // isn't admin user
                         // it's an existing term
-                        // it doesn't belong to user
-                        // it does belong to users group
-                        if (t.Group.OwnerId == userId)
+                        // it belongs to user.
+                        if (t.UserId == userId)
                         {
-                            // it's a real term
-                            // it's an existing term
-                            // it doesn't belong to user
-                            // it does belong to users group
-                            // it's empty.
-                            if (t.UserId == 0)
-                            {
-                                ApplyCellState(t, 2);
-                            }
-                            // it's a real term
-                            // it's an existing term
-                            // it doesn't belong to user
-                            // it does belong to users group
-                            // it's not empty
-                            else
-                            {
-                                // it's a real term
-                                // it's an existing term
-                                // it doesn't belong to user
-                                // it does belong to users group
-                                // it's not empty
-                                // it's not past deadline yet.
-                                //if (!IsPastDeadLine(termDate, today))
-                                //{
-                                //    ApplyCellState(t, 0);
-                                //}
-
-                                // it's a real term
-                                // it's an existing term
-                                // it doesn't belong to user
-                                // it does belong to users group
-                                // it's not empty
-                                // it's past deadline.
-                                //else
-                                //{
-                                    ApplyCellState(t, 1);
-                                //}
-                            }
+                            ApplyCellState(t, 3);
                         }
                         // it's a real term
-                        // it's a relevant term
+                        // isn't admin user
+                        // it's an existing term
                         // it doesn't belong to user
-                        // it doesn't belong to users group
                         else
                         {
                             // it's a real term
+                            // isn't admin user
                             // it's an existing term
                             // it doesn't belong to user
-                            // it doesn't belong to users group
-                            // it's empty.
-                            if (t.UserId == 0)
+                            // it does belong to users group
+                            if (t.Group.OwnerId == userId)
                             {
                                 // it's a real term
+                                // isn't admin user
                                 // it's an existing term
                                 // it doesn't belong to user
-                                // it doesn't belong to users group
-                                // it's empty
-                                // it's not past deadline yet.
-                                if (!IsPastDeadLine(termDate, today))
+                                // it does belong to users group
+                                // it's empty.
+                                if (t.UserId == 0)
                                 {
-                                    // it's a real term
-                                    // it's an existing term
-                                    // it doesn't belong to user
-                                    // it doesn't belong to users group
-                                    // it's empty
-                                    // it's not past deadline yet
-                                    // it's suggested to user
-                                    if (t.SuggestedUserId == userId)
-                                    {
-                                        ApplyCellState(t, 2);
-                                    }
-                                    // it's a real term
-                                    // it's an existing term
-                                    // it doesn't belong to user
-                                    // it doesn't belong to users group
-                                    // it's empty
-                                    // it's not past deadline yet
-                                    // it's suggested to user
-                                    else
-                                    {
-                                        ApplyCellState(t, 0);
-                                    }
+                                    ApplyCellState(t, 2);
                                 }
                                 // it's a real term
+                                // isn't admin user
                                 // it's an existing term
                                 // it doesn't belong to user
-                                // it doesn't belong to users group
-                                // it's empty
-                                // it's past deadline.
+                                // it does belong to users group
+                                // it's not empty
                                 else
                                 {
-                                    ApplyCellState(t, 1);
+                                    // it's a real term
+                                    // isn't admin user
+                                    // it's an existing term
+                                    // it doesn't belong to user
+                                    // it does belong to users group
+                                    // it's not empty
+                                    // it's not past deadline yet.
+                                    
+                                    //if (!IsPastDeadLine(termDate, today))
+                                    //{
+                                    //    ApplyCellState(t, 0);
+                                    //}
+
+                                    // it's a real term
+                                    // isn't admin user
+                                    // it's an existing term
+                                    // it doesn't belong to user
+                                    // it does belong to users group
+                                    // it's not empty
+                                    // it's past deadline.
+                                    //else
+                                    //{
+                                    ApplyCellState(t, 0);
+                                    //}
                                 }
                             }
                             // it's a real term
-                            // it's an existing term
+                            // isn't admin user
+                            // it's a relevant term
                             // it doesn't belong to user
                             // it doesn't belong to users group
-                            // it's not empty
                             else
                             {
-                                ApplyCellState(t, 0);
+                                // it's a real term
+                                // isn't admin user
+                                // it's an existing term
+                                // it doesn't belong to user
+                                // it doesn't belong to users group
+                                // it's empty.
+                                if (t.UserId == 0)
+                                {
+                                    // it's a real term
+                                    // isn't admin user
+                                    // it's an existing term
+                                    // it doesn't belong to user
+                                    // it doesn't belong to users group
+                                    // it's empty
+                                    // it's not past deadline yet.
+                                    if (!IsPastDeadLine(termDate, today))
+                                    {
+                                        // it's a real term
+                                        // isn't admin user
+                                        // it's an existing term
+                                        // it doesn't belong to user
+                                        // it doesn't belong to users group
+                                        // it's empty
+                                        // it's not past deadline yet
+                                        // it's suggested to user
+                                        if (t.SuggestedUserId == userId)
+                                        {
+                                            ApplyCellState(t, 2);
+                                        }
+                                        // it's a real term
+                                        // isn't admin user
+                                        // it's an existing term
+                                        // it doesn't belong to user
+                                        // it doesn't belong to users group
+                                        // it's empty
+                                        // it's not past deadline yet
+                                        // it's suggested to user
+                                        else
+                                        {
+                                            ApplyCellState(t, 0);
+                                        }
+                                    }
+                                    // it's a real term
+                                    // isn't admin user
+                                    // it's an existing term
+                                    // it doesn't belong to user
+                                    // it doesn't belong to users group
+                                    // it's empty
+                                    // it's past deadline.
+                                    else
+                                    {
+                                        ApplyCellState(t, 1);
+                                    }
+                                }
+                                // it's a real term
+                                // isn't admin user
+                                // it's an existing term
+                                // it doesn't belong to user
+                                // it doesn't belong to users group
+                                // it's not empty
+                                else
+                                {
+                                    ApplyCellState(t, 0);
+                                }
                             }
                         }
                     }
                 }
             }
-            return 0;
         }
 
         /// <summary>
@@ -837,6 +865,11 @@ namespace DemonstratureBLL
                     t.ButtonTakeState = false;
                     t.DemoPickerState = false;
                     break;
+                case 4:
+                    t.ButtonSkipState = false;
+                    t.ButtonTakeState = false;
+                    t.DemoPickerState = true;
+                    break;
                 default:
                     t.ButtonTakeState = false;
                     t.ButtonSkipState = false;
@@ -852,48 +885,56 @@ namespace DemonstratureBLL
                 DateTime today = DateTime.Now.Date;
                 TermDTO term = GetTerm(termId);
                 GroupDTO group = _mapper.Map<GroupDTO>(_groupRepo.GetGroup(term.GroupId));
+                UserT user = _userRepo.GetUser(userId);
                 if (suggestedUserId == -1)
                 {
                     return false;
                 }
-                // term is available
-                if (term.UserId == 0)
+                if (user.Role == GlobalAppSettings.RoleAdministrator)
                 {
-                    // user is making a reservation for himself
-                    if (suggestedUserId == 0)
+                    term.UserId = suggestedUserId;
+                }
+                else
+                {
+                    // term is available
+                    if (term.UserId == 0)
                     {
-                        // it's term from users group
-                        if (group.OwnerId == userId)
+                        // user is making a reservation for himself
+                        if (suggestedUserId == 0)
                         {
-                            term.UserId = userId;
-                        }
-                        else
-                        {
-                            // it's reserved for this user
-                            if (term.SuggestedUserId == userId)
+                            // it's term from users group
+                            if (group.OwnerId == userId)
                             {
                                 term.UserId = userId;
                             }
-                            // it's past deadline
-                            if (IsPastDeadLine(CreateDateFromString(term.TermDate), today))
+                            else
                             {
-                                term.UserId = userId;
+                                // it's reserved for this user
+                                if (term.SuggestedUserId == userId)
+                                {
+                                    term.UserId = userId;
+                                }
+                                // it's past deadline
+                                if (IsPastDeadLine(CreateDateFromString(term.TermDate), today))
+                                {
+                                    term.UserId = userId;
+                                }
                             }
                         }
-                    }
-                    // user is giving his term to someone else
-                    else
-                    {
-                        // term must be available or belong to the user
-                        if (term.UserId == 0 || term.UserId == userId)
-                        {
-                            term.UserId = 0;
-                            term.SuggestedUserId = suggestedUserId;
-                        }
+                        // user is giving his term to someone else
                         else
                         {
-                            // return wrong request;
-                            return false;
+                            // term must be available or belong to the user
+                            if (term.UserId == 0 || term.UserId == userId)
+                            {
+                                term.UserId = 0;
+                                term.SuggestedUserId = suggestedUserId;
+                            }
+                            else
+                            {
+                                // return wrong request;
+                                return false;
+                            }
                         }
                     }
                 }

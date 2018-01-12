@@ -56,12 +56,12 @@
 				<select class="selecter univStudies" id="selectStudy" data-bind="	options: Studies,
 																					optionsText: 'Name',
 																					value: 'Id',
-																					optionsCaption: 'Odaberite studij'"></select>
+																					optionsCaption: 'Studij'"></select>
 				<br />
 				<select class="selecter univCourse" id="selectCourse" data-bind="	options: CoursesActive,
 																					optionsText: 'Name',
 																					value: 'Id',
-																					optionsCaption: 'Odaberite kolegij'"></select>
+																					optionsCaption: 'Kolegij'"></select>
 			</div>
 			<div class="rTableHeading">
 				<label class="label_t groupName" 	id="groupName0" 	data-bind="text: Terms0()[0].Term().Group().Name">grupa</label><br>
@@ -92,14 +92,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms0()[0].CellState()==0, 
 												 'rTableCell1':  Terms0()[0].CellState()==1, 
-												 'rTableCell2':  Terms0()[0].CellState()==2,  
+												 'rTableCell2':  Terms0()[0].CellState()==2, 
 												 'rTableCell3':  Terms0()[0].CellState()==3, 
+												 'rTableCell4':  Terms0()[0].CellState()==4, 
 												 'rTableCellX':  Terms0()[0].CellState()!=0 && 
 																 Terms0()[0].CellState()!=1 && 
 																 Terms0()[0].CellState()!=2 && 
-																 Terms0()[0].CellState()!=3 
+																 Terms0()[0].CellState()!=3 && 
+																 Terms0()[0].CellState()!=4 
 												 }">
-			<div id="termOwner00" class="label_t demoName" data-bind="text: Terms0()[0].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner00" class="label_t demoName" data-bind="text:
+																			Terms0()[0].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm00" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms0()[0].ButtonTakeState(),
 																											'takeTermDisabled': !Terms0()[0].ButtonTakeState()
@@ -122,14 +126,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms0()[1].CellState()==0, 
 												 'rTableCell1':  Terms0()[1].CellState()==1, 
-												 'rTableCell2':  Terms0()[1].CellState()==2,  
+												 'rTableCell2':  Terms0()[1].CellState()==2, 
 												 'rTableCell3':  Terms0()[1].CellState()==3, 
+												 'rTableCell4':  Terms0()[1].CellState()==4, 
 												 'rTableCellX':  Terms0()[1].CellState()!=0 && 
 																 Terms0()[1].CellState()!=1 && 
 																 Terms0()[1].CellState()!=2 && 
-																 Terms0()[1].CellState()!=3 
+																 Terms0()[1].CellState()!=3 && 
+																 Terms0()[1].CellState()!=4 
 												 }">
-			<div id="termOwner01" class="label_t demoName" data-bind="text: Terms0()[1].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner01" class="label_t demoName" data-bind="text:
+																			Terms0()[1].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm01" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms0()[1].ButtonTakeState(),
 																											'takeTermDisabled': !Terms0()[1].ButtonTakeState()
@@ -152,14 +160,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms0()[2].CellState()==0, 
 												 'rTableCell1':  Terms0()[2].CellState()==1, 
-												 'rTableCell2':  Terms0()[2].CellState()==2,  
+												 'rTableCell2':  Terms0()[2].CellState()==2, 
 												 'rTableCell3':  Terms0()[2].CellState()==3, 
+												 'rTableCell4':  Terms0()[2].CellState()==4, 
 												 'rTableCellX':  Terms0()[2].CellState()!=0 && 
 																 Terms0()[2].CellState()!=1 && 
 																 Terms0()[2].CellState()!=2 && 
-																 Terms0()[2].CellState()!=3 
+																 Terms0()[2].CellState()!=3 && 
+																 Terms0()[2].CellState()!=4 
 												 }">
-			<div id="termOwner02" class="label_t demoName" data-bind="text: Terms0()[2].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner02" class="label_t demoName" data-bind="text:
+																			Terms0()[2].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm02" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms0()[2].ButtonTakeState(),
 																											'takeTermDisabled': !Terms0()[2].ButtonTakeState()
@@ -182,14 +194,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms0()[3].CellState()==0, 
 												 'rTableCell1':  Terms0()[3].CellState()==1, 
-												 'rTableCell2':  Terms0()[3].CellState()==2,  
+												 'rTableCell2':  Terms0()[3].CellState()==2, 
 												 'rTableCell3':  Terms0()[3].CellState()==3, 
+												 'rTableCell4':  Terms0()[3].CellState()==4, 
 												 'rTableCellX':  Terms0()[3].CellState()!=0 && 
 																 Terms0()[3].CellState()!=1 && 
 																 Terms0()[3].CellState()!=2 && 
-																 Terms0()[3].CellState()!=3 
+																 Terms0()[3].CellState()!=3 && 
+																 Terms0()[3].CellState()!=4 
 												 }">
-			<div id="termOwner03" class="label_t demoName" data-bind="text: Terms0()[3].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner03" class="label_t demoName" data-bind="text:
+																			Terms0()[3].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm03" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms0()[3].ButtonTakeState(),
 																											'takeTermDisabled': !Terms0()[3].ButtonTakeState()
@@ -212,14 +228,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms0()[4].CellState()==0, 
 												 'rTableCell1':  Terms0()[4].CellState()==1, 
-												 'rTableCell2':  Terms0()[4].CellState()==2,  
+												 'rTableCell2':  Terms0()[4].CellState()==2, 
 												 'rTableCell3':  Terms0()[4].CellState()==3, 
+												 'rTableCell4':  Terms0()[4].CellState()==4, 
 												 'rTableCellX':  Terms0()[4].CellState()!=0 && 
 																 Terms0()[4].CellState()!=1 && 
 																 Terms0()[4].CellState()!=2 && 
-																 Terms0()[4].CellState()!=3 
+																 Terms0()[4].CellState()!=3 && 
+																 Terms0()[4].CellState()!=4 
 												 }">
-			<div id="termOwner04" class="label_t demoName" data-bind="text: Terms0()[4].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner04" class="label_t demoName" data-bind="text:
+																			Terms0()[4].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm04" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms0()[4].ButtonTakeState(),
 																											'takeTermDisabled': !Terms0()[4].ButtonTakeState()
@@ -248,14 +268,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms1()[0].CellState()==0, 
 												 'rTableCell1':  Terms1()[0].CellState()==1, 
-												 'rTableCell2':  Terms1()[0].CellState()==2,  
+												 'rTableCell2':  Terms1()[0].CellState()==2, 
 												 'rTableCell3':  Terms1()[0].CellState()==3, 
+												 'rTableCell4':  Terms1()[0].CellState()==4, 
 												 'rTableCellX':  Terms1()[0].CellState()!=0 && 
 																 Terms1()[0].CellState()!=1 && 
 																 Terms1()[0].CellState()!=2 && 
-																 Terms1()[0].CellState()!=3 
+																 Terms1()[0].CellState()!=3 && 
+																 Terms1()[0].CellState()!=4 
 												 }">
-			<div id="termOwner10" class="label_t demoName" data-bind="text: Terms1()[0].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner10" class="label_t demoName" data-bind="text:
+																			Terms1()[0].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm10" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms1()[0].ButtonTakeState(),
 																											'takeTermDisabled': !Terms1()[0].ButtonTakeState()
@@ -278,14 +302,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms1()[1].CellState()==0, 
 												 'rTableCell1':  Terms1()[1].CellState()==1, 
-												 'rTableCell2':  Terms1()[1].CellState()==2,  
+												 'rTableCell2':  Terms1()[1].CellState()==2, 
 												 'rTableCell3':  Terms1()[1].CellState()==3, 
+												 'rTableCell4':  Terms1()[1].CellState()==4, 
 												 'rTableCellX':  Terms1()[1].CellState()!=0 && 
 																 Terms1()[1].CellState()!=1 && 
 																 Terms1()[1].CellState()!=2 && 
-																 Terms1()[1].CellState()!=3 
+																 Terms1()[1].CellState()!=3 && 
+																 Terms1()[1].CellState()!=4 
 												 }">
-			<div id="termOwner11" class="label_t demoName" data-bind="text: Terms1()[1].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner11" class="label_t demoName" data-bind="text:
+																			Terms1()[1].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm11" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms1()[1].ButtonTakeState(),
 																											'takeTermDisabled': !Terms1()[1].ButtonTakeState()
@@ -308,14 +336,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms1()[2].CellState()==0, 
 												 'rTableCell1':  Terms1()[2].CellState()==1, 
-												 'rTableCell2':  Terms1()[2].CellState()==2,  
+												 'rTableCell2':  Terms1()[2].CellState()==2, 
 												 'rTableCell3':  Terms1()[2].CellState()==3, 
+												 'rTableCell4':  Terms1()[2].CellState()==4, 
 												 'rTableCellX':  Terms1()[2].CellState()!=0 && 
 																 Terms1()[2].CellState()!=1 && 
 																 Terms1()[2].CellState()!=2 && 
-																 Terms1()[2].CellState()!=3 
+																 Terms1()[2].CellState()!=3 && 
+																 Terms1()[2].CellState()!=4 
 												 }">
-			<div id="termOwner12" class="label_t demoName" data-bind="text: Terms1()[2].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner12" class="label_t demoName" data-bind="text:
+																			Terms1()[2].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm12" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms1()[2].ButtonTakeState(),
 																											'takeTermDisabled': !Terms1()[2].ButtonTakeState()
@@ -338,14 +370,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms1()[3].CellState()==0, 
 												 'rTableCell1':  Terms1()[3].CellState()==1, 
-												 'rTableCell2':  Terms1()[3].CellState()==2,  
+												 'rTableCell2':  Terms1()[3].CellState()==2, 
 												 'rTableCell3':  Terms1()[3].CellState()==3, 
+												 'rTableCell4':  Terms1()[3].CellState()==4, 
 												 'rTableCellX':  Terms1()[3].CellState()!=0 && 
 																 Terms1()[3].CellState()!=1 && 
 																 Terms1()[3].CellState()!=2 && 
-																 Terms1()[3].CellState()!=3 
+																 Terms1()[3].CellState()!=3 && 
+																 Terms1()[3].CellState()!=4 
 												 }">
-			<div id="termOwner13" class="label_t demoName" data-bind="text: Terms1()[3].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner13" class="label_t demoName" data-bind="text:
+																			Terms1()[3].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm13" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms1()[3].ButtonTakeState(),
 																											'takeTermDisabled': !Terms1()[3].ButtonTakeState()
@@ -368,14 +404,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms1()[4].CellState()==0, 
 												 'rTableCell1':  Terms1()[4].CellState()==1, 
-												 'rTableCell2':  Terms1()[4].CellState()==2,  
+												 'rTableCell2':  Terms1()[4].CellState()==2, 
 												 'rTableCell3':  Terms1()[4].CellState()==3, 
+												 'rTableCell4':  Terms1()[4].CellState()==4, 
 												 'rTableCellX':  Terms1()[4].CellState()!=0 && 
 																 Terms1()[4].CellState()!=1 && 
 																 Terms1()[4].CellState()!=2 && 
-																 Terms1()[4].CellState()!=3 
+																 Terms1()[4].CellState()!=3 && 
+																 Terms1()[4].CellState()!=4 
 												 }">
-			<div id="termOwner14" class="label_t demoName" data-bind="text: Terms1()[4].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner14" class="label_t demoName" data-bind="text:
+																			Terms1()[4].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm14" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms1()[4].ButtonTakeState(),
 																											'takeTermDisabled': !Terms1()[4].ButtonTakeState()
@@ -404,14 +444,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms2()[0].CellState()==0, 
 												 'rTableCell1':  Terms2()[0].CellState()==1, 
-												 'rTableCell2':  Terms2()[0].CellState()==2,  
+												 'rTableCell2':  Terms2()[0].CellState()==2, 
 												 'rTableCell3':  Terms2()[0].CellState()==3, 
+												 'rTableCell4':  Terms2()[0].CellState()==4, 
 												 'rTableCellX':  Terms2()[0].CellState()!=0 && 
 																 Terms2()[0].CellState()!=1 && 
 																 Terms2()[0].CellState()!=2 && 
-																 Terms2()[0].CellState()!=3 
+																 Terms2()[0].CellState()!=3 && 
+																 Terms2()[0].CellState()!=4 
 												 }">
-			<div id="termOwner20" class="label_t demoName" data-bind="text: Terms2()[0].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner20" class="label_t demoName" data-bind="text:
+																			Terms2()[0].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm20" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms2()[0].ButtonTakeState(),
 																											'takeTermDisabled': !Terms2()[0].ButtonTakeState()
@@ -434,14 +478,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms2()[1].CellState()==0, 
 												 'rTableCell1':  Terms2()[1].CellState()==1, 
-												 'rTableCell2':  Terms2()[1].CellState()==2,  
+												 'rTableCell2':  Terms2()[1].CellState()==2, 
 												 'rTableCell3':  Terms2()[1].CellState()==3, 
+												 'rTableCell4':  Terms2()[1].CellState()==4, 
 												 'rTableCellX':  Terms2()[1].CellState()!=0 && 
 																 Terms2()[1].CellState()!=1 && 
 																 Terms2()[1].CellState()!=2 && 
-																 Terms2()[1].CellState()!=3 
+																 Terms2()[1].CellState()!=3 && 
+																 Terms2()[1].CellState()!=4 
 												 }">
-			<div id="termOwner21" class="label_t demoName" data-bind="text: Terms2()[1].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner21" class="label_t demoName" data-bind="text:
+																			Terms2()[1].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm21" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms2()[1].ButtonTakeState(),
 																											'takeTermDisabled': !Terms2()[1].ButtonTakeState()
@@ -464,14 +512,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms2()[2].CellState()==0, 
 												 'rTableCell1':  Terms2()[2].CellState()==1, 
-												 'rTableCell2':  Terms2()[2].CellState()==2,  
+												 'rTableCell2':  Terms2()[2].CellState()==2, 
 												 'rTableCell3':  Terms2()[2].CellState()==3, 
+												 'rTableCell4':  Terms2()[2].CellState()==4, 
 												 'rTableCellX':  Terms2()[2].CellState()!=0 && 
 																 Terms2()[2].CellState()!=1 && 
 																 Terms2()[2].CellState()!=2 && 
-																 Terms2()[2].CellState()!=3 
+																 Terms2()[2].CellState()!=3 && 
+																 Terms2()[2].CellState()!=4 
 												 }">
-			<div id="termOwner22" class="label_t demoName" data-bind="text: Terms2()[2].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner22" class="label_t demoName" data-bind="text:
+																			Terms2()[2].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm22" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms2()[2].ButtonTakeState(),
 																											'takeTermDisabled': !Terms2()[2].ButtonTakeState()
@@ -494,14 +546,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms2()[3].CellState()==0, 
 												 'rTableCell1':  Terms2()[3].CellState()==1, 
-												 'rTableCell2':  Terms2()[3].CellState()==2,  
+												 'rTableCell2':  Terms2()[3].CellState()==2, 
 												 'rTableCell3':  Terms2()[3].CellState()==3, 
+												 'rTableCell4':  Terms2()[3].CellState()==4, 
 												 'rTableCellX':  Terms2()[3].CellState()!=0 && 
 																 Terms2()[3].CellState()!=1 && 
 																 Terms2()[3].CellState()!=2 && 
-																 Terms2()[3].CellState()!=3 
+																 Terms2()[3].CellState()!=3 && 
+																 Terms2()[3].CellState()!=4 
 												 }">
-			<div id="termOwner23" class="label_t demoName" data-bind="text: Terms2()[3].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner23" class="label_t demoName" data-bind="text:
+																			Terms2()[3].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm23" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms2()[3].ButtonTakeState(),
 																											'takeTermDisabled': !Terms2()[3].ButtonTakeState()
@@ -524,14 +580,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms2()[4].CellState()==0, 
 												 'rTableCell1':  Terms2()[4].CellState()==1, 
-												 'rTableCell2':  Terms2()[4].CellState()==2,  
+												 'rTableCell2':  Terms2()[4].CellState()==2, 
 												 'rTableCell3':  Terms2()[4].CellState()==3, 
+												 'rTableCell4':  Terms2()[4].CellState()==4, 
 												 'rTableCellX':  Terms2()[4].CellState()!=0 && 
 																 Terms2()[4].CellState()!=1 && 
 																 Terms2()[4].CellState()!=2 && 
-																 Terms2()[4].CellState()!=3 
+																 Terms2()[4].CellState()!=3 && 
+																 Terms2()[4].CellState()!=4 
 												 }">
-			<div id="termOwner24" class="label_t demoName" data-bind="text: Terms2()[4].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner24" class="label_t demoName" data-bind="text:
+																			Terms2()[4].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm24" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms2()[4].ButtonTakeState(),
 																											'takeTermDisabled': !Terms2()[4].ButtonTakeState()
@@ -571,14 +631,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms3()[0].CellState()==0, 
 												 'rTableCell1':  Terms3()[0].CellState()==1, 
-												 'rTableCell2':  Terms3()[0].CellState()==2,  
+												 'rTableCell2':  Terms3()[0].CellState()==2, 
 												 'rTableCell3':  Terms3()[0].CellState()==3, 
+												 'rTableCell4':  Terms3()[0].CellState()==4, 
 												 'rTableCellX':  Terms3()[0].CellState()!=0 && 
 																 Terms3()[0].CellState()!=1 && 
 																 Terms3()[0].CellState()!=2 && 
-																 Terms3()[0].CellState()!=3 
+																 Terms3()[0].CellState()!=3 && 
+																 Terms3()[0].CellState()!=4 
 												 }">
-			<div id="termOwner30" class="label_t demoName" data-bind="text: Terms3()[0].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner30" class="label_t demoName" data-bind="text:
+																			Terms3()[0].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm30" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms3()[0].ButtonTakeState(),
 																											'takeTermDisabled': !Terms3()[0].ButtonTakeState()
@@ -601,14 +665,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms3()[1].CellState()==0, 
 												 'rTableCell1':  Terms3()[1].CellState()==1, 
-												 'rTableCell2':  Terms3()[1].CellState()==2,  
+												 'rTableCell2':  Terms3()[1].CellState()==2, 
 												 'rTableCell3':  Terms3()[1].CellState()==3, 
+												 'rTableCell4':  Terms3()[1].CellState()==4, 
 												 'rTableCellX':  Terms3()[1].CellState()!=0 && 
 																 Terms3()[1].CellState()!=1 && 
 																 Terms3()[1].CellState()!=2 && 
-																 Terms3()[1].CellState()!=3 
+																 Terms3()[1].CellState()!=3 && 
+																 Terms3()[1].CellState()!=4 
 												 }">
-			<div id="termOwner31" class="label_t demoName" data-bind="text: Terms3()[1].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner31" class="label_t demoName" data-bind="text:
+																			Terms3()[1].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm31" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms3()[1].ButtonTakeState(),
 																											'takeTermDisabled': !Terms3()[1].ButtonTakeState()
@@ -631,14 +699,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms3()[2].CellState()==0, 
 												 'rTableCell1':  Terms3()[2].CellState()==1, 
-												 'rTableCell2':  Terms3()[2].CellState()==2,  
+												 'rTableCell2':  Terms3()[2].CellState()==2, 
 												 'rTableCell3':  Terms3()[2].CellState()==3, 
+												 'rTableCell4':  Terms3()[2].CellState()==4, 
 												 'rTableCellX':  Terms3()[2].CellState()!=0 && 
 																 Terms3()[2].CellState()!=1 && 
 																 Terms3()[2].CellState()!=2 && 
-																 Terms3()[2].CellState()!=3 
+																 Terms3()[2].CellState()!=3 && 
+																 Terms3()[2].CellState()!=4 
 												 }">
-			<div id="termOwner32" class="label_t demoName" data-bind="text: Terms3()[2].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner32" class="label_t demoName" data-bind="text:
+																			Terms3()[2].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm32" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms3()[2].ButtonTakeState(),
 																											'takeTermDisabled': !Terms3()[2].ButtonTakeState()
@@ -661,14 +733,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms3()[3].CellState()==0, 
 												 'rTableCell1':  Terms3()[3].CellState()==1, 
-												 'rTableCell2':  Terms3()[3].CellState()==2,  
+												 'rTableCell2':  Terms3()[3].CellState()==2, 
 												 'rTableCell3':  Terms3()[3].CellState()==3, 
+												 'rTableCell4':  Terms3()[3].CellState()==4, 
 												 'rTableCellX':  Terms3()[3].CellState()!=0 && 
 																 Terms3()[3].CellState()!=1 && 
 																 Terms3()[3].CellState()!=2 && 
-																 Terms3()[3].CellState()!=3 
+																 Terms3()[3].CellState()!=3 && 
+																 Terms3()[3].CellState()!=4 
 												 }">
-			<div id="termOwner33" class="label_t demoName" data-bind="text: Terms3()[3].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner33" class="label_t demoName" data-bind="text:
+																			Terms3()[3].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm33" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms3()[3].ButtonTakeState(),
 																											'takeTermDisabled': !Terms3()[3].ButtonTakeState()
@@ -691,14 +767,18 @@
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms3()[4].CellState()==0, 
 												 'rTableCell1':  Terms3()[4].CellState()==1, 
-												 'rTableCell2':  Terms3()[4].CellState()==2,  
+												 'rTableCell2':  Terms3()[4].CellState()==2, 
 												 'rTableCell3':  Terms3()[4].CellState()==3, 
+												 'rTableCell4':  Terms3()[4].CellState()==4, 
 												 'rTableCellX':  Terms3()[4].CellState()!=0 && 
 																 Terms3()[4].CellState()!=1 && 
 																 Terms3()[4].CellState()!=2 && 
-																 Terms3()[4].CellState()!=3 
+																 Terms3()[4].CellState()!=3 && 
+																 Terms3()[4].CellState()!=4 
 												 }">
-			<div id="termOwner34" class="label_t demoName" data-bind="text: Terms3()[4].Term().User().Name">demonstrator</div><br>
+			<div id="termOwner34" class="label_t demoName" data-bind="text:
+																			Terms3()[4].Term().User().Name
+																			">demonstrator</div><br>
 			<button id="buttonTakeTerm34" class="tableButton" data-bind="text: defaultTextButtonTake, css:	{ 
 																											'takeTerm':Terms3()[4].ButtonTakeState(),
 																											'takeTermDisabled': !Terms3()[4].ButtonTakeState()

@@ -11,7 +11,7 @@ var defaultDate = new Date().getDate() + "." + (new Date().getMonth() + 1) + "."
 var defaultGroupName = "Grupa";
 var defaultId = 0;
 var defaultStudyName = "Smjer";
-var defaultUserLastName = "...";
+var defaultUserLastName = "-";
 var defaultUserName = "-";
 var defaultUserRole = "D";
 var defaultUserUsername = "...";
@@ -236,15 +236,11 @@ var TableVM = (function () {
             }
             return -1;
         };
-        this.GetActiveCourse = function (name) {
+        this.GetActiveCourse = function (courseId) {
             var self = _this;
-            //console.log("Getting course Id from course name");
-            if (self.CoursesActive().length == 0) {
-                return null;
-            }
             for (var i = 0; i < self.CoursesActive().length; i++) {
                 //console.log(self.CoursesActive()[i].Name());
-                if (self.CoursesActive()[i].Name == name) {
+                if (self.CoursesActive()[i].Id == courseId) {
                     return self.CoursesActive()[i];
                 }
             }
@@ -752,8 +748,6 @@ var TableVM = (function () {
         };
         this.test = function () {
             var self = _this;
-            self.cellState(self.cellState() + 1);
-            console.log(self.cellState());
         };
         var self = this;
         $(document).ready(function () {
@@ -763,9 +757,8 @@ var TableVM = (function () {
                     self.populateSelectCourse(value);
                 }
                 else if (this.id == "selectCourse") {
-                    var value = $("#selectCourse option:selected").text();
-                    var courseId = self.GetCourseId(value);
-                    self.ActiveCourse(self.GetActiveCourse(value));
+                    var courseId = this.value;
+                    self.ActiveCourse(self.GetActiveCourse(courseId));
                     self.posOnX = 0;
                     self.posOnY = 0;
                     self.getTerms();

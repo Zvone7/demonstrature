@@ -9,6 +9,7 @@ $cell0Color: $myCellColor;
 $cell1Color: #ffff30;
 $cell2Color: #ffff30;
 $cell3Color: #53d134;
+$cell4Color: $myCellColor;
 $cellXColor: #3a3838;
 $demoNameColor: #e6eeff;
 $searchColor: #cce5ff;
@@ -255,6 +256,11 @@ a {
     background-color: $cell3Color;
 }
 
+.rTableCell4 {
+    @extend .rTableCell;
+    background-color: $cell4Color;
+}
+
 .rTableCellX {
     @extend .rTableCell;
     background-color: $cellXColor;
@@ -304,7 +310,7 @@ a {
 }
 
 .selecter {
-    margin: 10px 0;
+    margin: 5px 0;
     background: $myHeaderColor;
     color: $myHeaderTextColor;
     border: 1px solid $myCellColor;
@@ -317,7 +323,7 @@ a {
     }
 
     &.univStudies {
-        font-size: $fontPcS;
+        font-size: $fontPcL;
         width: 125px;
         cursor: pointer;
 
@@ -327,7 +333,7 @@ a {
     }
 
     &.univCourse {
-        font-size: $fontPcS;
+        font-size: $fontPcL;
         width: 125px;
         cursor: pointer;
 

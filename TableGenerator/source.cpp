@@ -104,7 +104,7 @@ int main(){
 			fprintf(f,"\t\t\t\t\t");
 			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvalue: 'Id',\n");
 			fprintf(f,"\t\t\t\t");
-			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsCaption: 'Odaberite studij'\"></select>\n");
+			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsCaption: 'Studij'\"></select>\n");
 			fprintf(f,"\t\t\t\t");
             fprintf(f,"<br />\n");
 			fprintf(f,"\t\t\t\t");
@@ -114,7 +114,7 @@ int main(){
 			fprintf(f,"\t\t\t\t\t");
 			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvalue: 'Id',\n");
 			fprintf(f,"\t\t\t\t");
-			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsCaption: 'Odaberite kolegij'\"></select>\n");
+			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsCaption: 'Kolegij'\"></select>\n");
 			fprintf(f,"\t\t\t");
         	fprintf(f,"</div>\n");
         	// tableHeading        	
@@ -167,16 +167,22 @@ int main(){
 		        fprintf(f,"\t\t<div class=\"rTableCell\" data-bind=\" css: { ");
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t 'rTableCell0':  Terms%d()[%d].CellState()==0, ", i-2, j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t 'rTableCell1':  Terms%d()[%d].CellState()==1, ", i-2, j);
-				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t 'rTableCell2':  Terms%d()[%d].CellState()==2,  ", i-2, j);
+				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t 'rTableCell2':  Terms%d()[%d].CellState()==2, ", i-2, j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t 'rTableCell3':  Terms%d()[%d].CellState()==3, ", i-2, j);
+				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t 'rTableCell4':  Terms%d()[%d].CellState()==4, ", i-2, j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t 'rTableCellX':  Terms%d()[%d].CellState()!=0 && ", i-2, j, i-2, j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Terms%d()[%d].CellState()!=1 && ", i-2, j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Terms%d()[%d].CellState()!=2 && ", i-2, j);
-				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Terms%d()[%d].CellState()!=3 ", i-2, j);
+				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Terms%d()[%d].CellState()!=3 && ", i-2, j);
+				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Terms%d()[%d].CellState()!=4 ", i-2, j);
 				fprintf(f,"\n\t\t\t\t\t\t\t\t\t\t\t\t }\">\n");
 				
 				// label demoName
-				fprintf(f,"\t\t\t<div id=\"termOwner%d%d\" class=\"label_t demoName\" data-bind=\"text: Terms%d()[%d].Term().User().Name\">demonstrator</div><br>\n",i-2,j,i-2,j);
+				//fprintf(f,"\t\t\t<div id=\"termOwner%d%d\" class=\"label_t demoName\" data-bind=\"text: Terms%d()[%d].Term().User().Name\">demonstrator</div><br>\n",i-2,j,i-2,j);
+				fprintf(f,"\t\t\t<div id=\"termOwner%d%d\" class=\"label_t demoName\" data-bind=\"text:\n",i-2,j);
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tTerms%d()[%d].Term().User().Name\n",i-2,j);
+				//fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tTerms%d()[%d].Term().User().LastName\n",i-2,j);				
+				fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\">demonstrator</div><br>\n");
 				
 				// button takeTerm
 				fprintf(f,"\t\t\t<button id=\"buttonTakeTerm%d%d\" class=\"tableButton\" data-bind=\"text: defaultTextButtonTake, css:\t{ ", i-2, j, i-2, j);

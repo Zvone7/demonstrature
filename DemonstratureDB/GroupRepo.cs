@@ -35,6 +35,11 @@ namespace DemonstratureDB
             try
             {
                 var groupToDelete = dbase.GroupT.Where(g => g.Id == groupId).FirstOrDefault();
+                if (groupToDelete != null)
+                {
+                    var termsToDelete = dbase.TermT.Where(t => t.GroupId == groupId).ToList();
+                    dbase.TermT.RemoveRange(termsToDelete);
+                }
                 dbase.GroupT.Remove(groupToDelete);
                 dbase.SaveChanges();
                 return true;

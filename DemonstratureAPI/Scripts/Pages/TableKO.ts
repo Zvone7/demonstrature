@@ -12,7 +12,7 @@ const defaultDate = new Date().getDate() + "." + (new Date().getMonth() + 1) + "
 const defaultGroupName = "Grupa";
 const defaultId = 0;
 const defaultStudyName = "Smjer";
-const defaultUserLastName = "...";
+const defaultUserLastName = "-";
 const defaultUserName = "-";
 const defaultUserRole = "D";
 const defaultUserUsername = "...";
@@ -88,9 +88,8 @@ class TableVM {
                     self.populateSelectCourse(value);
                 }
                 else if (this.id == "selectCourse") {
-                    var value = $("#selectCourse option:selected").text();
-                    var courseId = self.GetCourseId(value);
-                    self.ActiveCourse(self.GetActiveCourse(value));
+                    var courseId = this.value;
+                    self.ActiveCourse(self.GetActiveCourse(courseId));
                     self.posOnX = 0;
                     self.posOnY = 0;
                     self.getTerms();
@@ -131,6 +130,8 @@ class TableVM {
             $('#test').on("click", () => {
                 self.test();
             });
+
+           
 
         });
 
@@ -314,15 +315,11 @@ class TableVM {
         return -1;
     }
 
-    public GetActiveCourse = (name) => {
+    public GetActiveCourse = (courseId) => {
         var self = this;
-        //console.log("Getting course Id from course name");
-        if (self.CoursesActive().length == 0) {
-            return null;
-        }
         for (var i = 0; i < self.CoursesActive().length; i++) {
             //console.log(self.CoursesActive()[i].Name());
-            if (self.CoursesActive()[i].Name == name) {
+            if (self.CoursesActive()[i].Id == courseId) {
                 return self.CoursesActive()[i];
             }
         }
@@ -881,8 +878,6 @@ class TableVM {
 
     public test = () => {
         var self = this;
-        self.cellState(self.cellState() + 1);
-        console.log(self.cellState());
     }
 }
 
