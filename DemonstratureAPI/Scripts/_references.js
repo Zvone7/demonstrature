@@ -13,7 +13,6 @@
 /// <reference path="knockout-amd-helpers.js" />
 /// <reference path="knockout-postbox.js" />
 /// <reference path="modernizr-2.6.2.js" />
-/// <reference path="notify.min.js" />
 /// <reference path="r.js" />
 /// <reference path="require.js" />
 /// <reference path="respond.js" />
