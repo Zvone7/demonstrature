@@ -375,6 +375,8 @@
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\notify.js" />
+    <Content Include="Scripts\notify.min.js" />
     <Content Include="Scripts\r.js" />
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\respond.js" />
@@ -436,6 +438,7 @@
     <TypeScriptCompile Include="Scripts\typings\knockout.postbox\knockout-postbox.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\knockout.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout\tests\jasmine.extensions.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\notify.js\notify.js.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\requirejs\require.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\sammyjs\sammyjs.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\select2\select2.d.ts" />
