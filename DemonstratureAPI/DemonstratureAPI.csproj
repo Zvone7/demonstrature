@@ -424,6 +424,8 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Content\Utilities.ts" />
+    <TypeScriptCompile Include="Scripts\Helpers\CustomClasses.ts" />
+    <TypeScriptCompile Include="Scripts\Helpers\CustomRequests.ts" />
     <TypeScriptCompile Include="Scripts\main-config.ts" />
     <TypeScriptCompile Include="Scripts\Pages\Login.ts" />
     <TypeScriptCompile Include="Scripts\Pages\Settings.ts" />

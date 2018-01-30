@@ -19,7 +19,7 @@ require.config({
         "datatables": { "deps": ["jquery"] },
         "bootstrap": { "deps": ["jquery"] },
         "jquery-notify": { "deps": ["jquery"] },
-        "knockout": {"deps":["require.js"]},
+        "knockout": { "deps": ["require.js"] },
         "koMapping": { "deps": ["knockout"] },
         "toastr": { "deps": ["jquery"] },
         "jqueryUI": { "deps": ["jquery"] }
@@ -28,12 +28,21 @@ require.config({
     //  urlArgs: "v=" + gSiteVersion
 });
 
-require(["knockout", "app/main", "koMapping", "bootstrap", "knockout-amd-helpers", "text", "koBindings", "postbox", "jqueryUI", "jquery-notify"], function (ko: KnockoutStatic, mainModule, koMapping) {
+require(["knockout",
+    "app/main",
+    "koMapping",
+    "bootstrap",
+    "knockout-amd-helpers",
+    "text",
+    "koBindings",
+    "postbox",
+    "jqueryUI",
+    "jquery-notify"], function (ko: KnockoutStatic, mainModule, koMapping) {
 
-    //  set default folders and extension
-    ko.bindingHandlers.module.baseDir = "app/_modules"; // note: currently not used
-    ko.amdTemplateEngine.defaultPath = "app/_templates";
-    ko.amdTemplateEngine.defaultSuffix = ".html";
-    ko.mapping = koMapping;
-    ko.applyBindings(mainModule.vm);
-});
+        //  set default folders and extension
+        ko.bindingHandlers.module.baseDir = "app/_modules"; // note: currently not used
+        ko.amdTemplateEngine.defaultPath = "app/_templates";
+        ko.amdTemplateEngine.defaultSuffix = ".html";
+        ko.mapping = koMapping;
+        ko.applyBindings(mainModule.vm);
+    });

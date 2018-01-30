@@ -22,7 +22,16 @@ require.config({
         "jqueryUI": { "deps": ["jquery"] }
     },
 });
-require(["knockout", "app/main", "koMapping", "bootstrap", "knockout-amd-helpers", "text", "koBindings", "postbox", "jqueryUI", "jquery-notify"], function (ko, mainModule, koMapping) {
+require(["knockout",
+    "app/main",
+    "koMapping",
+    "bootstrap",
+    "knockout-amd-helpers",
+    "text",
+    "koBindings",
+    "postbox",
+    "jqueryUI",
+    "jquery-notify"], function (ko, mainModule, koMapping) {
     //  set default folders and extension
     ko.bindingHandlers.module.baseDir = "app/_modules"; // note: currently not used
     ko.amdTemplateEngine.defaultPath = "app/_templates";

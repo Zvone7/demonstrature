@@ -1,4 +1,6 @@
-﻿$(document).ready(() => {
+﻿//import { Requests } from "../helpers/CustomRequests"
+//import { KoTerm } from "../helpers/CustomClasses"
+$(document).ready(() => {
     var tableVM: TableVM = new TableVM();
     tableVM.allocation();
     tableVM.getAllCourses();
@@ -65,6 +67,7 @@ class TableVM {
     public RawGroupData = new Array<KoGroup>();
     public RawUserData = new Array<KoUser>();
     public AllDates = new Array<Date>();
+    //public Requests = new Requests();
     //--------------------------------------primitive----------------------------------//
     public posOnX: number = 0; // 'where' the table is on X coordinate
     public posOnY: number = 0; // 'where' the table is on Y coordinate
@@ -93,6 +96,7 @@ class TableVM {
                     self.posOnX = 0;
                     self.posOnY = 0;
                     self.getTerms();
+                    //self.Requests.getTerms(courseId, self.posOnX, self.posOnY);
                 }
                 else if (this.id.lastIndexOf("search") != '-1') {
                     var i = parseInt(this.id.substring(6, 7));
@@ -131,7 +135,7 @@ class TableVM {
                 self.test();
             });
 
-           
+
 
         });
 
@@ -417,6 +421,7 @@ class TableVM {
         else {
             self.posOnX--;
             self.getTerms();
+            //self.Requests.getTerms(self.ActiveCourse().Id, self.posOnX, self.posOnY);
         }
     }
 
@@ -431,6 +436,7 @@ class TableVM {
         else {
             self.posOnX++;
             self.getTerms();
+            //self.Requests.getTerms(self.ActiveCourse().Id, self.posOnX, self.posOnY);
         }
     }
 
@@ -445,6 +451,7 @@ class TableVM {
         else {
             self.posOnY--;
             self.getTerms();
+            //self.Requests.getTerms(self.ActiveCourse().Id, self.posOnX, self.posOnY);
         }
     }
 
@@ -460,6 +467,7 @@ class TableVM {
         else {
             self.posOnY++;
             self.getTerms();
+            //self.Requests.getTerms(self.ActiveCourse().Id, self.posOnX, self.posOnY);
         }
     }
 
@@ -782,6 +790,7 @@ class TableVM {
         function successFunc(data, status) {
             if (data) {
                 self.getTerms();
+                //self.Requests.getTerms(self.ActiveCourse().Id, self.posOnX, self.posOnY);
             }
         }
         function errorFunc(data) {
@@ -806,6 +815,7 @@ class TableVM {
         function successFunc(data, status) {
             if (data) {
                 self.getTerms();
+                //self.Requests.getTerms(courseId, self.posOnX, self.posOnY);
             }
         }
         function errorFunc(data) {

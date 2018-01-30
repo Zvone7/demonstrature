@@ -1,3 +1,5 @@
+//import { Requests } from "../helpers/CustomRequests"
+//import { KoTerm } from "../helpers/CustomClasses"
 $(document).ready(function () {
     var tableVM = new TableVM();
     tableVM.allocation();
@@ -63,6 +65,7 @@ var TableVM = (function () {
         this.RawGroupData = new Array();
         this.RawUserData = new Array();
         this.AllDates = new Array();
+        //public Requests = new Requests();
         //--------------------------------------primitive----------------------------------//
         this.posOnX = 0; // 'where' the table is on X coordinate
         this.posOnY = 0; // 'where' the table is on Y coordinate
@@ -334,6 +337,7 @@ var TableVM = (function () {
             else {
                 self.posOnX--;
                 self.getTerms();
+                //self.Requests.getTerms(self.ActiveCourse().Id, self.posOnX, self.posOnY);
             }
         };
         this.rightClicked = function () {
@@ -347,6 +351,7 @@ var TableVM = (function () {
             else {
                 self.posOnX++;
                 self.getTerms();
+                //self.Requests.getTerms(self.ActiveCourse().Id, self.posOnX, self.posOnY);
             }
         };
         this.upClicked = function () {
@@ -360,6 +365,7 @@ var TableVM = (function () {
             else {
                 self.posOnY--;
                 self.getTerms();
+                //self.Requests.getTerms(self.ActiveCourse().Id, self.posOnX, self.posOnY);
             }
         };
         this.downClicked = function () {
@@ -374,6 +380,7 @@ var TableVM = (function () {
             else {
                 self.posOnY++;
                 self.getTerms();
+                //self.Requests.getTerms(self.ActiveCourse().Id, self.posOnX, self.posOnY);
             }
         };
         this.handleWrongMove = function () {
@@ -665,6 +672,7 @@ var TableVM = (function () {
             function successFunc(data, status) {
                 if (data) {
                     self.getTerms();
+                    //self.Requests.getTerms(self.ActiveCourse().Id, self.posOnX, self.posOnY);
                 }
             }
             function errorFunc(data) {
@@ -688,6 +696,7 @@ var TableVM = (function () {
             function successFunc(data, status) {
                 if (data) {
                     self.getTerms();
+                    //self.Requests.getTerms(courseId, self.posOnX, self.posOnY);
                 }
             }
             function errorFunc(data) {
@@ -762,6 +771,7 @@ var TableVM = (function () {
                     self.posOnX = 0;
                     self.posOnY = 0;
                     self.getTerms();
+                    //self.Requests.getTerms(courseId, self.posOnX, self.posOnY);
                 }
                 else if (this.id.lastIndexOf("search") != '-1') {
                     var i = parseInt(this.id.substring(6, 7));

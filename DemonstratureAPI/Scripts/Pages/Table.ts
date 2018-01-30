@@ -1,5 +1,5 @@
 ﻿$(document).ready(() => {
-    var tableVM: TableVM = new TableVM();
+    //var tableVM: TableVM = new TableVM();
     //ko.applyBindings(tableVM);
     //tableVM.getAllCourses();
 });

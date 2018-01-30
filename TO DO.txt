@@ -1,9 +1,7 @@
 FIX:
-
-
-IMPLEMENT:
 add notifications - added notify, but MAKE it work
 
+IMPLEMENT:
 refactory - single out requests in one file
 
 refactory of gettermsbycourseid on terms controller - called from settingsKO.ts and tableKO.ts
