@@ -2,9 +2,9 @@
 
 require.config({
     paths: {
-        "jquery": "jquery-2.2.3.min",
+        "jquery": "jquery-3.3.1.min",
         "jquery-notify": "notify.min",
-        "knockout": "knockout-3.4.0.debug",
+        "knockout": "knockout-3.4.2.debug",
         "postbox": "knockout-postbox",
         "text": "text",
         "koBindings": "app/_framework/koBindings",
@@ -12,7 +12,7 @@ require.config({
         "bootstrap": "bootstrap.min",
         "koMapping": "knockout.mapping-latest",
         "toastr": "toastr.min",
-        "jqueryUI": "jquery-ui-1.12.0.min"
+        "jqueryUI": "jquery-ui-1.12.1.min"
     },
 
     shim: {
@@ -37,7 +37,8 @@ require(["knockout",
     "koBindings",
     "postbox",
     "jqueryUI",
-    "jquery-notify"], function (ko: KnockoutStatic, mainModule, koMapping) {
+    "jquery-notify"
+], function (ko: KnockoutStatic, mainModule, koMapping) {
 
         //  set default folders and extension
         ko.bindingHandlers.module.baseDir = "app/_modules"; // note: currently not used

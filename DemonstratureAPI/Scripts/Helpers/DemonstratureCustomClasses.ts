@@ -151,3 +151,11 @@ export class TermPackage {
         this.disableDown = false;
     }
 }
+export class KoTestClass {
+    public name: string;
+    public age: number;
+    constructor() {
+        this.name = "test name";
+        this.age = 7;
+    }
+}

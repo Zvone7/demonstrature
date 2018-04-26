@@ -1,5 +1,6 @@
 FIX:
 add notifications - added notify, but MAKE it work
+added "custom" notifications, but try notify pls
 
 IMPLEMENT:
 refactory - single out requests in one file
@@ -11,3 +12,30 @@ refactory to support throw catching so that you can send messages to be displaye
 refactory settings - implement Knockout
 
 localization
+
+-----------------------------------------------------------------------------------------------------
+
+Demonstrature
+
+cell states:
+
+0 - nemoguca za uzeti/nepostojeci termin/proslo vrijeme
+defaultna plava
+
+1 - slobodna/predlozena za uzeti
+zuta
+
+2 - slobodna/predlozena za uzeti - u grupi korisnika
+zuta
+
+3 - uzeta
+zelena
+
+4 - admin mode
+defaultna plava
+
+x - UNKNOWN
+crvena
+
+bugovi:
+vrijeme kad je drugi format se ne parsira dobro

@@ -156,4 +156,4 @@ define(["require", "exports"], function (require, exports) {
     }
     exports.KoTestClass = KoTestClass;
 });
-//# sourceMappingURL=CustomClasses.js.map
+//# sourceMappingURL=DemonstratureCustomClasses.js.map

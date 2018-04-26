@@ -1,13 +1,12 @@
-$(document).ready(function () {
+$(document).ready(() => {
     var s = new SettingsVM();
     //s.LoginCheck();
     //s.populateSelectStudy();
 });
 //possible bugs:
 // adding term to already same date
-var SettingsVM = (function () {
-    function SettingsVM() {
-        var _this = this;
+class SettingsVM {
+    constructor() {
         this.warning_blank_field = "Molim popunite sva polja!";
         this.warning_delete_new = "Pogreska pri odabiru";
         this.warning_password_match = "Provjerite lozinku!";
@@ -19,7 +18,7 @@ var SettingsVM = (function () {
         this.YO = ko.observable("i have an initial value");
         //---------------------------------------------------------------------------------------//
         //-------------------------------BUTTONS START-------------------------------------------//
-        this.button_saveCourse = function () {
+        this.button_saveCourse = () => {
             var studySelect = $("#course_study_select :selected").text();
             var courseSelect = $("#course_course_select :selected").text();
             var courseSelectId = $("#course_course_select :selected").val();
@@ -27,7 +26,7 @@ var SettingsVM = (function () {
             var courseProf = $("#course_prof").val();
             var courseAsis = $("#course_asis").val();
             if (courseName == "" || courseProf == "" || courseAsis == "") {
-                alert(_this.warning_blank_field);
+                alert(this.warning_blank_field);
                 return;
             }
             if (courseSelect == "Novi kolegij") {
@@ -37,7 +36,7 @@ var SettingsVM = (function () {
                 nc.Professor = courseProf;
                 nc.Asistant = courseAsis;
                 nc.Study = studySelect;
-                _this.createCourse(nc);
+                this.createCourse(nc);
             }
             else {
                 var nc = new CourseM_S();
@@ -46,20 +45,20 @@ var SettingsVM = (function () {
                 nc.Professor = courseProf;
                 nc.Asistant = courseAsis;
                 nc.Study = studySelect;
-                _this.updateCourse(nc);
+                this.updateCourse(nc);
             }
         };
-        this.button_deleteCourse = function () {
+        this.button_deleteCourse = () => {
             var courseId = $("#course_course_select :selected").val();
             if (courseId == 0) {
-                alert(_this.warning_delete_new);
+                alert(this.warning_delete_new);
             }
             else {
-                _this.deleteCourse(courseId);
+                this.deleteCourse(courseId);
             }
         };
-        this.button_saveUser = function () {
-            var self = _this;
+        this.button_saveUser = () => {
+            var self = this;
             var userId = $("#user_user_select :selected").val();
             //console.log(userId);
             var changingPassword = false;
@@ -71,7 +70,7 @@ var SettingsVM = (function () {
             var password = $("#user_password").val().trim();
             var passwordAgain = $("#user_password_again").val().trim();
             if (userName == "" || userLastName == "" || userUsername == "") {
-                alert(_this.warning_blank_field);
+                alert(this.warning_blank_field);
                 return;
             }
             if (password != "" || passwordAgain != "") {
@@ -108,17 +107,17 @@ var SettingsVM = (function () {
                 nu.Role = userRole;
                 nu.Courses = userCoursesHelper;
                 if (password == "" || passwordAgain == "") {
-                    alert(_this.warning_blank_field);
+                    alert(this.warning_blank_field);
                     return;
                 }
                 else {
                     if (password != passwordAgain) {
-                        alert(_this.warning_password_match);
+                        alert(this.warning_password_match);
                         return;
                     }
                     nu.Password = password;
                 }
-                _this.createUser(nu);
+                this.createUser(nu);
             }
             else {
                 if (!changingPassword) {
@@ -132,7 +131,7 @@ var SettingsVM = (function () {
                     nu.Courses = userCoursesHelper;
                     nu.Password = "";
                     //console.log(nu);
-                    _this.updateUser(nu);
+                    this.updateUser(nu);
                 }
                 else {
                     console.log("updating user with pass");
@@ -144,30 +143,30 @@ var SettingsVM = (function () {
                     nu.Role = userRole;
                     nu.Courses = userCoursesHelper;
                     if (password == "" || passwordAgain == "") {
-                        alert(_this.warning_blank_field);
+                        alert(this.warning_blank_field);
                         return;
                     }
                     else {
                         if (password != passwordAgain) {
-                            alert(_this.warning_password_match);
+                            alert(this.warning_password_match);
                             return;
                         }
                         nu.Password = password;
                     }
-                    _this.updateUser(nu);
+                    this.updateUser(nu);
                 }
             }
         };
-        this.button_deleteUser = function () {
+        this.button_deleteUser = () => {
             var userId = $("#user_user_select :selected").val();
             if (userId == 0) {
-                alert(_this.warning_delete_new);
+                alert(this.warning_delete_new);
             }
             else {
-                _this.deleteUser(userId);
+                this.deleteUser(userId);
             }
         };
-        this.button_saveGroup = function () {
+        this.button_saveGroup = () => {
             var groupId = $("#group_group_select").val();
             var name = $("#group_name").val();
             var ownerId = $("#group_owner_select").val();
@@ -179,24 +178,24 @@ var SettingsVM = (function () {
             if (groupId == "0") {
                 console.log("making a new group");
                 g.Id = 0;
-                _this.createGroup(g);
+                this.createGroup(g);
             }
             else {
                 console.log("updating existing group");
                 g.Id = groupId;
-                _this.updateGroup(g);
+                this.updateGroup(g);
             }
         };
-        this.button_deleteGroup = function () {
+        this.button_deleteGroup = () => {
             var groupId = $("#group_group_select").val();
             if (groupId == "0") {
-                alert(_this.warning_delete_new);
+                alert(this.warning_delete_new);
             }
             else {
-                _this.deleteGroup(groupId);
+                this.deleteGroup(groupId);
             }
         };
-        this.button_saveTerm = function () {
+        this.button_saveTerm = () => {
             var termId = $("#term_term_select").val();
             var termDate = $("#term_date").val();
             var courseId = $("#term_course_select").val();
@@ -214,33 +213,33 @@ var SettingsVM = (function () {
             t.GroupId = groupId;
             console.log(t);
             if (termDate == "" || groupId == "" || courseId == "") {
-                alert(_this.warning_blank_field);
+                alert(this.warning_blank_field);
                 return;
             }
             if (groupId == "-1" && termId == "0") {
                 //console.log("Making a new term for all groups");
                 t.Id = 0;
                 //console.log(t);
-                _this.createTerms(t);
+                this.createTerms(t);
             }
             else if (groupId == "-1" && termId != "0") {
                 //console.log("Updating all terms for date");
                 t.Id = 0;
-                _this.updateTerms(t);
+                this.updateTerms(t);
             }
             else if (groupId != "-1" && termId == "0") {
                 //console.log("Making a new term for specific course");
                 t.Id = 0;
                 console.log(t);
-                _this.createTerm(t);
+                this.createTerm(t);
             }
             else {
                 //console.log("updating existing term");
                 t.Id = termId;
-                _this.updateTerm(t);
+                this.updateTerm(t);
             }
         };
-        this.button_deleteTerm = function () {
+        this.button_deleteTerm = () => {
             var termId = $("#term_term_select").val();
             var termDate = $("#term_date").val();
             var courseId = $("#term_course_select").val();
@@ -253,7 +252,7 @@ var SettingsVM = (function () {
             tyear = parseInt(tyear);
             termDate = tday + "." + tmonth + "." + tyear;
             if (termId == "0") {
-                alert(_this.warning_delete_new);
+                alert(this.warning_delete_new);
             }
             else if (groupId == "-1") {
                 console.log("deleting terms for all groups", t);
@@ -262,27 +261,27 @@ var SettingsVM = (function () {
                 t.TermDate = termDate;
                 t.GroupId = groupId;
                 t.Id = 0;
-                _this.deleteTerms(t);
+                this.deleteTerms(t);
             }
             else {
                 console.log("deleting term per single group");
-                _this.deleteTerm(termId);
+                this.deleteTerm(termId);
             }
         };
-        this.button_savePassword = function () {
-            var self = _this;
+        this.button_savePassword = () => {
+            var self = this;
             var userId = self.ActiveUser.Id;
             //console.log(userId);
             var oldPassword = $("#old_password").val().trim();
             var password = $("#password").val().trim();
             var passwordAgain = $("#password_again").val().trim();
             if (password == "" || passwordAgain == "") {
-                alert(_this.warning_blank_field);
+                alert(this.warning_blank_field);
                 return;
             }
             else {
                 if (password != passwordAgain) {
-                    alert(_this.warning_password_match);
+                    alert(this.warning_password_match);
                     return;
                 }
             }
@@ -293,8 +292,8 @@ var SettingsVM = (function () {
         //---------------------------------------------------------------------------------------//
         //---------------------------------------------------------------------------------------//
         //-------------------------------COURSES START-------------------------------------------//
-        this.createCourse = function (c) {
-            var self = _this;
+        this.createCourse = (c) => {
+            var self = this;
             var serviceURL = '/Course/CreateCourse';
             $.ajax({
                 type: "POST",
@@ -311,14 +310,14 @@ var SettingsVM = (function () {
                 console.log('Error creating new course');
             }
         };
-        this.createCourseCheckboxes = function (userId) {
+        this.createCourseCheckboxes = (userId) => {
             var container = document.getElementById("user_user_course");
             $("#user_user_course").text("");
             if (userId == 0) {
                 //new user
                 //give him all the checkboxes        
-                for (var i = 0; i < _this.Courses.length; i++) {
-                    var c = _this.Courses[i];
+                for (var i = 0; i < this.Courses.length; i++) {
+                    var c = this.Courses[i];
                     var checkbox = document.createElement('input');
                     checkbox.type = "checkbox";
                     checkbox.name = c.Study + " " + c.Name;
@@ -327,35 +326,35 @@ var SettingsVM = (function () {
                     checkbox.defaultChecked = false;
                     checkbox.className = "checkbox1";
                     container.appendChild(checkbox);
-                    _this.createCourseCheckboxesHelp(c);
+                    this.createCourseCheckboxesHelp(c);
                 }
             }
             else {
-                _this.getUserCourses(userId);
+                this.getUserCourses(userId);
             }
         };
-        this.createCourseCheckboxes2 = function (userId) {
+        this.createCourseCheckboxes2 = (userId) => {
             var container = document.getElementById("user_user_course");
             $("#user_user_course").text("");
-            for (var i = 0; i < _this.Courses.length; i++) {
-                var c = _this.Courses[i];
+            for (var i = 0; i < this.Courses.length; i++) {
+                var c = this.Courses[i];
                 var checkbox = document.createElement('input');
                 checkbox.type = "checkbox";
                 checkbox.name = c.Study + " " + c.Name;
                 checkbox.value = c.Id.toString();
                 checkbox.id = "user_user_course_" + userId + "_" + c.Id;
                 checkbox.className = "checkbox1";
-                for (var j = 0; j < _this.UserCourses.length; j++) {
-                    var uc = _this.UserCourses[j];
+                for (var j = 0; j < this.UserCourses.length; j++) {
+                    var uc = this.UserCourses[j];
                     if (uc.CourseId == c.Id) {
                         checkbox.defaultChecked = true;
                     }
                 }
                 container.appendChild(checkbox);
-                _this.createCourseCheckboxesHelp(c);
+                this.createCourseCheckboxesHelp(c);
             }
         };
-        this.createCourseCheckboxesHelp = function (c) {
+        this.createCourseCheckboxesHelp = (c) => {
             var container = document.getElementById("user_user_course");
             var label = document.createElement('label');
             label.htmlFor = "id";
@@ -370,8 +369,8 @@ var SettingsVM = (function () {
             container.appendChild(label2);
             container.innerHTML += "<br /><br />";
         };
-        this.deleteCourse = function (courseId) {
-            var self = _this;
+        this.deleteCourse = (courseId) => {
+            var self = this;
             var serviceURL = '/Course/Delete';
             $.ajax({
                 type: "DELETE",
@@ -388,9 +387,9 @@ var SettingsVM = (function () {
                 console.log('error deleting course');
             }
         };
-        this.getAllCourses = function () {
+        this.getAllCourses = () => {
             //console.log("gettingAllCourses");
-            var self = _this;
+            var self = this;
             var serviceURL = '/Course/All';
             $.ajax({
                 type: "GET",
@@ -413,8 +412,8 @@ var SettingsVM = (function () {
                 console.log('error getting data about all courses');
             }
         };
-        this.updateCourse = function (c) {
-            var self = _this;
+        this.updateCourse = (c) => {
+            var self = this;
             var serviceURL = '/Course/Update';
             $.ajax({
                 type: "POST",
@@ -436,7 +435,7 @@ var SettingsVM = (function () {
                 console.log('Error updating course(2)');
             }
         };
-        this.updateCourseData = function () {
+        this.updateCourseData = () => {
             var courseId = $("#course_course_select :selected").val();
             if (courseId == "Novi kolegij") {
                 $("#course_name").val("");
@@ -444,9 +443,9 @@ var SettingsVM = (function () {
                 $("#course_asis").val("");
                 return;
             }
-            for (var i = 0; i < _this.Courses.length; i++) {
-                if (_this.Courses[i].Id == courseId) {
-                    var cc = _this.Courses[i];
+            for (var i = 0; i < this.Courses.length; i++) {
+                if (this.Courses[i].Id == courseId) {
+                    var cc = this.Courses[i];
                     $("#course_name").val(cc.Name);
                     $("#course_prof").val(cc.Professor);
                     $("#course_asis").val(cc.Asistant);
@@ -458,8 +457,8 @@ var SettingsVM = (function () {
         //---------------------------------------------------------------------------------------//
         //---------------------------------------------------------------------------------------//
         //-------------------------------USER START----------------------------------------------//
-        this.createUser = function (nu) {
-            var self = _this;
+        this.createUser = (nu) => {
+            var self = this;
             var serviceURL = '/User/Create';
             $.ajax({
                 type: "POST",
@@ -477,8 +476,8 @@ var SettingsVM = (function () {
                 console.log('Error creating new user');
             }
         };
-        this.deleteUser = function (userId) {
-            var self = _this;
+        this.deleteUser = (userId) => {
+            var self = this;
             var serviceURL = '/User/Delete';
             $.ajax({
                 type: "DELETE",
@@ -495,9 +494,9 @@ var SettingsVM = (function () {
                 console.log('error deleting user');
             }
         };
-        this.getAllUsers = function () {
+        this.getAllUsers = () => {
             //console.log("getting all users");
-            var self = _this;
+            var self = this;
             var serviceURL = '/User/All';
             $.ajax({
                 type: "GET",
@@ -515,8 +514,8 @@ var SettingsVM = (function () {
                 console.log('error getting data about all users', data);
             }
         };
-        this.getUser = function (username) {
-            var self = _this;
+        this.getUser = (username) => {
+            var self = this;
             var serviceURL = '/User/ByUsername';
             $.ajax({
                 type: "GET",
@@ -539,8 +538,8 @@ var SettingsVM = (function () {
                 console.log('error getting data about user courses');
             }
         };
-        this.getUserCourses = function (userId) {
-            var self = _this;
+        this.getUserCourses = (userId) => {
+            var self = this;
             var serviceURL = '/User/Courses';
             $.ajax({
                 type: "GET",
@@ -558,10 +557,10 @@ var SettingsVM = (function () {
                 console.log('error getting data about user courses');
             }
         };
-        this.populateSelectUser = function () {
+        this.populateSelectUser = () => {
             //console.log("populating select user");
             var selectId = "#user_user_select";
-            var users = _this.Users;
+            var users = this.Users;
             var output = [];
             $(selectId).find('option').remove().end();
             output.push('<option value="' + "0" + '">' + "Novi korisnik" + '</option>');
@@ -570,9 +569,9 @@ var SettingsVM = (function () {
             }
             $(selectId).html(output.join(''));
         };
-        this.updateUser = function (nu) {
+        this.updateUser = (nu) => {
             //console.log("updating user", nu);
-            var self = _this;
+            var self = this;
             //console.log(obj);
             var serviceURL = '/User/Update';
             $.ajax({
@@ -599,7 +598,7 @@ var SettingsVM = (function () {
                 console.log('Error updating user(2)');
             }
         };
-        this.updateUserData = function (id) {
+        this.updateUserData = (id) => {
             if (id == 0) {
                 $("#user_name").val("");
                 $("#user_last_name").val("");
@@ -607,12 +606,12 @@ var SettingsVM = (function () {
                 $("#user_select_role").val("Demonstrator");
                 $("#user_password").val("");
                 $("#user_password_again").val("");
-                _this.createCourseCheckboxes(0);
+                this.createCourseCheckboxes(0);
             }
-            if (_this.Users != null) {
-                for (var i = 0; i < _this.Users.length; i++) {
-                    if (id == _this.Users[i].Id) {
-                        var u = _this.Users[i];
+            if (this.Users != null) {
+                for (var i = 0; i < this.Users.length; i++) {
+                    if (id == this.Users[i].Id) {
+                        var u = this.Users[i];
                         var role = "";
                         if (u.Role == 'A') {
                             role = "Administrator";
@@ -626,13 +625,13 @@ var SettingsVM = (function () {
                         $("#user_select_role").val(role);
                         $("#user_password").val("");
                         $("#user_password_again").val("");
-                        _this.createCourseCheckboxes(u.Id);
+                        this.createCourseCheckboxes(u.Id);
                     }
                 }
             }
         };
-        this.updateUserPassword = function (pu) {
-            var self = _this;
+        this.updateUserPassword = (pu) => {
+            var self = this;
             var serviceURL = '/User/UpdatePass';
             $.ajax({
                 type: "POST",
@@ -666,9 +665,9 @@ var SettingsVM = (function () {
         //---------------------------------------------------------------------------------------//
         //---------------------------------------------------------------------------------------//
         //-------------------------------GROUP START---------------------------------------------//
-        this.createGroup = function (g) {
+        this.createGroup = (g) => {
             //console.log("creating group");
-            var self = _this;
+            var self = this;
             //console.log(obj);
             var serviceURL = '/Group/Create';
             $.ajax({
@@ -691,9 +690,9 @@ var SettingsVM = (function () {
                 console.log('Error creating new group');
             }
         };
-        this.deleteGroup = function (groupId) {
+        this.deleteGroup = (groupId) => {
             console.log("deleting group");
-            var self = _this;
+            var self = this;
             //console.log(obj);
             var serviceURL = '/Group/Delete';
             $.ajax({
@@ -715,9 +714,9 @@ var SettingsVM = (function () {
                 console.log('error deleting group');
             }
         };
-        this.getGroupData = function (groupId) {
+        this.getGroupData = (groupId) => {
             //console.log("getting group data");
-            var self = _this;
+            var self = this;
             var serviceURL = '/Group/Get';
             $.ajax({
                 type: "GET",
@@ -735,13 +734,13 @@ var SettingsVM = (function () {
                 console.log('error getting data about selected group');
             }
         };
-        this.getGroupsByCourseId = function (selectGroupId, selectCourseId, needsNew, isTermSelect) {
+        this.getGroupsByCourseId = (selectGroupId, selectCourseId, needsNew, isTermSelect) => {
             //console.log("getting groups for", selectGroupId, "and needNew is", needsNew.toString());
             var courseId = $(selectCourseId).val();
             if (selectGroupId == "#group_group_select") {
                 $("#group_name").val("");
             }
-            var self = _this;
+            var self = this;
             var serviceURL = '/Group/ByCourseId';
             $.ajax({
                 type: "GET",
@@ -760,10 +759,10 @@ var SettingsVM = (function () {
                 console.log('error getting data about all groups for course with id', courseId, "\nreason:\n", data);
             }
         };
-        this.getGroupsPossibleOwners = function () {
+        this.getGroupsPossibleOwners = () => {
             //console.log("getting groups possible owners");
             var courseId = $('#group_course_select').val();
-            var self = _this;
+            var self = this;
             var serviceURL = '/User/ByCourseId';
             $.ajax({
                 type: "GET",
@@ -781,31 +780,31 @@ var SettingsVM = (function () {
                 console.log('error getting data about all groups');
             }
         };
-        this.populateSelectGroup = function (selectId, needsNew, isTermSelect) {
+        this.populateSelectGroup = (selectId, needsNew, isTermSelect) => {
             //console.log("populating group select: ", selectId);
             var output = [];
             if (needsNew)
                 output.push('<option value="' + "0" + '">' + "Nova grupa" + '</option>');
             if (isTermSelect)
                 output.push('<option value="' + "-1" + '">' + "Sve grupe ovog kolegija" + '</option>');
-            for (var i = 0; i < _this.Groups.length; i++) {
-                var name = _this.Groups[i].Name;
-                var id = _this.Groups[i].Id;
+            for (var i = 0; i < this.Groups.length; i++) {
+                var name = this.Groups[i].Name;
+                var id = this.Groups[i].Id;
                 output.push('<option value="' + id.toString() + '">' + name + '</option>');
             }
             $(selectId).find('option').remove().end();
             $(selectId).html(output.join(''));
             if (selectId == "#group_group_select") {
-                _this.getGroupsPossibleOwners();
+                this.getGroupsPossibleOwners();
             }
             if (selectId == "#term_group_select") {
-                _this.getTermsByGroupId();
+                this.getTermsByGroupId();
             }
         };
-        this.populateGroupOwners = function () {
+        this.populateGroupOwners = () => {
             //console.log("populating group owners");
             var selectId = "#group_owner_select";
-            var users = _this.GroupOwners;
+            var users = this.GroupOwners;
             var output = [];
             $(selectId).find('option').remove().end();
             output.push('<option value="0">' + "Nema vlasnika" + '</option>');
@@ -816,11 +815,11 @@ var SettingsVM = (function () {
             $(selectId).html(output.join(''));
             var groupId = $("#group_group_select").val();
             if (groupId != "0") {
-                _this.getGroupData(groupId);
+                this.getGroupData(groupId);
             }
         };
-        this.updateGroup = function (g) {
-            var self = _this;
+        this.updateGroup = (g) => {
+            var self = this;
             var serviceURL = '/Group/Update';
             $.ajax({
                 type: "POST",
@@ -843,16 +842,16 @@ var SettingsVM = (function () {
                 console.log('Error updating group(2)');
             }
         };
-        this.updateGroupData = function () {
+        this.updateGroupData = () => {
             var groupId = $("#group_group_select").val();
             if (groupId == 0) {
                 $("#group_name").val("");
             }
             else {
                 var g = new GroupDTO_S;
-                for (var i = 0; i < _this.Groups.length; i++) {
-                    if (groupId == _this.Groups[i].Id) {
-                        g = _this.Groups[i];
+                for (var i = 0; i < this.Groups.length; i++) {
+                    if (groupId == this.Groups[i].Id) {
+                        g = this.Groups[i];
                     }
                 }
                 if (g == null) {
@@ -867,9 +866,9 @@ var SettingsVM = (function () {
         //---------------------------------------------------------------------------------------//
         //---------------------------------------------------------------------------------------//
         //-------------------------------TERM START----------------------------------------------//
-        this.createTerm = function (t) {
+        this.createTerm = (t) => {
             //console.log("creating term");
-            var self = _this;
+            var self = this;
             var serviceURL = '/Term/Create';
             $.ajax({
                 type: "POST",
@@ -886,11 +885,11 @@ var SettingsVM = (function () {
                 console.log('Error creating new term');
             }
         };
-        this.createTerms = function (t) {
+        this.createTerms = (t) => {
             //console.log("creating terms", t);
             //return;
             //nešto s datumima nešto ne znam
-            var self = _this;
+            var self = this;
             var serviceURL = '/Term/CreateMany';
             $.ajax({
                 type: "POST",
@@ -907,9 +906,9 @@ var SettingsVM = (function () {
                 console.log('Error creating new term');
             }
         };
-        this.deleteTerm = function (termId) {
+        this.deleteTerm = (termId) => {
             //console.log("deleting term");
-            var self = _this;
+            var self = this;
             var serviceURL = '/Term/Delete';
             $.ajax({
                 type: "POST",
@@ -925,10 +924,10 @@ var SettingsVM = (function () {
                 console.log('error deleting term');
             }
         };
-        this.deleteTerms = function (t) {
+        this.deleteTerms = (t) => {
             //console.log("deleting terms");
             //console.log(t);
-            var self = _this;
+            var self = this;
             var serviceURL = '/Term/DeleteMany';
             $.ajax({
                 type: "POST",
@@ -944,9 +943,9 @@ var SettingsVM = (function () {
                 console.log('error deleting terms');
             }
         };
-        this.getTermData = function (termId) {
+        this.getTermData = (termId) => {
             //console.log("getting term data");
-            var self = _this;
+            var self = this;
             var serviceURL = '/Term/Get';
             $.ajax({
                 type: "GET",
@@ -963,12 +962,12 @@ var SettingsVM = (function () {
                 console.log('error getting data about selected term');
             }
         };
-        this.getTermsByCourseId = function () {
+        this.getTermsByCourseId = () => {
             //console.log("getting term per course id");
             var courseId = $('#term_course_select').val();
             $("#term_name").val("");
             //console.log(courseId);
-            var self = _this;
+            var self = this;
             var serviceURL = '/Term/ByCourseId';
             $.ajax({
                 type: "GET",
@@ -990,16 +989,16 @@ var SettingsVM = (function () {
                 console.log('error getting data about all terms for course with id', courseId, "\nreason:\n", data);
             }
         };
-        this.getTermsByGroupId = function () {
+        this.getTermsByGroupId = () => {
             //console.log("getting term per course data");
             var groupId = $('#term_group_select').val();
             if (groupId == "-1") {
-                _this.getTermsByCourseId();
+                this.getTermsByCourseId();
                 return;
             }
             $("#term_name").val("");
             //console.log(courseId);
-            var self = _this;
+            var self = this;
             var serviceURL = '/Term/ByGroupId';
             $.ajax({
                 type: "GET",
@@ -1017,7 +1016,7 @@ var SettingsVM = (function () {
                 console.log('error getting data about all terms for course with id', groupId, "\nreason:\n", data);
             }
         };
-        this.populateSelectTerm = function () {
+        this.populateSelectTerm = () => {
             //console.log("populating select term");
             //console.log("Terms:\n",this.Terms);
             var selectId = "#term_term_select";
@@ -1029,24 +1028,24 @@ var SettingsVM = (function () {
             var output = [];
             var outputDates = [];
             output.push('<option value="' + "0" + '">' + "Novi termin" + '</option>');
-            if (_this.Terms == null) {
+            if (this.Terms == null) {
                 $(selectId).find('option').remove().end();
                 $(selectId).html(output.join(''));
                 return;
             }
             //console.log(this.Terms);
-            for (var i = 0; i < _this.Terms.length; i++) {
+            for (var i = 0; i < this.Terms.length; i++) {
                 if (!moreGroupsMode) {
                     //console.log("filling term_term_select")
-                    var date = _this.Terms[i].TermDate.substring(0, 10);
-                    var id = _this.Terms[i].Id;
+                    var date = this.Terms[i].TermDate.substring(0, 10);
+                    var id = this.Terms[i].Id;
                     var outputMember = '<option value="' + id.toString() + '">' + date + '</option>';
                     output.push(outputMember);
                 }
                 else {
                     //console.log("filling term_term_select_2")
-                    var date = _this.Terms[i].TermDate.substring(0, 10);
-                    var id = _this.Terms[i].Id;
+                    var date = this.Terms[i].TermDate.substring(0, 10);
+                    var id = this.Terms[i].Id;
                     var outputMember = '<option value="' + id.toString() + '">' + date + '</option>';
                     var alreadyExists = false;
                     if (output != null) {
@@ -1068,11 +1067,11 @@ var SettingsVM = (function () {
             //console.log(output);
             $(selectId).find('option').remove().end();
             $(selectId).html(output.join(''));
-            _this.updateTermData();
+            this.updateTermData();
         };
-        this.updateTerm = function (t) {
+        this.updateTerm = (t) => {
             //console.log("updating term");
-            var self = _this;
+            var self = this;
             var serviceURL = '/Term/Update';
             $.ajax({
                 type: "POST",
@@ -1095,9 +1094,9 @@ var SettingsVM = (function () {
                 console.log('Error updating term(2)');
             }
         };
-        this.updateTerms = function (t) {
+        this.updateTerms = (t) => {
             //console.log("updating terms");
-            var self = _this;
+            var self = this;
             var serviceURL = '/Term/UpdateMany';
             $.ajax({
                 type: "POST",
@@ -1119,7 +1118,7 @@ var SettingsVM = (function () {
                 console.log('Error updating term(2)');
             }
         };
-        this.updateTermData = function () {
+        this.updateTermData = () => {
             var termId = $("#term_term_select").val();
             //console.log("updating term data for termId=", termId);
             //console.log("Terms:", this.Terms);
@@ -1128,16 +1127,16 @@ var SettingsVM = (function () {
                 var year = today.getFullYear().toString();
                 var month = (today.getMonth() + 1).toString();
                 var day = today.getDate().toString();
-                var month = _this.minTwoDigits(parseInt(month));
-                var day = _this.minTwoDigits(parseInt(day));
+                var month = this.minTwoDigits(parseInt(month));
+                var day = this.minTwoDigits(parseInt(day));
                 //console.log("a", day, month, year);
                 $("#term_date").val(month + "/" + day + "/" + year);
             }
             else {
                 var t = new TermDTO_S;
-                for (var i = 0; i < _this.Terms.length; i++) {
-                    if (termId == _this.Terms[i].Id) {
-                        t = _this.Terms[i];
+                for (var i = 0; i < this.Terms.length; i++) {
+                    if (termId == this.Terms[i].Id) {
+                        t = this.Terms[i];
                     }
                 }
                 if (t == null) {
@@ -1157,16 +1156,16 @@ var SettingsVM = (function () {
         //---------------------------------------------------------------------------------------//
         //---------------------------------------------------------------------------------------//
         //-------------------------------CHOOSE FORM DATA START----------------------------------//
-        this.populateSelectCourseName = function (selectId, studyName, needsNew) {
+        this.populateSelectCourseName = (selectId, studyName, needsNew) => {
             //console.log("populating: ", selectId);
             var output = [];
             var names = [];
             var ids = [];
-            for (var i = 0; i < _this.Courses.length; i++) {
+            for (var i = 0; i < this.Courses.length; i++) {
                 //console.log("Course:",this.Courses[i],"\n");
-                var study = _this.Courses[i].Study;
-                var course = _this.Courses[i].Name;
-                var id = _this.Courses[i].Id;
+                var study = this.Courses[i].Study;
+                var course = this.Courses[i].Name;
+                var id = this.Courses[i].Id;
                 if (study != studyName) {
                     //console.log("continuing because ",studyName," is different from ",study);
                     continue;
@@ -1188,19 +1187,19 @@ var SettingsVM = (function () {
             if (needsNew)
                 output.push('<option value="' + "Novi kolegij" + '">' + "Novi kolegij" + '</option>');
             for (var i = 0; i < names.length; i++) {
-                if (_this.Courses[i].Name != "" && _this.Courses[i].Name != null) {
+                if (this.Courses[i].Name != "" && this.Courses[i].Name != null) {
                     output.push('<option value="' + ids[i].toString() + '">' + names[i] + '</option>');
                 }
             }
             $(selectId).html(output.join(''));
             //console.log(output);
         };
-        this.populateSelectStudy = function (selectId) {
+        this.populateSelectStudy = (selectId) => {
             //console.log("-----------------------------\npopulating select study for id:",selectId);
             var studies = [];
             var output = [];
-            for (var i = 0; i < _this.Courses.length; i++) {
-                var x = (_this.Courses[i].Study).trim();
+            for (var i = 0; i < this.Courses.length; i++) {
+                var x = (this.Courses[i].Study).trim();
                 var alreadyExists = false;
                 if (studies.length > 0) {
                     for (var j = 0; j < studies.length; j++) {
@@ -1236,15 +1235,15 @@ var SettingsVM = (function () {
             //console.log(output);
             $(selectId).html(output.join(''));
             var selectStudyValue = $(selectId).val();
-            _this.populateSelectCourseName("#course_course_select", selectStudyValue, true);
-            _this.populateSelectCourseName("#group_course_select", selectStudyValue, false);
-            _this.populateSelectCourseName("#term_course_select", selectStudyValue, false);
+            this.populateSelectCourseName("#course_course_select", selectStudyValue, true);
+            this.populateSelectCourseName("#group_course_select", selectStudyValue, false);
+            this.populateSelectCourseName("#term_course_select", selectStudyValue, false);
         };
         //-------------------------------CHOOSE FORM DATA END------------------------------------//
         //---------------------------------------------------------------------------------------//
         //---------------------------------------------------------------------------------------//
         //----------------------------------COOKIE START-----------------------------------------//
-        this.GetCookie = function (cname) {
+        this.GetCookie = (cname) => {
             try {
                 var name = cname + "=";
                 var ca = document.cookie.split(';');
@@ -1263,8 +1262,8 @@ var SettingsVM = (function () {
                 return "";
             }
         };
-        this.CheckCookie = function (cname) {
-            var loginData = _this.GetCookie(cname);
+        this.CheckCookie = (cname) => {
+            var loginData = this.GetCookie(cname);
             if (loginData != "") {
                 return loginData;
             }
@@ -1276,8 +1275,8 @@ var SettingsVM = (function () {
         //---------------------------------------------------------------------------------------//
         //---------------------------------------------------------------------------------------//
         //-----------------------AUTHORIZATION & AUTHENTICATION START----------------------------//
-        this.LogOut = function () {
-            var self = _this;
+        this.LogOut = () => {
+            var self = this;
             var serviceURL = '/Login/LogOff';
             $.ajax({
                 type: "GET",
@@ -1294,39 +1293,39 @@ var SettingsVM = (function () {
                 console.log("Fail logoff");
             }
         };
-        this.ActivateAdministrator = function () {
+        this.ActivateAdministrator = () => {
             $("#adminSettings").css("visibility", "visible");
-            _this.getAllCourses();
-            _this.getAllUsers();
-            _this.setTodayDate();
+            this.getAllCourses();
+            this.getAllUsers();
+            this.setTodayDate();
         };
-        this.ActivateRegularUser = function () {
+        this.ActivateRegularUser = () => {
             $("#adminSettings").css("visibility", "collapse");
         };
         //-----------------------AUTHORIZATION & AUTHENTICATION END------------------------------//
         //---------------------------------------------------------------------------------------//
-        this.minTwoDigits = function (n) {
+        this.minTwoDigits = (n) => {
             return (n < 10 ? '0' : '') + n;
         };
-        this.setTodayDate = function () {
+        this.setTodayDate = () => {
             var realDate2 = new Date();
             var year = realDate2.getFullYear().toString();
             var month = (realDate2.getMonth() + 1).toString();
             var day = realDate2.getDate().toString();
-            var month = _this.minTwoDigits(parseInt(month));
-            var day = _this.minTwoDigits(parseInt(day));
+            var month = this.minTwoDigits(parseInt(month));
+            var day = this.minTwoDigits(parseInt(day));
             //console.log(day, month, year);
             $("#term_date").val(year + "-" + month + "-" + day);
         };
-        this.test = function () {
-            _this.YO("new");
+        this.test = () => {
+            this.YO("new");
             console.log("updating observable");
         };
         var self = this;
         //console.log("constructor: settings");
         $(document).ready(function () {
             ko.applyBindings(self);
-            $('#test').on("click", function () {
+            $('#test').on("click", () => {
                 self.test();
             });
             if ($("#adminSettings").length >= 1) {
@@ -1335,89 +1334,89 @@ var SettingsVM = (function () {
             else {
                 self.ActivateRegularUser();
             }
-            $('#logout').on("click", function () {
+            $('#logout').on("click", () => {
                 self.LogOut();
             });
             //password update
-            $('#password_save').on("click", function () {
+            $('#password_save').on("click", () => {
                 self.button_savePassword();
             });
             //add/edit user form
-            $('#user_save').on("click", function () {
+            $('#user_save').on("click", () => {
                 self.button_saveUser();
             });
-            $('#user_delete').on("click", function () {
+            $('#user_delete').on("click", () => {
                 self.button_deleteUser();
             });
-            $('#user_user_select').on("change", function () {
+            $('#user_user_select').on("change", () => {
                 //console.log("hello4");
                 var value = $('#user_user_select').val();
                 self.updateUserData(value);
             });
             //add/edit course form
-            $('#course_course_select').on("change", function () {
+            $('#course_course_select').on("change", () => {
                 self.updateCourseData();
             });
-            $('#course_delete').on("click", function () {
+            $('#course_delete').on("click", () => {
                 self.button_deleteCourse();
             });
-            $('#course_save').on("click", function () {
+            $('#course_save').on("click", () => {
                 self.button_saveCourse();
             });
-            $('#course_study_select').on("change", function () {
+            $('#course_study_select').on("change", () => {
                 var value = $("#course_study_select").val();
                 self.populateSelectCourseName("#course_course_select", value, true);
             });
             //add/edit group form
-            $('#group_course_select').on("change", function () {
+            $('#group_course_select').on("change", () => {
                 self.getGroupsByCourseId("#group_group_select", "#group_course_select", true, false);
             });
-            $('#group_delete').on("click", function () {
+            $('#group_delete').on("click", () => {
                 self.button_deleteGroup();
             });
-            $('#group_group_select').on("change", function () {
+            $('#group_group_select').on("change", () => {
                 self.updateGroupData();
             });
-            $('#group_save').on("click", function () {
+            $('#group_save').on("click", () => {
                 self.button_saveGroup();
             });
-            $('#group_study_select').on("change", function () {
+            $('#group_study_select').on("change", () => {
                 //console.log("hello2");
                 var value = $("#group_study_select").val();
                 self.populateSelectCourseName("#group_course_select", value, false);
                 self.getGroupsByCourseId("#group_group_select", "#group_course_select", true, false);
             });
             //add/edit term form
-            $('#term_course_select').on("change", function () {
+            $('#term_course_select').on("change", () => {
                 //console.log("hello2");
                 var value = $("#term_course_select").val();
                 self.getGroupsByCourseId("#term_group_select", "#term_course_select", false, true);
                 self.populateSelectTerm();
             });
-            $('#term_delete').on("click", function () {
+            $('#term_delete').on("click", () => {
                 self.button_deleteTerm();
             });
-            $('#term_group_select').on("change", function () {
+            $('#term_group_select').on("change", () => {
                 self.getTermsByGroupId();
                 self.updateTermData();
             });
-            $('#term_save').on("click", function () {
+            $('#term_save').on("click", () => {
                 self.button_saveTerm();
             });
-            $('#term_study_select').on("change", function () {
+            $('#term_study_select').on("change", () => {
                 var value = $("#term_study_select").val();
                 self.populateSelectCourseName("#term_course_select", value, false);
                 self.getGroupsByCourseId("#term_group_select", "#term_course_select", false, true);
                 self.getTermsByCourseId();
             });
-            $('#term_term_select').on("change", function () {
+            $('#term_term_select').on("change", () => {
                 self.updateTermData();
             });
             $("#term_date").datepicker();
             //$('#myUl').css("visibility", "visible");
         });
     }
-    SettingsVM.prototype.checkIfCorrectPassword = function (userId, oldPassword, newPassword) {
+    checkIfCorrectPassword(userId, oldPassword, newPassword) {
         var self = this;
         var pu = new PasswordUpdaterM_S();
         pu.Password = oldPassword;
@@ -1446,53 +1445,27 @@ var SettingsVM = (function () {
         function errorFunc(data, status) {
             console.log('Error checking password', data, status);
         }
-    };
-    return SettingsVM;
-}());
-var UserM_S = (function () {
-    function UserM_S() {
+    }
+}
+class UserM_S {
+    constructor() {
         this.Courses = new Array();
     }
-    return UserM_S;
-}());
-var UserDTO_S = (function () {
-    function UserDTO_S() {
-    }
-    return UserDTO_S;
-}());
-var TermDTO_S = (function () {
-    function TermDTO_S() {
-    }
-    return TermDTO_S;
-}());
-var CourseDTO_S = (function () {
-    function CourseDTO_S() {
-    }
-    return CourseDTO_S;
-}());
-var CourseM_S = (function () {
-    function CourseM_S() {
-    }
-    return CourseM_S;
-}());
-var GroupDTO_S = (function () {
-    function GroupDTO_S() {
-    }
-    return GroupDTO_S;
-}());
-var CourseUserDTO_S = (function () {
-    function CourseUserDTO_S() {
-    }
-    return CourseUserDTO_S;
-}());
-var LoginDataM_S = (function () {
-    function LoginDataM_S() {
-    }
-    return LoginDataM_S;
-}());
-var PasswordUpdaterM_S = (function () {
-    function PasswordUpdaterM_S() {
-    }
-    return PasswordUpdaterM_S;
-}());
+}
+class UserDTO_S {
+}
+class TermDTO_S {
+}
+class CourseDTO_S {
+}
+class CourseM_S {
+}
+class GroupDTO_S {
+}
+class CourseUserDTO_S {
+}
+class LoginDataM_S {
+}
+class PasswordUpdaterM_S {
+}
 //# sourceMappingURL=Settings.js.map

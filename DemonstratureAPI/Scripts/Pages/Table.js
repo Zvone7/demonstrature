@@ -1,13 +1,12 @@
-$(document).ready(function () {
+$(document).ready(() => {
     //var tableVM: TableVM = new TableVM();
     //ko.applyBindings(tableVM);
     //tableVM.getAllCourses();
 });
 //patiš se sa micanjem gore dolje..zabavica
-var Table_VM = (function () {
+class Table_VM {
     //------------------------------------FUNCTIONS------------------------------------//
-    function Table_VM() {
-        var _this = this;
+    constructor() {
         //---------------------------------OBSERVABLES------------------------------//
         this.Terms0 = ko.observableArray();
         this.Terms1 = ko.observableArray();
@@ -48,9 +47,9 @@ var Table_VM = (function () {
         this.link_table = "/Table/Table";
         this.link_login = "/Login/Login";
         //-------------------------------USERS START------------------------------------------------//
-        this.getAllUsers = function () {
+        this.getAllUsers = () => {
             //console.log("getting all users");
-            var self = _this;
+            var self = this;
             var serviceURL = '/Settings/GetUsers';
             $.ajax({
                 type: "GET",
@@ -67,9 +66,9 @@ var Table_VM = (function () {
                 console.log('error getting data about all users', data);
             }
         };
-        this.getUsersByCourseId = function (courseId) {
+        this.getUsersByCourseId = (courseId) => {
             //console.log("getting users by course Id");
-            var self = _this;
+            var self = this;
             var serviceURL = '/Settings/GetUsersByCourseId';
             $.ajax({
                 type: "GET",
@@ -91,8 +90,8 @@ var Table_VM = (function () {
                 console.log('error getting data about all groups for course with id', courseId, "\nreason:\n", data);
             }
         };
-        this.getUser = function (username) {
-            var self = _this;
+        this.getUser = (username) => {
+            var self = this;
             var serviceURL = '/Settings/UserByUsername';
             $.ajax({
                 type: "GET",
@@ -119,9 +118,9 @@ var Table_VM = (function () {
         //------------------------------------------------------------------------------------------//
         //------------------------------------------------------------------------------------------//
         //-------------------------------COURSE START-----------------------------------------------//
-        this.getAllCourses = function () {
+        this.getAllCourses = () => {
             //console.log("gettingAllCourses");
-            var self = _this;
+            var self = this;
             var serviceURL = '/Table/AllCollegeCourses';
             $.ajax({
                 type: "GET",
@@ -141,12 +140,12 @@ var Table_VM = (function () {
                 alert('error');
             }
         };
-        this.populateSelectStudy = function () {
+        this.populateSelectStudy = () => {
             //console.log("populating select study");
             var studies = [];
             var output = [];
-            for (var i = 0; i < _this.Courses.length; i++) {
-                var x = _this.Courses[i].Study;
+            for (var i = 0; i < this.Courses.length; i++) {
+                var x = this.Courses[i].Study;
                 var alreadyExists = false;
                 if (studies.length > 0) {
                     for (var j = 0; j < studies.length; j++) {
@@ -165,16 +164,16 @@ var Table_VM = (function () {
             }
             $('#selectStudy').html(output.join(''));
             var selectStudyValue = $('#selectStudy').val();
-            _this.populateSelectCourse(selectStudyValue);
+            this.populateSelectCourse(selectStudyValue);
             //this.updateValuesAfterSelect(); // mislim da tu ne treba
         };
-        this.populateSelectCourse = function (studyName) {
+        this.populateSelectCourse = (studyName) => {
             //console.log("populating select course");
             var output = [];
             var names = [];
-            for (var i = 0; i < _this.Courses.length; i++) {
-                var study = _this.Courses[i].Study;
-                var course = _this.Courses[i].Name;
+            for (var i = 0; i < this.Courses.length; i++) {
+                var study = this.Courses[i].Study;
+                var course = this.Courses[i].Name;
                 if (study != studyName) {
                     continue;
                 }
@@ -192,119 +191,119 @@ var Table_VM = (function () {
             }
             $('#selectCourse').find('option').remove().end();
             for (var i = 0; i < names.length; i++) {
-                if (_this.Courses[i].Name != "" && _this.Courses[i].Name != null) {
+                if (this.Courses[i].Name != "" && this.Courses[i].Name != null) {
                     output.push('<option value="' + names[i] + '">' + names[i] + '</option>');
                 }
             }
             $('#selectCourse').html(output.join(''));
-            _this.updateTermValuesAfterSelect();
+            this.updateTermValuesAfterSelect();
         };
         //-------------------------------COURSE END-------------------------------------------------//
         //------------------------------------------------------------------------------------------//
         //------------------------------------------------------------------------------------------//
         //-------------------------------TERM START-------------------------------------------------//
-        this.createFullTermData = function () {
+        this.createFullTermData = () => {
             //console.log("creating full term data");
             //console.log("Empty terms", this.EmptyTerms);
             //console.log("Active Users", this.ActiveUsers);
             //console.log("Active Groups", this.ActiveGroups);
-            _this.ActiveTerms = new Array();
-            for (var i = 0; i < _this.EmptyTerms.length; i++) {
-                _this.ActiveTerms[i] = new TermM_T();
-                _this.ActiveTerms[i].Id = _this.EmptyTerms[i].Id;
-                _this.ActiveTerms[i].CourseId = _this.EmptyTerms[i].CourseId;
-                _this.ActiveTerms[i].Course = _this.Course;
+            this.ActiveTerms = new Array();
+            for (var i = 0; i < this.EmptyTerms.length; i++) {
+                this.ActiveTerms[i] = new TermM_T();
+                this.ActiveTerms[i].Id = this.EmptyTerms[i].Id;
+                this.ActiveTerms[i].CourseId = this.EmptyTerms[i].CourseId;
+                this.ActiveTerms[i].Course = this.Course;
                 /*start date conversion*/
-                var date = _this.EmptyTerms[i].TermDate;
+                var date = this.EmptyTerms[i].TermDate;
                 /*date conversion end*/
-                _this.ActiveTerms[i].TermDate = date;
-                _this.ActiveTerms[i].UserId = _this.EmptyTerms[i].UserId;
-                _this.ActiveTerms[i].GroupId = _this.EmptyTerms[i].GroupId;
+                this.ActiveTerms[i].TermDate = date;
+                this.ActiveTerms[i].UserId = this.EmptyTerms[i].UserId;
+                this.ActiveTerms[i].GroupId = this.EmptyTerms[i].GroupId;
             }
-            for (var i = 0; i < _this.ActiveTerms.length; i++) {
-                for (var j = 0; j < _this.ActiveUsers.length; j++) {
-                    if (_this.ActiveTerms[i].UserId == _this.ActiveUsers[j].Id) {
-                        _this.ActiveTerms[i].UserPerson = _this.ActiveUsers[j];
+            for (var i = 0; i < this.ActiveTerms.length; i++) {
+                for (var j = 0; j < this.ActiveUsers.length; j++) {
+                    if (this.ActiveTerms[i].UserId == this.ActiveUsers[j].Id) {
+                        this.ActiveTerms[i].UserPerson = this.ActiveUsers[j];
                         break;
                     }
                     else {
-                        _this.ActiveTerms[i].UserPerson = _this.BlankUser;
+                        this.ActiveTerms[i].UserPerson = this.BlankUser;
                     }
                 }
-                for (var j = 0; j < _this.ActiveGroups.length; j++) {
-                    if (_this.ActiveTerms[i].GroupId == _this.ActiveGroups[j].Id) {
-                        _this.ActiveTerms[i].Group = _this.ActiveGroups[j];
+                for (var j = 0; j < this.ActiveGroups.length; j++) {
+                    if (this.ActiveTerms[i].GroupId == this.ActiveGroups[j].Id) {
+                        this.ActiveTerms[i].Group = this.ActiveGroups[j];
                         break;
                     }
                     else {
-                        _this.ActiveTerms[i].Group = _this.BlankGroup;
+                        this.ActiveTerms[i].Group = this.BlankGroup;
                     }
                 }
             }
             //console.log("Active Terms", this.ActiveTerms);
-            if (_this.Terms0_no.length > 0) {
+            if (this.Terms0_no.length > 0) {
                 console.log("self.Terms0.length>0, 303 red!!");
                 //self.updateTermTable();
             }
             else {
                 console.log("self.Terms0.length=0");
-                _this.fillAllTerms();
+                this.fillAllTerms();
             }
         };
-        this.createTermTable = function () {
+        this.createTermTable = () => {
             //console.log("creating term table");
             //console.log("allTerms", this.AllTerms);
             //console.log("activeGroups", this.ActiveGroups);
-            for (var i = _this.position_verti; i < _this.AllTerms.length; i++) {
-                for (var j = 0; j < _this.ActiveGroups.length; j++) {
+            for (var i = this.position_verti; i < this.AllTerms.length; i++) {
+                for (var j = 0; j < this.ActiveGroups.length; j++) {
                     var cell = new CellM_T();
                     //console.log(i, j);
                     cell.x = i;
                     cell.y = j;
-                    cell.UserId = _this.AllTerms[i][j].UserId;
-                    cell.UserPerson = new UserM_T(_this.AllTerms[i][j].UserPerson);
-                    var jsonDate = _this.AllTerms[i][j].TermDate.toString();
+                    cell.UserId = this.AllTerms[i][j].UserId;
+                    cell.UserPerson = new UserM_T(this.AllTerms[i][j].UserPerson);
+                    var jsonDate = this.AllTerms[i][j].TermDate.toString();
                     var date = jsonDate.split('.');
                     cell.TermDate = date[0] + "." + date[1] + "." + date[2];
                     //console.log("created cell ", cell);
-                    cell.Group = _this.AllTerms[i][j].Group;
-                    if (i == 0 + _this.position_verti)
-                        _this.Terms0_no.push(cell);
-                    else if (i == 1 + _this.position_verti)
-                        _this.Terms1_no.push(cell);
-                    else if (i == 2 + _this.position_verti)
-                        _this.Terms2_no.push(cell);
-                    else if (i == 3 + _this.position_verti)
-                        _this.Terms3_no.push(cell);
+                    cell.Group = this.AllTerms[i][j].Group;
+                    if (i == 0 + this.position_verti)
+                        this.Terms0_no.push(cell);
+                    else if (i == 1 + this.position_verti)
+                        this.Terms1_no.push(cell);
+                    else if (i == 2 + this.position_verti)
+                        this.Terms2_no.push(cell);
+                    else if (i == 3 + this.position_verti)
+                        this.Terms3_no.push(cell);
                 }
             }
             //console.log("Terms0", this.Terms0); console.log("Terms1", this.Terms1); console.log("Terms2", this.Terms2); console.log("Terms3", this.Terms3);
-            _this.setInitialNavigation();
-            _this.updateGroupWebData();
-            _this.updateTermWebData(_this.Terms0_no, 0);
-            _this.updateTermWebData(_this.Terms1_no, 1);
-            _this.updateTermWebData(_this.Terms2_no, 2);
-            _this.updateTermWebData(_this.Terms3_no, 3);
+            this.setInitialNavigation();
+            this.updateGroupWebData();
+            this.updateTermWebData(this.Terms0_no, 0);
+            this.updateTermWebData(this.Terms1_no, 1);
+            this.updateTermWebData(this.Terms2_no, 2);
+            this.updateTermWebData(this.Terms3_no, 3);
         };
-        this.fillAllTerms = function () {
+        this.fillAllTerms = () => {
             //console.log("filling all terms");
             var stringResult = "";
             var flags = [], TermDates = [], foundDate;
             //this part determines how many different dates there are
-            for (var i = 0; i < _this.ActiveTerms.length; i++) {
+            for (var i = 0; i < this.ActiveTerms.length; i++) {
                 foundDate = false;
                 for (var j = 0; j < TermDates.length; j++) {
-                    if (TermDates[j] == _this.ActiveTerms[i].TermDate) {
+                    if (TermDates[j] == this.ActiveTerms[i].TermDate) {
                         foundDate = true;
                     }
                 }
                 if (!foundDate) {
-                    TermDates.push(_this.ActiveTerms[i].TermDate);
+                    TermDates.push(this.ActiveTerms[i].TermDate);
                 }
             }
             //end
-            _this.numberOfTerms = TermDates.length;
-            _this.numberOfGroups = _this.ActiveGroups.length;
+            this.numberOfTerms = TermDates.length;
+            this.numberOfGroups = this.ActiveGroups.length;
             //figure out how many terms are before todays date
             for (var i = 0; i < TermDates.length; i++) {
                 var date = TermDates[i];
@@ -319,40 +318,40 @@ var Table_VM = (function () {
                 var dateFormated = new Date(parseInt(year_), parseInt(month_) - 1, parseInt(day_));
                 //console.log(dateFormated, "\n\n", today);
                 if (dateFormated < today) {
-                    _this.position_verti++;
+                    this.position_verti++;
                 }
             }
             //console.log("there are ", this.position_verti, " terms which are before today");
-            _this.numberOfTermsBeforeToday = _this.position_verti;
+            this.numberOfTermsBeforeToday = this.position_verti;
             //console.log("There are ", this.numberOfGroups, "different groups and ", TermDates.length, "different dates")
-            _this.AllTerms = new Array();
+            this.AllTerms = new Array();
             //this makes a 2D array called AllTerms in which every row stands for date, and every column for group
             for (var i = 0; i < TermDates.length; i++) {
-                _this.AllTerms[i] = new Array();
-                for (var j = 0; j < _this.ActiveGroups.length; j++) {
+                this.AllTerms[i] = new Array();
+                for (var j = 0; j < this.ActiveGroups.length; j++) {
                     var cell = new CellM_T();
                     cell.x = i;
                     cell.y = j;
                     var person = new UserM_T();
-                    for (var k = 0; k < _this.ActiveTerms.length; k++) {
-                        var t = _this.ActiveTerms[k];
-                        if (t.TermDate == TermDates[i] && t.GroupId == _this.ActiveGroups[j].Id) {
+                    for (var k = 0; k < this.ActiveTerms.length; k++) {
+                        var t = this.ActiveTerms[k];
+                        if (t.TermDate == TermDates[i] && t.GroupId == this.ActiveGroups[j].Id) {
                             person = t.UserPerson;
                         }
                     }
                     cell.UserPerson = person;
                     cell.UserId = person.Id;
                     cell.TermDate = TermDates[i];
-                    cell.Group = _this.ActiveGroups[j];
-                    _this.AllTerms[i][j] = cell;
+                    cell.Group = this.ActiveGroups[j];
+                    this.AllTerms[i][j] = cell;
                 }
             }
             //console.log("All Terms:", this.AllTerms);
-            _this.createTermTable();
+            this.createTermTable();
         };
-        this.getTermsByCourseId = function (courseId) {
+        this.getTermsByCourseId = (courseId) => {
             //console.log("getting terms by course Id");
-            var self = _this;
+            var self = this;
             var serviceURL = '/Settings/GetTermsByCourseId';
             $.ajax({
                 type: "GET",
@@ -370,7 +369,7 @@ var Table_VM = (function () {
                 console.log('error getting data about all terms for course with id', courseId, "\nreason:\n", data);
             }
         };
-        this.setInitialTermValues = function () {
+        this.setInitialTermValues = () => {
             //console.log("setting inital term values");
             var IdButtonTakeDefault = "#buttonTakeTerm";
             var IdButtonSkipDefault = "#buttonSkipTerm";
@@ -385,20 +384,20 @@ var Table_VM = (function () {
                 }
             }
         };
-        this.updateSelectUser = function () {
+        this.updateSelectUser = () => {
             //console.log("populating select user");
             //console.log("Active Users:\n",this.ActiveUsers);
             var output = [];
             output.push('<option value="' + "0" + '">' + "Odaberite demonstratora" + '</option>');
-            if (_this.ActiveUsers == null) {
+            if (this.ActiveUsers == null) {
                 $(selectId).find('option').remove().end();
                 $(selectId).html(output.join(''));
                 return;
             }
-            for (var i = 0; i < _this.ActiveUsers.length; i++) {
+            for (var i = 0; i < this.ActiveUsers.length; i++) {
                 //console.log("filling search")
-                var name = _this.ActiveUsers[i].Name + " " + _this.ActiveUsers[i].LastName;
-                var id = _this.ActiveUsers[i].Id;
+                var name = this.ActiveUsers[i].Name + " " + this.ActiveUsers[i].LastName;
+                var id = this.ActiveUsers[i].Id;
                 var outputMember = '<option value="' + id.toString() + '">' + name + '</option>';
                 output.push(outputMember);
             }
@@ -411,62 +410,62 @@ var Table_VM = (function () {
                 }
             }
         };
-        this.updateTermArrays = function () {
-            var j_ = _this.position_horiz;
-            var i_ = _this.position_verti;
+        this.updateTermArrays = () => {
+            var j_ = this.position_horiz;
+            var i_ = this.position_verti;
             console.log("updating Term Arrays for:", i_, "|", j_);
             var helper = "";
             for (var i = 0; i < 4; i++) {
                 for (var j = 0; j < 5; j++) {
-                    var cell = _this.AllTerms[i_ + i][j_ + j];
+                    var cell = this.AllTerms[i_ + i][j_ + j];
                     cell.x = i;
                     cell.y = j;
-                    if (i == 0 + _this.position_verti) {
-                        _this.Terms0_no[j].UserPerson = cell.UserPerson;
-                        _this.Terms0_no[j].SkipState = cell.SkipState;
-                        _this.Terms0_no[j].TakeState = cell.SkipState;
-                        _this.Terms0_no[j].TermDate = cell.TermDate.substring(0, 9);
-                        _this.Terms0_no[j].x = cell.x;
-                        _this.Terms0_no[j].y = cell.y;
-                        _this.Terms0_no[j].Group = cell.Group;
+                    if (i == 0 + this.position_verti) {
+                        this.Terms0_no[j].UserPerson = cell.UserPerson;
+                        this.Terms0_no[j].SkipState = cell.SkipState;
+                        this.Terms0_no[j].TakeState = cell.SkipState;
+                        this.Terms0_no[j].TermDate = cell.TermDate.substring(0, 9);
+                        this.Terms0_no[j].x = cell.x;
+                        this.Terms0_no[j].y = cell.y;
+                        this.Terms0_no[j].Group = cell.Group;
                     }
                     else if (i == 1) {
-                        _this.Terms1_no[j].UserPerson = cell.UserPerson;
-                        _this.Terms1_no[j].SkipState = cell.SkipState;
-                        _this.Terms1_no[j].TakeState = cell.SkipState;
-                        _this.Terms1_no[j].TermDate = cell.TermDate.substring(0, 9);
-                        _this.Terms1_no[j].x = cell.x;
-                        _this.Terms1_no[j].y = cell.y;
-                        _this.Terms1_no[j].Group = cell.Group;
+                        this.Terms1_no[j].UserPerson = cell.UserPerson;
+                        this.Terms1_no[j].SkipState = cell.SkipState;
+                        this.Terms1_no[j].TakeState = cell.SkipState;
+                        this.Terms1_no[j].TermDate = cell.TermDate.substring(0, 9);
+                        this.Terms1_no[j].x = cell.x;
+                        this.Terms1_no[j].y = cell.y;
+                        this.Terms1_no[j].Group = cell.Group;
                     }
                     else if (i == 2) {
-                        _this.Terms2_no[j].UserPerson = cell.UserPerson;
-                        _this.Terms2_no[j].SkipState = cell.SkipState;
-                        _this.Terms2_no[j].TakeState = cell.SkipState;
-                        _this.Terms2_no[j].TermDate = cell.TermDate.substring(0, 9);
-                        _this.Terms2_no[j].x = cell.x;
-                        _this.Terms2_no[j].y = cell.y;
-                        _this.Terms2_no[j].Group = cell.Group;
+                        this.Terms2_no[j].UserPerson = cell.UserPerson;
+                        this.Terms2_no[j].SkipState = cell.SkipState;
+                        this.Terms2_no[j].TakeState = cell.SkipState;
+                        this.Terms2_no[j].TermDate = cell.TermDate.substring(0, 9);
+                        this.Terms2_no[j].x = cell.x;
+                        this.Terms2_no[j].y = cell.y;
+                        this.Terms2_no[j].Group = cell.Group;
                     }
                     else if (i == 3) {
-                        _this.Terms3_no[j].UserPerson = cell.UserPerson;
-                        _this.Terms3_no[j].SkipState = cell.SkipState;
-                        _this.Terms3_no[j].TakeState = cell.SkipState;
-                        _this.Terms3_no[j].TermDate = cell.TermDate.substring(0, 9);
-                        _this.Terms3_no[j].x = cell.x;
-                        _this.Terms3_no[j].y = cell.y;
-                        _this.Terms3_no[j].Group = cell.Group;
+                        this.Terms3_no[j].UserPerson = cell.UserPerson;
+                        this.Terms3_no[j].SkipState = cell.SkipState;
+                        this.Terms3_no[j].TakeState = cell.SkipState;
+                        this.Terms3_no[j].TermDate = cell.TermDate.substring(0, 9);
+                        this.Terms3_no[j].x = cell.x;
+                        this.Terms3_no[j].y = cell.y;
+                        this.Terms3_no[j].Group = cell.Group;
                     }
                 }
             }
-            _this.updateTermWebData(_this.Terms0_no, 0);
-            _this.updateTermWebData(_this.Terms1_no, 1);
-            _this.updateTermWebData(_this.Terms2_no, 2);
-            _this.updateTermWebData(_this.Terms3_no, 3);
-            _this.updateGroupWebData();
+            this.updateTermWebData(this.Terms0_no, 0);
+            this.updateTermWebData(this.Terms1_no, 1);
+            this.updateTermWebData(this.Terms2_no, 2);
+            this.updateTermWebData(this.Terms3_no, 3);
+            this.updateGroupWebData();
             //console.log("terms0 userperson:", this.Terms0[0].UserPerson);
         };
-        this.updateTermTable = function (data) {
+        this.updateTermTable = (data) => {
             //console.log("updating Term Table");
             for (var i = 0; i < data.length; i++) {
                 for (var j = 0; j < data[0].length; j++) {
@@ -481,21 +480,21 @@ var Table_VM = (function () {
                         date.getFullYear().toString();
                     cell.Group = data[i][j].Group;
                     if (i == 0)
-                        _this.Terms0_no.push(cell);
+                        this.Terms0_no.push(cell);
                     else if (i == 1)
-                        _this.Terms1_no.push(cell);
+                        this.Terms1_no.push(cell);
                     else if (i == 2)
-                        _this.Terms2_no.push(cell);
+                        this.Terms2_no.push(cell);
                     else if (i == 3)
-                        _this.Terms3_no.push(cell);
+                        this.Terms3_no.push(cell);
                 }
             }
         };
-        this.updateTermValuesAfterSelect = function () {
+        this.updateTermValuesAfterSelect = () => {
             //console.log("------------\nupdating term values after select");
             var selectStudy = $('#selectStudy').val();
             var selectCourse = $('#selectCourse').val();
-            var self = _this;
+            var self = this;
             var course = new CourseDTO_T();
             for (var i = 0; i < self.Courses.length; i++) {
                 var y = self.Courses[i];
@@ -507,7 +506,7 @@ var Table_VM = (function () {
             self.Course = course;
             self.getTermsByCourseId(course.Id);
         };
-        this.updateTermWebData = function (termsX, x) {
+        this.updateTermWebData = (termsX, x) => {
             var i = x;
             //console.log("updating web data for row ", i.toString(), " with this data ", termsX);
             var dateLabelId = "#date" + i.toString();
@@ -519,7 +518,7 @@ var Table_VM = (function () {
                     termOwnerLabelId += i.toString() + j.toString();
                     var termOwner = "";
                     if (termsX.length <= j) {
-                        termOwner = _this.notification_no_term_owner;
+                        termOwner = this.notification_no_term_owner;
                     }
                     else {
                         termOwner = termsX[j].UserPerson.Name + " " + termsX[j].UserPerson.LastName;
@@ -531,10 +530,10 @@ var Table_VM = (function () {
                 }
             }
             else {
-                $(dateLabelId).text(_this.notification_no_available_data);
+                $(dateLabelId).text(this.notification_no_available_data);
                 for (var j = 0; j < 5; j++) {
                     termOwnerLabelId += i.toString() + j.toString();
-                    var termOwner = _this.notification_no_term_owner;
+                    var termOwner = this.notification_no_term_owner;
                     $(termOwnerLabelId).text(termOwner);
                     //console.log("[", i, "],[", j, "]","\nTerm Owner:", termOwner,"\nGroup Owner:", groupOwner,"\nGroup Name:", groupName);
                     termOwnerLabelId = "#termOwner";
@@ -545,9 +544,9 @@ var Table_VM = (function () {
         //------------------------------------------------------------------------------------------//
         //------------------------------------------------------------------------------------------//
         //-------------------------------GROUP START------------------------------------------------//
-        this.getGroupsByCourseId = function (courseId) {
+        this.getGroupsByCourseId = (courseId) => {
             //console.log("getting groups for", courseId);
-            var self = _this;
+            var self = this;
             var serviceURL = '/Settings/GetGroupsByCourseId';
             $.ajax({
                 type: "GET",
@@ -567,9 +566,9 @@ var Table_VM = (function () {
                 console.log('error getting data about all groups for course with id', courseId, "\nreason:\n", data);
             }
         };
-        this.updateGroupData = function () {
+        this.updateGroupData = () => {
             //console.log("Updating group data");
-            var self = _this;
+            var self = this;
             for (var i = 0; i < self.ActiveUsers.length; i++) {
                 for (var j = 0; j < self.ActiveGroups.length; j++) {
                     if (self.ActiveGroups[j].OwnerId == self.ActiveUsers[i].Id) {
@@ -582,10 +581,10 @@ var Table_VM = (function () {
                 }
             }
         };
-        this.updateGroupWebData = function () {
-            _this.checkValidMovement();
+        this.updateGroupWebData = () => {
+            this.checkValidMovement();
             //console.log("Updating group web data, this.position_horiz", this.position_horiz);
-            var self = _this;
+            var self = this;
             if (self.ActiveGroups.length == 0) {
                 console.log("Nema pronadjenih grupa");
                 return;
@@ -594,8 +593,8 @@ var Table_VM = (function () {
                 //console.log(self.ActiveGroups[i]);
                 var groupNameId = "#groupName" + i.toString();
                 var groupOwnerId = "#groupOwner" + i.toString();
-                var groupNameValue = self.ActiveGroups[i + _this.position_horiz].Name;
-                var groupOwnerValue = self.ActiveGroups[i + _this.position_horiz].UserPerson.Name + " " + self.ActiveGroups[i + _this.position_horiz].UserPerson.LastName;
+                var groupNameValue = self.ActiveGroups[i + this.position_horiz].Name;
+                var groupOwnerValue = self.ActiveGroups[i + this.position_horiz].UserPerson.Name + " " + self.ActiveGroups[i + this.position_horiz].UserPerson.LastName;
                 //console.log("filling ", groupOwnerId, " with ", groupOwnerValue);
                 //console.log(i, ":", groupNameValue, groupOwnerValue);
                 $(groupNameId).text(groupNameValue);
@@ -616,115 +615,115 @@ var Table_VM = (function () {
         //------------------------------------------------------------------------------------------//
         //------------------------------------------------------------------------------------------//
         //-------------------------------NAVIGATION START-------------------------------------------//
-        this.leftClicked = function () {
-            _this.position_horiz--;
-            if (_this.checkValidMovement()) {
-                _this.disableRight = false;
-                if (_this.position_horiz == 0) {
-                    _this.disableLeft = true;
+        this.leftClicked = () => {
+            this.position_horiz--;
+            if (this.checkValidMovement()) {
+                this.disableRight = false;
+                if (this.position_horiz == 0) {
+                    this.disableLeft = true;
                 }
-                _this.updateTermArrays();
-                _this.updateNavigationClasses();
+                this.updateTermArrays();
+                this.updateNavigationClasses();
             }
             else {
-                _this.disableLeft = true;
-                _this.position_horiz++;
-                _this.handleWrongMove();
+                this.disableLeft = true;
+                this.position_horiz++;
+                this.handleWrongMove();
             }
         };
-        this.rightClicked = function () {
-            _this.position_horiz++;
-            if (_this.checkValidMovement()) {
-                _this.disableLeft = false;
-                if (_this.position_horiz == _this.numberOfGroups - 5) {
-                    _this.disableRight = true;
+        this.rightClicked = () => {
+            this.position_horiz++;
+            if (this.checkValidMovement()) {
+                this.disableLeft = false;
+                if (this.position_horiz == this.numberOfGroups - 5) {
+                    this.disableRight = true;
                 }
-                _this.updateTermArrays();
-                _this.updateNavigationClasses();
+                this.updateTermArrays();
+                this.updateNavigationClasses();
             }
             else {
-                _this.disableRight = true;
-                _this.disableLeft = false;
-                _this.position_horiz--;
-                _this.handleWrongMove();
+                this.disableRight = true;
+                this.disableLeft = false;
+                this.position_horiz--;
+                this.handleWrongMove();
             }
         };
-        this.upClicked = function () {
-            _this.position_verti++;
-            if (_this.checkValidMovement()) {
-                _this.disableDown = false;
-                if (_this.position_verti == (_this.numberOfTerms - _this.numberOfTermsBeforeToday)) {
-                    _this.disableDown = true;
+        this.upClicked = () => {
+            this.position_verti++;
+            if (this.checkValidMovement()) {
+                this.disableDown = false;
+                if (this.position_verti == (this.numberOfTerms - this.numberOfTermsBeforeToday)) {
+                    this.disableDown = true;
                 }
-                _this.updateTermArrays();
-                _this.updateNavigationClasses();
+                this.updateTermArrays();
+                this.updateNavigationClasses();
             }
             else {
-                _this.disableUp = true;
-                _this.position_verti--;
-                _this.handleWrongMove();
+                this.disableUp = true;
+                this.position_verti--;
+                this.handleWrongMove();
             }
         };
-        this.downClicked = function () {
-            _this.position_verti--;
-            if (_this.checkValidMovement()) {
-                _this.disableUp = false;
-                if (_this.position_verti == (-1 * _this.numberOfTermsBeforeToday)) {
-                    _this.disableUp = true;
+        this.downClicked = () => {
+            this.position_verti--;
+            if (this.checkValidMovement()) {
+                this.disableUp = false;
+                if (this.position_verti == (-1 * this.numberOfTermsBeforeToday)) {
+                    this.disableUp = true;
                 }
-                _this.updateTermArrays();
-                _this.updateNavigationClasses();
+                this.updateTermArrays();
+                this.updateNavigationClasses();
             }
             else {
-                _this.disableDown = true;
-                _this.position_verti++;
-                _this.handleWrongMove();
+                this.disableDown = true;
+                this.position_verti++;
+                this.handleWrongMove();
             }
         };
-        this.handleWrongMove = function () {
+        this.handleWrongMove = () => {
             console.log("*********************\nWrong move!\n*********************");
-            _this.updateNavigationClasses();
+            this.updateNavigationClasses();
         };
-        this.updateNavigationClasses = function () {
+        this.updateNavigationClasses = () => {
             console.log("updating navigation classes");
-            console.log("left:", !_this.disableLeft);
-            console.log("right:", !_this.disableRight);
-            console.log("up:", !_this.disableUp);
-            console.log("down:", !_this.disableDown);
-            if (_this.disableLeft) {
+            console.log("left:", !this.disableLeft);
+            console.log("right:", !this.disableRight);
+            console.log("up:", !this.disableUp);
+            console.log("down:", !this.disableDown);
+            if (this.disableLeft) {
                 $("#arrowLeft").attr('class', 'arrowLeftDisabled');
             }
             else {
                 $("#arrowLeft").attr('class', 'arrowLeft');
             }
-            if (_this.disableRight) {
+            if (this.disableRight) {
                 $("#arrowRight").attr('class', 'arrowRightDisabled');
             }
             else {
                 $("#arrowRight").attr('class', 'arrowRight');
             }
-            if (_this.disableUp) {
+            if (this.disableUp) {
                 $("#arrowUp").attr('class', 'arrowUpDisabled');
             }
             else {
                 $("#arrowUp").attr('class', 'arrowUp');
             }
-            if (_this.disableDown) {
+            if (this.disableDown) {
                 $("#arrowDown").attr('class', 'arrowDownDisabled');
             }
             else {
                 $("#arrowDown").attr('class', 'arrowDown');
             }
         };
-        this.checkValidMovement = function () {
-            console.log("vertical position:\n", _this.position_verti, "/", _this.numberOfTerms, "\nhorizontal position\n", _this.position_horiz, "/", _this.numberOfGroups);
-            console.log("vertical upper limit:", _this.numberOfTerms - _this.numberOfTermsBeforeToday - 4);
-            console.log("vertical lower limit:", -1 * _this.numberOfTermsBeforeToday);
-            if (_this.position_verti >= (-1 * _this.numberOfTermsBeforeToday) &&
-                _this.position_verti < (_this.numberOfTerms - _this.numberOfTermsBeforeToday - 4)
+        this.checkValidMovement = () => {
+            console.log("vertical position:\n", this.position_verti, "/", this.numberOfTerms, "\nhorizontal position\n", this.position_horiz, "/", this.numberOfGroups);
+            console.log("vertical upper limit:", this.numberOfTerms - this.numberOfTermsBeforeToday - 4);
+            console.log("vertical lower limit:", -1 * this.numberOfTermsBeforeToday);
+            if (this.position_verti >= (-1 * this.numberOfTermsBeforeToday) &&
+                this.position_verti < (this.numberOfTerms - this.numberOfTermsBeforeToday - 4)
                 &&
-                    _this.position_horiz >= 0 &&
-                _this.position_horiz + 5 <= _this.numberOfGroups) {
+                    this.position_horiz >= 0 &&
+                this.position_horiz + 5 <= this.numberOfGroups) {
                 console.log("true");
                 return true;
             }
@@ -733,26 +732,26 @@ var Table_VM = (function () {
                 return false;
             }
         };
-        this.setInitialNavigation = function () {
+        this.setInitialNavigation = () => {
             //console.log("setting inital navigation");
             $("#arrowLeft").attr('class', 'arrowLeft');
             $("#arrowRight").attr('class', 'arrowRight');
             $("#arrowUp").attr('class', 'arrowUp');
             $("#arrowDown").attr('class', 'arrowDown');
-            if (_this.position_horiz == 0) {
-                _this.disableLeft = true;
+            if (this.position_horiz == 0) {
+                this.disableLeft = true;
                 $("#arrowLeft").attr('class', 'arrowLeftDisabled');
             }
-            if (_this.numberOfGroups <= 5) {
-                _this.disableRight = true;
+            if (this.numberOfGroups <= 5) {
+                this.disableRight = true;
                 $("#arrowRight").attr('class', 'arrowRightDisabled');
             }
-            if (_this.position_verti == 0) {
-                _this.disableUp = true;
+            if (this.position_verti == 0) {
+                this.disableUp = true;
                 $("#arrowUp").attr('class', 'arrowUpDisabled');
             }
-            if (_this.numberOfTerms <= 4) {
-                _this.disableDown = true;
+            if (this.numberOfTerms <= 4) {
+                this.disableDown = true;
                 $("#arrowDown").attr('class', 'arrowDownDisabled');
             }
         };
@@ -760,8 +759,8 @@ var Table_VM = (function () {
         //------------------------------------------------------------------------------------------//
         //------------------------------------------------------------------------------------------//
         //-----------------------AUTHORIZATION & AUTHENTICATION START-------------------------------//
-        this.LogOut = function () {
-            var self = _this;
+        this.LogOut = () => {
+            var self = this;
             var serviceURL = '/Login/LogOff';
             $.ajax({
                 type: "GET",
@@ -778,34 +777,34 @@ var Table_VM = (function () {
                 console.log("Fail logoff");
             }
         };
-        this.ActivateAdministrator = function () {
+        this.ActivateAdministrator = () => {
             $("#adminSettings").css("visibility", "visible");
-            _this.getAllCourses();
-            _this.setInitialTermValues();
+            this.getAllCourses();
+            this.setInitialTermValues();
         };
-        this.ActivateRegularUser = function () {
+        this.ActivateRegularUser = () => {
             $("#adminSettings").css("visibility", "collapse");
         };
         //-----------------------AUTHORIZATION & AUTHENTICATION END---------------------------------//
         //------------------------------------------------------------------------------------------//
         //-------------------------------EVERYTHING ELSE START--------------------------------------//
-        this.setTodayDate = function () {
+        this.setTodayDate = () => {
             var realDate2 = new Date();
             var year = realDate2.getFullYear().toString();
             var month = (realDate2.getMonth() + 1).toString();
             var day = realDate2.getDate().toString();
-            var month = _this.minTwoDigits(parseInt(month));
-            var day = _this.minTwoDigits(parseInt(day));
+            var month = this.minTwoDigits(parseInt(month));
+            var day = this.minTwoDigits(parseInt(day));
             //console.log(day, month, year);
             $("#term_date").val(year + "-" + month + "-" + day);
         };
-        this.minTwoDigits = function (n) {
+        this.minTwoDigits = (n) => {
             return (n < 10 ? '0' : '') + n;
         };
         //-------------------------------EVERYTHING ELSE END----------------------------------------//
         //------------------------------------------------------------------------------------------//
-        this.test = function () {
-            _this.YO("new");
+        this.test = () => {
+            this.YO("new");
             console.log("updating observable");
         };
         var self = this;
@@ -833,22 +832,22 @@ var Table_VM = (function () {
                 }
             });
             //navigation
-            $('#logout').on("click", function () {
+            $('#logout').on("click", () => {
                 self.LogOut();
             });
-            $('#test').on("click", function () {
+            $('#test').on("click", () => {
                 self.test();
             });
-            $('#arrowLeft').on("click", function () {
+            $('#arrowLeft').on("click", () => {
                 self.leftClicked();
             });
-            $('#arrowRight').on("click", function () {
+            $('#arrowRight').on("click", () => {
                 self.rightClicked();
             });
-            $('#arrowUp').on("click", function () {
+            $('#arrowUp').on("click", () => {
                 self.upClicked();
             });
-            $('#arrowDown').on("click", function () {
+            $('#arrowDown').on("click", () => {
                 self.downClicked();
             });
             //css
@@ -875,10 +874,9 @@ var Table_VM = (function () {
                     
         */
     }
-    return Table_VM;
-}());
-var UserM_T = (function () {
-    function UserM_T(myUser) {
+}
+class UserM_T {
+    constructor(myUser) {
         if (myUser) {
             this.Id = myUser.Id;
             this.Username = myUser.Username;
@@ -887,40 +885,21 @@ var UserM_T = (function () {
             this.Role = myUser.Role;
         }
     }
-    return UserM_T;
-}());
-var UserDTO_T = (function () {
-    function UserDTO_T() {
-    }
-    return UserDTO_T;
-}());
-var TermM_T = (function () {
-    function TermM_T() {
-    }
-    return TermM_T;
-}());
-var TermDTO_T = (function () {
-    function TermDTO_T() {
-    }
-    return TermDTO_T;
-}());
-var CellM_T = (function () {
-    function CellM_T() {
-    }
-    return CellM_T;
-}());
-var CourseM_T = (function () {
-    function CourseM_T() {
-    }
-    return CourseM_T;
-}());
-var CourseDTO_T = (function () {
-    function CourseDTO_T() {
-    }
-    return CourseDTO_T;
-}());
-var GroupM_T = (function () {
-    function GroupM_T(group) {
+}
+class UserDTO_T {
+}
+class TermM_T {
+}
+class TermDTO_T {
+}
+class CellM_T {
+}
+class CourseM_T {
+}
+class CourseDTO_T {
+}
+class GroupM_T {
+    constructor(group) {
         if (group) {
             this.Id = group.Id;
             this.Name = group.Name;
@@ -929,11 +908,7 @@ var GroupM_T = (function () {
             this.UserPerson = group.UserPerson;
         }
     }
-    return GroupM_T;
-}());
-var LoginDataM_T = (function () {
-    function LoginDataM_T() {
-    }
-    return LoginDataM_T;
-}());
+}
+class LoginDataM_T {
+}
 //# sourceMappingURL=Table.js.map

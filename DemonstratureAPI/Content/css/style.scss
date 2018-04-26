@@ -182,6 +182,12 @@ a {
         cursor: pointer;
     }
 }
+.notificationWindow {
+    margin-left: 50%;
+    padding: 10px;
+    display: unset;
+    font-size: $fontPcM;
+}
 
 .userControlsDiv {
     text-decoration: none;

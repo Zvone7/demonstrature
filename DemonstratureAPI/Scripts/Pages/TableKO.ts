@@ -1,10 +1,35 @@
 ﻿//import { Requests } from "../helpers/CustomRequests"
-//import { KoTerm } from "../helpers/CustomClasses"
+//import { KoTestClass } from "../helpers/DemonstratureCustomClasses"
+//import KoTestClass = require("../helpers/DemonstratureCustomClasses");
 $(document).ready(() => {
+
     var tableVM: TableVM = new TableVM();
     tableVM.allocation();
     tableVM.getAllCourses();
     ko.applyBindings(tableVM);
+
+    //require(['jquery-notify'],
+    //    function ($) {
+    //        console.log("loaded app.ts");
+    //        class TestVM {
+    //            //public TestVariable: number = ko.observable<number>(0);
+    //            constructor() {
+    //                var self = this;
+    //                $(document).ready(function () {
+    //                    $("#test").click(function () {
+    //                        console.log("test 1");
+    //                        $.notify("Hello Box");
+    //                        //self.TestVariable();
+    //                    });
+    //                });
+    //            }
+    //        }
+    //        var testVM: TestVM = new TestVM();
+    //        //ko.applyBindings(testVM);
+    //    }
+    //)
+
+
 });
 
 const defaultTextButtonSkip = "Otkaži termin";
@@ -18,11 +43,6 @@ const defaultUserLastName = "-";
 const defaultUserName = "-";
 const defaultUserRole = "D";
 const defaultUserUsername = "...";
-
-/*
-
-
-*/
 
 class TableVM {
     public cellState = ko.observable<number>(0);
@@ -39,7 +59,15 @@ class TableVM {
     public defaultUserName = defaultUserName;
     public defaultUserRole = defaultUserRole;
     public defaultUserUsername = defaultUserUsername;
+
     public messageNoDataAvailable = "Nema dostupnih podataka";
+    public messageErrorFreeingTerm = "Pogreska pri oslobadjanju termina!";
+    public messageErrorReservingTerm = "Pogreska pri uzimanju termina!";
+    public messageErrorGeneral = "Pogreska!";
+
+    public messageSuccessFreeingTerm = "Termin uspjesno oslobodjen!";
+    public messageSuccessReservingTerm = "Termin uspjesno rezerviran za korisnika: ";
+    public messageSuccessGeneral = "Izvrseno!";
     //---------------------------------OBSERVABLES------------------------------//
     public Terms0 = ko.observableArray<KoCell>();
     public Terms1 = ko.observableArray<KoCell>();
@@ -330,6 +358,15 @@ class TableVM {
         return null;
     }
 
+    public getUserNameById = (id: number) => {
+        var self = this;
+        for (var i = 0; i < self.RawUserData.length; i++) {
+            if (self.RawUserData[i].Id == id) {
+                return self.RawUserData[i].Name + "" + self.RawUserData[i].LastName;
+            }
+        }
+    }
+
     public tryReserveTerm = (suggestedUserId_, i, j) => {
         //console.log("try reserve");
         var self = this;
@@ -356,10 +393,12 @@ class TableVM {
             }
             else {
                 // TO DO notification
+                self.notify(self.messageErrorReservingTerm, -1);
             }
         }
         catch (err) {
-            console.log("TO DO notification", err);
+            //console.log("TO DO notification", err);
+            self.notify(self.messageErrorReservingTerm + err, -1);
         }
     }
 
@@ -373,10 +412,12 @@ class TableVM {
             }
             else {
                 // TO DO notification
+                self.notify(self.messageErrorFreeingTerm, -1);
             }
         }
         catch (err) {
-            console.log("TO DO notification", err);
+            //console.log("TO DO notification", err);
+            self.notify(self.messageErrorFreeingTerm + err, -1);
         }
     }
 
@@ -640,6 +681,7 @@ class TableVM {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data: TermPackage, status) {
+                //console.log(data);
                 self.RawTermPackage = data;
                 self.getGroupsByCourseId();
             },
@@ -776,7 +818,6 @@ class TableVM {
     public reserveTerm = (termId, suggestedUserId) => {
         //console.log("freeing term");
         var self = this;
-        // TO DO
         //var userId
         var serviceURL = '/Term/ReserveTerm';
         $.ajax({
@@ -791,17 +832,18 @@ class TableVM {
             if (data) {
                 self.getTerms();
                 //self.Requests.getTerms(self.ActiveCourse().Id, self.posOnX, self.posOnY);
+                self.notify(self.messageSuccessReservingTerm + self.getUserNameById(suggestedUserId), 1);
             }
         }
         function errorFunc(data) {
-            console.log('error reserving term with id', termId, "\nreason:\n", data);
+            //console.log('error reserving term with id', termId, "\nreason:\n", data);
+            self.notify(self.messageErrorReservingTerm, -1);
         }
     }
 
     public freeTerm = (termId) => {
         //console.log("freeing term");
         var self = this;
-        // TO DO
         //var userId
         var serviceURL = '/Term/FreeTerm';
         $.ajax({
@@ -816,13 +858,14 @@ class TableVM {
             if (data) {
                 self.getTerms();
                 //self.Requests.getTerms(courseId, self.posOnX, self.posOnY);
+                self.notify(self.messageSuccessFreeingTerm, 1);
             }
         }
         function errorFunc(data) {
-            console.log('error freeing term with id', termId, "\nreason:\n", data);
+            //console.log('error freeing term with id', termId, "\nreason:\n", data);
+            self.notify(self.messageErrorFreeingTerm, -1);
         }
     }
-
 
     //-------------------------------REQUESTS - POST ------------------------------------------//
 
@@ -886,8 +929,47 @@ class TableVM {
         }
     }
 
+    //-------------------------------NOTIFICATION WINDOW ---------------------------------------//
+
+    public notify = (message: string, state: number, timeout: number = 3000) => {
+        var notificationWindow = $("#notificationWindow");
+        console.log(message, state);
+        switch (state) {
+            // error
+            case -1:
+                notificationWindow.css("visibility", "visible");
+                notificationWindow.css("background-color", "red");
+                notificationWindow.css("color", "white");
+                notificationWindow.text(message);
+            // message
+            case 0:
+                notificationWindow.css("visibility", "visible");
+                notificationWindow.css("background-color", "yellow");
+                notificationWindow.css("color", "black");
+                notificationWindow.text(message);
+            // succes
+            case 1:
+                notificationWindow.css("visibility", "visible");
+                notificationWindow.css("background-color", "green");
+                notificationWindow.css("color", "white");
+                notificationWindow.text(message);
+            default:
+                break;
+        }
+        setTimeout(function () {
+            notificationWindow.css("visibility", "hidden");
+        }, timeout);
+    }
+
     public test = () => {
         var self = this;
+        console.log("testing" + ".");
+        //var x = KoTestClass; console.log(x);
+        //$.notify("helloworld");
+        //self.notify("test", 0);
+        //var a = KoTestClass;
+        //console.log(a);
+        //$("#datepicker").datepicker();
     }
 }
 
