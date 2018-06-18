@@ -21,14 +21,14 @@ namespace DemonstratureBLL
             _mapper = AutoMapperConfiguration.Instance;
         }
 
-        public GroupDTO CreateGroup(GroupDTO g)
+        public GroupDto CreateGroup(GroupDto g)
         {
             try
             {
                 var g2 = _mapper.Map<GroupT>(g);
                 if (g2.OwnerId == 0) { g2.OwnerId = null; }
                 g2 = _groupRepo.CreateGroup(g2);
-                g = _mapper.Map<GroupDTO>(g2);
+                g = _mapper.Map<GroupDto>(g2);
                 return g;
             }
             catch
@@ -42,7 +42,7 @@ namespace DemonstratureBLL
             return _groupRepo.DeleteGroup(groupId);
         }
 
-        public bool UpdateGroup(GroupDTO g)
+        public bool UpdateGroup(GroupDto g)
         {
             try
             {
@@ -56,12 +56,12 @@ namespace DemonstratureBLL
             }
         }
 
-        public GroupDTO GetGroup(int Id)
+        public GroupDto GetGroup(int Id)
         {
             try
             {
                 var g = _groupRepo.GetGroup(Id);
-                var g2 = _mapper.Map<GroupDTO>(g);
+                var g2 = _mapper.Map<GroupDto>(g);
                 return g2;
             }
             catch
@@ -70,12 +70,12 @@ namespace DemonstratureBLL
             }
         }
 
-        public List<GroupDTO> GetGroupsByCourseId(int courseId)
+        public List<GroupDto> GetGroupsByCourseId(int courseId)
         {
             try
             {
                 var groups = _groupRepo.GetGroupsByCourseId(courseId);
-                var groups2 = _mapper.Map<List<GroupDTO>>(groups);
+                var groups2 = _mapper.Map<List<GroupDto>>(groups);
                 groups2 = groups2.OrderBy(g => g.Name).ToList();
                 return groups2;
             }

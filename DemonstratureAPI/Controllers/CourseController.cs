@@ -27,7 +27,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Create([FromBody]CourseBM course)
+        public ActionResult Create([FromBody]CourseBm course)
         {
             var instance = new CourseLogic();
             var result = instance.CreateCourse(course);
@@ -44,7 +44,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Update([FromBody]CourseBM course)
+        public ActionResult Update([FromBody]CourseBm course)
         {
             var instance = new CourseLogic();
             var result = instance.UpdateCourse(course);

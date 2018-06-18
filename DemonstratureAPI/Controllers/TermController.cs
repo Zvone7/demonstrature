@@ -78,7 +78,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Create([FromBody]TermDTO t)
+        public ActionResult Create([FromBody]TermDto t)
         {
             var instance = new TermLogic();
             var result = instance.CreateTerm(t);
@@ -86,7 +86,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult CreateMany([FromBody]TermDTO t)
+        public ActionResult CreateMany([FromBody]TermDto t)
         {
             var instance = new TermLogic();
             var result = instance.CreateTerms(t);
@@ -103,7 +103,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult DeleteMany([FromBody]TermDTO t)
+        public ActionResult DeleteMany([FromBody]TermDto t)
         {
             var instance = new TermLogic();
             var result = instance.DeleteTerms(t);
@@ -111,7 +111,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Update([FromBody]TermDTO t)
+        public ActionResult Update([FromBody]TermDto t)
         {
             var instance = new TermLogic();
             var result = instance.UpdateTerm(t);
@@ -119,7 +119,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult UpdateMany([FromBody]TermDTO t)
+        public ActionResult UpdateMany([FromBody]TermDto t)
         {
             var instance = new TermLogic();
             var result = instance.UpdateTerms(t);

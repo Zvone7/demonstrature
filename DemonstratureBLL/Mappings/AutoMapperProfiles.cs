@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DemonstratureCM.BM;
 using DemonstratureCM.DTO;
 using DemonstratureDB.Data;
 using System;
@@ -16,12 +17,11 @@ namespace DemonstratureBLL.Mappings
         [Obsolete]
         protected override void Configure()
         {
-            CreateMap<UserT, MyUserDTO>().ReverseMap();
-            CreateMap<MyUserWithPassDTO, UserT>();
-            CreateMap<CourseT, CourseDTO>().ReverseMap();
-            CreateMap<CourseUserT, CourseUserDTO>().ReverseMap();
-            CreateMap<GroupT, GroupDTO>().ReverseMap();
-            CreateMap<TermT, TermDTO>().ReverseMap();
+            CreateMap<UserT, MyUserDto>().ReverseMap();
+			CreateMap<UserT, MyUserBm>().ReverseMap();
+            CreateMap<CourseT, CourseDto>().ReverseMap();
+            CreateMap<GroupT, GroupDto>().ReverseMap();
+            CreateMap<TermT, TermDto>().ReverseMap();
         }
     }
 }

@@ -28,14 +28,14 @@ namespace DemonstratureBLL
             _userRepo = new UserRepo();
         }
 
-        public TermDTO CreateTerm(TermDTO t)
+        public TermDto CreateTerm(TermDto t)
         {
             try
             {
                 TermT t2 = new TermT();
                 t2 = _mapper.Map<TermT>(t);
                 t2 = _termRepo.CreateTerm(t2);
-                t = _mapper.Map<TermDTO>(t2);
+                t = _mapper.Map<TermDto>(t2);
                 return t;
             }
             catch
@@ -44,19 +44,19 @@ namespace DemonstratureBLL
             }
         }
 
-        public bool CreateTerms(TermDTO t)
+        public bool CreateTerms(TermDto t)
         {
             try
             {
-                List<GroupDTO> existingGroups = _mapper.Map<List<GroupDTO>>(_groupRepo.GetGroupsByCourseId(t.CourseId));
-                List<TermDTO> termsToCreate = new List<TermDTO>();
-                List<TermDTO> termsToAdd = new List<TermDTO>();
-                List<TermDTO> existingTerms = GetTerms(CreateDateFromString(t.TermDate), t.CourseId);
+                List<GroupDto> existingGroups = _mapper.Map<List<GroupDto>>(_groupRepo.GetGroupsByCourseId(t.CourseId));
+                List<TermDto> termsToCreate = new List<TermDto>();
+                List<TermDto> termsToAdd = new List<TermDto>();
+                List<TermDto> existingTerms = GetTerms(CreateDateFromString(t.TermDate), t.CourseId);
                 if (existingGroups != null)
                 {
                     foreach (var g in existingGroups)
                     {
-                        TermDTO newTerm = new TermDTO
+                        TermDto newTerm = new TermDto
                         {
                             CourseId = t.CourseId,
                             GroupId = g.Id,
@@ -67,7 +67,7 @@ namespace DemonstratureBLL
                     }
                     foreach (var t2 in termsToCreate)
                     {
-                        TermDTO termToNotAdd = existingTerms.Where(
+                        TermDto termToNotAdd = existingTerms.Where(
                                                 term => term.CourseId == t2.CourseId &&
                                                 term.GroupId == t2.GroupId &&
                                                 term.TermDate == t2.TermDate).FirstOrDefault();
@@ -100,7 +100,7 @@ namespace DemonstratureBLL
             return _termRepo.DeleteTerm(termId);
         }
 
-        public bool DeleteTerms(TermDTO t)
+        public bool DeleteTerms(TermDto t)
         {
             try
             {
@@ -118,7 +118,7 @@ namespace DemonstratureBLL
             }
         }
 
-        public bool UpdateTerm(TermDTO t)
+        public bool UpdateTerm(TermDto t)
         {
             try
             {
@@ -131,7 +131,7 @@ namespace DemonstratureBLL
             }
         }
 
-        public bool UpdateTerms(TermDTO t)
+        public bool UpdateTerms(TermDto t)
         {
             try
             {
@@ -150,12 +150,12 @@ namespace DemonstratureBLL
             }
         }
 
-        public TermDTO GetTerm(int termId)
+        public TermDto GetTerm(int termId)
         {
             try
             {
                 var t = _termRepo.GetTerm(termId);
-                var t2 = _mapper.Map<TermDTO>(t);
+                var t2 = _mapper.Map<TermDto>(t);
                 return t2;
             }
             catch
@@ -173,26 +173,26 @@ namespace DemonstratureBLL
                 .Count();
         }
 
-        public TermPackageDTO GetTerms(int courseId, int moveOnX, int moveOnY, int userId)
+        public TermPackageDto GetTerms(int courseId, int moveOnX, int moveOnY, int userId)
         {
-            List<TermDTO> terms = new List<TermDTO>();
-            List<GroupDTO> groups = new List<GroupDTO>();
+            List<TermDto> terms = new List<TermDto>();
+            List<GroupDto> groups = new List<GroupDto>();
             List<string> dates = new List<string>();
-            TermPackageDTO termPackage = new TermPackageDTO();
+            TermPackageDto termPackage = new TermPackageDto();
             int numGroup = 0;
             int numDate = 0;
             string termWithDate = "";
 
 
-            termPackage.row0 = new List<TermDTO>();
-            termPackage.row1 = new List<TermDTO>();
-            termPackage.row2 = new List<TermDTO>();
-            termPackage.row3 = new List<TermDTO>();
+            termPackage.row0 = new List<TermDto>();
+            termPackage.row1 = new List<TermDto>();
+            termPackage.row2 = new List<TermDto>();
+            termPackage.row3 = new List<TermDto>();
 
             // get all the groups
             try
             {
-                groups = _mapper.Map<List<GroupDTO>>(_groupRepo.GetGroupsByCourseId(courseId));
+                groups = _mapper.Map<List<GroupDto>>(_groupRepo.GetGroupsByCourseId(courseId));
                 numGroup = groups.Count();
             }
             catch (Exception e)
@@ -204,7 +204,7 @@ namespace DemonstratureBLL
             // get all the terms
             try
             {
-                terms = _mapper.Map<List<TermDTO>>(_termRepo.GetTerms(courseId));
+                terms = _mapper.Map<List<TermDto>>(_termRepo.GetTerms(courseId));
                 if (terms == null)
                 {
                     return null;
@@ -443,9 +443,9 @@ namespace DemonstratureBLL
         /// <summary>
         /// Expand every row so that it has blank terms for number of groups
         /// </summary>
-        public List<TermDTO> FixTermRow(List<TermDTO> terms, List<GroupDTO> groups)
+        public List<TermDto> FixTermRow(List<TermDto> terms, List<GroupDto> groups)
         {
-            List<TermDTO> newTerms = new List<TermDTO>();
+            List<TermDto> newTerms = new List<TermDto>();
             foreach (var g in groups)
             {
                 var term = terms.Where(t => t.GroupId == g.Id).FirstOrDefault();
@@ -455,7 +455,7 @@ namespace DemonstratureBLL
                 }
                 else
                 {
-                    var t = new TermDTO
+                    var t = new TermDto
                     {
                         Id = -1
                     };
@@ -468,11 +468,11 @@ namespace DemonstratureBLL
         /// <summary>
         /// Determines cellstate, takebuttonstate and skipbuttonstate
         /// </summary>
-        public List<TermDTO> CalculateTermRow(List<TermDTO> terms, int userId)
+        public List<TermDto> CalculateTermRow(List<TermDto> terms, int userId)
         {
             try
             {
-                foreach (TermDTO t in terms)
+                foreach (TermDto t in terms)
                 {
                     CalculateCellState(t, userId);
                 }
@@ -486,7 +486,7 @@ namespace DemonstratureBLL
             }
         }
 
-        public void CalculateCellState(TermDTO t, int userId)
+        public void CalculateCellState(TermDto t, int userId)
         {
             DateTime today = DateTime.Now.Date;
             //DateTime today = new DateTime(2017, 9, 24);
@@ -669,9 +669,9 @@ namespace DemonstratureBLL
         /// <summary>
         /// fix term package rows so that it shows only 5 groups
         /// </summary>
-        public List<TermDTO> CropTermRow(List<TermDTO> terms, int groupCount, int moveX)
+        public List<TermDto> CropTermRow(List<TermDto> terms, int groupCount, int moveX)
         {
-            List<TermDTO> newTerms = new List<TermDTO>();
+            List<TermDto> newTerms = new List<TermDto>();
             int x = 0;
             foreach (var term in terms)
             {
@@ -695,12 +695,12 @@ namespace DemonstratureBLL
         /// <summary>
         /// Create list of blank terms for case when there isnt enough terms in DB
         /// </summary>
-        public List<TermDTO> MakeBlankTerms()
+        public List<TermDto> MakeBlankTerms()
         {
-            List<TermDTO> terms = new List<TermDTO>();
+            List<TermDto> terms = new List<TermDto>();
             for (int i = 0; i < GlobalAppSettings.NumCol; i++)
             {
-                var term = new TermDTO
+                var term = new TermDto
                 {
                     CourseId = 0,
                     GroupId = 0,
@@ -712,12 +712,12 @@ namespace DemonstratureBLL
             return terms;
         }
 
-        public List<TermDTO> GetTerms(DateTime d, int courseId)
+        public List<TermDto> GetTerms(DateTime d, int courseId)
         {
             try
             {
                 var termsInDb = _termRepo.GetTerms(d, courseId);
-                var terms = _mapper.Map<List<TermDTO>>(termsInDb);
+                var terms = _mapper.Map<List<TermDto>>(termsInDb);
                 return terms;
             }
             catch
@@ -726,15 +726,15 @@ namespace DemonstratureBLL
             }
         }
 
-        public List<TermDTO> GetTermsByCourseId(int courseId)
+        public List<TermDto> GetTermsByCourseId(int courseId)
         {
             try
             {
                 var terms = _termRepo.GetTermsByCourseId(courseId);
                 //svi termini za pojedini kolegij
-                var termsForCourse = _mapper.Map<List<TermDTO>>(terms);
-                var termsWhichAreMatch = new List<TermDTO>();
-                var termsHelper = new List<TermDTO>();
+                var termsForCourse = _mapper.Map<List<TermDto>>(terms);
+                var termsWhichAreMatch = new List<TermDto>();
+                var termsHelper = new List<TermDto>();
                 var groupIds = _groupRepo.GetGroupsByCourseId(courseId).Select(g => g.Id).ToList();
                 //ID-evi svih grupa za pojedini kolegij
                 var groupsCount = _groupRepo.GetGroupsByCourseId(courseId).ToList().Count;
@@ -778,7 +778,7 @@ namespace DemonstratureBLL
                     {
                         termsWhichAreMatch.AddRange(termsHelper);
                     }
-                    termsHelper = new List<TermDTO>();
+                    termsHelper = new List<TermDto>();
                 }
 
                 termsForCourse = termsWhichAreMatch.OrderBy(t => t.TermDate).ToList();
@@ -790,12 +790,12 @@ namespace DemonstratureBLL
             }
         }
 
-        public List<TermDTO> GetTermsByGroupId(int groupId)
+        public List<TermDto> GetTermsByGroupId(int groupId)
         {
             try
             {
                 var terms = _termRepo.GetTermsByGroupId(groupId);
-                var terms2 = _mapper.Map<List<TermDTO>>(terms);
+                var terms2 = _mapper.Map<List<TermDto>>(terms);
                 terms2 = terms2.OrderBy(t => t.TermDate).ToList();
                 return terms2;
             }
@@ -840,7 +840,7 @@ namespace DemonstratureBLL
             }
         }
 
-        public void ApplyCellState(TermDTO t, int cellState)
+        public void ApplyCellState(TermDto t, int cellState)
         {
             t.CellState = cellState;
             switch (cellState)
@@ -883,8 +883,8 @@ namespace DemonstratureBLL
             try
             {
                 DateTime today = DateTime.Now.Date;
-                TermDTO term = GetTerm(termId);
-                GroupDTO group = _mapper.Map<GroupDTO>(_groupRepo.GetGroup(term.GroupId));
+                TermDto term = GetTerm(termId);
+                GroupDto group = _mapper.Map<GroupDto>(_groupRepo.GetGroup(term.GroupId));
                 UserT user = _userRepo.GetUser(userId);
                 if (suggestedUserId == -1)
                 {
@@ -955,8 +955,8 @@ namespace DemonstratureBLL
         {
             try
             {
-                TermDTO term = GetTerm(termId);
-                MyUserDTO user = _mapper.Map<MyUserDTO>(_userRepo.GetUser(userId));
+                TermDto term = GetTerm(termId);
+                MyUserDto user = _mapper.Map<MyUserDto>(_userRepo.GetUser(userId));
                 if (term.UserId == user.Id || user.Role == GlobalAppSettings.RoleAdministrator)
                 {
                     term.UserId = 0;

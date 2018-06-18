@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DemonstratureCM.BM
 {
-    public class LoginDataBM
+    public class LoginDataBm
     {
         public string Username { get; set; }
         public string Password { get; set; }

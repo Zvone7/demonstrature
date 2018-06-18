@@ -1,5 +1,6 @@
 ﻿using DemonstratureBLL;
 using DemonstratureCM.BM;
+using DemonstratureCM.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace DemonstratureAPI.Controllers
         public ActionResult All()
         {
             var instance = new UserLogic();
-            var result = instance.GetUser();
+            var result = instance.GetUsers();
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
         }
@@ -72,24 +73,16 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Create([FromBody]MyUserWithPassBM u)
+        public ActionResult CreateOrUpdate([FromBody]MyUserDto u)
         {
             var instance = new UserLogic();
 
-            var result = instance.CreateUser(u);
+            var result = instance.CreateOrUpdateUser(u);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
+		
         [System.Web.Mvc.HttpPost]
-        public ActionResult Update([FromBody]MyUserWithPassBM u)
-        {
-            var instance = new UserLogic();
-            var result = instance.UpdateUser(u);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        [System.Web.Mvc.HttpPost]
-        public ActionResult CheckCorrectPass([FromBody]PasswordUpdaterBM pu)
+        public ActionResult CheckCorrectPass([FromBody]PasswordUpdaterBm pu)
         {
             var instance = new UserLogic();
             var result = instance.CheckIfCorrectPassword(pu);
@@ -97,7 +90,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult UpdatePass([FromBody]PasswordUpdaterBM pu)
+        public ActionResult UpdatePass([FromBody]PasswordUpdaterBm pu)
         {
             var instance = new UserLogic();
             var result = instance.UpdateUserPassword(pu);

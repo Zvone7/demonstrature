@@ -36,7 +36,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Create([FromBody]GroupDTO group)
+        public ActionResult Create([FromBody]GroupDto group)
         {
             var instance = new GroupLogic();
             var result = instance.CreateGroup(group);
@@ -52,7 +52,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Update([FromBody]GroupDTO group)
+        public ActionResult Update([FromBody]GroupDto group)
         {
             var instance = new GroupLogic();
             var result = instance.UpdateGroup(group);

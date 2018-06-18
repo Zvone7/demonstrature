@@ -51,18 +51,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BM\CourseBM.cs" />
-    <Compile Include="BM\LoginDataBM.cs" />
-    <Compile Include="BM\MyUserBM.cs" />
-    <Compile Include="BM\MyUserWithPassBM.cs" />
-    <Compile Include="BM\PasswordUpdaterBM.cs" />
-    <Compile Include="DTO\CourseDTO.cs" />
-    <Compile Include="DTO\GroupDTO.cs" />
-    <Compile Include="DTO\MyUserWithPassDTO.cs" />
-    <Compile Include="DTO\MyUserDTO.cs" />
-    <Compile Include="DTO\TermDTO.cs" />
-    <Compile Include="DTO\CourseUserDTO.cs" />
-    <Compile Include="DTO\TermPackageDTO.cs" />
+    <Compile Include="BM\CourseBm.cs" />
+    <Compile Include="BM\LoginDataBm.cs" />
+    <Compile Include="BM\MyUserBm.cs" />
+    <Compile Include="BM\PasswordUpdaterBm.cs" />
+    <Compile Include="DTO\CourseDto.cs" />
+    <Compile Include="DTO\GroupDto.cs" />
+    <Compile Include="DTO\MyUserDto.cs" />
+    <Compile Include="DTO\TermDto.cs" />
+    <Compile Include="DTO\TermPackageDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\GlobalAppSettings.cs" />
   </ItemGroup>

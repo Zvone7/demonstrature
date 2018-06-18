@@ -13,7 +13,7 @@ namespace DemonstratureDB
 	{
 		private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		public List<UserT> GetUser()
+		public List<UserT> GetUsers()
 		{
 			try
 			{
@@ -73,31 +73,21 @@ namespace DemonstratureDB
 				return null;
 			}
 		}
-		public List<CourseUserDTO> GetUserCourses(int userId)
+		public List<CourseT> GetUserCourses(int userId)
 		{
 			try
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
-					var userCoursesIds = dbase.CourseUserT.Where(cu => cu.UserId == userId).ToList();
-					var allUserCourses = new List<CourseUserDTO>();
-					foreach (var uci in userCoursesIds)
+					var allUserCourses = new List<CourseT>();
+					var userCourses = dbase.CourseUserT.Where(cu => cu.UserId == userId).ToList();
+					foreach (var uci in userCourses)
 					{
-						CourseUserDTO x = new CourseUserDTO
+						var courseT = new CourseRepo().GetCourse(uci.CourseId);
+						if (courseT != null)
 						{
-							UserId = uci.UserId,
-							CourseId = uci.CourseId
-						};
-						var course = new CourseRepo().GetCourse(x.CourseId);
-						if (course != null)
-						{
-							x.CourseName = course.Name;
+							allUserCourses.Add(courseT);
 						}
-						else
-						{
-							return null;
-						}
-						allUserCourses.Add(x);
 					}
 					return allUserCourses;
 				}
@@ -123,7 +113,7 @@ namespace DemonstratureDB
 				return null;
 			}
 		}
-		public bool UpdateUser(UserT u)
+		public UserT UpdateUser(UserT u)
 		{
 			try
 			{
@@ -131,25 +121,27 @@ namespace DemonstratureDB
 				{
 					var userToEdit = dbase.UserT.Where(us => us.Id == u.Id).FirstOrDefault();
 					if (userToEdit != null)
+					{
 						dbase.UserT.Where(us => us.Id == u.Id).FirstOrDefault().Name = u.Name;
-					dbase.UserT.Where(us => us.Id == u.Id).FirstOrDefault().Username = u.Username;
-					dbase.UserT.Where(us => us.Id == u.Id).FirstOrDefault().LastName = u.LastName;
-					dbase.UserT.Where(us => us.Id == u.Id).FirstOrDefault().Role = u.Role;
+						dbase.UserT.Where(us => us.Id == u.Id).FirstOrDefault().Username = u.Username;
+						dbase.UserT.Where(us => us.Id == u.Id).FirstOrDefault().LastName = u.LastName;
+						dbase.UserT.Where(us => us.Id == u.Id).FirstOrDefault().Role = u.Role;
+					}
 					if (u.Password != null)
 					{
 						dbase.UserT.Where(us => us.Id == u.Id).FirstOrDefault().Password = u.Password;
 					}
 					dbase.SaveChanges();
-					return true;
+					return userToEdit;
 				}
 			}
 			catch//(Exception e)
 			{
 
 			}
-			return false;
+			return null;
 		}
-		public UserT TryLogin(LoginDataBM lg)
+		public UserT TryLogin(LoginDataBm lg)
 		{
 			try
 			{
@@ -172,7 +164,7 @@ namespace DemonstratureDB
 				return null;
 			}
 		}
-		public bool CheckAdmin(LoginDataBM ld)
+		public bool CheckAdmin(LoginDataBm ld)
 		{
 			try
 			{

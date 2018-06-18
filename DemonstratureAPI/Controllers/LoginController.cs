@@ -38,7 +38,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult TryLogin(LoginDataBM log)
+        public ActionResult TryLogin(LoginDataBm log)
         {
             var instance = new UserLogic();
             var result = instance.TryLogin(log);
@@ -47,7 +47,7 @@ namespace DemonstratureAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult LogIn(LoginDataBM model)
+        public ActionResult LogIn(LoginDataBm model)
         {
             if (!ModelState.IsValid)
             {
@@ -55,7 +55,7 @@ namespace DemonstratureAPI.Controllers
             }
 
             var _userLogic = new UserLogic();
-            MyUserDTO user = _userLogic.TryLogin(model);
+            MyUserDto user = _userLogic.TryLogin(model);
             if (user!=null)
             {
                 ClaimsIdentity identity;

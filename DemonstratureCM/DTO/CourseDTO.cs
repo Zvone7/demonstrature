@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DemonstratureCM.DTO
 {
-    public class CourseDTO
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Professor { get; set; }
-        public string Asistant { get; set; }
-        public bool IsActive { get; set; }
-        public string Study { get; set; }
-    }
+	public class CourseDto 
+	{
+		public int Id { get; set; }
+		public string Name { get; set; }
+		public string Professor { get; set; }
+		public string Asistant { get; set; }
+		public bool IsActive { get; set; }
+		public string Study { get; set; }
+	}
 }

@@ -24,16 +24,16 @@ namespace DemonstratureBLL
             AutoMapperConfiguration.RegisterMappings();
             _mapper = AutoMapperConfiguration.Instance;
         }
-        public List<CourseDTO> GetAllCourses()
+        public List<CourseDto> GetAllCourses()
         {
             try
             {
                 CourseRepo courseRepo = new CourseRepo();
                 var listOfCourses = courseRepo.GetCourse();
-                var listOfCourses2 = new List<CourseDTO>();
-                listOfCourses2 = _mapper.Map<List<CourseDTO>>(listOfCourses);
-                listOfCourses2 = listOfCourses2.OrderBy(c => c.Name).ToList();
-                return listOfCourses2;
+                var listOfcoursesMapped = new List<CourseDto>();
+                listOfcoursesMapped = _mapper.Map<List<CourseDto>>(listOfCourses);
+                listOfcoursesMapped = listOfcoursesMapped.OrderBy(c => c.Name).ToList();
+                return listOfcoursesMapped;
             }
             catch(Exception e)
             {
@@ -42,12 +42,12 @@ namespace DemonstratureBLL
             }
         }
 
-        public bool CreateCourse(CourseBM c)
+        public bool CreateCourse(CourseBm c)
         {
             try
             {
                 CourseRepo courseRepo = new CourseRepo();
-                CourseDTO c2 = new CourseDTO
+                CourseDto c2 = new CourseDto
                 {
                     Id = c.Id,
                     Asistant = c.Asistant,
@@ -96,12 +96,12 @@ namespace DemonstratureBLL
             }
         }
 
-        public bool UpdateCourse(CourseBM c)
+        public bool UpdateCourse(CourseBm c)
         {
             try
             {
                 CourseRepo courseRepo = new CourseRepo();
-                CourseDTO c2 = new CourseDTO
+                CourseDto c2 = new CourseDto
                 {
                     Id = c.Id,
                     Asistant = c.Asistant,

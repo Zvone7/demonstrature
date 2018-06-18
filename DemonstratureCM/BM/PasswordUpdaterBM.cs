@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DemonstratureCM.BM
 {
-    public class PasswordUpdaterBM
+    public class PasswordUpdaterBm
     {
         public int UserId { get; set; }
         public string Password { get; set; }

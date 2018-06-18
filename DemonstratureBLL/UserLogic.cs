@@ -10,274 +10,287 @@ using AutoMapper;
 
 namespace DemonstratureBLL
 {
-    public class UserLogic
-    {
-        private IMapper _mapper;
-        private UserRepo _userRepo = new UserRepo();
-        private CourseRepo _courseRepo = new CourseRepo();
-        private CourseUserRepo _courseUserRepo = new CourseUserRepo();
-        public UserLogic()
-        {            
-            AutoMapperConfiguration.RegisterMappings();
-            _mapper = AutoMapperConfiguration.Instance;
-        }
+	public class UserLogic
+	{
+		private IMapper _mapper;
+		private UserRepo _userRepo = new UserRepo();
+		private CourseRepo _courseRepo = new CourseRepo();
+		private CourseUserRepo _courseUserRepo = new CourseUserRepo();
+		public UserLogic()
+		{
+			AutoMapperConfiguration.RegisterMappings();
+			_mapper = AutoMapperConfiguration.Instance;
+		}
 
-        public List<MyUserDTO> GetUser()
-        {
-            try
-            {
-                var allUsers = _userRepo.GetUser();
-                var allUsersMapped = _mapper.Map<List<MyUserDTO>>(allUsers);
-                allUsersMapped = allUsersMapped.OrderBy(u => u.LastName).ToList();
-                return allUsersMapped;
-            }
-            catch
-            {
-                return null;
-            }
-        }
+		public List<MyUserBm> GetUsers()
+		{
+			try
+			{
+				var allUsers = _userRepo.GetUsers();
+				var allUsersMapped = _mapper.Map<List<MyUserBm>>(allUsers);
+				allUsersMapped = allUsersMapped.OrderBy(u => u.LastName).ToList();
+				foreach (var user in allUsersMapped)
+				{
+					user.Courses = GetUserCourses(user.Id);
+				}
+				return allUsersMapped;
+			}
+			catch
+			{
+				return null;
+			}
+		}
 
-        public MyUserDTO GetUser(int Id)
-        {
-            try
-            {
-                var user = _userRepo.GetUser(Id);
-                return _mapper.Map<MyUserDTO>(user);
-            }
-            catch
-            {
-                return null;
-            }
-        }
+		public MyUserBm GetUser(int Id)
+		{
+			try
+			{
+				var user = _userRepo.GetUser(Id);
+				var userMapped = _mapper.Map<MyUserDto>(user);
+				userMapped.Courses = GetUserCourses(userMapped.Id);
+				return userMapped;
+			}
+			catch
+			{
+				return null;
+			}
+		}
 
-        public bool DeleteUser(int Id)
-        {
-            _courseUserRepo.RemoveRangeByUserId(Id);
-            return _userRepo.DeleteUser(Id);
-        }
+		public MyUserBm GetUser(string username)
+		{
+			try
+			{
+				var user = _userRepo.GetUser(username);
+				var userMapped = _mapper.Map<MyUserBm>(user);
+				userMapped.Courses = GetUserCourses(userMapped.Id);
+				return userMapped;
+			}
+			catch
+			{
+				return null;
+			}
+		}
 
-        public MyUserDTO GetUser(string username)
-        {
-            try
-            {
-                var user = _userRepo.GetUser(username);
-                return _mapper.Map<MyUserDTO>(user);
-            }
-            catch
-            {
-                return null;
-            }
-        }
+		public bool DeleteUser(int Id)
+		{
+			_courseUserRepo.RemoveRangeByUserId(Id);
+			return _userRepo.DeleteUser(Id);
+		}
 
-        public List<MyUserDTO> GetUsersByCourseId(int courseId)
-        {
-            try
-            {
-                var userIds = _courseRepo.GetUserIdsByCourseId(courseId);
-                List<MyUserDTO> listOfUsers = new List<MyUserDTO>();
-                if (userIds != null)
-                {
-                    foreach (var userId in userIds)
-                    {
-                        var newUser = _userRepo.GetUser(userId);
-                        var newUser2 = _mapper.Map<MyUserDTO>(newUser);
-                        listOfUsers.Add(newUser2);
-                    }
-                }
-                else
-                {
-                    return null;
-                }
-                return listOfUsers;
-            }
-            catch
-            {
-                return null;
-            }
-        }
+		public List<MyUserBm> GetUsersByCourseId(int courseId)
+		{
+			try
+			{
+				var userIds = _courseRepo.GetUserIdsByCourseId(courseId);
+				List<MyUserBm> listOfUsers = new List<MyUserBm>();
+				if (userIds != null)
+				{
+					foreach (var userId in userIds)
+					{
+						var user = _userRepo.GetUser(userId);
+						var userMapped = _mapper.Map<MyUserBm>(user);
+						listOfUsers.Add(userMapped);
+					}
+					foreach (var user in listOfUsers)
+					{
+						user.Courses = GetUserCourses(user.Id);
+					}
+				}
+				else
+				{
+					return null;
+				}
+				return listOfUsers;
+			}
+			catch
+			{
+				return null;
+			}
+		}
 
-        public List<CourseUserDTO> GetUserCourses(int userId)
-        {
-            try
-            {
-                var result = _userRepo.GetUserCourses(userId);
-                return result;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-        
-        public bool CreateUser(MyUserWithPassBM u)
-        {
-            try
-            {
-                MyUserWithPassDTO u2 = new MyUserWithPassDTO
-                {
-                    Id = u.Id,
-                    Name = u.Name,
-                    LastName = u.LastName,
-                    Username = u.Username,
-                    Role = u.Role,
-                    IsActive = true,
-                    Password = u.Password,
-                    Courses = u.Courses
-                };
-                UserT u3 = _mapper.Map<UserT>(u2);
-                //can't have two users with same usernames
-                var allUsers = _userRepo.GetUser();
-                foreach (UserT ux in allUsers)
-                {
-                    if (u3.Username == ux.Username)
-                    {
-                        return false;
-                    }
-                }
-                var result = _userRepo.CreateUser(u3);
-                if (result != null && u.Courses != null)
-                {
-                    try
-                    {
-                        var u4 = _mapper.Map<MyUserWithPassDTO>(result);
-                        UserCourses(u4);
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+		public List<CourseDto> GetUserCourses(int userId)
+		{
+			try
+			{
+				var result = _userRepo.GetUserCourses(userId);
+				var courses = _mapper.Map<List<CourseDto>>(result);
+				return courses;
+			}
+			catch
+			{
+				return null;
+			}
+		}
 
-        public bool UpdateUser(MyUserWithPassBM u)
-        {
-            try
-            {
-                MyUserWithPassDTO u2 = new MyUserWithPassDTO
-                {
-                    Id = u.Id,
-                    Name = u.Name,
-                    LastName = u.LastName,
-                    Username = u.Username,
-                    Role = u.Role,
-                    IsActive = true,
-                    Courses = u.Courses
-                };
-                if (u.Password != null && u.Password!="")
-                {
-                    u2.Password = u.Password;
-                }
-                UserT u3 = _mapper.Map<UserT>(u2);
-                //can't have two users with same usernames
-                var allUsers = _userRepo.GetUser();
-                foreach (UserT ux in allUsers)
-                {
-                    if (u3.Username == ux.Username && u3.Id != u3.Id)
-                    {
-                        return false;
-                    }
-                }
-                if (UserCourses(u2))
-                {
-                    _userRepo.UpdateUser(u3);
-                    return true;
-                }
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+		public MyUserBm CreateOrUpdateUser(MyUserDto user)
+		{
+			try
+			{
+				MyUserBm userInDb = null;
+				if (user.Id != 0)
+				{
+					userInDb = UpdateUser(user);
+				}
+				else
+				{
+					userInDb = CreateUser(user);
+				}
+				user.Id = userInDb.Id;
+				var courses = UpdateUserCourses(user);
+				userInDb.Courses = _mapper.Map<List<CourseDto>>(courses);
+				return userInDb;
+			}
+			catch (Exception e)
+			{
+				return null;
+			}
+		}
 
-        public bool CheckIfCorrectPassword(PasswordUpdaterBM pu)
-        {
-            try
-            {
-                var user = _userRepo.GetUser(pu.UserId);
-                if (user.Password == pu.Password)
-                {
-                    return true;
-                }
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+		public MyUserBm CreateUser(MyUserDto newUser)
+		{
+			try
+			{
+				var userCheck = _userRepo.GetUser(newUser.Username);
+				if (userCheck != null)
+				{
+					//can't have two users with same usernames
+					return null;
+				}
+				newUser.IsActive = true;
+				UserT userMapped = _mapper.Map<UserT>(newUser);
+				var result = _userRepo.CreateUser(userMapped);
+				var userInDb = _mapper.Map<MyUserDto>(result);
+				return userInDb;
+			}
+			catch
+			{
+				return null;
+			}
+		}
 
-        public bool UpdateUserPassword(PasswordUpdaterBM pu)
-        {
-            try
-            {
-                var user = _userRepo.GetUser(pu.UserId);
-                user.Password = pu.Password;
-                return _userRepo.UpdateUser(user);
-            }
-            catch
-            {
-                return false;
-            }
-        }
+		public MyUserBm UpdateUser(MyUserDto userUpdate)
+		{
+			try
+			{
+				var userCheck = _userRepo.GetUser(userUpdate.Username);
+				if (userCheck != null)
+				{
+					if (userCheck.Id != userUpdate.Id)
+					{
+						//can't have two users with same usernames
+						return null;
+					}
+				}
 
-        public bool UserCourses(MyUserWithPassDTO u)
-        {
-            try
-            {
-                if (_courseUserRepo.RemoveRangeByUserId(u.Id))
-                {
-                    if (u.Courses == null)
-                    {
-                        return true;
-                    }
-                    foreach (var c in u.Courses)
-                    {
-                        var uc = new CourseUserDTO
-                        {
-                            CourseId = c.Id,
-                            CourseName = c.Name,
-                            UserId = u.Id
-                        };
-                        var uc2 = _mapper.Map<CourseUserT>(uc);
-                        _courseUserRepo.CreateCourseUser(uc2);
-                    }
+				var newUser = userUpdate;
+				newUser.IsActive = true;
+				if (userUpdate.Password != null && userUpdate.Password != "")
+				{
+					newUser.Password = userUpdate.Password;
+				}
+				UserT userMapped = _mapper.Map<UserT>(newUser);
+				var result = _userRepo.UpdateUser(userMapped);
+				var userInDb = _mapper.Map<MyUserBm>(result);
+				return userInDb;
+			}
+			catch(Exception e)
+			{
+				return null;
+			}
+		}
 
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
+		public bool CheckIfCorrectPassword(PasswordUpdaterBm pu)
+		{
+			try
+			{
+				var user = _userRepo.GetUser(pu.UserId);
+				if (user.Password == pu.Password)
+				{
+					return true;
+				}
+				return false;
+			}
+			catch
+			{
+				return false;
+			}
+		}
 
-        public MyUserDTO TryLogin(LoginDataBM ld)
-        {
-            UserT user =_userRepo.TryLogin(ld);
-            if (user == null)
-            {
-                return null;
-            }
-            else
-            {
-                return _mapper.Map<MyUserDTO>(user);
-            }
-        }
+		public bool UpdateUserPassword(PasswordUpdaterBm pu)
+		{
+			try
+			{
+				var user = _userRepo.GetUser(pu.UserId);
+				user.Password = pu.Password;
+				if (_userRepo.UpdateUser(user) != null)
+				{
+					return true;
+				}
+				return false;
+			}
+			catch
+			{
+				return false;
+			}
+		}
 
-        public bool CheckAdmin(LoginDataBM ld)
-        {
-            return _userRepo.CheckAdmin(ld);
-        }
-    }
+		public List<CourseT> UpdateUserCourses(MyUserBm u)
+		{
+			try
+			{
+				var listOfCourses = new List<CourseT>();
+				if (_courseUserRepo.RemoveRangeByUserId(u.Id))
+				{
+					if (u.Courses == null)
+					{
+						return listOfCourses;
+					}
+					foreach (var c in u.Courses)
+					{
+						var course = _courseRepo.GetCourse(c.Id);
+						if (course != null)
+						{
+							var uc = new CourseUserT
+							{
+								CourseId = c.Id,
+								UserId = u.Id
+							};
+							var uc2 = _mapper.Map<CourseUserT>(uc);
+							if (_courseUserRepo.CreateCourseUser(uc2))
+							{
+								listOfCourses.Add(course);
+							}
+						}
+					}
+					return listOfCourses;
+				}
+				else
+				{
+					return null;
+				}
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		public MyUserDto TryLogin(LoginDataBm ld)
+		{
+			UserT user = _userRepo.TryLogin(ld);
+			if (user == null)
+			{
+				return null;
+			}
+			else
+			{
+				return _mapper.Map<MyUserDto>(user);
+			}
+		}
+
+		public bool CheckAdmin(LoginDataBm ld)
+		{
+			return _userRepo.CheckAdmin(ld);
+		}
+	}
 }

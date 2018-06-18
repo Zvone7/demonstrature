@@ -37,13 +37,13 @@ namespace DemonstratureDB
 					if (rowsToRemove == null) return true;
 					dbase.CourseUserT.RemoveRange(rowsToRemove);
 					dbase.SaveChanges();
+					return true;
 				}
             }
             catch
             {
                 return false;
             }
-            return true;
         }
 
         public bool RemoveRangeByCourseId(int courseId)

@@ -2,15 +2,15 @@
 
 namespace DemonstratureCM.DTO
 {
-    public class TermDTO
+    public class TermDto
     {
         public int Id { get; set; }
         public int CourseId { get; set; }
-        public CourseDTO Course { get; set; }
+        public CourseDto Course { get; set; }
         public int UserId { get; set; }
-        public MyUserDTO MyUser { get; set; }
+        public MyUserDto MyUser { get; set; }
         public int GroupId { get; set; }
-        public GroupDTO Group { get; set; }
+        public GroupDto Group { get; set; }
         public string TermDate { get; set; }
         public int SuggestedUserId { get; set; }
         public bool ButtonTakeState { get; set; }
