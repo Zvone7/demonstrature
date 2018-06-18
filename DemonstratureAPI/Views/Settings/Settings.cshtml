@@ -7,21 +7,22 @@
     ViewBag.Title = "Settings";
 }
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="~/Scripts/jquery-2.2.3.js"></script>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="~/Scripts/knockout-3.4.2.js"></script>
 <script src="~/Scripts/knockout.mapping-latest.js"></script>
 <script src="~/Scripts/require.js"></script>
-<script src="~/Scripts/Pages/Settings.js"></script>
+<script src="~/Scripts/Helpers/Models.js"></script>
+<script src="~/Scripts/Pages/SettingsKO.js"></script>
 
 
-@*<label data-bind="text: YO">aaa</label>
-<button id="test">tipka</button>*@
+<label data-bind="text: YO">aaa</label>
+<button id="test">tipka</button>
 
 <div class="allSettings">
     <div class="change-settings-label">
         <label>Promijeni postavke:</label>
-    </div>    
+    </div>
     @*PASSWORD*@
     <div class="change-settings-label">
         <label for="">Postavke lozinke:</label>
@@ -44,8 +45,8 @@
         </div>
     </div>
     @*ADMIN*@
-    @{ 
-        if (@Model.Role == "A")
+    @{
+        if (@Model.Role == "Administrator")
         {
             <div id="adminSettings" class="adminSettings">
                 <div class="change-settings-label">
@@ -57,13 +58,18 @@
                             <label class="identifier-big">Dodaj / uredi korisnika</label>
                             <br /><br />
                             <label class="identifier">Odaberi korisnika:</label><br />
-                            <select class="selecter_s" id="user_user_select"></select><br />
+
+                            <select class="selecter_s" id="user_user_select" data-bind="options: Users_KO,
+                                    optionsText: 'Username',
+						            optionsValue: 'Id',
+                                    value: 'Id',
+                                    optionsCaption: 'Novi korisnik'"></select>
                             <label class="identifier">Prezime:</label><br />
-                            <input id="user_last_name" class="input_s" /><br />
+                            <input id="user_last_name" data-bind="textInput: SelectedUser_KO().LastName" class="input_s" /><br />
                             <label class="identifier">Ime:</label><br />
-                            <input id="user_name" class="input_s" /><br />
+                            <input id="user_name" data-bind="textInput: SelectedUser_KO().Name" class="input_s" /><br />
                             <label class="identifier">Korisničko ime:</label><br />
-                            <input id="user_username" class="input_s" type="text"/><br />
+                            <input id="user_username" data-bind="textInput: SelectedUser_KO().Username" class="input_s" type="text" /><br />
                             <label class="identifier">Razina pristupa:</label><br />
                             <select class="selecter_s" id="user_select_role">
                                 <option value="Administrator">Administrator</option>
@@ -78,9 +84,9 @@
                             <input id="user_password_again" class="input_s" type="password" /><br />
                             <hr />
                             <label class="identifier-big">Kolegiji</label><br /><br />
-                            <p id="user_user_course"></p>                    
+                            <p id="user_user_course"></p>                            
                             <button id="user_save" class="saveSetting2">Spremi</button>
-                            <button id="user_delete" class="deleteSetting">Obriši</button>                    
+                            <button id="user_delete" class="deleteSetting">Obriši</button>
                         </div>
                     </div>
                     <div class="cell_s">

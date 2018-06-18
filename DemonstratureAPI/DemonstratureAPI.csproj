@@ -453,14 +453,15 @@
     <TypeScriptCompile Include="Content\Utilities.ts" />
     <TypeScriptCompile Include="Scripts\Helpers\DemonstratureCustomClasses.ts" />
     <TypeScriptCompile Include="Scripts\Helpers\CustomRequests.ts" />
+    <TypeScriptCompile Include="Scripts\Helpers\Models.ts" />
     <TypeScriptCompile Include="Scripts\main-config.ts" />
     <TypeScriptCompile Include="Scripts\Pages\Login.ts" />
     <TypeScriptCompile Include="Scripts\Pages\Settings.ts" />
+    <TypeScriptCompile Include="Scripts\Pages\SettingsKO.ts" />
     <TypeScriptCompile Include="Scripts\Pages\TableKO.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.dataTables\jquery.dataTables.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jqueryUI\jqueryUI.d.ts" />
-    <TypeScriptCompile Include="Scripts\Pages\Table.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout.amd.helpers\knockout-amd-helpers.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout.mapping\knockout.mapping.d.ts" />
