@@ -13,9 +13,9 @@ namespace DemonstratureDB.Data
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DemonstratureEntities : DbContext
+    public partial class DatabaseContext : DbContext
     {
-        public DemonstratureEntities()
+        public DatabaseContext()
             : base("name=DemonstratureEntities")
         {
         }

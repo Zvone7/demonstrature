@@ -10,14 +10,15 @@ namespace DemonstratureDB
 {
     public class CourseUserRepo
     {
-        DemonstratureEntities dbase = new DemonstratureEntities();
-
         public bool CreateCourseUser(CourseUserT cu)
         {
             try
-            {
-                dbase.CourseUserT.Add(cu);
-                dbase.SaveChanges();
+			{
+				using (DatabaseContext dbase = new DatabaseContext())
+				{
+					dbase.CourseUserT.Add(cu);
+					dbase.SaveChanges();
+				}
             }
             catch
             {
@@ -29,11 +30,14 @@ namespace DemonstratureDB
         public bool RemoveRangeByUserId(int userId)
         {
             try
-            {
-                var rowsToRemove=dbase.CourseUserT.Where(cu => cu.UserId == userId).ToList();
-                if (rowsToRemove == null) return true;
-                dbase.CourseUserT.RemoveRange(rowsToRemove);
-                dbase.SaveChanges();
+			{
+				using (DatabaseContext dbase = new DatabaseContext())
+				{
+					var rowsToRemove = dbase.CourseUserT.Where(cu => cu.UserId == userId).ToList();
+					if (rowsToRemove == null) return true;
+					dbase.CourseUserT.RemoveRange(rowsToRemove);
+					dbase.SaveChanges();
+				}
             }
             catch
             {
@@ -45,11 +49,14 @@ namespace DemonstratureDB
         public bool RemoveRangeByCourseId(int courseId)
         {
             try
-            {
-                var rowsToRemove = dbase.CourseUserT.Where(cu => cu.CourseId == courseId).ToList();
-                if (rowsToRemove == null) return true;
-                dbase.CourseUserT.RemoveRange(rowsToRemove);
-                dbase.SaveChanges();
+			{
+				using (DatabaseContext dbase = new DatabaseContext())
+				{
+					var rowsToRemove = dbase.CourseUserT.Where(cu => cu.CourseId == courseId).ToList();
+					if (rowsToRemove == null) return true;
+					dbase.CourseUserT.RemoveRange(rowsToRemove);
+					dbase.SaveChanges();
+				}
             }
             catch
             {

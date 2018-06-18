@@ -59,28 +59,28 @@ GO
 SET IDENTITY_INSERT [dbo].[CourseT] ON 
 
 GO
-INSERT [dbo].[CourseT] ([Id], [Name], [Study], [Professor], [Asistant], [IsActive]) VALUES (1, N'Programiranje 1', N'Raèunarstvo', N'Martinoviæ', N'Leventiæ', 1)
+INSERT [dbo].[CourseT] ([Id], [Name], [Study], [Professor], [Asistant], [IsActive]) VALUES (1, N'Programiranje 1', N'Racunarstvo', N'Martinovic', N'Leventic', 1)
 GO
-INSERT [dbo].[CourseT] ([Id], [Name], [Study], [Professor], [Asistant], [IsActive]) VALUES (2, N'Fizika 1', N'Elektrotehnika', N'Martinoviæ', N'Leventiæ', 1)
+INSERT [dbo].[CourseT] ([Id], [Name], [Study], [Professor], [Asistant], [IsActive]) VALUES (2, N'Fizika 1', N'Elektrotehnika', N'Martinovic', N'Leventic', 1)
 GO
-INSERT [dbo].[CourseT] ([Id], [Name], [Study], [Professor], [Asistant], [IsActive]) VALUES (3, N'Programiranje 2', N'Raèunarstvo', N'Martinoviæ', N'Leventiæ', 1)
+INSERT [dbo].[CourseT] ([Id], [Name], [Study], [Professor], [Asistant], [IsActive]) VALUES (3, N'Programiranje 2', N'Racunarstvo', N'Martinovic', N'Leventic', 1)
 GO
-INSERT [dbo].[CourseT] ([Id], [Name], [Study], [Professor], [Asistant], [IsActive]) VALUES (4, N'Programiranje 2', N'Elektrotehnika', N'Martinoviæ', N'Leventiæ', 1)
+INSERT [dbo].[CourseT] ([Id], [Name], [Study], [Professor], [Asistant], [IsActive]) VALUES (4, N'Programiranje 2', N'Elektrotehnika', N'Martinovic', N'Leventic', 1)
 GO
 SET IDENTITY_INSERT [dbo].[CourseT] OFF
 GO
 SET IDENTITY_INSERT [dbo].[UserT] ON 
 
 GO
-INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (1, N'zgrubisic', N'Zvonimir', N'Grubišiæ', N'1234', N'A', 1)
+INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (1, N'zgrubisic', N'Zvonimir', N'Grubisic', N'1234', N'Administrator', 1)
 GO
-INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (2, N'hleventic', N'Hrvoje', N'Leventiæ', N'123', N'A', 1)
+INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (2, N'hleventic', N'Hrvoje', N'Leventic', N'123', N'Administrator', 1)
 GO
-INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (3, N'kpavlovic', N'Kristijan', N'Pavloviæ', N'123', N'D', 1)
+INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (3, N'kpavlovic', N'Kristijan', N'Pavlovic', N'123', N'Demonstrator', 1)
 GO
-INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (4, N'bjelic', N'Borna', N'Jeliæ', N'123', N'D', 1)
+INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (4, N'bjelic', N'Borna', N'Jelic', N'123', N'Demonstrator', 1)
 GO
-INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (5, N'iivic', N'Ivan', N'Iviæ', N'12345', N'A', 1)
+INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (5, N'iivic', N'Ivan', N'Ivic', N'12345', N'Administrator', 1)
 GO
 SET IDENTITY_INSERT [dbo].[UserT] OFF
 GO
