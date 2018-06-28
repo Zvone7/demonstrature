@@ -10,9 +10,18 @@ const defaultUserName = "-";
 const defaultUserRole = "D";
 const defaultUserUsername = "...";
 class KoCourse {
-    constructor() {
+    constructor(course) {
         this.Name = ko.observable();
         this.Study = ko.observable();
+        this.Professor = ko.observable();
+        this.Asistant = ko.observable();
+        if (course) {
+            this.Id = course.Id;
+            this.Name(course.Name);
+            this.Study(course.Study);
+            this.Professor(course.Professor);
+            this.Asistant(course.Asistant);
+        }
     }
 }
 class KoUser {
@@ -47,11 +56,11 @@ class KoUser {
     }
 }
 class KoTerm {
-    constructor() {
+    constructor(term) {
         this.Course = ko.observable();
         this.User = ko.observable();
         this.Group = ko.observable();
-        this.TermDate = ko.observable();
+        this.TermDate = ko.observable("");
         this.SuggestedUserId = ko.observable();
         this.SuggestedUser = ko.observable();
         this.CellState = ko.observable();
@@ -60,18 +69,18 @@ class KoTerm {
         this.DemoPickerState = ko.observable();
         this.x = ko.observable();
         this.y = ko.observable();
-        //constructor(term?: any) {
-        //    if (term) {
-        //        this.Id = term.Id;
-        //        this.CourseId = term.CourseId;
-        //        this.Course = term.Course;
-        //        this.UserId = term.Id;
-        //        this.User = term.User;
-        //        this.GroupId = term.GroupId;
-        //        this.Group = term.Group;
-        //        this.TermDate = term.TermDate;
-        //    }
-        //}
+        this.IsCourseTerm = ko.observable();
+        if (term) {
+            this.Id = term.Id;
+            this.CourseId = term.CourseId;
+            this.Course = term.Course;
+            this.UserId = term.Id;
+            this.User = term.User;
+            this.GroupId = term.GroupId;
+            this.Group = term.Group;
+            this.TermDate = term.TermDate;
+            this.IsCourseTerm = term.IsCourseTerm;
+        }
     }
 }
 class RawTerm {
@@ -108,19 +117,16 @@ class KoStudy {
     }
 }
 class KoGroup {
-    constructor() {
+    constructor(group) {
         this.Name = ko.observable();
         this.Owner = ko.observable();
-        //public OwnerId = ko.observable<number>();
-        //constructor(group?: KoGroup) {
-        //    if (group) {
-        //        this.CourseId = group.CourseId;
-        //        this.Id = group.Id;
-        //        this.Name = group.Name;
-        //        this.Owner = group.Owner;
-        //        this.OwnerId = group.OwnerId;
-        //    }
-        //}
+        if (group) {
+            this.Id = group.Id;
+            this.CourseId = group.CourseId;
+            this.Name(group.Name);
+            this.Owner(group.Owner);
+            this.OwnerId = group.OwnerId;
+        }
     }
 }
 class KoDemonstrator {
@@ -147,5 +153,7 @@ class TermPackage {
         this.disableUp = false;
         this.disableDown = false;
     }
+}
+class PasswordUpdater {
 }
 //# sourceMappingURL=Models.js.map

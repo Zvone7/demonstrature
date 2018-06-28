@@ -11,45 +11,53 @@ namespace DemonstratureAPI.Controllers
 {
     public class CourseController : Controller
     {
+		CourseLogic _courseLogic;
+		public CourseController()
+		{
+			_courseLogic = new CourseLogic();
+		}
         // GET: Course
         public ActionResult Index()
         {
             return View();
         }
 
-        [System.Web.Mvc.HttpGet]
-        public ActionResult All()
-        {
-            var instance = new CourseLogic();
-            var result = instance.GetAllCourses();
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
-        }
+		[System.Web.Mvc.HttpGet]
+		public ActionResult Courses()
+		{
+			var result = _courseLogic.GetCourses();
+			return Json(result, JsonRequestBehavior.AllowGet);
+			//return null;
+		}
 
-        [System.Web.Mvc.HttpPost]
-        public ActionResult Create([FromBody]CourseBm course)
+		[System.Web.Mvc.HttpGet]
+        public ActionResult CoursesByStudy(string study)
         {
-            var instance = new CourseLogic();
-            var result = instance.CreateCourse(course);
+            var result = _courseLogic.GetCourses(study);
+            return Json(result, JsonRequestBehavior.AllowGet);
+			//return null;
+		}
+
+		[System.Web.Mvc.HttpGet]
+		public ActionResult AllStudies()
+		{
+			var result = _courseLogic.GetAllStudies();
+			return Json(result, JsonRequestBehavior.AllowGet);
+			//return null;
+		}
+
+		[System.Web.Mvc.HttpPost]
+        public ActionResult CreateOrUpdate([FromBody]CourseBm course)
+        {
+            var result = _courseLogic.CreateOrUpdateCourse(course);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [System.Web.Mvc.HttpDelete]
-        public ActionResult Delete([FromBody]int courseId)
+        public ActionResult Delete([FromUri]int courseId)
         {
-
-            var instance = new CourseLogic();
-            var result = instance.DeleteCourse(courseId);
+            var result = _courseLogic.DeleteCourse(courseId);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
-        [System.Web.Mvc.HttpPost]
-        public ActionResult Update([FromBody]CourseBm course)
-        {
-            var instance = new CourseLogic();
-            var result = instance.UpdateCourse(course);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
     }
 }

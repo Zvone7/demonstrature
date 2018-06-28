@@ -11,8 +11,13 @@ namespace DemonstratureAPI.Controllers
 {
     public class GroupController : Controller
     {
-        // GET: Group
-        public ActionResult Index()
+		public GroupLogic _groupLogic;
+		public GroupController()
+		{
+			_groupLogic = new GroupLogic();
+		}
+										   // GET: Group
+		public ActionResult Index()
         {
             return View();
         }
@@ -20,8 +25,7 @@ namespace DemonstratureAPI.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult Get([FromUri]int groupId)
         {
-            var instance = new GroupLogic();
-            var result = instance.GetGroup(groupId);
+            var result = _groupLogic.GetGroup(groupId);
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
         }
@@ -29,33 +33,22 @@ namespace DemonstratureAPI.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult ByCourseId([FromUri]int courseId)
         {
-            var instance = new GroupLogic();
-            var result = instance.GetGroupsByCourseId(courseId);
+            var result = _groupLogic.GetGroupsByCourseId(courseId);
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Create([FromBody]GroupDto group)
+        public ActionResult CreateOrUpdate([FromBody]GroupDto group)
         {
-            var instance = new GroupLogic();
-            var result = instance.CreateGroup(group);
+            var result = _groupLogic.CreateOrUpdateGroup(group);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [System.Web.Mvc.HttpDelete]
         public ActionResult Delete([FromBody]int id)
         {
-            var instance = new GroupLogic();
-            var result = instance.DeleteGroup(id);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        [System.Web.Mvc.HttpPost]
-        public ActionResult Update([FromBody]GroupDto group)
-        {
-            var instance = new GroupLogic();
-            var result = instance.UpdateGroup(group);
+            var result = _groupLogic.DeleteGroup(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

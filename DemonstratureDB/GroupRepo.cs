@@ -7,34 +7,31 @@ using System.Threading.Tasks;
 
 namespace DemonstratureDB
 {
-    public class GroupRepo
-    {
-        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+	public class GroupRepo
+	{
+		private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public GroupT CreateGroup(GroupT g)
-        {
-            try
+		public GroupT CreateGroup(GroupT g)
+		{
+			try
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
-					dbase.GroupT.Add(g);
+					var groupInDb = dbase.GroupT.Add(g);
 					dbase.SaveChanges();
-					var groupInDb = dbase.GroupT.Where(gr =>
-													gr.CourseId == g.CourseId &&
-													gr.OwnerId == g.OwnerId &&
-													gr.Name == g.Name).FirstOrDefault();
 					return groupInDb;
 				}
-            }
-            catch(Exception e)
-            {
-                _logger.Info(e);
-                return null;
-            }
-        }
-        public bool DeleteGroup(int groupId)
-        {
-            try
+			}
+			catch (Exception e)
+			{
+				_logger.Info(e);
+				return null;
+			}
+		}
+
+		public bool DeleteGroup(int groupId)
+		{
+			try
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
@@ -48,52 +45,59 @@ namespace DemonstratureDB
 					dbase.SaveChanges();
 					return true;
 				}
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        public bool UpdateGroup(GroupT g)
-        {
-            try
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		public GroupT UpdateGroup(GroupT g)
+		{
+			try
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
-					var groupInDB = GetGroup(g.Id);
-					dbase.GroupT.Where(gr => gr.Id == g.Id).FirstOrDefault().Name = g.Name;
-					dbase.GroupT.Where(gr => gr.Id == g.Id).FirstOrDefault().OwnerId = g.OwnerId;
-					dbase.GroupT.Where(gr => gr.Id == g.Id).FirstOrDefault().CourseId = g.CourseId;
-					dbase.SaveChanges();
-					return true;
+					var groupInDB = dbase.GroupT.Where(gr => gr.Id == g.Id).FirstOrDefault();
+					if (groupInDB != null)
+					{
+						groupInDB.Name = g.Name;
+						groupInDB.OwnerId = g.OwnerId;
+						groupInDB.CourseId = g.CourseId;
+						dbase.SaveChanges();
+						return groupInDB;
+					}
+					return null;
 				}
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        public GroupT GetGroup(int Id)
-        {
-            try
+			}
+			catch (Exception e)
+			{
+				return null;
+			}
+		}
+
+		public GroupT GetGroup(int Id)
+		{
+			try
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
 					var gr = dbase.GroupT.Where(g => g.Id == Id).FirstOrDefault();
 					return gr;
 				}
-            }
-            catch
-            {
-                return null;
-            }
-        }
-        public List<GroupT> GetGroupsByCourseId(int courseId)
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		public List<GroupT> GetGroupsByCourseId(int courseId)
 		{
 			using (DatabaseContext dbase = new DatabaseContext())
 			{
 				return dbase.GroupT.Where(g => g.CourseId == courseId).OrderBy(g => g.Name).ToList();
 			}
-        }
-    }
+		}
+	}
 }

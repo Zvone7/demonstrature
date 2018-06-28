@@ -193,42 +193,31 @@ namespace DemonstratureBLL
 				var userInDb = _mapper.Map<MyUserBm>(result);
 				return userInDb;
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				return null;
 			}
 		}
 
-		public bool CheckIfCorrectPassword(PasswordUpdaterBm pu)
+		public bool UpdateUserPassword(PasswordUpdaterBm pu, int userId)
 		{
 			try
 			{
-				var user = _userRepo.GetUser(pu.UserId);
-				if (user.Password == pu.Password)
+				if (userId != 0)
 				{
-					return true;
+					var user = _userRepo.GetUser(userId);
+					if (user.Password == pu.OldPassword)
+					{
+						user.Password = pu.NewPassword;
+						if (_userRepo.UpdateUser(user) != null)
+						{
+							return true;
+						}
+					}
 				}
 				return false;
 			}
-			catch
-			{
-				return false;
-			}
-		}
-
-		public bool UpdateUserPassword(PasswordUpdaterBm pu)
-		{
-			try
-			{
-				var user = _userRepo.GetUser(pu.UserId);
-				user.Password = pu.Password;
-				if (_userRepo.UpdateUser(user) != null)
-				{
-					return true;
-				}
-				return false;
-			}
-			catch
+			catch (Exception e)
 			{
 				return false;
 			}

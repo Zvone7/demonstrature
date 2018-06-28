@@ -565,7 +565,7 @@ class TableVM {
         this.getAllCourses = () => {
             //console.log("getting All Courses");
             var self = this;
-            var serviceURL = '/Course/All';
+            var serviceURL = '/Course/Courses';
             $.ajax({
                 type: "GET",
                 url: serviceURL,

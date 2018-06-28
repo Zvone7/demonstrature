@@ -14,6 +14,17 @@ class KoCourse {
     public Id: number;
     public Name = ko.observable<string>();
     public Study = ko.observable<string>();
+    public Professor = ko.observable<string>();
+    public Asistant = ko.observable<string>();
+    constructor(course?: any) {
+        if (course) {
+            this.Id = course.Id;
+            this.Name(course.Name);
+            this.Study(course.Study);
+            this.Professor(course.Professor);
+            this.Asistant(course.Asistant);
+        }
+    }
 }
 class KoUser {
     public Id: number;
@@ -43,7 +54,7 @@ class KoUser {
             this.LastName(defaultUserLastName);
             this.Role(defaultUserRole);
             this.Password("");
-            this.Courses =[];
+            this.Courses = [];
         }
     }
 }
@@ -55,7 +66,7 @@ class KoTerm {
     public User = ko.observable<KoUser>();
     public GroupId: number;
     public Group = ko.observable<KoGroup>();
-    public TermDate = ko.observable<string>();
+    public TermDate = ko.observable<string>("");
     public SuggestedUserId = ko.observable<number>();
     public SuggestedUser = ko.observable<KoUser>();
     public CellState = ko.observable<number>();
@@ -64,18 +75,20 @@ class KoTerm {
     public DemoPickerState = ko.observable<boolean>();
     public x = ko.observable<number>();
     public y = ko.observable<number>();
-    //constructor(term?: any) {
-    //    if (term) {
-    //        this.Id = term.Id;
-    //        this.CourseId = term.CourseId;
-    //        this.Course = term.Course;
-    //        this.UserId = term.Id;
-    //        this.User = term.User;
-    //        this.GroupId = term.GroupId;
-    //        this.Group = term.Group;
-    //        this.TermDate = term.TermDate;
-    //    }
-    //}
+    public IsCourseTerm = ko.observable<boolean>();
+    constructor(term?: any) {
+        if (term) {
+            this.Id = term.Id;
+            this.CourseId = term.CourseId;
+            this.Course = term.Course;
+            this.UserId = term.Id;
+            this.User = term.User;
+            this.GroupId = term.GroupId;
+            this.Group = term.Group;
+            this.TermDate = term.TermDate;
+            this.IsCourseTerm = term.IsCourseTerm;
+        }
+    }
 }
 class RawTerm {
     public Id: number;
@@ -119,16 +132,15 @@ class KoGroup {
     public Name = ko.observable<string>();
     public Owner = ko.observable<KoUser>();
     public OwnerId: number;
-    //public OwnerId = ko.observable<number>();
-    //constructor(group?: KoGroup) {
-    //    if (group) {
-    //        this.CourseId = group.CourseId;
-    //        this.Id = group.Id;
-    //        this.Name = group.Name;
-    //        this.Owner = group.Owner;
-    //        this.OwnerId = group.OwnerId;
-    //    }
-    //}
+    constructor(group?: any) {
+        if (group) {
+            this.Id = group.Id;
+            this.CourseId = group.CourseId;
+            this.Name(group.Name);
+            this.Owner(group.Owner);
+            this.OwnerId = group.OwnerId;
+        }
+    }
 }
 class KoDemonstrator {
     public Id: number;
@@ -164,3 +176,8 @@ class TermPackage {
         this.disableDown = false;
     }
 }
+class PasswordUpdater {
+    OldPassword: string;
+    NewPassword: string;
+}
+

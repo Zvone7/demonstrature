@@ -3,6 +3,11 @@ add notifications - added notify, but MAKE it work
 added "custom" notifications, but try notify pls
 
 IMPLEMENT:
+
+password salt and hashing (PKDF or Bcrypt)
+
+refactory - settingsKO.ts
+
 refactory - single out requests in one file
 
 refactory of gettermsbycourseid on terms controller - called from settingsKO.ts and tableKO.ts
@@ -11,7 +16,7 @@ refactory to support throw catching so that you can send messages to be displaye
 
 refactory settings - implement Knockout
 
-localization
+localization - probably not
 
 -----------------------------------------------------------------------------------------------------
 

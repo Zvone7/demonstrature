@@ -10,36 +10,38 @@ namespace DemonstratureDB
 {
 	public class CourseRepo
 	{
-		public bool CreateCourse(CourseT c)
+		public CourseT CreateCourse(CourseT c)
 		{
 			try
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
-					dbase.CourseT.Add(c);
+					var courseInDb = dbase.CourseT.Add(c);
 					dbase.SaveChanges();
+					return courseInDb;
 				}
 			}
-			catch
+			catch (Exception e)
 			{
 				//error creating Course
-				return false;
+				return null;
 			}
-			return true;
 		}
+
 		public bool DeleteCourse(int courseId)
 		{
 			try
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
-					var courseToRemove = GetCourse(courseId);
-					if (courseToRemove != null)
+					var courseInDb = dbase.CourseT.Where(c => c.Id == courseId).FirstOrDefault();
+					if (courseInDb != null)
 					{
-						dbase.CourseT.Remove(courseToRemove);
+						courseInDb.IsActive = false;
 						dbase.SaveChanges();
+						return true;
 					}
-					return true;
+					return false;
 				}
 			}
 			catch
@@ -47,7 +49,8 @@ namespace DemonstratureDB
 				return false;
 			}
 		}
-		public bool UpdateCourse(CourseT c)
+
+		public CourseT UpdateCourse(CourseT c)
 		{
 			try
 			{
@@ -62,28 +65,34 @@ namespace DemonstratureDB
 							dbase.CourseT.Where(co => co.Id == c.Id).FirstOrDefault().Asistant = c.Asistant;
 							dbase.CourseT.Where(co => co.Id == c.Id).FirstOrDefault().Name = c.Name;
 							dbase.SaveChanges();
+							return cInDb;
 						}
 						catch
 						{
 							//error updating Course
+							return null;
 						}
+					}
+					else
+					{
+						return null;
 					}
 				}
 			}
 			catch
 			{
 				//error updating Course
-				return false;
+				return null;
 			}
-			return true;
 		}
-		public List<CourseT> GetCourse()
+
+		public List<CourseT> GetCourses()
 		{
 			try
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
-					var courses = dbase.CourseT.Where(c => c.Id != 0).ToList();
+					var courses = dbase.CourseT.Where(c => c.IsActive).ToList();
 					courses.OrderBy(c => c.Name);
 					return courses;
 				}
@@ -93,13 +102,31 @@ namespace DemonstratureDB
 				return null;
 			}
 		}
+
+		public List<CourseT> GetCourses(string study)
+		{
+			try
+			{
+				using (DatabaseContext dbase = new DatabaseContext())
+				{
+					var courses = dbase.CourseT.Where(c => c.IsActive && c.Study.ToLower() == study.ToLower()).ToList();
+					courses.OrderBy(c => c.Name);
+					return courses;
+				}
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
 		public CourseT GetCourse(int id)
 		{
 			try
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
-					var course = dbase.CourseT.Where(c => c.Id == id).FirstOrDefault();
+					var course = dbase.CourseT.Where(c => c.Id == id && c.IsActive).FirstOrDefault();
 					return course;
 				}
 			}
@@ -108,6 +135,7 @@ namespace DemonstratureDB
 				return null;
 			}
 		}
+
 		public List<int> GetUserIdsByCourseId(int courseId)
 		{
 			try
@@ -124,6 +152,22 @@ namespace DemonstratureDB
 				}
 			}
 			catch (Exception)
+			{
+				return null;
+			}
+		}
+
+		public List<string> GetAllStudies()
+		{
+			try
+			{
+				using (DatabaseContext dbase = new DatabaseContext())
+				{
+					var studies = dbase.CourseT.Where(c=>c.IsActive).Select(c => c.Study).Distinct().ToList();
+					return studies;
+				}
+			}
+			catch (Exception e)
 			{
 				return null;
 			}

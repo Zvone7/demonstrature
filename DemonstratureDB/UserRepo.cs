@@ -34,7 +34,7 @@ namespace DemonstratureDB
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
-					return dbase.UserT.Where(u => u.Id == Id).FirstOrDefault();
+					return dbase.UserT.Where(u => u.Id == Id && u.IsActive).FirstOrDefault();
 				}
 			}
 			catch
@@ -49,7 +49,7 @@ namespace DemonstratureDB
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
 					var userToRemove = dbase.UserT.Where(u => u.Id == Id).FirstOrDefault();
-					dbase.UserT.Remove(userToRemove);
+					userToRemove.IsActive = false;
 					dbase.SaveChanges();
 				}
 			}
@@ -65,7 +65,7 @@ namespace DemonstratureDB
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
-					return dbase.UserT.Where(u => u.Username == username).FirstOrDefault();
+					return dbase.UserT.Where(u => u.Username == username && u.IsActive).FirstOrDefault();
 				}
 			}
 			catch
@@ -119,7 +119,7 @@ namespace DemonstratureDB
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
-					var userToEdit = dbase.UserT.Where(us => us.Id == u.Id).FirstOrDefault();
+					var userToEdit = dbase.UserT.Where(us => us.Id == u.Id && u.IsActive).FirstOrDefault();
 					if (userToEdit != null)
 					{
 						dbase.UserT.Where(us => us.Id == u.Id).FirstOrDefault().Name = u.Name;
@@ -147,7 +147,7 @@ namespace DemonstratureDB
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
-					var user = dbase.UserT.Where(u => u.Username == lg.Username && u.Password == lg.Password).FirstOrDefault();
+					var user = dbase.UserT.Where(u => u.Username == lg.Username && u.Password == lg.Password && u.IsActive).FirstOrDefault();
 					if (user != null)
 					{
 						return user;

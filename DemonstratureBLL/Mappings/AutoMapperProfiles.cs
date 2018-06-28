@@ -20,7 +20,8 @@ namespace DemonstratureBLL.Mappings
             CreateMap<UserT, MyUserDto>().ReverseMap();
 			CreateMap<UserT, MyUserBm>().ReverseMap();
             CreateMap<CourseT, CourseDto>().ReverseMap();
-            CreateMap<GroupT, GroupDto>().ReverseMap();
+            CreateMap<CourseT, CourseBm>().ReverseMap();
+			CreateMap<GroupT, GroupDto>().ReverseMap();
             CreateMap<TermT, TermDto>().ReverseMap();
         }
     }

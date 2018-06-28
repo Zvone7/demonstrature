@@ -42,21 +42,34 @@ namespace DemonstratureBLL
             return _groupRepo.DeleteGroup(groupId);
         }
 
-        public bool UpdateGroup(GroupDto g)
+        public GroupDto UpdateGroup(GroupDto g)
         {
             try
             {
                 var g2 = _mapper.Map<GroupT>(g);
                 if (g2.OwnerId == 0) { g2.OwnerId = null; }
-                return _groupRepo.UpdateGroup(g2);
+                var groupIndb = _groupRepo.UpdateGroup(g2);
+				return _mapper.Map<GroupDto>(groupIndb);
             }
             catch
             {
-                return false;
+                return null;
             }
         }
 
-        public GroupDto GetGroup(int Id)
+		public GroupDto CreateOrUpdateGroup(GroupDto group)
+		{
+			if (group.Id == 0)
+			{
+				return CreateGroup(group);
+			}
+			else
+			{
+				return UpdateGroup(group);
+			}
+		}
+
+		public GroupDto GetGroup(int Id)
         {
             try
             {

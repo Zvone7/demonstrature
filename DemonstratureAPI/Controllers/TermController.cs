@@ -14,6 +14,11 @@ namespace DemonstratureAPI.Controllers
     public class TermController : Controller
     {
         private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+		TermLogic _termLogic;
+		public TermController()
+		{
+			_termLogic = new TermLogic();
+		}
         // GET: Term
         public ActionResult Index()
         {
@@ -23,8 +28,7 @@ namespace DemonstratureAPI.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult Get([FromUri]int termId)
         {
-            var instance = new TermLogic();
-            var result = instance.GetTerm(termId);
+            var result = _termLogic.GetTerm(termId);
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
         }
@@ -32,8 +36,7 @@ namespace DemonstratureAPI.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult ByCourseId([FromUri]int courseId)
         {
-            var instance = new TermLogic();
-            var result = instance.GetTermsByCourseId(courseId);
+            var result = _termLogic.GetTermsByCourseId(courseId);
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
         }
@@ -41,8 +44,7 @@ namespace DemonstratureAPI.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult NumberOfTermDates([FromUri]int courseId)
         {
-            var instance = new TermLogic();
-            var result = instance.GetNumberOfTermDates(courseId);
+            var result = _termLogic.GetNumberOfTermDates(courseId);
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
         }
@@ -50,7 +52,6 @@ namespace DemonstratureAPI.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult ByCourseIdNavigation([FromUri]int courseId, int movedRight, int movedDown)
         {
-            var instance = new TermLogic();
             int userId = 0;
             try
             {
@@ -63,7 +64,7 @@ namespace DemonstratureAPI.Controllers
             {
                 _logger.Info(e);
             }
-            var result = instance.GetTerms(courseId, movedRight, movedDown, userId);
+            var result = _termLogic.GetTerms(courseId, movedRight, movedDown, userId);
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
         }
@@ -71,25 +72,22 @@ namespace DemonstratureAPI.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult ByGroupId([FromUri]int groupId)
         {
-            var instance = new TermLogic();
-            var result = instance.GetTermsByGroupId(groupId);
+            var result = _termLogic.GetTermsByGroupId(groupId);
             return Json(result, JsonRequestBehavior.AllowGet);
             //return null;
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult Create([FromBody]TermDto t)
+        public ActionResult CreateOrUpdate([FromBody]TermDto t)
         {
-            var instance = new TermLogic();
-            var result = instance.CreateTerm(t);
+            var result = _termLogic.CreateOrUpdateTerm(t);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult CreateMany([FromBody]TermDto t)
+        public ActionResult CreateOrUpdateMany([FromBody]TermDto t)
         {
-            var instance = new TermLogic();
-            var result = instance.CreateTerms(t);
+            var result = _termLogic.CreateOrUpdateTerms(t);
             return Json(result, JsonRequestBehavior.AllowGet);
 
         }
@@ -97,56 +95,36 @@ namespace DemonstratureAPI.Controllers
         [System.Web.Mvc.HttpPost]
         public ActionResult Delete([FromBody]int id)
         {
-            var instance = new TermLogic();
-            var result = instance.DeleteTerm(id);
+            var result = _termLogic.DeleteTerm(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [System.Web.Mvc.HttpPost]
         public ActionResult DeleteMany([FromBody]TermDto t)
         {
-            var instance = new TermLogic();
-            var result = instance.DeleteTerms(t);
+            var result = _termLogic.DeleteTerms(t);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
-        [System.Web.Mvc.HttpPost]
-        public ActionResult Update([FromBody]TermDto t)
-        {
-            var instance = new TermLogic();
-            var result = instance.UpdateTerm(t);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        [System.Web.Mvc.HttpPost]
-        public ActionResult UpdateMany([FromBody]TermDto t)
-        {
-            var instance = new TermLogic();
-            var result = instance.UpdateTerms(t);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
+		
         [System.Web.Mvc.HttpGet]
         public ActionResult ReserveTerm([FromUri]int termId, [FromUri] int suggestedUserId)
         {
-            var instance = new TermLogic();
             var user = User.Identity as ClaimsIdentity;
             var userIdClaim = user.Claims.FirstOrDefault(a => a.Type.Equals(ClaimTypes.NameIdentifier)).Value;
             int userId = 0;
             Int32.TryParse(userIdClaim, out userId);
-            var result = instance.ReserveTerm(termId, userId, suggestedUserId);
+            var result = _termLogic.ReserveTerm(termId, userId, suggestedUserId);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [System.Web.Mvc.HttpGet]
         public ActionResult FreeTerm([FromUri]int termId)
         {
-            var instance = new TermLogic();
             var user = User.Identity as ClaimsIdentity;
             var userIdClaim = user.Claims.FirstOrDefault(a => a.Type.Equals(ClaimTypes.NameIdentifier)).Value;
             int userId = 0;
             Int32.TryParse(userIdClaim, out userId);
-            var result = instance.FreeTerm(termId, userId);
+            var result = _termLogic.FreeTerm(termId, userId);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
