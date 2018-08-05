@@ -155,6 +155,7 @@ class SettingsVM {
                     self.SelectedUser_KO().Password = password;
                 }
             }
+            //if updating old user
             else {
                 if (!changingPassword) {
                     //console.log("updating user without pass");

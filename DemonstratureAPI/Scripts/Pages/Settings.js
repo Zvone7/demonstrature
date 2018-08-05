@@ -1506,5 +1506,5 @@
 //class PasswordUpdaterM_S {
 //    UserId: number;
 //    Password: string;
-//} 
+//}
 //# sourceMappingURL=Settings.js.map

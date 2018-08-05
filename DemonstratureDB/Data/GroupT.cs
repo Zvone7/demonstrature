@@ -17,7 +17,7 @@ namespace DemonstratureDB.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public GroupT()
         {
-            this.TermT = new HashSet<TermT>();
+            this.TermTs = new HashSet<TermT>();
         }
     
         public int Id { get; set; }
@@ -28,6 +28,6 @@ namespace DemonstratureDB.Data
         public virtual CourseT CourseT { get; set; }
         public virtual UserT UserT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TermT> TermT { get; set; }
+        public virtual ICollection<TermT> TermTs { get; set; }
     }
 }
