@@ -1,20 +1,4 @@
-@model DemonstratureAPI.Models.MyUserWithReturnUrl
-@{
-	Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@{
-	ViewBag.Title = "Tablica demonstratura";
-}
 
-
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="~/Scripts/jquery-2.2.3.js"></script>
-<script src="~/Scripts/knockout-3.4.2.js"></script>
-<script src="~/Scripts/knockout.mapping-latest.js"></script>
-<script src="~/Scripts/require.js"></script>
-<script src="~/Scripts/Pages/TableKO.js"></script>
-
-<button id="test">tipka</button>
 
 <div class="rTable">
 	<div class="rTableRow">
@@ -55,12 +39,12 @@
 			<div class="firstCell">
 				<select class="selecter univStudies" id="selectStudy" data-bind="	options: Studies,
 																					optionsText: 'Name',
-																					value: 'Id',
+																					optionsValue: 'Id',
 																					optionsCaption: 'Studij'"></select>
 				<br />
 				<select class="selecter univCourse" id="selectCourse" data-bind="	options: CoursesActive,
 																					optionsText: 'Name',
-																					value: 'Id',
+																					optionsValue: 'Id',
 																					optionsCaption: 'Kolegij'"></select>
 			</div>
 			<div class="rTableHeading">
@@ -87,7 +71,7 @@
 	<div class="rTableRow">
 		<div class="leftNavigation"></div>
 		<div class="firstColumn">
-			<label class="label_t date" id="date0" data-bind="text: Terms0()[0].Term().TermDate">datum</label>
+			<label class="label_t date" id="date0" data-bind="text: TermDates()[0]">datum</label>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms0()[0].CellState()==0, 
@@ -263,7 +247,7 @@
 	<div class="rTableRow">
 		<div class="leftNavigation"></div>
 		<div class="firstColumn">
-			<label class="label_t date" id="date1" data-bind="text: Terms1()[0].Term().TermDate">datum</label>
+			<label class="label_t date" id="date1" data-bind="text: TermDates()[1]">datum</label>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms1()[0].CellState()==0, 
@@ -439,7 +423,7 @@
 	<div class="rTableRow">
 		<div class="leftNavigation"></div>
 		<div class="firstColumn">
-			<label class="label_t date" id="date2" data-bind="text: Terms2()[0].Term().TermDate">datum</label>
+			<label class="label_t date" id="date2" data-bind="text: TermDates()[2]">datum</label>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms2()[0].CellState()==0, 
@@ -626,7 +610,7 @@
 			</div>
 		</div>
 		<div class="firstColumn">
-			<label class="label_t date" id="date3" data-bind="text: Terms3()[0].Term().TermDate">datum</label>
+			<label class="label_t date" id="date3" data-bind="text: TermDates()[3]">datum</label>
 		</div>
 		<div class="rTableCell" data-bind=" css: { 
 												 'rTableCell0':  Terms3()[0].CellState()==0, 

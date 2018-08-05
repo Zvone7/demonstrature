@@ -61,6 +61,7 @@ class TableVM {
     public Terms1 = ko.observableArray<KoCell>();
     public Terms2 = ko.observableArray<KoCell>();
     public Terms3 = ko.observableArray<KoCell>();
+    public TermDates = ko.observableArray<string>();
     public dummyTerm = ko.observable<KoTerm>();
     public TermsUnsorted = ko.observableArray<KoTerm>();
     public TermsSorted = ko.observableArray<KoTerm[]>();
@@ -232,6 +233,10 @@ class TableVM {
         //allocation for Terms arrays
         self.allocateTermsArrays(self.dummyTerm);
 
+        self.TermDates.push(self.messageNoDataAvailable);
+        self.TermDates.push(self.messageNoDataAvailable);
+        self.TermDates.push(self.messageNoDataAvailable);
+        self.TermDates.push(self.messageNoDataAvailable);
     }
 
     public allocateTermsArrays = (term: any) => {
@@ -518,8 +523,14 @@ class TableVM {
 
         self.convertDemonstratorsData();
 
+        self.TermDates([]);
+        self.TermDates.push(self.RawTermPackage.row0Dt);
+        self.TermDates.push(self.RawTermPackage.row1Dt);
+        self.TermDates.push(self.RawTermPackage.row2Dt);
+        self.TermDates.push(self.RawTermPackage.row3Dt);
+        
         self.Terms0(self.convertRowOfTerms(self.RawTermPackage.row0, self.Terms0(), self.RawTermPackage.row0Dt, 0));
-        //console.log("0 finished", self.Terms0());
+        console.log("0 finished", self.Terms0());
 
         self.Terms1(self.convertRowOfTerms(self.RawTermPackage.row1, self.Terms1(), self.RawTermPackage.row1Dt, 1));
         //console.log("1 finished");

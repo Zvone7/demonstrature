@@ -55,6 +55,7 @@ class TableVM {
         this.Terms1 = ko.observableArray();
         this.Terms2 = ko.observableArray();
         this.Terms3 = ko.observableArray();
+        this.TermDates = ko.observableArray();
         this.dummyTerm = ko.observable();
         this.TermsUnsorted = ko.observableArray();
         this.TermsSorted = ko.observableArray();
@@ -153,6 +154,10 @@ class TableVM {
             self.dummyTerm().SuggestedUserId(suggestedUser().Id);
             //allocation for Terms arrays
             self.allocateTermsArrays(self.dummyTerm);
+            self.TermDates.push(self.messageNoDataAvailable);
+            self.TermDates.push(self.messageNoDataAvailable);
+            self.TermDates.push(self.messageNoDataAvailable);
+            self.TermDates.push(self.messageNoDataAvailable);
         };
         this.allocateTermsArrays = (term) => {
             var self = this;
@@ -419,8 +424,13 @@ class TableVM {
             }
             //arrow up/down are being disabled in getNumberOfTermDates.succesFunction
             self.convertDemonstratorsData();
+            self.TermDates([]);
+            self.TermDates.push(self.RawTermPackage.row0Dt);
+            self.TermDates.push(self.RawTermPackage.row1Dt);
+            self.TermDates.push(self.RawTermPackage.row2Dt);
+            self.TermDates.push(self.RawTermPackage.row3Dt);
             self.Terms0(self.convertRowOfTerms(self.RawTermPackage.row0, self.Terms0(), self.RawTermPackage.row0Dt, 0));
-            //console.log("0 finished", self.Terms0());
+            console.log("0 finished", self.Terms0());
             self.Terms1(self.convertRowOfTerms(self.RawTermPackage.row1, self.Terms1(), self.RawTermPackage.row1Dt, 1));
             //console.log("1 finished");
             self.Terms2(self.convertRowOfTerms(self.RawTermPackage.row2, self.Terms2(), self.RawTermPackage.row2Dt, 2));

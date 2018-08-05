@@ -8,7 +8,7 @@ int main(){
 	    printf("Error opening file!\n");
 	    exit(1);
 	}	
-	
+	/*
 	fprintf(f,"@model DemonstratureAPI.Models.MyUserWithReturnUrl");
 	fprintf(f,"\n@{");
 	fprintf(f,"\n\tLayout = \"~/Views/Shared/_Layout.cshtml\";");
@@ -31,7 +31,7 @@ int main(){
 	fprintf(f,"\n");
 	
 	fprintf(f,"<button id=\"test\">tipka</button>");
-	
+	*/
 	fprintf(f,"\n");
 	fprintf(f,"\n");
 	
@@ -102,7 +102,7 @@ int main(){
 			fprintf(f,"\t\t\t\t\t");
 			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsText: 'Name',\n");
 			fprintf(f,"\t\t\t\t\t");
-			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvalue: 'Id',\n");
+			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsValue: 'Id',\n");
 			fprintf(f,"\t\t\t\t");
 			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsCaption: 'Studij'\"></select>\n");
 			fprintf(f,"\t\t\t\t");
@@ -112,7 +112,7 @@ int main(){
 			fprintf(f,"\t\t\t\t\t");
 			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsText: 'Name',\n");
 			fprintf(f,"\t\t\t\t\t");
-			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvalue: 'Id',\n");
+			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsValue: 'Id',\n");
 			fprintf(f,"\t\t\t\t");
 			fprintf(f,"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\toptionsCaption: 'Kolegij'\"></select>\n");
 			fprintf(f,"\t\t\t");
@@ -158,7 +158,7 @@ int main(){
 			
 			// date
 			fprintf(f,"\t\t<div class=\"firstColumn\">\n");
-			 fprintf(f,"\t\t\t<label class=\"label_t date\" id=\"date%d\" data-bind=\"text: Terms%d()[0].Term().TermDate\">datum</label>\n",i-2,i-2);
+			 fprintf(f,"\t\t\t<label class=\"label_t date\" id=\"date%d\" data-bind=\"text: TermDates()[%d]\">datum</label>\n",i-2,i-2);
 			fprintf(f,"\t\t</div>\n");	
 				
 			//cells
