@@ -523,7 +523,8 @@ namespace DemonstratureBLL
                 {
                     var t = new TermDto
                     {
-                        Id = -1
+                        Id = -1,
+                        GroupId = g.Id
                     };
                     newTerms.Add(t);
                 }
