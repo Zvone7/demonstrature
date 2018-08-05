@@ -14,14 +14,13 @@ namespace DemonstratureBLL.Mappings
 {
     public class AutoMapperProfiles : Profile
     {
-        [Obsolete]
-        protected override void Configure()
+        public AutoMapperProfiles()
         {
             CreateMap<UserT, MyUserDto>().ReverseMap();
-			CreateMap<UserT, MyUserBm>().ReverseMap();
+            CreateMap<UserT, MyUserBm>().ReverseMap();
             CreateMap<CourseT, CourseDto>().ReverseMap();
             CreateMap<CourseT, CourseBm>().ReverseMap();
-			CreateMap<GroupT, GroupDto>().ReverseMap();
+            CreateMap<GroupT, GroupDto>().ReverseMap();
             CreateMap<TermT, TermDto>().ReverseMap();
         }
     }
