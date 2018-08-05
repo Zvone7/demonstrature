@@ -225,6 +225,9 @@ class SettingsVM {
         };
         this.button_saveTerm = () => {
             var self = this;
+            if (self.DateHelper() == "") {
+                self.setTodayDate();
+            }
             self.SelectedTerm_KO().TermDate = self.DateHelper;
             if (self.SelectedTerm_KO().TermDate.toString() == "") {
                 alert(this.warning_blank_field);
@@ -239,7 +242,9 @@ class SettingsVM {
             if (termId == undefined || termId.toString() == "" || termId == 0) {
                 termId = -1;
             }
-            term.TermDate = $("#term_date").val();
+            term.TermDate = self.SelectedTerm_KO().TermDate;
+            term.GroupId = groupId;
+            term.Id = termId;
             term.CourseId = self.SelectedCourse_KO().Id;
             if (termId == -1) {
                 term.Id = 0;
@@ -262,6 +267,9 @@ class SettingsVM {
         };
         this.button_deleteTerm = () => {
             var self = this;
+            if (self.DateHelper() == "") {
+                self.setTodayDate();
+            }
             self.SelectedTerm_KO().TermDate = self.DateHelper;
             if (self.SelectedTerm_KO().TermDate.toString() == "") {
                 alert(this.warning_blank_field);
@@ -280,7 +288,8 @@ class SettingsVM {
                 alert(this.warning_delete_new);
             }
             else {
-                if (term.IsCourseTerm()) {
+                term.GroupId = groupId;
+                if (term.IsCourseTerm.toString() == "true") {
                     this.deleteTerms(term);
                 }
                 else {
@@ -490,10 +499,11 @@ class SettingsVM {
             });
             function successFunc(data, status) {
                 console.log("Succesfully created user.", data, status);
+                self.SelectedUser_KO(new KoUser());
                 //self.getAllCourses();
                 self.getAllUsers();
-                self.SelectedUser_KO(data);
-                $("user_user_select").val(self.SelectedUser_KO().Id.toString());
+                //self.SelectedUser_KO(data);
+                //$("#user_user_select").val(self.SelectedUser_KO().Id.toString());
             }
             function errorFunc() {
                 console.log('Error creating new user');
@@ -912,50 +922,31 @@ class SettingsVM {
         };
         this.updateTermData = () => {
             var self = this;
-            var termId = $('#term_select').val();
-            if (termId == undefined) {
-                console.log(termId);
-                return;
-            }
-            self.SelectedTerm_KO().Id = termId;
-            //console.log("updating term data for termId=", termId);
-            //console.log("Terms:", this.Terms);
+            //console.log("fresh batch of terms:", self.Terms_KO());
+            self.SelectedTerm_KO(new KoTerm());
             self.SelectedTermGroupName("");
-            if (termId == 0) {
-                var today = new Date();
-                var year = today.getFullYear().toString();
-                var month = (today.getMonth() + 1).toString();
-                var day = today.getDate().toString();
-                var month = self.minTwoDigits(parseInt(month));
-                var day = self.minTwoDigits(parseInt(day));
-                //console.log("a", day, month, year);
-                var dateValue = year + "-" + month + "-" + day;
-                //var dateValue = day + "/" + month + "/" + year;
-                self.SelectedTerm_KO().IsCourseTerm(true);
-                $("#term_date").val(dateValue);
+            var selectedTermId = $('#term_select').val();
+            if (selectedTermId == 'undefined' || selectedTermId == undefined || selectedTermId == 0) {
+                self.SelectedTerm_KO(new KoTerm());
+                self.SelectedTerm_KO().Id = 0;
             }
             else {
+                self.SelectedTerm_KO().Id = selectedTermId;
                 for (var i = 0; i < self.Terms_KO().length; i++) {
-                    if (self.Terms_KO()[i].Id == termId) {
-                        self.SelectedTerm_KO(self.Terms_KO()[i]);
+                    var termItem = self.Terms_KO()[i];
+                    if (self.SelectedTerm_KO().Id == termItem.Id) {
+                        self.SelectedTerm_KO(termItem);
                     }
                 }
+                var group;
+                self.SelectedTermGroupName(self.defaultGroupName);
                 for (var i = 0; i < self.Groups_KO().length; i++) {
-                    console.log("comparing", self.Groups_KO()[i].Id, self.SelectedTerm_KO().GroupId);
                     if (self.Groups_KO()[i].Id == self.SelectedTerm_KO().GroupId) {
-                        self.SelectedTermGroupName(self.Groups_KO()[i].Name.toString());
-                        //console.log(self.SelectedTermGroupName.toString());
+                        var groupName = self.Groups_KO()[i].Name.toString();
+                        self.SelectedTermGroupName(groupName);
                     }
                 }
-                var date = self.SelectedTerm_KO().TermDate.toString();
-                var day = self.minTwoDigits(parseInt(date.split('.')[0]));
-                var month = self.minTwoDigits(parseInt(date.split('.')[1]));
-                var year = self.minTwoDigits(parseInt(date.split('.')[2]));
-                console.log("termdate:", day, month, year);
-                var dateValue = year + "-" + month + "-" + day;
-                $("#term_date").val(dateValue);
             }
-            //console.log("updating term dataaa", self.SelectedTerm_KO());
         };
         //-------------------------------CHOOSE FORM DATA ----------------------------------//
         this.getAllStudies = () => {
@@ -1041,14 +1032,17 @@ class SettingsVM {
             return (n < 10 ? '0' : '') + n;
         };
         this.setTodayDate = () => {
+            var self = this;
             var realDate2 = new Date();
             var year = realDate2.getFullYear().toString();
             var month = (realDate2.getMonth() + 1).toString();
             var day = realDate2.getDate().toString();
             var month = this.minTwoDigits(parseInt(month));
             var day = this.minTwoDigits(parseInt(day));
+            var dateString = year + "-" + month + "-" + day;
             //console.log(day, month, year);
-            $("#term_date").val(year + "-" + month + "-" + day);
+            $("#term_date").val(dateString);
+            self.DateHelper(dateString);
         };
         this.test = () => {
             var self = this;
@@ -1144,6 +1138,9 @@ class SettingsVM {
                 self.updateTermData();
             });
             $("#term_date").datepicker();
+            $("#term_date").on("focus", () => {
+                $('.ui-datepicker').css("display", "none");
+            });
             //$('#myUl').css("visibility", "visible");
         });
     }
