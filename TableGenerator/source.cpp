@@ -39,7 +39,12 @@ int main(){
 	fprintf(f,"<div class=\"rTable\">\n");
 	for(int i=0;i<6;i++){		
 		fprintf(f,"\t");
-		fprintf(f,"<div class=\"rTableRow\">\n");
+		if(i!=1){
+			fprintf(f,"<div class=\"rTableRow\">\n");
+		}
+		else{
+			fprintf(f,"<div class=\"rTableRow rTableHeadingRow\">\n");
+		}
 		//first row
 		if(i==0){	
 			fprintf(f,"\t\t");

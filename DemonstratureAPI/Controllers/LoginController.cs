@@ -4,8 +4,12 @@ using DemonstratureCM.BM;
 using DemonstratureCM.DTO;
 using Microsoft.AspNet.Identity;
 using System;
+using System.CodeDom;
+using System.CodeDom.Compiler;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -30,7 +34,7 @@ namespace DemonstratureAPI.Controllers
         {
             var model = new MyUserWithReturnUrl()
             {
-                Id=-1,
+                Id = -1,
                 ReturnUrl = returnUrl
             };
 
@@ -56,15 +60,15 @@ namespace DemonstratureAPI.Controllers
 
             var _userLogic = new UserLogic();
             MyUserDto user = _userLogic.TryLogin(model);
-            if (user!=null)
+            if (user != null)
             {
                 ClaimsIdentity identity;
-                    identity = new ClaimsIdentity(new[] {
+                identity = new ClaimsIdentity(new[] {
                         new Claim(ClaimTypes.Role, user.Role),
                         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                         new Claim(ClaimTypes.Name, user.Name+" "+user.LastName),
                         new Claim(ClaimTypes.GivenName, user.Username)
-                    },"ApplicationCookie");
+                    }, "ApplicationCookie");
 
                 var ctx = Request.GetOwinContext();
                 var authManager = ctx.Authentication;
@@ -73,11 +77,11 @@ namespace DemonstratureAPI.Controllers
                 {
                     model.ReturnUrl = "/Table/Table";
                 }
-                
+
                 return Redirect(GetRedirectUrl(model.ReturnUrl));
             }
 
-           
+
             // user authN failed
             ModelState.AddModelError("", "Invalid username or password");
             return View();

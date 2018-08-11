@@ -299,12 +299,12 @@ class TableVM {
                 }
                 else {
                     // TO DO notification
-                    self.notify(self.messageErrorReservingTerm, -1);
+                    ShowNotification(self.messageErrorReservingTerm, -1);
                 }
             }
             catch (err) {
                 //console.log("TO DO notification", err);
-                self.notify(self.messageErrorReservingTerm + err, -1);
+                ShowNotification(self.messageErrorReservingTerm + err, -1);
             }
         };
         this.tryFreeTerm = (i, j) => {
@@ -317,12 +317,12 @@ class TableVM {
                 }
                 else {
                     // TO DO notification
-                    self.notify(self.messageErrorFreeingTerm, -1);
+                    ShowNotification(self.messageErrorFreeingTerm, -1);
                 }
             }
             catch (err) {
                 //console.log("TO DO notification", err);
-                self.notify(self.messageErrorFreeingTerm + err, -1);
+                ShowNotification(self.messageErrorFreeingTerm + err, -1);
             }
         };
         this.FindTermByPosition = (i_, j_) => {
@@ -425,10 +425,10 @@ class TableVM {
             //arrow up/down are being disabled in getNumberOfTermDates.succesFunction
             self.convertDemonstratorsData();
             self.TermDates([]);
-            self.TermDates.push(self.RawTermPackage.row0Dt);
-            self.TermDates.push(self.RawTermPackage.row1Dt);
-            self.TermDates.push(self.RawTermPackage.row2Dt);
-            self.TermDates.push(self.RawTermPackage.row3Dt);
+            self.TermDates.push(self.RawTermPackage.row0Dt.slice(0, -7));
+            self.TermDates.push(self.RawTermPackage.row1Dt.slice(0, -7));
+            self.TermDates.push(self.RawTermPackage.row2Dt.slice(0, -7));
+            self.TermDates.push(self.RawTermPackage.row3Dt.slice(0, -7));
             self.Terms0(self.convertRowOfTerms(self.RawTermPackage.row0, self.Terms0(), self.RawTermPackage.row0Dt, 0));
             console.log("0 finished", self.Terms0());
             self.Terms1(self.convertRowOfTerms(self.RawTermPackage.row1, self.Terms1(), self.RawTermPackage.row1Dt, 1));
@@ -706,12 +706,12 @@ class TableVM {
                 if (data) {
                     self.getTerms();
                     //self.Requests.getTerms(self.ActiveCourse().Id, self.posOnX, self.posOnY);
-                    self.notify(self.messageSuccessReservingTerm + self.getUserNameById(suggestedUserId), 1);
+                    ShowNotification(self.messageSuccessReservingTerm + self.getUserNameById(suggestedUserId), 1);
                 }
             }
             function errorFunc(data) {
                 //console.log('error reserving term with id', termId, "\nreason:\n", data);
-                self.notify(self.messageErrorReservingTerm, -1);
+                ShowNotification(self.messageErrorReservingTerm, -1);
             }
         };
         this.freeTerm = (termId) => {
@@ -731,12 +731,12 @@ class TableVM {
                 if (data) {
                     self.getTerms();
                     //self.Requests.getTerms(courseId, self.posOnX, self.posOnY);
-                    self.notify(self.messageSuccessFreeingTerm, 1);
+                    ShowNotification(self.messageSuccessFreeingTerm, 1);
                 }
             }
             function errorFunc(data) {
                 //console.log('error freeing term with id', termId, "\nreason:\n", data);
-                self.notify(self.messageErrorFreeingTerm, -1);
+                ShowNotification(self.messageErrorFreeingTerm, -1);
             }
         };
         //-------------------------------REQUESTS - POST ------------------------------------------//
@@ -792,38 +792,10 @@ class TableVM {
             }
         };
         //-------------------------------NOTIFICATION WINDOW ---------------------------------------//
-        this.notify = (message, state, timeout = 3000) => {
-            var notificationWindow = $("#notificationWindow");
-            console.log(message, state);
-            switch (state) {
-                // error
-                case -1:
-                    notificationWindow.css("visibility", "visible");
-                    notificationWindow.css("background-color", "red");
-                    notificationWindow.css("color", "white");
-                    notificationWindow.text(message);
-                // message
-                case 0:
-                    notificationWindow.css("visibility", "visible");
-                    notificationWindow.css("background-color", "yellow");
-                    notificationWindow.css("color", "black");
-                    notificationWindow.text(message);
-                // succes
-                case 1:
-                    notificationWindow.css("visibility", "visible");
-                    notificationWindow.css("background-color", "green");
-                    notificationWindow.css("color", "white");
-                    notificationWindow.text(message);
-                default:
-                    break;
-            }
-            setTimeout(function () {
-                notificationWindow.css("visibility", "hidden");
-            }, timeout);
-        };
         this.test = () => {
             var self = this;
             console.log("testing" + ".");
+            //ShowNotification("test", 0);
             //var x = KoTestClass; console.log(x);
             //$.notify("helloworld");
             //self.notify("test", 0);

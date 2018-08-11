@@ -43,9 +43,12 @@ class SettingsVM {
         this.SelectedTermGroupName = ko.observable("");
         this.BlankString = ko.observable("");
         this.warning_blank_field = "Molim popunite sva polja!";
-        this.warning_delete_new = "Pogreska pri odabiru";
+        this.warning_delete_new = "Molim provjerite odabir.";
         this.warning_password_match = "Provjerite lozinku!";
         this.warning_not_logged_in = "Molim ulogirajte se!";
+        this.succes_creating_or_updating = "Uspjesno pohranjeno!";
+        this.succes_deleting = "Uspjesno obrisano";
+        this.fail_creating_or_updating = "Pogreska pri spremanju promjena.";
         this.link_main = "http://localhost:49977";
         this.link_settings = "/Settings/Settings";
         this.link_table = "/Table/Table";
@@ -85,12 +88,12 @@ class SettingsVM {
         this.button_updateCourse = () => {
             var self = this;
             if (self.SelectedCourse_KO().Id == 0 || self.SelectedCourse_KO().Id == undefined) {
-                alert("Molim odaberite kolegij!");
+                ShowNotification("Nijedan kolegij nije odabran.", 0);
             }
             if (self.SelectedCourse_KO().Name.toString() == "" ||
                 self.SelectedCourse_KO().Professor.toString() == "" ||
                 self.SelectedCourse_KO().Asistant.toString() == "") {
-                alert("Popunite sva polja!");
+                ShowNotification(this.warning_blank_field, 0);
             }
             self.SelectedCourse_KO().Study(self.SelectedStudy_KO());
             self.createOrUpdateCourse(self.SelectedCourse_KO());
@@ -98,7 +101,7 @@ class SettingsVM {
         this.button_deleteCourse = () => {
             var courseId = this.SelectedCourse_KO().Id;
             if (courseId == 0) {
-                alert(this.warning_delete_new);
+                ShowNotification(this.warning_delete_new, 0);
             }
             else {
                 this.deleteCourse(courseId);
@@ -114,7 +117,7 @@ class SettingsVM {
             if (self.SelectedUser_KO().Username == self.BlankString ||
                 self.SelectedUser_KO().LastName == self.BlankString ||
                 self.SelectedUser_KO().Name == self.BlankString) {
-                alert(this.warning_blank_field);
+                ShowNotification(this.warning_blank_field, 0);
                 return;
             }
             if (password != "" || passwordAgain != "") {
@@ -144,12 +147,12 @@ class SettingsVM {
                 //console.log("creating new user");
                 self.SelectedUser_KO().Id = 0;
                 if (password == "" || passwordAgain == "") {
-                    alert(this.warning_blank_field);
+                    ShowNotification(this.warning_blank_field, 0);
                     return;
                 }
                 else {
                     if (password != passwordAgain) {
-                        alert(this.warning_password_match);
+                        ShowNotification(this.warning_password_match, 0);
                         return;
                     }
                     self.SelectedUser_KO().Password = password;
@@ -164,12 +167,12 @@ class SettingsVM {
                 else {
                     //console.log("updating user with pass");
                     if (password == "" || passwordAgain == "") {
-                        alert(this.warning_blank_field);
+                        ShowNotification(this.warning_blank_field, 0);
                         return;
                     }
                     else {
                         if (password != passwordAgain) {
-                            alert(this.warning_password_match);
+                            ShowNotification(this.warning_password_match, 0);
                             return;
                         }
                         self.SelectedUser_KO().Password = password;
@@ -182,7 +185,7 @@ class SettingsVM {
         this.button_deleteUser = () => {
             var userId = $("#user_user_select :selected").val();
             if (userId == 0) {
-                alert(this.warning_delete_new);
+                ShowNotification(this.warning_delete_new, 0);
             }
             else {
                 this.deleteUser(userId);
@@ -217,7 +220,7 @@ class SettingsVM {
             var self = this;
             var groupId = self.SelectedGroup_KO().Id;
             if (groupId == 0) {
-                alert(this.warning_delete_new);
+                ShowNotification(this.warning_delete_new, 0);
             }
             else {
                 this.deleteGroup(groupId);
@@ -230,7 +233,7 @@ class SettingsVM {
             }
             self.SelectedTerm_KO().TermDate = self.DateHelper;
             if (self.SelectedTerm_KO().TermDate.toString() == "") {
-                alert(this.warning_blank_field);
+                ShowNotification(this.warning_blank_field, 0);
                 return;
             }
             var term = self.SelectedTerm_KO();
@@ -272,7 +275,7 @@ class SettingsVM {
             }
             self.SelectedTerm_KO().TermDate = self.DateHelper;
             if (self.SelectedTerm_KO().TermDate.toString() == "") {
-                alert(this.warning_blank_field);
+                ShowNotification(this.warning_blank_field, 0);
                 return;
             }
             var term = self.SelectedTerm_KO();
@@ -285,7 +288,7 @@ class SettingsVM {
                 termId = -1;
             }
             if (termId == -1) {
-                alert(this.warning_delete_new);
+                ShowNotification(this.warning_delete_new, 0);
             }
             else {
                 term.GroupId = groupId;
@@ -305,12 +308,12 @@ class SettingsVM {
             var password = $("#password").val().trim();
             var passwordAgain = $("#password_again").val().trim();
             if (password == "" || passwordAgain == "") {
-                alert(this.warning_blank_field);
+                ShowNotification(this.warning_blank_field, 0);
                 return;
             }
             else {
                 if (password != passwordAgain) {
-                    alert(this.warning_password_match);
+                    ShowNotification(this.warning_password_match, 0);
                     return;
                 }
             }
@@ -332,15 +335,17 @@ class SettingsVM {
                 error: errorFunc
             });
             function successFunc(data, status) {
-                console.log("Succesfully created/updated course.", data, status);
+                //console.log("Succesfully created/updated course.", data, status);
+                ShowNotification(self.succes_creating_or_updating, 1);
                 self.getInitialData();
                 $("#course_add_name").val("");
                 $("#course_add_prof").val("");
                 $("#course_add_asis").val("");
                 self.SelectedStudy_KO("-");
             }
-            function errorFunc() {
-                console.log('Error creating/updating course');
+            function errorFunc(data) {
+                //console.log('Error creating/updating course', data);
+                ShowNotification(self.fail_creating_or_updating, -1);
             }
         };
         this.createEmptyCourseCheckboxes = () => {
@@ -419,11 +424,13 @@ class SettingsVM {
                 error: errorFunc
             });
             function successFunc(status) {
-                console.log("course deleted!");
+                //console.log("course deleted!");
+                ShowNotification(self.succes_deleting, 1);
                 self.getInitialData();
             }
             function errorFunc(data) {
-                console.log('error deleting course');
+                //console.log('error deleting course');
+                ShowNotification(self.fail_deleting, -1);
             }
         };
         this.getAllCourses = () => {
@@ -447,7 +454,7 @@ class SettingsVM {
                 self.createEmptyCourseCheckboxes();
             }
             function errorFunc() {
-                console.log('error getting data about all courses');
+                //console.log('error getting data about all courses');
             }
         };
         this.getCoursesByStudy = () => {
@@ -471,7 +478,7 @@ class SettingsVM {
                 self.createEmptyCourseCheckboxes();
             }
             function errorFunc() {
-                console.log('error getting data about all courses');
+                //console.log('error getting data about all courses');
             }
         };
         this.updateCourseData = (courseId) => {
@@ -488,7 +495,7 @@ class SettingsVM {
         //-------------------------------USER ----------------------------------------------//
         this.createOrUpdateUser = (user) => {
             var self = this;
-            console.log("createOrUpdateUser:", user);
+            //console.log("createOrUpdateUser:", user);
             var serviceURL = '/User/CreateOrUpdate';
             $.ajax({
                 type: "POST",
@@ -498,15 +505,14 @@ class SettingsVM {
                 error: errorFunc
             });
             function successFunc(data, status) {
-                console.log("Succesfully created user.", data, status);
+                //console.log("Succesfully created user.", data, status);
+                ShowNotification(self.succes_creating_or_updating, 1);
                 self.SelectedUser_KO(new KoUser());
-                //self.getAllCourses();
                 self.getAllUsers();
-                //self.SelectedUser_KO(data);
-                //$("#user_user_select").val(self.SelectedUser_KO().Id.toString());
             }
             function errorFunc() {
-                console.log('Error creating new user');
+                //console.log('Error creating new user');
+                ShowNotification(self.fail_creating_or_updating, -1);
             }
         };
         this.deleteUser = (userId) => {
@@ -519,12 +525,14 @@ class SettingsVM {
                 error: errorFunc
             });
             function successFunc(status) {
-                console.log("user deleted!");
+                //console.log("user deleted!");
+                ShowNotification(self.succes_deleting, 1);
                 self.getAllCourses();
                 self.getAllUsers();
             }
             function errorFunc(data) {
-                console.log('error deleting user');
+                //console.log('error deleting user');
+                ShowNotification(self.fail_deleting, -1);
             }
         };
         this.getAllUsers = () => {
@@ -622,7 +630,8 @@ class SettingsVM {
             });
             function successFunc(data, status) {
                 if (status == "success") {
-                    console.log("Succesfully updated user password.");
+                    //console.log("Succesfully updated user password.");
+                    ShowNotification(self.succes_creating_or_updating, 1);
                     self.getAllCourses();
                     self.getAllUsers();
                     $("#old_password").val("");
@@ -630,13 +639,15 @@ class SettingsVM {
                     $("#password_again").val("");
                 }
                 else {
-                    console.log('Error updating user password(1)');
+                    //console.log('Error updating user password(1)');
+                    ShowNotification(self.fail_creating_or_updating, -1);
                     $("#password").val("");
                     $("#password_again").val("");
                 }
             }
             function errorFunc() {
-                console.log('Error updating user password(2)');
+                //console.log('Error updating user password(2)');
+                ShowNotification(self.fail_creating_or_updating, -1);
                 $("#password").val("");
                 $("#password_again").val("");
             }
@@ -655,17 +666,20 @@ class SettingsVM {
             function successFunc(data, status) {
                 if (data != null) {
                     //console.log("Succesfully created group.", data, status);
+                    ShowNotification(self.succes_creating_or_updating, 1);
                     self.getCoursesByStudy();
                     $("#group_add_name").val("");
                     $("#group_add_user_select").val(0);
                 }
                 else {
-                    console.log('Error creating new group(1)');
+                    //console.log('Error creating new group(1)');
+                    ShowNotification(self.fail_creating_or_updating, -1);
                 }
                 self.SelectedGroup_KO(new KoGroup());
             }
             function errorFunc() {
-                console.log('Error creating new group');
+                //console.log('Error creating new group');
+                ShowNotification(self.fail_creating_or_updating, -1);
                 self.SelectedGroup_KO(new KoGroup());
             }
         };
@@ -682,15 +696,18 @@ class SettingsVM {
             });
             function successFunc(data, status) {
                 if (status == "success" && data == true) {
-                    console.log("group deleted!", data, status);
+                    //console.log("group deleted!", data, status);
+                    ShowNotification(self.succes_deleting, 1);
                     self.getInitialData();
                 }
                 else {
-                    console.log('error deleting group(1)');
+                    //console.log('error deleting group(1)');
+                    ShowNotification(self.fail_deleting, -1);
                 }
             }
             function errorFunc(data) {
-                console.log('error deleting group');
+                //console.log('error deleting group');
+                ShowNotification(self.fail_deleting, -1);
             }
         };
         this.getGroupsByCourseId = () => {
@@ -780,11 +797,13 @@ class SettingsVM {
                 error: errorFunc
             });
             function successFunc(data, status) {
-                console.log("Succesfully created term.", data, status);
+                //console.log("Succesfully created term.", data, status);
+                ShowNotification(self.succes_creating_or_updating, 1);
                 self.getTermsByCourseId();
             }
             function errorFunc() {
-                console.log('Error creating/updating term');
+                //console.log('Error creating/updating term');
+                ShowNotification(self.fail_creating_or_updating, -1);
             }
         };
         this.deleteTerm = (termId) => {
@@ -798,11 +817,13 @@ class SettingsVM {
                 error: errorFunc
             });
             function successFunc(status) {
-                console.log("term deleted!");
+                //console.log("term deleted!");
+                ShowNotification(self.succes_deleting, 1);
                 self.getTermsByCourseId();
             }
             function errorFunc(data) {
-                console.log('error deleting term');
+                //console.log('error deleting term');
+                ShowNotification(self.fail_deleting, -1);
             }
         };
         this.createOrUpdateTerms = (t) => {
@@ -817,11 +838,13 @@ class SettingsVM {
                 error: errorFunc
             });
             function successFunc(data, status) {
-                console.log("Succesfully created term.", data, status);
+                //console.log("Succesfully created term.", data, status);
+                ShowNotification(self.succes_creating_or_updating, 1);
                 self.getTermsByCourseId();
             }
             function errorFunc() {
-                console.log('Error creating new term');
+                //console.log('Error creating new term');
+                ShowNotification(self.fail_creating_or_updating, -1);
             }
         };
         this.deleteTerms = (t) => {
@@ -836,11 +859,13 @@ class SettingsVM {
                 error: errorFunc
             });
             function successFunc(status) {
-                console.log("terms deleted!");
+                //console.log("terms deleted!");
+                ShowNotification(self.succes_deleting, 1);
                 self.getTermsByCourseId();
             }
             function errorFunc(data) {
-                console.log('error deleting terms');
+                //console.log('error deleting terms');
+                ShowNotification(self.fail_deleting, -1);
             }
         };
         this.getTermData = (termId) => {
@@ -1046,12 +1071,13 @@ class SettingsVM {
         };
         this.test = () => {
             var self = this;
+            ShowNotification("test2", 1);
             //this.YO("new");
-            console.log("updating observable");
-            console.log(self.YO());
-            self.YO("2016-01-01");
-            console.log("updating observable");
-            console.log(self.YO());
+            //console.log("updating observable");
+            //console.log(self.YO());
+            //self.YO("2016-01-01");
+            //console.log("updating observable");
+            //console.log(self.YO());
             //self.getTermsByGroupId();
         };
         var self = this;

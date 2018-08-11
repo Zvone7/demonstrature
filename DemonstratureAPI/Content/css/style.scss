@@ -45,6 +45,10 @@ $fontPcM: 14px;
 $fontPcS: 12px;
 $fontPcXS: 10px;
 //----------------------------------------------------font sizes---------------------------------------------------//
+//----------------------------------------------------responsive sizes---------------------------------------------//
+$mobileLimit: 540px;
+$tabletLimit: 780px;
+//----------------------------------------------------responsive sizes---------------------------------------------//
 //------------------------------------------------------body-------------------------------------------------------//
 body {
     font-family: 'Lato', sans-serif;
@@ -52,6 +56,14 @@ body {
     background-color: $myBackgroundColor;
     margin: 100px 0 0 0px;
     padding: 0 0 0 0;
+
+    @media screen and (max-width: $mobileLimit) {
+        margin: 100px -80px 0px 0px;
+    }
+    /* For Tablets */
+    @media screen and (min-width: $mobileLimit) and (max-width: $tabletLimit) {
+        margin: 100px -40px 0px 0px;
+    }
 }
 
 .introPosition {
@@ -129,7 +141,7 @@ body {
 .myNavbar {
     background-color: $headerColor;
     width: 100%;
-    height: 70px;
+    height: 105px;
     margin: -100px 0 0 0;
 }
 
@@ -166,7 +178,7 @@ a {
 }
 
 .settingLi {
-    margin-left: 90%;
+    margin-left: 70%;
     /*width:300px;*/
     /*float:none;*/
     /*padding-right:calc(100% - 175px);*/
@@ -182,11 +194,17 @@ a {
         cursor: pointer;
     }
 }
+
 .notificationWindow {
     margin-left: 50%;
     padding: 10px;
     display: unset;
     font-size: $fontPcM;
+    z-index: 100;
+    border: 2px solid white;
+    border-radius: 10px;
+    visibility:hidden;
+    position:fixed;
 }
 
 .userControlsDiv {
@@ -203,11 +221,19 @@ a {
         cursor: pointer;
         text-decoration: none;
     }
+
+    @media screen and (max-width: $mobileLimit) {
+        margin-top: 0px;
+    }
+    /* For Tablets */
+    @media screen and (min-width: $mobileLimit) and (max-width: $tabletLimit) {
+        margin-top: 0px;
+    }
 }
 
 .userNameDiv {
     color: $myHeaderTextColor;
-    font-size: $fontPcS;
+    font-size: $fontPcL;
     margin: 0 0 0 -15px;
     padding-top: 20px;
     padding-right: 360px;
@@ -230,6 +256,16 @@ a {
 
 .rTableRow {
     display: table-row;
+    /* For Mobile */
+    @media screen and (max-width: $mobileLimit) {
+        display: block;
+        margin: 0px 0px 0px 100px;
+    }
+    /* For Tablets */
+    @media screen and (min-width: $mobileLimit) and (max-width: $tabletLimit) {
+        display: block;
+        margin: 0px 0px 0px 100px;
+    }
 }
 
 .rTableCell {
@@ -240,6 +276,14 @@ a {
     text-align: center;
     max-width: 200px;
     transition: background-color 0.3s ease;
+    /* For Mobile */
+    @media screen and (max-width: $mobileLimit) {
+        display: block;
+    }
+    /* For Tablets */
+    @media screen and (min-width: $mobileLimit) and (max-width: $tabletLimit) {
+        display: block;
+    }
 }
 
 .rTableCell0 {
@@ -283,6 +327,19 @@ a {
     vertical-align: middle;
 }
 
+.rTableHeadingRow {
+     /*For Mobile*/ 
+    @media screen and (max-width: $mobileLimit) {
+        position: fixed;
+        margin: 1px 7px 11px -58px;
+    }
+     /*For Tablets*/ 
+    @media screen and (min-width: $mobileLimit) and (max-width: $tabletLimit) {
+        position: fixed;
+        margin: 1px 7px 11px -58px;
+    }
+}
+
 .rTableHeading {
     @extend .rTableCell;
     background-color: $myHeaderColor;
@@ -292,6 +349,14 @@ a {
     font-weight: bold;
     color: $myHeaderTextColor;
     vertical-align: middle;
+    /*For Mobile*/
+    @media screen and (max-width: $mobileLimit) {
+        height: 145px;
+    }
+    /*For Tablets*/
+    @media screen and (min-width: $mobileLimit) and (max-width: $tabletLimit) {
+        height: 145px;
+    }
 }
 
 .firstCell {
@@ -412,14 +477,19 @@ a {
     position: absolute;
     margin: -60px 45px 0 50px;
 
-    .fa-arrow-left {
+    @media screen and (max-width: $mobileLimit) {
+        position: fixed;
+        margin: -65px 55px 0 215px;
+    }
+    /* For Tablets */
+    @media screen and (min-width: $mobileLimit) and (max-width: $tabletLimit) {
+        position: fixed;
+        margin: -65px 55px 0 215px;
     }
 }
 
 .arrowLeftDisabled {
-    @extend .arrow;
-    position: absolute;
-    margin: -60px 45px 0 50px;
+    @extend .arrowLeft;
     background-color: $disableColor;
 
     &:hover {
@@ -437,14 +507,19 @@ a {
     position: absolute;
     margin: -60px 45px 0 80px;
 
-    .fa-arrow-right {
+    @media screen and (max-width: $mobileLimit) {
+        position: fixed;
+        margin: -65px 55px 0 310px;
+    }
+    /* For Tablets */
+    @media screen and (min-width: $mobileLimit) and (max-width: $tabletLimit) {
+        position: fixed;
+        margin: -65px 55px 0 310px;
     }
 }
 
 .arrowRightDisabled {
-    @extend .arrow;
-    position: absolute;
-    margin: -60px 45px 0 80px;
+    @extend .arrowRight;
     background-color: $disableColor;
 
     &:hover {
@@ -461,14 +536,19 @@ a {
     @extend .arrow;
     margin: 10px 0px 0px -55px;
 
-    .fa-arrow-up {
+    @media screen and (max-width: $mobileLimit) {
+        position: fixed;
+        margin: -100px 0px 0px 410px;
+    }
+    /* For Tablets */
+    @media screen and (min-width: $mobileLimit) and (max-width: $tabletLimit) {
+        position: fixed;
+        margin: -100px 0px 0px 410px;
     }
 }
 
 .arrowUpDisabled {
-    @extend .arrow;
-    position: absolute;
-    margin: 10px 0px 0px -55px;
+    @extend .arrowUp;
     background-color: $disableColor;
 
     &:hover {
@@ -485,6 +565,16 @@ a {
     @extend .arrow;
     margin: 55px 0 0 -55px;
 
+    @media screen and (max-width: $mobileLimit) {
+        position: fixed;
+        margin: -2725px 0px 0px 252px;
+    }
+    /* For Tablets */
+    @media screen and (min-width: $mobileLimit) and (max-width: $tabletLimit) {
+        position: fixed;
+        margin: -2725px 0px 0px 252px;
+    }
+
     .fa-arrow-down {
         padding: 0 0 0 0;
         margin: 0 0 0 0;
@@ -492,9 +582,7 @@ a {
 }
 
 .arrowDownDisabled {
-    @extend .arrow;
-    position: absolute;
-    margin: 55px 0 0 -55px;
+    @extend .arrowDown;
     background-color: $disableColor;
 
     &:hover {
@@ -551,8 +639,8 @@ a {
         background-color: $demoNameColor;
         border: 2px solid $searchBorder;
         border-radius: 3px;
-        width: 112px;
-        height: 15px;
+        width: auto;
+        height: auto;
         word-wrap: break-word;
         transform: scale(1.1);
     }
@@ -672,6 +760,7 @@ input {
         background-color: $disableColor;
         color: black;
         visibility: hidden;
+
         &:hover {
             background-color: darken($disableColor,5%);
             cursor: pointer;
@@ -695,6 +784,7 @@ input {
         background-color: $disableColor;
         /*color: $buttonSkipColor;*/
         visibility: hidden;
+
         &:hover {
             background-color: darken($disableColor,5%);
             cursor: pointer;
