@@ -52,9 +52,10 @@
           <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="Role" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="Salt" Type="varchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <Association Name="FkCourseUserCourse">
           <End Role="CourseT" Type="Self.CourseT" Multiplicity="1" />
@@ -190,9 +191,9 @@
           <Property Name="Professor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Asistant" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="CourseUserTs" Relationship="Self.FkCourseUserCourse" FromRole="CourseT" ToRole="CourseUserT" />
-          <NavigationProperty Name="GroupTs" Relationship="Self.FkGroupCourse" FromRole="CourseT" ToRole="GroupT" />
-          <NavigationProperty Name="TermTs" Relationship="Self.FkTermCourse" FromRole="CourseT" ToRole="TermT" />
+          <NavigationProperty Name="CourseUserT" Relationship="Self.FkCourseUserCourse" FromRole="CourseT" ToRole="CourseUserT" />
+          <NavigationProperty Name="GroupT" Relationship="Self.FkGroupCourse" FromRole="CourseT" ToRole="GroupT" />
+          <NavigationProperty Name="TermT" Relationship="Self.FkTermCourse" FromRole="CourseT" ToRole="TermT" />
         </EntityType>
         <EntityType Name="CourseUserT">
           <Key>
@@ -214,7 +215,7 @@
           <Property Name="OwnerId" Type="Int32" />
           <NavigationProperty Name="CourseT" Relationship="Self.FkGroupCourse" FromRole="GroupT" ToRole="CourseT" />
           <NavigationProperty Name="UserT" Relationship="Self.FkGroupOwner" FromRole="GroupT" ToRole="UserT" />
-          <NavigationProperty Name="TermTs" Relationship="Self.FkTermGroup" FromRole="GroupT" ToRole="TermT" />
+          <NavigationProperty Name="TermT" Relationship="Self.FkTermGroup" FromRole="GroupT" ToRole="TermT" />
         </EntityType>
         <EntityType Name="TermT">
           <Key>
@@ -238,12 +239,13 @@
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Role" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="CourseUserTs" Relationship="Self.FkCourseUserUser" FromRole="UserT" ToRole="CourseUserT" />
-          <NavigationProperty Name="GroupTs" Relationship="Self.FkGroupOwner" FromRole="UserT" ToRole="GroupT" />
-          <NavigationProperty Name="TermTs" Relationship="Self.FkTermUser" FromRole="UserT" ToRole="TermT" />
+          <Property Name="Salt" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CourseUserT" Relationship="Self.FkCourseUserUser" FromRole="UserT" ToRole="CourseUserT" />
+          <NavigationProperty Name="GroupT" Relationship="Self.FkGroupOwner" FromRole="UserT" ToRole="GroupT" />
+          <NavigationProperty Name="TermT" Relationship="Self.FkTermUser" FromRole="UserT" ToRole="TermT" />
         </EntityType>
         <Association Name="FkCourseUserCourse">
           <End Role="CourseT" Type="Self.CourseT" Multiplicity="1" />
@@ -330,38 +332,38 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DemonstratureEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CourseTs" EntityType="Self.CourseT" />
-          <EntitySet Name="CourseUserTs" EntityType="Self.CourseUserT" />
-          <EntitySet Name="GroupTs" EntityType="Self.GroupT" />
-          <EntitySet Name="TermTs" EntityType="Self.TermT" />
-          <EntitySet Name="UserTs" EntityType="Self.UserT" />
+          <EntitySet Name="CourseT" EntityType="Self.CourseT" />
+          <EntitySet Name="CourseUserT" EntityType="Self.CourseUserT" />
+          <EntitySet Name="GroupT" EntityType="Self.GroupT" />
+          <EntitySet Name="TermT" EntityType="Self.TermT" />
+          <EntitySet Name="UserT" EntityType="Self.UserT" />
           <AssociationSet Name="FkCourseUserCourse" Association="Self.FkCourseUserCourse">
-            <End Role="CourseT" EntitySet="CourseTs" />
-            <End Role="CourseUserT" EntitySet="CourseUserTs" />
+            <End Role="CourseT" EntitySet="CourseT" />
+            <End Role="CourseUserT" EntitySet="CourseUserT" />
           </AssociationSet>
           <AssociationSet Name="FkGroupCourse" Association="Self.FkGroupCourse">
-            <End Role="CourseT" EntitySet="CourseTs" />
-            <End Role="GroupT" EntitySet="GroupTs" />
+            <End Role="CourseT" EntitySet="CourseT" />
+            <End Role="GroupT" EntitySet="GroupT" />
           </AssociationSet>
           <AssociationSet Name="FkTermCourse" Association="Self.FkTermCourse">
-            <End Role="CourseT" EntitySet="CourseTs" />
-            <End Role="TermT" EntitySet="TermTs" />
+            <End Role="CourseT" EntitySet="CourseT" />
+            <End Role="TermT" EntitySet="TermT" />
           </AssociationSet>
           <AssociationSet Name="FkCourseUserUser" Association="Self.FkCourseUserUser">
-            <End Role="UserT" EntitySet="UserTs" />
-            <End Role="CourseUserT" EntitySet="CourseUserTs" />
+            <End Role="UserT" EntitySet="UserT" />
+            <End Role="CourseUserT" EntitySet="CourseUserT" />
           </AssociationSet>
           <AssociationSet Name="FkGroupOwner" Association="Self.FkGroupOwner">
-            <End Role="UserT" EntitySet="UserTs" />
-            <End Role="GroupT" EntitySet="GroupTs" />
+            <End Role="UserT" EntitySet="UserT" />
+            <End Role="GroupT" EntitySet="GroupT" />
           </AssociationSet>
           <AssociationSet Name="FkTermGroup" Association="Self.FkTermGroup">
-            <End Role="GroupT" EntitySet="GroupTs" />
-            <End Role="TermT" EntitySet="TermTs" />
+            <End Role="GroupT" EntitySet="GroupT" />
+            <End Role="TermT" EntitySet="TermT" />
           </AssociationSet>
           <AssociationSet Name="FkTermUser" Association="Self.FkTermUser">
-            <End Role="UserT" EntitySet="UserTs" />
-            <End Role="TermT" EntitySet="TermTs" />
+            <End Role="UserT" EntitySet="UserT" />
+            <End Role="TermT" EntitySet="TermT" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -370,7 +372,7 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DemonstratureModelStoreContainer" CdmEntityContainer="DemonstratureEntities">
-          <EntitySetMapping Name="CourseTs">
+          <EntitySetMapping Name="CourseT">
             <EntityTypeMapping TypeName="DemonstratureModel.CourseT">
               <MappingFragment StoreEntitySet="CourseT">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -382,7 +384,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CourseUserTs">
+          <EntitySetMapping Name="CourseUserT">
             <EntityTypeMapping TypeName="DemonstratureModel.CourseUserT">
               <MappingFragment StoreEntitySet="CourseUserT">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -391,7 +393,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GroupTs">
+          <EntitySetMapping Name="GroupT">
             <EntityTypeMapping TypeName="DemonstratureModel.GroupT">
               <MappingFragment StoreEntitySet="GroupT">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -401,7 +403,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TermTs">
+          <EntitySetMapping Name="TermT">
             <EntityTypeMapping TypeName="DemonstratureModel.TermT">
               <MappingFragment StoreEntitySet="TermT">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -413,7 +415,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserTs">
+          <EntitySetMapping Name="UserT">
             <EntityTypeMapping TypeName="DemonstratureModel.UserT">
               <MappingFragment StoreEntitySet="UserT">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -423,6 +425,7 @@
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -440,7 +443,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

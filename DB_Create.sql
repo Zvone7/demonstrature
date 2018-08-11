@@ -19,7 +19,8 @@ CREATE TABLE [dbo].[UserT](
 	[Username] [varchar](50) NOT NULL,
 	[Name] [varchar](100) NOT NULL,
 	[LastName] [varchar](100) NOT NULL,
-	[Password] [varchar](100) NOT NULL,
+	[Password] [varchar](256) NOT NULL,
+	[Salt] [varchar](256) NOT NULL,
 	[Role] [varchar](100) NOT NULL,
 	[IsActive] [bit] NOT NULL
 	);
@@ -56,57 +57,8 @@ CREATE TABLE [dbo].[CourseUserT](
 
 USE [Demonstrature]
 GO
-SET IDENTITY_INSERT [dbo].[CourseT] ON 
-
-GO
-INSERT [dbo].[CourseT] ([Id], [Name], [Study], [Professor], [Asistant], [IsActive]) VALUES (1, N'Programiranje 1', N'Racunarstvo', N'Martinovic', N'Leventic', 1)
-GO
-INSERT [dbo].[CourseT] ([Id], [Name], [Study], [Professor], [Asistant], [IsActive]) VALUES (2, N'Fizika 1', N'Elektrotehnika', N'Martinovic', N'Leventic', 1)
-GO
-INSERT [dbo].[CourseT] ([Id], [Name], [Study], [Professor], [Asistant], [IsActive]) VALUES (3, N'Programiranje 2', N'Racunarstvo', N'Martinovic', N'Leventic', 1)
-GO
-INSERT [dbo].[CourseT] ([Id], [Name], [Study], [Professor], [Asistant], [IsActive]) VALUES (4, N'Programiranje 2', N'Elektrotehnika', N'Martinovic', N'Leventic', 1)
-GO
-SET IDENTITY_INSERT [dbo].[CourseT] OFF
-GO
-SET IDENTITY_INSERT [dbo].[UserT] ON 
-
-GO
-INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (1, N'zgrubisic', N'Zvonimir', N'Grubisic', N'1234', N'Administrator', 1)
-GO
-INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (2, N'hleventic', N'Hrvoje', N'Leventic', N'123', N'Administrator', 1)
-GO
-INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (3, N'kpavlovic', N'Kristijan', N'Pavlovic', N'123', N'Demonstrator', 1)
-GO
-INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (4, N'bjelic', N'Borna', N'Jelic', N'123', N'Demonstrator', 1)
-GO
-INSERT [dbo].[UserT] ([Id], [Username], [Name], [LastName], [Password], [Role], [IsActive]) VALUES (5, N'iivic', N'Ivan', N'Ivic', N'12345', N'Administrator', 1)
+INSERT [dbo].[UserT] ([Username], [Name], [LastName], [Password], [Salt], [Role], [IsActive]) VALUES (N'admin', N'admin', N'admin', N'$2a$11$XzDmyAcdyyXuK5.lcKky8.f6Gle8yVpnFWbp7WRnNJM6VSBqPU8hW', N'$2a$11$XzDmyAcdyyXuK5.lcKky8.', N'Administrator', 1)
 GO
 SET IDENTITY_INSERT [dbo].[UserT] OFF
 GO
-SET IDENTITY_INSERT [dbo].[GroupT] ON 
 
-GO
-INSERT [dbo].[GroupT] ([Id], [Name], [CourseId], [OwnerId]) VALUES (2, N'PR-LV3', 1, 5)
-GO
-INSERT [dbo].[GroupT] ([Id], [Name], [CourseId], [OwnerId]) VALUES (3, N'PR-LV2', 1, 1)
-GO
-INSERT [dbo].[GroupT] ([Id], [Name], [CourseId], [OwnerId]) VALUES (4, N'PR-LV1', 1, 2)
-GO
-SET IDENTITY_INSERT [dbo].[GroupT] OFF
-GO
-SET IDENTITY_INSERT [dbo].[CourseUserT] ON 
-
-GO
-INSERT [dbo].[CourseUserT] ([Id], [CourseId], [UserId]) VALUES (1, 1, 2)
-GO
-INSERT [dbo].[CourseUserT] ([Id], [CourseId], [UserId]) VALUES (6, 3, 4)
-GO
-INSERT [dbo].[CourseUserT] ([Id], [CourseId], [UserId]) VALUES (10, 1, 1)
-GO
-INSERT [dbo].[CourseUserT] ([Id], [CourseId], [UserId]) VALUES (11, 1, 5)
-GO
-INSERT [dbo].[CourseUserT] ([Id], [CourseId], [UserId]) VALUES (12, 3, 3)
-GO
-SET IDENTITY_INSERT [dbo].[CourseUserT] OFF
-GO

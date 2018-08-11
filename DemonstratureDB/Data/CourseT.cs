@@ -17,9 +17,9 @@ namespace DemonstratureDB.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CourseT()
         {
-            this.CourseUserTs = new HashSet<CourseUserT>();
-            this.GroupTs = new HashSet<GroupT>();
-            this.TermTs = new HashSet<TermT>();
+            this.CourseUserT = new HashSet<CourseUserT>();
+            this.GroupT = new HashSet<GroupT>();
+            this.TermT = new HashSet<TermT>();
         }
     
         public int Id { get; set; }
@@ -30,10 +30,10 @@ namespace DemonstratureDB.Data
         public bool IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CourseUserT> CourseUserTs { get; set; }
+        public virtual ICollection<CourseUserT> CourseUserT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GroupT> GroupTs { get; set; }
+        public virtual ICollection<GroupT> GroupT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TermT> TermTs { get; set; }
+        public virtual ICollection<TermT> TermT { get; set; }
     }
 }
