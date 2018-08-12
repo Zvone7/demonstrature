@@ -7,10 +7,10 @@ DROP TABLE UserT;
 */
 CREATE TABLE [dbo].[CourseT](
 	[Id] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	[Name] [varchar](100) NOT NULL,
+	[Name] [varchar](100) NULL,
 	[Study] [varchar](100) NOT NULL,
-	[Professor] [varchar](100) NOT NULL,
-	[Asistant] [varchar](100) NOT NULL,
+	[Professor] [varchar](100) NULL,
+	[Asistant] [varchar](100) NULL,
 	[IsActive] [bit] NOT NULL,
 	);
 
@@ -55,10 +55,13 @@ CREATE TABLE [dbo].[CourseUserT](
 	);
 	
 
-USE [Demonstrature]
-GO
 INSERT [dbo].[UserT] ([Username], [Name], [LastName], [Password], [Salt], [Role], [IsActive]) VALUES (N'admin', N'admin', N'admin', N'$2a$11$XzDmyAcdyyXuK5.lcKky8.f6Gle8yVpnFWbp7WRnNJM6VSBqPU8hW', N'$2a$11$XzDmyAcdyyXuK5.lcKky8.', N'Administrator', 1)
 GO
 SET IDENTITY_INSERT [dbo].[UserT] OFF
 GO
 
+INSERT [dbo].[CourseT]([Study],[IsActive]) VALUES (N'Elektrotehnika', 0)
+INSERT [dbo].[CourseT]([Study],[IsActive]) VALUES (N'Racunarstvo', 0)
+--INSERT [dbo].[CourseT]([Study],[IsActive]) VALUES (N'Elektrotehnika', 0)
+--INSERT [dbo].[CourseT]([Study],[IsActive]) VALUES (N'Elektrotehnika', 0)
+--INSERT [dbo].[CourseT]([Study],[IsActive]) VALUES (N'Elektrotehnika', 0)

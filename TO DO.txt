@@ -1,10 +1,4 @@
-FIX:
-add notifications - added notify, but MAKE it work
-added "custom" notifications, but try notify pls
-
 IMPLEMENT:
-
-password salt and hashing (PKDF or Bcrypt)
 
 refactory - settingsKO.ts
 
@@ -14,9 +8,12 @@ refactory of gettermsbycourseid on terms controller - called from settingsKO.ts 
 
 refactory to support throw catching so that you can send messages to be displayed in notifications
 
-refactory settings - implement Knockout
-
 localization - probably not
+
+-----------------------------------------------------------------------------------------------------
+Known issues:
+well, design. But ain't no body got time for that
+- delegating own terms to other users
 
 -----------------------------------------------------------------------------------------------------
 
@@ -41,6 +38,3 @@ defaultna plava
 
 x - UNKNOWN
 crvena
-
-bugovi:
-vrijeme kad je drugi format se ne parsira dobro

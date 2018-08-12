@@ -64,13 +64,13 @@
     <Compile Include="CourseRepo.cs" />
     <Compile Include="CourseUserRepo.cs" />
     <Compile Include="Data\CourseT.cs">
-      <DependentUpon>Model_PC.tt</DependentUpon>
+      <DependentUpon>Model_PC_Deploy.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\CourseUserT.cs">
-      <DependentUpon>Model_PC.tt</DependentUpon>
+      <DependentUpon>Model_PC_Deploy.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\GroupT.cs">
-      <DependentUpon>Model_PC.tt</DependentUpon>
+      <DependentUpon>Model_PC_Deploy.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Model_PC.Context.cs">
       <AutoGen>True</AutoGen>
@@ -87,11 +87,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model_PC.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Data\Model_PC_Deploy.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model_PC_Deploy.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Model_PC_Deploy.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model_PC_Deploy.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Model_PC_Deploy.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model_PC_Deploy.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Data\TermT.cs">
-      <DependentUpon>Model_PC.tt</DependentUpon>
+      <DependentUpon>Model_PC_Deploy.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\UserT.cs">
-      <DependentUpon>Model_PC.tt</DependentUpon>
+      <DependentUpon>Model_PC_Deploy.tt</DependentUpon>
     </Compile>
     <Compile Include="GroupRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -122,6 +137,13 @@
     </EntityDeploy>
     <None Include="Data\Model_PC.edmx.diagram">
       <DependentUpon>Model_PC.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="Data\Model_PC_Deploy.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model_PC_Deploy.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Data\Model_PC_Deploy.edmx.diagram">
+      <DependentUpon>Model_PC_Deploy.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Scripts\bootstrap.bundle.js.map" />
@@ -205,6 +227,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model_PC.edmx</DependentUpon>
       <LastGenOutput>Model_PC.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\Model_PC_Deploy.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model_PC_Deploy.edmx</DependentUpon>
+      <LastGenOutput>Model_PC_Deploy.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\Model_PC_Deploy.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model_PC_Deploy.edmx</DependentUpon>
+      <LastGenOutput>Model_PC_Deploy.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />

@@ -157,6 +157,11 @@ namespace DemonstratureBLL
                     return null;
                 }
                 newUser.IsActive = true;
+                        string newSalt = BCrypt.Net.BCrypt.GenerateSalt();
+                string newPasswordHashed = BCrypt.Net.BCrypt.HashPassword(newUser.Password, newSalt);
+                newUser.Password = newPasswordHashed;
+                newUser.Salt = newSalt;
+
                 UserT userMapped = _mapper.Map<UserT>(newUser);
                 var result = _userRepo.CreateUser(userMapped);
                 var userInDb = _mapper.Map<MyUserDto>(result);
@@ -213,10 +218,12 @@ namespace DemonstratureBLL
                     {
                         if (!isBeingUpdatedByAdmin)
                         {
-                            var ld = new LoginDataBm();
-                            ld.Password = pu.OldPassword;
-                            ld.ReturnUrl = "";
-                            ld.Username = user.Username;
+                            var ld = new LoginDataBm
+                            {
+                                Password = pu.OldPassword,
+                                ReturnUrl = "",
+                                Username = user.Username
+                            };
 
                             if (TryLogin(ld) == null)
                             {

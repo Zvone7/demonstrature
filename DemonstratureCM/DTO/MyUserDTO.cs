@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace DemonstratureCM.DTO
 {
-	public class MyUserDto : MyUserBm
-	{
-		public string Password { get; set; }
-	}
+    public class MyUserDto : MyUserBm
+    {
+        public string Password { get; set; }
+
+        public string Salt { get; set; }
+    }
 }

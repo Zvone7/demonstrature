@@ -163,7 +163,7 @@ namespace DemonstratureDB
 			{
 				using (DatabaseContext dbase = new DatabaseContext())
 				{
-					var studies = dbase.CourseT.Where(c=>c.IsActive).Select(c => c.Study).Distinct().ToList();
+					var studies = dbase.CourseT.Select(c => c.Study).Distinct().ToList();
 					return studies;
 				}
 			}

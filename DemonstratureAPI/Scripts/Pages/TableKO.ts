@@ -96,8 +96,6 @@ class TableVM {
     public link_settings = "/Settings/Settings";
     public link_table = "/Table/Table";
     public link_login = "/Login/Login";
-
-
     //------------------------------------FUNCTIONS------------------------------------//
     constructor() {
         var self = this;
