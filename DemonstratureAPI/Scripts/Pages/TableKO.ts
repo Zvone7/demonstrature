@@ -370,20 +370,22 @@ class TableVM {
             //console.log(suggestedUserId);
             //console.log(self.Demonstrators());
             if (suggestedUserId > 0) {
-                var name;
+                var name = "ovom demonstratoru";
                 for (var k = 0; k < self.Demonstrators().length; k++) {
                     if (self.Demonstrators()[k].Id == suggestedUserId) {
                         name = self.Demonstrators()[k].Name();
                     }
                 }
-                confirm("Sigurno želite prepustiti vaš termin " + name + " ?");
+                var userWantsToGiveTerm = confirm("Sigurno želite prepustiti vaš termin " + name + " ?");
+                if (!userWantsToGiveTerm) {
+                    return;
+                }
             }
             var term = self.FindTermByPosition(i, j);
             if (term != null) {
                 self.reserveTerm(term.Id, suggestedUserId);
             }
             else {
-                // TO DO notification
                 ShowNotification(self.messageErrorReservingTerm, -1);
             }
         }
@@ -653,9 +655,11 @@ class TableVM {
             for (var i = 0; i < self.RawUserData.length; i++) {
                 //var demo = new KoDemonstrator(self.RawUserData[i].LastName + " " + self.RawUserData[i].Name, self.RawUserData[i].Id());
                 var demo = new KoDemonstrator();
-                demo.Id = self.RawUserData[i].Id;
-                demo.Name(self.RawUserData[i].LastName + " " + self.RawUserData[i].Name);
-                self.Demonstrators.push(demo);
+                if (self.RawUserData[i].Role.toString() != "Administrator") {
+                    demo.Id = self.RawUserData[i].Id;
+                    demo.Name(self.RawUserData[i].LastName + " " + self.RawUserData[i].Name);
+                    self.Demonstrators.push(demo);
+                }
             }
             //console.log(self.Demonstrators());
         }
@@ -829,6 +833,7 @@ class TableVM {
             if (data) {
                 self.getTerms();
                 //self.Requests.getTerms(self.ActiveCourse().Id, self.posOnX, self.posOnY);
+                console.log(suggestedUserId);
                 ShowNotification(self.messageSuccessReservingTerm + self.getUserNameById(suggestedUserId), 1);
             }
         }
@@ -927,7 +932,7 @@ class TableVM {
     }
 
     //-------------------------------NOTIFICATION WINDOW ---------------------------------------//
-      
+
 
     public test = () => {
         var self = this;
