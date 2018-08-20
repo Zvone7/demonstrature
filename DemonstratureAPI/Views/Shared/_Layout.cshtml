@@ -1,0 +1,89 @@
+﻿@model DemonstratureAPI.Models.MyUserWithReturnUrl
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/knockout-3.4.2.js"></script>
+    <script src="~/Scripts/knockout.mapping-latest.js"></script>
+    <script src="~/Scripts/Helpers/Models.js"></script>
+    <script src="~/Scripts/Helpers/HelperFunctions.js"></script>
+    <script src="~/Scripts/Helpers/CustomRequests.js"></script>
+    <script>var exports = {};</script>
+    <!-- Latest compiled and minified CSS -->
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">*@
+
+    <!-- Optional theme -->
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">*@
+
+    <!-- Latest compiled and minified JavaScript -->
+    @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>*@
+</head>
+<body>
+    @{
+        if (Model != null)
+        {
+            if (Model.Id != -1)
+            {
+                <div class="myNavbar">
+                    <ul id="myUl" class="myUl">
+                        <li class="myLi tableLi">
+                            <div class="">
+                                <a href="@Url.Action("Table", "Table")">
+                                    <div class="tableDiv">
+                                        <i class="fa fa-table" aria-hidden="true"></i> Tablica
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="myLi settingLi">
+                            <div class="">
+                                <div class="userNameDiv">@Model.Name</div>
+                                <div class="userControlsDiv">
+                                    <a href="@Url.Action("Settings", "Settings")">
+                                        <i class="fa fa-cog cogButton" aria-hidden="true"></i>
+                                        @*Postavke*@
+                                    </a>
+                                    <button id="logout" class="logOutButton">
+                                        @*Odjava*@
+                                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div id="notificationWindow" class="notificationWindow">
+
+                </div>
+
+            }
+            else
+            {
+            }
+        }
+        else
+        {
+            <span>No model found.</span>
+        }
+    }
+    <div class="container body-content">
+        @RenderBody()
+        <footer>
+            @*<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>*@
+        </footer>
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

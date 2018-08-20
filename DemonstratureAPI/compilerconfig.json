@@ -1,0 +1,18 @@
+﻿[
+  {
+    "outputFile": "Content/css/style.css",
+    "inputFile": "Content/css/style.scss"
+  },
+  {
+    "outputFile": "Content/css/settings.css",
+    "inputFile": "Content/css/settings.scss"
+  },
+  {
+    "outputFile": "Content/css/table.css",
+    "inputFile": "Content/css/table.scss"
+  },
+  {
+    "outputFile": "Scripts/Cookies.es5.js",
+    "inputFile": "Scripts/Cookies.js"
+  }
+]

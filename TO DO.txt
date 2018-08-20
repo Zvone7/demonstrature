@@ -1,0 +1,40 @@
+IMPLEMENT:
+
+refactory - settingsKO.ts
+
+refactory - single out requests in one file
+
+refactory of gettermsbycourseid on terms controller - called from settingsKO.ts and tableKO.ts
+
+refactory to support throw catching so that you can send messages to be displayed in notifications
+
+localization - probably not
+
+-----------------------------------------------------------------------------------------------------
+Known issues:
+well, design. But ain't no body got time for that
+- delegating own terms to other users
+
+-----------------------------------------------------------------------------------------------------
+
+Demonstrature
+
+cell states:
+
+0 - nemoguca za uzeti/nepostojeci termin/proslo vrijeme
+defaultna plava
+
+1 - slobodna/predlozena za uzeti
+zuta
+
+2 - slobodna/predlozena za uzeti - u grupi korisnika
+zuta
+
+3 - uzeta
+zelena
+
+4 - admin mode
+defaultna plava
+
+x - UNKNOWN
+crvena

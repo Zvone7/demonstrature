@@ -1,0 +1,211 @@
+﻿@model DemonstratureAPI.Models.MyUserWithReturnUrl
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Settings";
+}
+<script src="~/Scripts/knockout-3.4.2.js"></script>
+<script src="~/Scripts/knockout.mapping-latest.js"></script>
+<script src="~/Scripts/require.js"></script>
+<script src="~/Scripts/Pages/SettingsKO.js"></script>
+
+@*<label data-bind="text: YO">aaa</label>
+<button id="test">tipka</button>*@
+
+<div class="allSettings">
+    <div class="change-settings-label">
+        <label>Promijeni postavke:</label>
+    </div>
+    @*PASSWORD*@
+    <div class="change-settings-label">
+        <label for="">Postavke lozinke:</label>
+    </div>
+    <div class="cell_s">
+        <div class="passwordSetting">
+            <div>
+                <label class="identifier">Stara lozinka:</label><br>
+                <input id="old_password" class="input_s" type="password" /><br /><hr />
+            </div>
+            <div>
+                <label class="identifier">Nova lozinka:</label><br>
+                <input id="password" class="input_s" type="password" />
+            </div>
+            <div>
+                <label class="identifier">Nova lozinka opet:</label><br>
+                <input id="password_again" class="input_s" type="password" />
+            </div><br>
+            <button id="password_save" class="saveSetting">Pohrani promjene</button>
+        </div>
+    </div>
+    <div class="courseSettings">
+    </div>
+    @*ADMIN*@
+    @{
+        if (@Model.Role == "Administrator")
+        {
+            <div id="adminSettings" class="adminSettings">
+                <div class="change-settings-label">
+                    <label for="">Postavke administratora:</label>
+                </div>
+                <div class="row_s">
+                    <div class="cell_s">
+                        @*Odaberi smjer*@
+                        <div class="courseSettings">
+                            <label class="identifier">Smjer:</label><br />
+                            <select class="selecter_s" id="study_select" data-bind="options: Studies_KO,
+                                    optionsCaption: 'Odaberi smjer'"></select>
+                        </div>
+                        @*Dodaj kolegij*@
+                        <div id="id1" data-bind="visible: SelectedStudy_KO()!='-'">
+                            <div class="courseSettings">
+                                <div class="identifier-big"><label>Dodaj kolegij</label><br /></div>
+                                <label class="identifier">Naziv:</label><br />
+                                <input id="course_add_name" class="input_s" type="text" /><br />
+                                <label class="identifier">Profesor:</label><br />
+                                <input id="course_add_prof" class="input_s" type="text" /><br />
+                                <label class="identifier">Asistent:</label><br />
+                                <input id="course_add_asis" class="input_s" type="text" /><br /><br />
+                                <button id="course_add" class="saveSetting2">Dodaj</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cell_s">
+                        <div id="id2" data-bind="visible: SelectedStudy_KO()!='-'">
+                            @*Odaberi kolegij*@
+                            <div class="courseSettings">
+                                <label class="identifier">Odaberi kolegij:</label><br />
+                                <select class="selecter_s" id="course_select" data-bind="options: SelectableCourses_KO,
+                                    optionsText: 'Name',
+						            optionsValue: 'Id',
+                                    value: 'Id',
+                                    optionsCaption: 'Odaberi kolegij'"></select>
+                            </div>
+                            @*Uredi kolegij*@
+                            <div id="id5" data-bind="visible: SelectedCourse_KO().Id>'-1'">
+                                <div class="courseSettings">
+                                    <div class="identifier-big"><label>Uredi kolegij</label><br /></div>
+                                    <label class="identifier">Naziv:</label><br />
+                                    <input id="course_edit_name" class="input_s" data-bind="textInput: SelectedCourse_KO().Name" type="text" /><br />
+                                    <label class="identifier">Profesor:</label><br />
+                                    <input id="course_edit_prof" class="input_s" type="text" data-bind="textInput: SelectedCourse_KO().Professor" /><br />
+                                    <label class="identifier">Asistent:</label><br />
+                                    <input id="course_edit_asis" class="input_s" type="text" data-bind="textInput: SelectedCourse_KO().Asistant" /><br /><br />
+                                    <button id="course_update" class="saveSetting2">Spremi</button>
+                                    <button id="course_delete" class="deleteSetting">Obriši</button>
+                                </div>
+                                @*Dodaj grupu*@
+                                <div id="id4" data-bind="visible: SelectedCourse_KO().Id>'-1'">
+                                    <div class="courseSettings">
+                                        <div class="identifier-big"><label>Dodaj grupu</label><br /></div>
+                                        <label class="identifier">Odaberi vlasnika grupe:</label><br />
+                                        <select class="selecter_s" id="group_add_user_select" data-bind="options: GroupOwners_KO,
+                                        optionsText: 'Username',
+                                        optionsValue: 'Id',
+                                        value: 'Id',
+                                        optionsCaption: 'Odaberi vlasnika'"></select>
+                                        <label class="identifier">Naziv grupe:</label><br />
+                                        <input id="group_add_name" class="input_s" type="text" /><br /> <br />
+                                        <button id="group_add" class="saveSetting2">Dodaj</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cell_s">
+                        <div id="id3" data-bind="visible: SelectedCourse_KO().Id>'-1'">
+                            @*Odaberi grupu*@
+                            <div class="courseSettings">
+                                <label class="identifier">Odaberi grupu:</label><br />
+                                <select class="selecter_s" id="group_select" data-bind="options: Groups_KO,
+                                        optionsText: 'Name',
+						                optionsValue: 'Id',
+                                        value: 'Id',
+                                        optionsCaption: 'Nova grupa'"></select>
+                            </div>
+                            @*Uredi grupu*@
+                            <div data-bind="visible: SelectedCourse_KO().Id>'-1' ">
+                                <div class="courseSettings">
+                                    <div class="identifier-big"><label>Uredi grupu</label><br /></div>
+                                    <label class="identifier">Odaberi vlasnika grupe:</label><br />
+                                    <select class="selecter_s" id="group_edit_user_select" data-bind="options: GroupOwners_KO,
+                                    optionsText: 'Username',
+                                    optionsValue: 'Id',
+                                    value: 'Id',
+                                    optionsCaption: 'Odaberi vlasnika'"></select>
+                                    <label class="identifier">Naziv grupe:</label><br />
+                                    <input id="group_name" class="input_s" type="text" data-bind="textInput: SelectedGroup_KO().Name" /><br /> <br />
+                                    <button id="group_update" class="saveSetting2">Spremi</button>
+                                    <button id="group_delete" class="deleteSetting">Obriši</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*Upravljanje terminima*@
+                    <div data-bind="visible: SelectedCourse_KO().Id>'-1'">
+                        <div class="cell_s">
+                            <div class="courseSettings">
+                                <div class="identifier-big"><label>Uredi termine</label><br /></div>
+                                <label class="identifier">Odaberi termin:</label><br />
+                                <select class="selecter_s" id="term_select" data-bind="options: Terms_KO,
+                                        optionsText: 'TermDate',
+                                        optionsValue: 'Id',
+                                        value: 'Id',
+                                        optionsCaption: 'Novi termin'"></select>
+                                <input type="checkbox" data-bind="checked: SelectedTerm_KO().IsCourseTerm" />
+                                <label class="identifier">Koristi termin za sve grupe</label><br />
+                                <hr />
+                                <label class="identifier">Odabrani termin je za grupu:</label><br />
+                                <label class="identifier" data-bind="text: SelectedTermGroupName"></label><br />
+                                <label class="identifier">Datum:</label><br />
+                                <input id="term_date" class="input_s" type="date" data-bind="value: DateHelper" /><br /> <br />
+                                <button id="term_save" class="saveSetting2">Spremi</button>
+                                <button id="term_delete" class="deleteSetting">Obriši</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*User settings*@
+                <div class="row_s">
+                    <div class="cell_s">
+                        <div class="userSettings">
+                            <label class="identifier-big">Dodaj / uredi korisnika</label>
+                            <br /><br />
+                            <label class="identifier">Odaberi korisnika:</label><br />
+
+                            <select class="selecter_s" id="user_user_select" data-bind="options: Users_KO,
+                                    optionsText: 'Username',
+						            optionsValue: 'Id',
+                                    value: 'Id',
+                                    optionsCaption: 'Novi korisnik'"></select>
+                            <label class="identifier">Prezime:</label><br />
+                            <input id="user_last_name" data-bind="textInput: SelectedUser_KO().LastName" class="input_s" /><br />
+                            <label class="identifier">Ime:</label><br />
+                            <input id="user_name" data-bind="textInput: SelectedUser_KO().Name" class="input_s" /><br />
+                            <label class="identifier">Korisničko ime:</label><br />
+                            <input id="user_username" data-bind="textInput: SelectedUser_KO().Username" class="input_s" type="text" /><br />
+                            <label class="identifier">Razina pristupa:</label><br />
+                            <select class="selecter_s" id="user_select_role">
+                                <option value="Administrator">Administrator</option>
+                                <option value="Demonstrator">Demonstrator</option>
+                            </select><br />
+                            <hr />
+                            <label class="identifier-big">Lozinka korisnika</label><br />
+                            <label class="identifier">(Ostaviti prazno ako se ne mijenja)</label><br /><br />
+                            <label class="identifier">Lozinka:</label><br />
+                            <input id="user_password" class="input_s" type="password" /><br />
+                            <label class="identifier">Ponovi lozinku:</label><br />
+                            <input id="user_password_again" class="input_s" type="password" /><br />
+                            <hr />
+                            <label class="identifier-big">Kolegiji</label><br /><br />
+                            <p id="user_user_course"></p>
+                            <button id="user_save" class="saveSetting2">Spremi</button>
+                            <button id="user_delete" class="deleteSetting">Obriši</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

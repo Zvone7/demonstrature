@@ -1,0 +1,26 @@
+-------------------------------------------------------------------------
+20.08.2018. - v1.0.0. (yay!)
+
+FEATURES:
+- Multiple study/course/user support
+- "Infinite" number of users supported
+- "Infinite" number of terms per course supported
+- "Infinite" number of groups per course supported
+- User authorization & authentification
+- Ability to reserve terms for self
+- Ability to give other people ability to reserve your term
+- Admin/Demonstrator roles
+- Ability to change own password
+- Admin can change password for everyone, add/edit/delete new users/courses/terms/groups
+- Ability to add/edit/delete multiple terms (for all groups on one course) at the same time
+- Notifications
+
+KNOWN ISSUES:
+- logout doesn't redirect correctly (outside of localhost)
+- no support for multiple notifications at the same time
+- adding terms is kinda glitchy
+- no notifications on login screen
+- some authorization flaws
+- css on login and responsive glitchy
+
+
