@@ -7,7 +7,7 @@ const defaultId = 0;
 const defaultStudyName = "Smjer";
 const defaultUserLastName = "-";
 const defaultUserName = "-";
-const defaultUserRole = "D";
+const defaultUserRole = "Demonstrator";
 const defaultUserUsername = "...";
 class KoCourse {
     constructor(course) {

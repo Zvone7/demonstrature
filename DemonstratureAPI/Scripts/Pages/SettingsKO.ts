@@ -311,8 +311,9 @@ class SettingsVM {
             }
         }
         self.SelectedUser_KO().Courses = userCourses;
+        var accessLevel = $("#user_select_role").val();
+        self.SelectedUser_KO().Role = accessLevel;
         this.createOrUpdateUser(self.SelectedUser_KO());
-
     }
     public button_deleteUser = () => {
         var userId = $("#user_user_select :selected").val();

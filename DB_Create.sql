@@ -55,7 +55,7 @@ CREATE TABLE [dbo].[CourseUserT](
 	);
 	
 
-INSERT [dbo].[UserT] ([Username], [Name], [LastName], [Password], [Salt], [Role], [IsActive]) VALUES (N'admin', N'admin', N'admin', N'$2a$11$XzDmyAcdyyXuK5.lcKky8.f6Gle8yVpnFWbp7WRnNJM6VSBqPU8hW', N'$2a$11$XzDmyAcdyyXuK5.lcKky8.', N'Administrator', 1)
+INSERT [dbo].[UserT] ([Username], [Name], [LastName], [Password], [Salt], [Role], [IsActive]) VALUES (N'admin', N'admin', N'admin', N'"$2a$11$sssHzHkdK9xZ1qMDLPonouNVWI1NHsCkbAhUHYtat2YpVZ/GMwRvO"', N'$2a$11$sssHzHkdK9xZ1qMDLPonou', N'Administrator', 1)
 GO
 SET IDENTITY_INSERT [dbo].[UserT] OFF
 GO

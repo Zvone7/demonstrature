@@ -180,6 +180,8 @@ class SettingsVM {
                 }
             }
             self.SelectedUser_KO().Courses = userCourses;
+            var accessLevel = $("#user_select_role").val();
+            self.SelectedUser_KO().Role = accessLevel;
             this.createOrUpdateUser(self.SelectedUser_KO());
         };
         this.button_deleteUser = () => {
