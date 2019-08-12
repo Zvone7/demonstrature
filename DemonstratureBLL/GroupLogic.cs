@@ -2,6 +2,7 @@
 using DemonstratureCM.DTO;
 using DemonstratureDB;
 using DemonstratureDB.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,13 +12,15 @@ namespace DemonstratureBLL
     {
         private readonly IMapper _mapper;
         private readonly GroupRepo _groupRepo;
-        public GroupLogic(IMapper mapper, GroupRepo groupRepo)
+        private readonly log4net.ILog _logger;
+        public GroupLogic(IMapper mapper, GroupRepo groupRepo, log4net.ILog logger)
         {
             _mapper = mapper;
             _groupRepo = groupRepo;
+            _logger = logger;
         }
 
-        public GroupDto CreateGroup(GroupDto g)
+        private GroupDto CreateGroup(GroupDto g)
         {
             try
             {
@@ -27,18 +30,27 @@ namespace DemonstratureBLL
                 g = _mapper.Map<GroupDto>(g2);
                 return g;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error creating group.", e);
                 return null;
             }
         }
 
         public bool DeleteGroup(int groupId)
         {
-            return _groupRepo.DeleteGroup(groupId);
+            try
+            {
+                return _groupRepo.DeleteGroup(groupId);
+            }
+            catch (Exception e)
+            {
+                _logger.Error($"Error deleting group id {groupId}", e);
+                return false;
+            }
         }
 
-        public GroupDto UpdateGroup(GroupDto g)
+        private GroupDto UpdateGroup(GroupDto g)
         {
             try
             {
@@ -47,8 +59,9 @@ namespace DemonstratureBLL
                 var groupIndb = _groupRepo.UpdateGroup(g2);
                 return _mapper.Map<GroupDto>(groupIndb);
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error updating group id {g.Id}", e);
                 return null;
             }
         }
@@ -78,19 +91,19 @@ namespace DemonstratureBLL
                 return null;
             }
         }
-
         public List<GroupDto> GetGroupsByCourseId(int courseId)
         {
+            var groups = new List<GroupDto>();
             try
             {
-                var groups = _groupRepo.GetGroupsByCourseId(courseId);
-                var groups2 = _mapper.Map<List<GroupDto>>(groups);
-                groups2 = groups2.OrderBy(g => g.Name).ToList();
-                return groups2;
+                var groupsFromDb = _groupRepo.GetGroupsByCourseId(courseId);
+                groups = _mapper.Map<List<GroupDto>>(groupsFromDb).OrderBy(g => g.Name).ToList();
+                return groups;
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                _logger.Error($"Error getting groups by course id {courseId}", e);
+                return groups;
             }
         }
     }

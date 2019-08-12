@@ -1,5 +1,4 @@
 ﻿using DemonstratureDB.Data;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,166 +8,88 @@ namespace DemonstratureDB
     {
         public CourseT CreateCourse(CourseT c)
         {
-            try
+            using (DatabaseContext dbase = new DatabaseContext())
             {
-                using (DatabaseContext dbase = new DatabaseContext())
-                {
-                    var courseInDb = dbase.CourseT.Add(c);
-                    dbase.SaveChanges();
-                    return courseInDb;
-                }
-            }
-            catch (Exception e)
-            {
-                //error creating Course
-                return null;
+                var courseInDb = dbase.CourseT.Add(c);
+                dbase.SaveChanges();
+                return courseInDb;
             }
         }
 
         public bool DeleteCourse(int courseId)
         {
-            try
+            using (DatabaseContext dbase = new DatabaseContext())
             {
-                using (DatabaseContext dbase = new DatabaseContext())
-                {
-                    var courseInDb = dbase.CourseT.Where(c => c.Id == courseId).FirstOrDefault();
-                    if (courseInDb != null)
-                    {
-                        courseInDb.IsActive = false;
-                        dbase.SaveChanges();
-                        return true;
-                    }
-                    return false;
-                }
-            }
-            catch
-            {
-                return false;
+                var courseInDb = dbase.CourseT.Where(c => c.Id == courseId).FirstOrDefault();
+                courseInDb.IsActive = false;
+                dbase.SaveChanges();
+                return true;
             }
         }
 
         public CourseT UpdateCourse(CourseT c)
         {
-            try
+            using (DatabaseContext dbase = new DatabaseContext())
             {
-                using (DatabaseContext dbase = new DatabaseContext())
-                {
-                    var cInDb = dbase.CourseT.Where(co => co.Id == c.Id).FirstOrDefault();
-                    if (cInDb != null)
-                    {
-                        try
-                        {
-                            dbase.CourseT.Where(co => co.Id == c.Id).FirstOrDefault().Professor = c.Professor;
-                            dbase.CourseT.Where(co => co.Id == c.Id).FirstOrDefault().Asistant = c.Asistant;
-                            dbase.CourseT.Where(co => co.Id == c.Id).FirstOrDefault().Name = c.Name;
-                            dbase.SaveChanges();
-                            return cInDb;
-                        }
-                        catch
-                        {
-                            //error updating Course
-                            return null;
-                        }
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch
-            {
-                //error updating Course
-                return null;
+                var cInDb = dbase.CourseT.Where(co => co.Id == c.Id).FirstOrDefault();
+                dbase.CourseT.Where(co => co.Id == c.Id).FirstOrDefault().Professor = c.Professor;
+                dbase.CourseT.Where(co => co.Id == c.Id).FirstOrDefault().Asistant = c.Asistant;
+                dbase.CourseT.Where(co => co.Id == c.Id).FirstOrDefault().Name = c.Name;
+                dbase.SaveChanges();
+                return cInDb;
             }
         }
 
-        public List<CourseT> GetCourses()
+        public IEnumerable<CourseT> GetCourses()
         {
-            try
+            using (DatabaseContext dbase = new DatabaseContext())
             {
-                using (DatabaseContext dbase = new DatabaseContext())
-                {
-                    var courses = dbase.CourseT.Where(c => c.IsActive).ToList();
-                    courses.OrderBy(c => c.Name);
-                    return courses;
-                }
-            }
-            catch
-            {
-                return null;
+                var courses = dbase.CourseT.Where(c => c.IsActive).ToList();
+                courses.OrderBy(c => c.Name);
+                return courses;
             }
         }
 
-        public List<CourseT> GetCourses(string study)
+        public IEnumerable<CourseT> GetCoursesByStudy(string study)
         {
-            try
+            using (DatabaseContext dbase = new DatabaseContext())
             {
-                using (DatabaseContext dbase = new DatabaseContext())
-                {
-                    var courses = dbase.CourseT.Where(c => c.IsActive && c.Study.ToLower() == study.ToLower()).ToList();
-                    courses.OrderBy(c => c.Name);
-                    return courses;
-                }
-            }
-            catch
-            {
-                return null;
+                var courses = dbase.CourseT.Where(c => c.IsActive && c.Study.ToLower() == study.ToLower()).ToList();
+                courses.OrderBy(c => c.Name);
+                return courses;
             }
         }
 
         public CourseT GetCourse(int id)
         {
-            try
+            using (DatabaseContext dbase = new DatabaseContext())
             {
-                using (DatabaseContext dbase = new DatabaseContext())
-                {
-                    var course = dbase.CourseT.Where(c => c.Id == id && c.IsActive).FirstOrDefault();
-                    return course;
-                }
-            }
-            catch
-            {
-                return null;
+                var course = dbase.CourseT.Where(c => c.Id == id && c.IsActive).FirstOrDefault();
+                return course;
             }
         }
 
-        public List<int> GetUserIdsByCourseId(int courseId)
+        public IEnumerable<int> GetUserIdsByCourseId(int courseId)
         {
-            try
+            using (DatabaseContext dbase = new DatabaseContext())
             {
-                using (DatabaseContext dbase = new DatabaseContext())
+                var userIds = dbase.CourseUserT.Where(uc => uc.CourseId == courseId).ToList();
+                List<int> listOfUserIds = new List<int>();
+                foreach (var uc in userIds)
                 {
-                    var userIds = dbase.CourseUserT.Where(uc => uc.CourseId == courseId).ToList();
-                    List<int> listOfUserIds = new List<int>();
-                    foreach (var uc in userIds)
-                    {
-                        listOfUserIds.Add(uc.UserId);
-                    }
-                    return listOfUserIds;
+                    listOfUserIds.Add(uc.UserId);
                 }
-            }
-            catch (Exception)
-            {
-                return null;
+                return listOfUserIds;
             }
         }
 
-        public List<string> GetAllStudies()
+        public IEnumerable<string> GetAllStudies()
         {
-            try
+            using (DatabaseContext dbase = new DatabaseContext())
             {
-                using (DatabaseContext dbase = new DatabaseContext())
-                {
-                    var studies = dbase.CourseT.Select(c => c.Study).Distinct().ToList();
-                    return studies;
-                }
-            }
-            catch (Exception e)
-            {
-                return null;
+                var studies = dbase.CourseT.Select(c => c.Study).Distinct().ToList();
+                return studies;
             }
         }
     }
-
 }

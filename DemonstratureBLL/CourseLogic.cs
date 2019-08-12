@@ -12,9 +12,9 @@ namespace DemonstratureBLL
     public class CourseLogic
     {
         private readonly IMapper _mapper;
-        private readonly CourseRepo _courseRepo = new CourseRepo();
-        private readonly CourseUserRepo _courseUserRepo = new CourseUserRepo();
-        private readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly CourseRepo _courseRepo;
+        private readonly CourseUserRepo _courseUserRepo;
+        private readonly log4net.ILog _logger;
 
         public CourseLogic(IMapper mapper, CourseRepo courseRepo, CourseUserRepo courseUserRepo, log4net.ILog logger)
         {
@@ -44,7 +44,7 @@ namespace DemonstratureBLL
         {
             try
             {
-                var result = _courseRepo.GetCourses(study);
+                var result = _courseRepo.GetCoursesByStudy(study);
                 var listOfcoursesMapped = _mapper.Map<List<CourseDto>>(result);
                 listOfcoursesMapped = listOfcoursesMapped.OrderBy(c => c.Name).ToList();
                 return listOfcoursesMapped;
@@ -115,7 +115,6 @@ namespace DemonstratureBLL
         {
             try
             {
-                CourseRepo courseRepo = new CourseRepo();
                 CourseDto c2 = new CourseDto
                 {
                     Id = c.Id,
@@ -129,7 +128,7 @@ namespace DemonstratureBLL
                 //check that under the same study
                 //there isn't already a course with that name
                 //can't have two courses with same names under same study
-                var allCourses = courseRepo.GetCourses();
+                var allCourses = _courseRepo.GetCourses();
                 foreach (CourseT cx in allCourses)
                 {
                     if (c3.Name == cx.Name && c3.Study == cx.Study && c3.Id != cx.Id)
@@ -137,7 +136,7 @@ namespace DemonstratureBLL
                         return null;
                     }
                 }
-                var courseInDb = courseRepo.UpdateCourse(c3);
+                var courseInDb = _courseRepo.UpdateCourse(c3);
                 return _mapper.Map<CourseDto>(courseInDb);
             }
             catch
@@ -148,15 +147,16 @@ namespace DemonstratureBLL
 
         public List<string> GetAllStudies()
         {
+            var studies = new List<String>();
             try
             {
-                var studies = _courseRepo.GetAllStudies();
+                studies = _courseRepo.GetAllStudies().ToList();
                 return studies;
             }
             catch (Exception e)
             {
-
-                throw;
+                _logger.Error($"Error getting all studies.", e);
+                return studies;
             }
         }
     }

@@ -26,7 +26,7 @@ namespace DemonstratureBLL
             _logger = logger;
         }
 
-        public TermDto CreateTerm(TermDto t)
+        private TermDto CreateTerm(TermDto t)
         {
             try
             {
@@ -40,17 +40,18 @@ namespace DemonstratureBLL
                 }
                 else
                 {
+                    _logger.Info($"Can't create term without date.");
                     return null;
                 }
-
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error creating term.", e);
                 return null;
             }
         }
 
-        public bool CreateTerms(TermDto t)
+        private bool CreateTerms(TermDto t)
         {
             try
             {
@@ -93,10 +94,12 @@ namespace DemonstratureBLL
                     }
                     return true;
                 }
+                _logger.Info($"No groups found for course id {t.CourseId}");
                 return false;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error creating terms for term id {t.Id}", e);
                 return false;
             }
         }
@@ -141,7 +144,15 @@ namespace DemonstratureBLL
 
         public bool DeleteTerm(int termId)
         {
-            return _termRepo.DeleteTerm(termId);
+            try
+            {
+                return _termRepo.DeleteTerm(termId);
+            }
+            catch (Exception e)
+            {
+                _logger.Error($"Error deleting term with id {termId}", e);
+                return false;
+            }
         }
 
         public bool DeleteTerms(TermDto t)
@@ -156,13 +167,14 @@ namespace DemonstratureBLL
                 }
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error deleting terms for term id {t.Id}", e);
                 return false;
             }
         }
 
-        public bool UpdateTerm(TermDto t)
+        private bool UpdateTerm(TermDto t)
         {
             try
             {
@@ -173,16 +185,18 @@ namespace DemonstratureBLL
                 }
                 else
                 {
+                    _logger.Info($"Can't update term without date. Term id {t.Id}");
                     return false;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error updating terms for term id {t.Id}", e);
                 return false;
             }
         }
 
-        public bool UpdateTerms(TermDto t)
+        private bool UpdateTerms(TermDto t)
         {
             try
             {
@@ -208,8 +222,9 @@ namespace DemonstratureBLL
                     return true;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error updating terms for term id {t.Id}", e);
                 return false;
             }
         }
@@ -222,8 +237,9 @@ namespace DemonstratureBLL
                 var t2 = _mapper.Map<TermDto>(t);
                 return t2;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error getting term for term id {termId}", e);
                 return null;
             }
         }
@@ -261,7 +277,7 @@ namespace DemonstratureBLL
             }
             catch (Exception e)
             {
-                _logger.Info(e);
+                _logger.Info($"Error getting groups for course id {courseId}");
                 return null;
             }
 
@@ -498,7 +514,7 @@ namespace DemonstratureBLL
             }
             catch (Exception e)
             {
-                _logger.Info(e);
+                _logger.Error($"Error getting terms.", e); ;
                 return null;
             }
             return termPackage;
@@ -507,7 +523,7 @@ namespace DemonstratureBLL
         /// <summary>
         /// Expand every row so that it has blank terms for number of groups
         /// </summary>
-        public List<TermDto> FixTermRow(List<TermDto> terms, List<GroupDto> groups)
+        private List<TermDto> FixTermRow(List<TermDto> terms, List<GroupDto> groups)
         {
             List<TermDto> newTerms = new List<TermDto>();
             foreach (var g in groups)
@@ -533,7 +549,7 @@ namespace DemonstratureBLL
         /// <summary>
         /// Determines cellstate, takebuttonstate and skipbuttonstate
         /// </summary>
-        public List<TermDto> CalculateTermRow(List<TermDto> terms, int userId)
+        private List<TermDto> CalculateTermRow(List<TermDto> terms, int userId)
         {
             try
             {
@@ -551,7 +567,7 @@ namespace DemonstratureBLL
             }
         }
 
-        public void CalculateCellState(TermDto t, int userId)
+        private void CalculateCellState(TermDto t, int userId)
         {
             DateTime today = DateTime.Now.Date;
             //DateTime today = new DateTime(2017, 9, 24);
@@ -734,7 +750,7 @@ namespace DemonstratureBLL
         /// <summary>
         /// fix term package rows so that it shows only 5 groups
         /// </summary>
-        public List<TermDto> CropTermRow(List<TermDto> terms, int groupCount, int moveX)
+        private List<TermDto> CropTermRow(List<TermDto> terms, int groupCount, int moveX)
         {
             List<TermDto> newTerms = new List<TermDto>();
             int x = 0;
@@ -760,7 +776,7 @@ namespace DemonstratureBLL
         /// <summary>
         /// Create list of blank terms for case when there isnt enough terms in DB
         /// </summary>
-        public List<TermDto> MakeBlankTerms()
+        private List<TermDto> MakeBlankTerms()
         {
             List<TermDto> terms = new List<TermDto>();
             for (int i = 0; i < GlobalAppSettings.NumCol; i++)
@@ -785,19 +801,21 @@ namespace DemonstratureBLL
                 var terms = _mapper.Map<List<TermDto>>(termsInDb);
                 return terms;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error getting terms for date {d.Date} and course id {courseId}", e);
                 return null;
             }
         }
 
         public List<TermDto> GetTermsByCourseId(int courseId)
         {
+            var termsForCourse = new List<TermDto>();
             try
             {
                 var terms = _termRepo.GetTermsByCourseId(courseId);
                 //svi termini za pojedini kolegij
-                var termsForCourse = _mapper.Map<List<TermDto>>(terms);
+                termsForCourse = _mapper.Map<List<TermDto>>(terms);
                 var termsWhichAreMatch = new List<TermDto>();
                 var termsHelper = new List<TermDto>();
                 var groupIds = _groupRepo.GetGroupsByCourseId(courseId).Select(g => g.Id).ToList();
@@ -857,30 +875,31 @@ namespace DemonstratureBLL
 
                 return termsForCourse.OrderBy(t => t.TermDate).ToList();
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                _logger.Error($"Error getting terms for course id {courseId}", e);
+                return termsForCourse;
             }
         }
 
         public List<TermDto> GetTermsByGroupId(int groupId)
         {
+            var termsByGroupId = new List<TermDto>();
             try
             {
-
-
                 var group = _groupRepo.GetGroup(groupId);
                 var termsByCourseId = GetTermsByCourseId(group.CourseId);
-                var termsByGroupId = termsByCourseId.Where(t => t.GroupId == groupId).ToList();
+                termsByGroupId = termsByCourseId.Where(t => t.GroupId == groupId).ToList();
                 return termsByGroupId;
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                _logger.Error($"Error getting terms for group id {groupId}", e);
+                return termsByGroupId;
             }
         }
 
-        public DateTime CreateDateFromString(string date)
+        private DateTime CreateDateFromString(string date)
         {
             DateTime dateToReturn;
 
@@ -892,7 +911,7 @@ namespace DemonstratureBLL
             }
             catch (Exception e)
             {
-                _logger.Info(e);
+                _logger.Info($"Error creating date from string", e);
                 dateToReturn = new DateTime(1, 1, 1);
             }
             return dateToReturn;
@@ -901,7 +920,7 @@ namespace DemonstratureBLL
         /// <summary>
         /// is it last GlobalAppSettings.DayForDeadline before deadline
         /// </summary>
-        public bool IsPastDeadLine(DateTime termDate, DateTime today)
+        private bool IsPastDeadLine(DateTime termDate, DateTime today)
         {
             DateTime StartOfWeek = termDate.AddDays(-(int)termDate.DayOfWeek);
             DateTime deadLine = StartOfWeek.AddDays(-1 * (7 - GlobalAppSettings.DayForDeadline));
@@ -915,7 +934,7 @@ namespace DemonstratureBLL
             }
         }
 
-        public void ApplyCellState(TermDto t, int cellState)
+        private void ApplyCellState(TermDto t, int cellState)
         {
             t.CellState = cellState;
             switch (cellState)
@@ -1020,8 +1039,9 @@ namespace DemonstratureBLL
                 }
                 return false;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Error($"Error reserving term id {termId} by user id {userId} for user id {suggestedUserId}", e);
                 return false;
             }
         }
@@ -1049,8 +1069,9 @@ namespace DemonstratureBLL
                 return false;
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Error($"Error freeing term id {termId} by user id {userId}", e);
                 return false;
             }
         }
