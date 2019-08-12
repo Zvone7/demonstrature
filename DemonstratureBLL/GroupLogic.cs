@@ -1,27 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using DemonstratureCM.DTO;
 using DemonstratureDB;
-using AutoMapper;
-using DemonstratureBLL.Mappings;
 using DemonstratureDB.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DemonstratureBLL
 {
     public class GroupLogic
     {
-        private IMapper _mapper;
-        private GroupRepo _groupRepo = new GroupRepo();
-        public GroupLogic()
+        private readonly IMapper _mapper;
+        private readonly GroupRepo _groupRepo;
+        private readonly log4net.ILog _logger;
+        public GroupLogic(IMapper mapper, GroupRepo groupRepo, log4net.ILog logger)
         {
-            AutoMapperConfiguration.RegisterMappings();
-            _mapper = AutoMapperConfiguration.Instance;
+            _mapper = mapper;
+            _groupRepo = groupRepo;
+            _logger = logger;
         }
 
-        public GroupDto CreateGroup(GroupDto g)
+        private GroupDto CreateGroup(GroupDto g)
         {
             try
             {
@@ -31,45 +30,55 @@ namespace DemonstratureBLL
                 g = _mapper.Map<GroupDto>(g2);
                 return g;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error creating group.", e);
                 return null;
             }
         }
 
         public bool DeleteGroup(int groupId)
         {
-            return _groupRepo.DeleteGroup(groupId);
+            try
+            {
+                return _groupRepo.DeleteGroup(groupId);
+            }
+            catch (Exception e)
+            {
+                _logger.Error($"Error deleting group id {groupId}", e);
+                return false;
+            }
         }
 
-        public GroupDto UpdateGroup(GroupDto g)
+        private GroupDto UpdateGroup(GroupDto g)
         {
             try
             {
                 var g2 = _mapper.Map<GroupT>(g);
                 if (g2.OwnerId == 0) { g2.OwnerId = null; }
                 var groupIndb = _groupRepo.UpdateGroup(g2);
-				return _mapper.Map<GroupDto>(groupIndb);
+                return _mapper.Map<GroupDto>(groupIndb);
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error updating group id {g.Id}", e);
                 return null;
             }
         }
 
-		public GroupDto CreateOrUpdateGroup(GroupDto group)
-		{
-			if (group.Id == 0)
-			{
-				return CreateGroup(group);
-			}
-			else
-			{
-				return UpdateGroup(group);
-			}
-		}
+        public GroupDto CreateOrUpdateGroup(GroupDto group)
+        {
+            if (group.Id == 0)
+            {
+                return CreateGroup(group);
+            }
+            else
+            {
+                return UpdateGroup(group);
+            }
+        }
 
-		public GroupDto GetGroup(int Id)
+        public GroupDto GetGroup(int Id)
         {
             try
             {
@@ -82,19 +91,19 @@ namespace DemonstratureBLL
                 return null;
             }
         }
-
         public List<GroupDto> GetGroupsByCourseId(int courseId)
         {
+            var groups = new List<GroupDto>();
             try
             {
-                var groups = _groupRepo.GetGroupsByCourseId(courseId);
-                var groups2 = _mapper.Map<List<GroupDto>>(groups);
-                groups2 = groups2.OrderBy(g => g.Name).ToList();
-                return groups2;
+                var groupsFromDb = _groupRepo.GetGroupsByCourseId(courseId);
+                groups = _mapper.Map<List<GroupDto>>(groupsFromDb).OrderBy(g => g.Name).ToList();
+                return groups;
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                _logger.Error($"Error getting groups by course id {courseId}", e);
+                return groups;
             }
         }
     }

@@ -144,6 +144,9 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="StructureMap, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.7.1\lib\net45\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
     </Reference>
@@ -265,6 +268,7 @@
     <Compile Include="Controllers\TableController.cs" />
     <Compile Include="Controllers\TermController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="DI.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -452,6 +456,10 @@
     <ProjectReference Include="..\DemonstratureCM\DemonstratureCM.csproj">
       <Project>{c93a40e2-51f7-46a6-8ac0-01440fc7354a}</Project>
       <Name>DemonstratureCM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DemonstratureDB\DemonstratureDB.csproj">
+      <Project>{74FB3A53-97EC-4C2E-AE97-EA62D0536521}</Project>
+      <Name>DemonstratureDB</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -3,13 +3,7 @@ using DemonstratureBLL;
 using DemonstratureCM.BM;
 using DemonstratureCM.DTO;
 using Microsoft.AspNet.Identity;
-using System;
-using System.CodeDom;
-using System.CodeDom.Compiler;
-using System.IO;
-using System.Linq;
 using System.Security.Claims;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -18,6 +12,11 @@ namespace DemonstratureAPI.Controllers
     [AllowAnonymous]
     public class LoginController : Controller
     {
+        private readonly UserLogic _userLogic;
+        public LoginController()
+        {
+            _userLogic = DI.GetInstance<UserLogic>();
+        }
         // GET: Login
         public ActionResult Login()
         {
@@ -42,12 +41,9 @@ namespace DemonstratureAPI.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public ActionResult TryLogin(LoginDataBm log)
+        public ActionResult TryLogin(LoginDataBm loginData)
         {
-            var instance = new UserLogic();
-            var result = instance.TryLogin(log);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            return Json(_userLogic.TryLogin(loginData), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -58,7 +54,6 @@ namespace DemonstratureAPI.Controllers
                 return View();
             }
 
-            var _userLogic = new UserLogic();
             MyUserDto user = _userLogic.TryLogin(model);
             if (user != null)
             {
@@ -82,7 +77,7 @@ namespace DemonstratureAPI.Controllers
             }
 
 
-            // user authN failed
+            // user auth failed
             ModelState.AddModelError("", "Invalid username or password");
             return View();
         }
@@ -106,6 +101,5 @@ namespace DemonstratureAPI.Controllers
 
             return returnUrl;
         }
-
     }
 }

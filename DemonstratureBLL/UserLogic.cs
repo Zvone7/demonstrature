@@ -1,33 +1,37 @@
-﻿using DemonstratureCM.DTO;
-using DemonstratureDB;
-using System.Collections.Generic;
-using System;
-using System.Linq;
+﻿using AutoMapper;
 using DemonstratureCM.BM;
+using DemonstratureCM.DTO;
+using DemonstratureDB;
 using DemonstratureDB.Data;
-using DemonstratureBLL.Mappings;
-using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DemonstratureBLL
 {
     public class UserLogic
     {
-        private IMapper _mapper;
-        private UserRepo _userRepo = new UserRepo();
-        private CourseRepo _courseRepo = new CourseRepo();
-        private CourseUserRepo _courseUserRepo = new CourseUserRepo();
-        public UserLogic()
+        private readonly IMapper _mapper;
+        private readonly UserRepo _userRepo;
+        private readonly CourseRepo _courseRepo;
+        private readonly CourseUserRepo _courseUserRepo;
+        private readonly log4net.ILog _logger;
+        public UserLogic(IMapper mapper, UserRepo userRepo, CourseRepo courseRepo, CourseUserRepo courseUserRepo, log4net.ILog logger)
         {
-            AutoMapperConfiguration.RegisterMappings();
-            _mapper = AutoMapperConfiguration.Instance;
+            _mapper = mapper;
+            _userRepo = userRepo;
+            _courseRepo = courseRepo;
+            _courseUserRepo = courseUserRepo;
+            _logger = logger;
         }
 
         public List<MyUserBm> GetUsers()
         {
+            var allUsersMapped = new List<MyUserBm>();
             try
             {
                 var allUsers = _userRepo.GetUsers();
-                var allUsersMapped = _mapper.Map<List<MyUserBm>>(allUsers);
+                allUsersMapped = _mapper.Map<List<MyUserBm>>(allUsers);
                 allUsersMapped = allUsersMapped.OrderBy(u => u.LastName).ToList();
                 foreach (var user in allUsersMapped)
                 {
@@ -35,23 +39,25 @@ namespace DemonstratureBLL
                 }
                 return allUsersMapped;
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                _logger.Error($"Error getting all users.", e);
+                return allUsersMapped;
             }
         }
 
-        public MyUserBm GetUser(int Id)
+        public MyUserBm GetUser(int id)
         {
             try
             {
-                var user = _userRepo.GetUser(Id);
+                var user = _userRepo.GetUser(id);
                 var userMapped = _mapper.Map<MyUserDto>(user);
                 userMapped.Courses = GetUserCourses(userMapped.Id);
                 return userMapped;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error getting user with id {id}", e);
                 return null;
             }
         }
@@ -65,24 +71,33 @@ namespace DemonstratureBLL
                 userMapped.Courses = GetUserCourses(userMapped.Id);
                 return userMapped;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error getting user with username {username}", e);
                 return null;
             }
         }
 
-        public bool DeleteUser(int Id)
+        public bool DeleteUser(int id)
         {
-            _courseUserRepo.RemoveRangeByUserId(Id);
-            return _userRepo.DeleteUser(Id);
+            try
+            {
+                _courseUserRepo.RemoveRangeByUserId(id);
+                return _userRepo.DeleteUser(id);
+            }
+            catch (Exception e)
+            {
+                _logger.Error($"Error deleting user with id {id}", e);
+                return false;
+            }
         }
 
         public List<MyUserBm> GetUsersByCourseId(int courseId)
         {
+            List<MyUserBm> listOfUsers = new List<MyUserBm>();
             try
             {
                 var userIds = _courseRepo.GetUserIdsByCourseId(courseId);
-                List<MyUserBm> listOfUsers = new List<MyUserBm>();
                 if (userIds != null)
                 {
                     foreach (var userId in userIds)
@@ -102,23 +117,26 @@ namespace DemonstratureBLL
                 }
                 return listOfUsers;
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                _logger.Error($"Error getting users for course id {courseId}", e);
+                return listOfUsers;
             }
         }
 
         public List<CourseDto> GetUserCourses(int userId)
         {
+            var courses = new List<CourseDto>();
             try
             {
                 var result = _userRepo.GetUserCourses(userId);
-                var courses = _mapper.Map<List<CourseDto>>(result);
+                courses = _mapper.Map<List<CourseDto>>(result);
                 return courses;
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                _logger.Error($"Error getting courses for user id {userId}", e);
+                return courses;
             }
         }
 
@@ -142,67 +160,70 @@ namespace DemonstratureBLL
             }
             catch (Exception e)
             {
+                _logger.Error($"Error updating user with id {user.Id}", e);
                 return null;
             }
         }
 
-        public MyUserBm CreateUser(MyUserDto newUser)
+        public MyUserBm CreateUser(MyUserDto user)
         {
             try
             {
-                var userCheck = _userRepo.GetUser(newUser.Username);
+                var userCheck = _userRepo.GetUser(user.Username);
                 if (userCheck != null)
                 {
                     //can't have two users with same usernames
                     return null;
                 }
-                newUser.IsActive = true;
-                        string newSalt = BCrypt.Net.BCrypt.GenerateSalt();
-                string newPasswordHashed = BCrypt.Net.BCrypt.HashPassword(newUser.Password, newSalt);
-                newUser.Password = newPasswordHashed;
-                newUser.Salt = newSalt;
+                user.IsActive = true;
+                string newSalt = BCrypt.Net.BCrypt.GenerateSalt();
+                string newPasswordHashed = BCrypt.Net.BCrypt.HashPassword(user.Password, newSalt);
+                user.Password = newPasswordHashed;
+                user.Salt = newSalt;
 
-                UserT userMapped = _mapper.Map<UserT>(newUser);
+                UserT userMapped = _mapper.Map<UserT>(user);
                 var result = _userRepo.CreateUser(userMapped);
                 var userInDb = _mapper.Map<MyUserDto>(result);
                 return userInDb;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error($"Error creating user with username {user.Username}", e);
                 return null;
             }
         }
 
-        public MyUserBm UpdateUser(MyUserDto userUpdate)
+        public MyUserBm UpdateUser(MyUserDto user)
         {
             try
             {
-                var userCheck = _userRepo.GetUser(userUpdate.Username);
+                var userCheck = _userRepo.GetUser(user.Username);
                 if (userCheck != null)
                 {
-                    if (userCheck.Id != userUpdate.Id)
+                    if (userCheck.Id != user.Id)
                     {
                         //can't have two users with same usernames
                         return null;
                     }
                 }
 
-                var newUser = userUpdate;
+                var newUser = user;
                 newUser.IsActive = true;
                 UserT userMapped = _mapper.Map<UserT>(newUser);
                 var result = _userRepo.UpdateUser(userMapped);
                 var userInDb = _mapper.Map<MyUserBm>(result);
-                if (userUpdate.Password != null && userUpdate.Password != "")
+                if (user.Password != null && user.Password != "")
                 {
                     var pu = new PasswordUpdaterBm();
                     pu.OldPassword = "";
-                    pu.NewPassword = userUpdate.Password;
+                    pu.NewPassword = user.Password;
                     UpdateUserPassword(pu, userInDb.Id, true);
                 }
                 return userInDb;
             }
             catch (Exception e)
             {
+                _logger.Error($"Error updating user with id {user.Id}", e);
                 return null;
             }
         }
@@ -236,22 +257,25 @@ namespace DemonstratureBLL
                     }
                     else
                     {
+                        _logger.Info("Invalid user - id 0.");
                         return false;
                     }
                 }
+                _logger.Info($"User  with id {userId} not found.");
                 return false;
             }
             catch (Exception e)
             {
+                _logger.Error($"Error updating password for user id {userId}", e);
                 return false;
             }
         }
 
         public List<CourseT> UpdateUserCourses(MyUserBm u)
         {
+            var listOfCourses = new List<CourseT>();
             try
             {
-                var listOfCourses = new List<CourseT>();
                 if (_courseUserRepo.RemoveRangeByUserId(u.Id))
                 {
                     if (u.Courses == null)
@@ -279,38 +303,56 @@ namespace DemonstratureBLL
                 }
                 else
                 {
-                    return null;
+                    _logger.Error($"Error removing range of user courses for user id {u.Id}");
+                    return listOfCourses;
                 }
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                _logger.Error($"Error updating user courses for user id {u.Id}", e);
+                return listOfCourses;
             }
         }
 
         public MyUserDto TryLogin(LoginDataBm ld)
         {
-            var userInDb = _userRepo.GetUser(ld.Username);
-            if (userInDb != null)
+            try
             {
-                var oldPasswordHashed = BCrypt.Net.BCrypt.HashPassword(ld.Password, userInDb.Salt);
-                ld.Password = oldPasswordHashed;
-            }
+                var userInDb = _userRepo.GetUser(ld.Username);
+                if (userInDb != null)
+                {
+                    var oldPasswordHashed = BCrypt.Net.BCrypt.HashPassword(ld.Password, userInDb.Salt);
+                    ld.Password = oldPasswordHashed;
+                }
 
-            UserT user = _userRepo.TryLogin(ld);
-            if (user == null)
-            {
-                return null;
+                UserT user = _userRepo.TryLogin(ld);
+                if (user == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return _mapper.Map<MyUserDto>(user);
+                }
             }
-            else
+            catch (Exception e)
             {
-                return _mapper.Map<MyUserDto>(user);
+                _logger.Error($"Error logging in.", e);
+                return null;
             }
         }
 
         public bool CheckAdmin(LoginDataBm ld)
         {
-            return _userRepo.CheckAdmin(ld);
+            try
+            {
+                return _userRepo.CheckAdmin(ld);
+            }
+            catch (Exception e)
+            {
+                _logger.Error($"Error when checking username {ld.Username} for admin rights.", e);
+                return false;
+            }
         }
     }
 }
