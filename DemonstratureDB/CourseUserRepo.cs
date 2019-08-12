@@ -1,10 +1,5 @@
-﻿using DemonstratureCM.DTO;
-using DemonstratureDB.Data;
-using System;
-using System.Collections.Generic;
+﻿using DemonstratureDB.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DemonstratureDB
 {
@@ -13,12 +8,12 @@ namespace DemonstratureDB
         public bool CreateCourseUser(CourseUserT cu)
         {
             try
-			{
-				using (DatabaseContext dbase = new DatabaseContext())
-				{
-					dbase.CourseUserT.Add(cu);
-					dbase.SaveChanges();
-				}
+            {
+                using (DatabaseContext dbase = new DatabaseContext())
+                {
+                    dbase.CourseUserT.Add(cu);
+                    dbase.SaveChanges();
+                }
             }
             catch
             {
@@ -30,15 +25,15 @@ namespace DemonstratureDB
         public bool RemoveRangeByUserId(int userId)
         {
             try
-			{
-				using (DatabaseContext dbase = new DatabaseContext())
-				{
-					var rowsToRemove = dbase.CourseUserT.Where(cu => cu.UserId == userId).ToList();
-					if (rowsToRemove == null) return true;
-					dbase.CourseUserT.RemoveRange(rowsToRemove);
-					dbase.SaveChanges();
-					return true;
-				}
+            {
+                using (DatabaseContext dbase = new DatabaseContext())
+                {
+                    var rowsToRemove = dbase.CourseUserT.Where(cu => cu.UserId == userId).ToList();
+                    if (rowsToRemove == null) return true;
+                    dbase.CourseUserT.RemoveRange(rowsToRemove);
+                    dbase.SaveChanges();
+                    return true;
+                }
             }
             catch
             {
@@ -49,14 +44,14 @@ namespace DemonstratureDB
         public bool RemoveRangeByCourseId(int courseId)
         {
             try
-			{
-				using (DatabaseContext dbase = new DatabaseContext())
-				{
-					var rowsToRemove = dbase.CourseUserT.Where(cu => cu.CourseId == courseId).ToList();
-					if (rowsToRemove == null) return true;
-					dbase.CourseUserT.RemoveRange(rowsToRemove);
-					dbase.SaveChanges();
-				}
+            {
+                using (DatabaseContext dbase = new DatabaseContext())
+                {
+                    var rowsToRemove = dbase.CourseUserT.Where(cu => cu.CourseId == courseId).ToList();
+                    if (rowsToRemove == null) return true;
+                    dbase.CourseUserT.RemoveRange(rowsToRemove);
+                    dbase.SaveChanges();
+                }
             }
             catch
             {

@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using DemonstratureBLL.Mappings;
-using DemonstratureCM.BM;
 using DemonstratureCM.DTO;
 using DemonstratureCM.Settings;
 using DemonstratureDB;
@@ -13,19 +11,19 @@ namespace DemonstratureBLL
 {
     public class TermLogic
     {
-        private IMapper _mapper;
-        private TermRepo _termRepo;
-        private GroupRepo _groupRepo;
-        private UserRepo _userRepo;
-        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly IMapper _mapper;
+        private readonly TermRepo _termRepo;
+        private readonly GroupRepo _groupRepo;
+        private readonly UserRepo _userRepo;
+        private readonly log4net.ILog _logger;
 
-        public TermLogic()
+        public TermLogic(IMapper mapper, TermRepo termRepo, GroupRepo groupRepo, UserRepo userRepo, log4net.ILog logger)
         {
-            AutoMapperConfiguration.RegisterMappings();
-            _mapper = AutoMapperConfiguration.Instance;
-            _termRepo = new TermRepo();
-            _groupRepo = new GroupRepo();
-            _userRepo = new UserRepo();
+            _mapper = mapper;
+            _termRepo = termRepo;
+            _groupRepo = groupRepo;
+            _userRepo = userRepo;
+            _logger = logger;
         }
 
         public TermDto CreateTerm(TermDto t)

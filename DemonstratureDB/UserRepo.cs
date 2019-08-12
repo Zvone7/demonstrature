@@ -1,17 +1,19 @@
 ﻿using DemonstratureCM.BM;
-using DemonstratureCM.DTO;
 using DemonstratureDB.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DemonstratureDB
 {
     public class UserRepo
     {
-        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly log4net.ILog _logger;
+
+        public UserRepo(log4net.ILog logger)
+        {
+            _logger = logger;
+        }
 
         public List<UserT> GetUsers()
         {

@@ -1,9 +1,5 @@
 ﻿using DemonstratureBLL;
 using DemonstratureCM.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 
@@ -14,9 +10,9 @@ namespace DemonstratureAPI.Controllers
 		public GroupLogic _groupLogic;
 		public GroupController()
 		{
-			_groupLogic = new GroupLogic();
+            _groupLogic = DI.GetInstance<GroupLogic>();
 		}
-										   // GET: Group
+
 		public ActionResult Index()
         {
             return View();
@@ -25,31 +21,25 @@ namespace DemonstratureAPI.Controllers
         [System.Web.Mvc.HttpGet]
         public ActionResult Get([FromUri]int groupId)
         {
-            var result = _groupLogic.GetGroup(groupId);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            return Json(_groupLogic.GetGroup(groupId), JsonRequestBehavior.AllowGet);
         }
 
         [System.Web.Mvc.HttpGet]
         public ActionResult ByCourseId([FromUri]int courseId)
         {
-            var result = _groupLogic.GetGroupsByCourseId(courseId);
-            return Json(result, JsonRequestBehavior.AllowGet);
-            //return null;
+            return Json(_groupLogic.GetGroupsByCourseId(courseId), JsonRequestBehavior.AllowGet);
         }
 
         [System.Web.Mvc.HttpPost]
         public ActionResult CreateOrUpdate([FromBody]GroupDto group)
         {
-            var result = _groupLogic.CreateOrUpdateGroup(group);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(_groupLogic.CreateOrUpdateGroup(group), JsonRequestBehavior.AllowGet);
         }
 
         [System.Web.Mvc.HttpDelete]
         public ActionResult Delete([FromBody]int id)
         {
-            var result = _groupLogic.DeleteGroup(id);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(_groupLogic.DeleteGroup(id), JsonRequestBehavior.AllowGet);
         }
     }
 }

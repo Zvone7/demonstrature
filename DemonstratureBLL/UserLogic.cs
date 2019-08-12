@@ -1,25 +1,26 @@
-﻿using DemonstratureCM.DTO;
-using DemonstratureDB;
-using System.Collections.Generic;
-using System;
-using System.Linq;
+﻿using AutoMapper;
 using DemonstratureCM.BM;
+using DemonstratureCM.DTO;
+using DemonstratureDB;
 using DemonstratureDB.Data;
-using DemonstratureBLL.Mappings;
-using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DemonstratureBLL
 {
     public class UserLogic
     {
         private IMapper _mapper;
-        private UserRepo _userRepo = new UserRepo();
-        private CourseRepo _courseRepo = new CourseRepo();
-        private CourseUserRepo _courseUserRepo = new CourseUserRepo();
-        public UserLogic()
+        private UserRepo _userRepo;
+        private CourseRepo _courseRepo;
+        private CourseUserRepo _courseUserRepo;
+        public UserLogic(IMapper mapper, UserRepo userRepo, CourseRepo courseRepo, CourseUserRepo courseUserRepo)
         {
-            AutoMapperConfiguration.RegisterMappings();
-            _mapper = AutoMapperConfiguration.Instance;
+            _mapper = mapper;
+            _userRepo = userRepo;
+            _courseRepo = courseRepo;
+            _courseUserRepo = courseUserRepo;
         }
 
         public List<MyUserBm> GetUsers()
@@ -157,7 +158,7 @@ namespace DemonstratureBLL
                     return null;
                 }
                 newUser.IsActive = true;
-                        string newSalt = BCrypt.Net.BCrypt.GenerateSalt();
+                string newSalt = BCrypt.Net.BCrypt.GenerateSalt();
                 string newPasswordHashed = BCrypt.Net.BCrypt.HashPassword(newUser.Password, newSalt);
                 newUser.Password = newPasswordHashed;
                 newUser.Salt = newSalt;
